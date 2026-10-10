@@ -8,6 +8,8 @@
 
 [Step 2 完整反馈、代码入口与迁移示例](docs/step2-feedback.md)
 
+[第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
+
 ## 目录结构
 
 ```text
