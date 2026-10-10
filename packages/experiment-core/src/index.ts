@@ -1,9 +1,18 @@
-import type { ExperimentPath } from '@research/contracts';
-
-/** Domain boundary for Step 2. No transition logic or model calls exist yet. */
-export interface ExperimentStateSnapshot {
-  readonly path: ExperimentPath;
-  readonly stage: string;
-  readonly lifecycle: 'assigned' | 'active' | 'completed' | 'terminated';
-  readonly version: number;
-}
+export { EventType } from './events.js';
+export type { ExperimentEvent } from './events.js';
+export { cognitiveV1, emotionV1, dailyV1, experimentDefinitions } from './definitions.js';
+export { validateDefinition } from './validation.js';
+export { createInitialState, transition } from './transition.js';
+export type {
+  ExperimentDefinition,
+  StageDefinition,
+  FieldRule,
+  Scalar,
+  ExperimentStateSnapshot,
+  EventReceipt,
+  TransitionResult,
+  TransitionError,
+  TransitionErrorCode,
+  StateTransitionEvent,
+  VariableChange,
+} from './types.js';

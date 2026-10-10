@@ -1,0 +1,205 @@
+{
+  "trace": [
+    {
+      "eventId": "demo-1",
+      "type": "EXPERIMENT_STARTED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "INIT",
+      "toStage": "STEREOTYPE_CAPTURE",
+      "fromVersion": 0,
+      "toVersion": 1
+    },
+    {
+      "eventId": "demo-2",
+      "type": "STEREOTYPE_SUBMITTED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "STEREOTYPE_CAPTURE",
+      "toStage": "VIEWPOINT_CONFIRMATION",
+      "fromVersion": 1,
+      "toVersion": 2
+    },
+    {
+      "eventId": "demo-3",
+      "type": "VIEWPOINT_CONFIRMED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "VIEWPOINT_CONFIRMATION",
+      "toStage": "INITIAL_RATING",
+      "fromVersion": 2,
+      "toVersion": 3
+    },
+    {
+      "eventId": "demo-4",
+      "type": "RATING_SUBMITTED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "INITIAL_RATING",
+      "toStage": "REFRAME_SOCIAL_STRUCTURE",
+      "fromVersion": 3,
+      "toVersion": 4
+    },
+    {
+      "eventId": "demo-5",
+      "type": "REFRAME_COMPLETED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "REFRAME_SOCIAL_STRUCTURE",
+      "toStage": "REFRAME_MEDIA_ALGORITHM",
+      "fromVersion": 4,
+      "toVersion": 5
+    },
+    {
+      "eventId": "demo-6",
+      "type": "REFRAME_COMPLETED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "REFRAME_MEDIA_ALGORITHM",
+      "toStage": "REFRAME_COUNTER_FACT",
+      "fromVersion": 5,
+      "toVersion": 6
+    },
+    {
+      "eventId": "demo-7",
+      "type": "REFRAME_COMPLETED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "REFRAME_COUNTER_FACT",
+      "toStage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+      "fromVersion": 6,
+      "toVersion": 7
+    },
+    {
+      "eventId": "demo-8",
+      "type": "REFRAME_COMPLETED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+      "toStage": "SECOND_RATING",
+      "fromVersion": 7,
+      "toVersion": 8
+    },
+    {
+      "eventId": "demo-9",
+      "type": "RATING_SUBMITTED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "SECOND_RATING",
+      "toStage": "ACTION_INTENTION",
+      "fromVersion": 8,
+      "toVersion": 9
+    },
+    {
+      "eventId": "demo-10",
+      "type": "ACTION_INTENTION_SUBMITTED",
+      "experimentVersion": "cognitive_v1",
+      "fromStage": "ACTION_INTENTION",
+      "toStage": "COMPLETED",
+      "fromVersion": 9,
+      "toVersion": 10
+    }
+  ],
+  "finalState": {
+    "path": "cognitive",
+    "experimentVersion": "cognitive_v1",
+    "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}",
+    "stage": "COMPLETED",
+    "lifecycle": "completed",
+    "version": 10,
+    "variables": {
+      "stereotype_text": "示例观点：仅用于验证数据结构。",
+      "confirmed_viewpoint": "示例观点：仅用于验证数据结构。",
+      "viewpoint_confirmed": true,
+      "initial_rating": 5,
+      "reframe_social_structure_response": "社会结构阶段的示例回答。",
+      "reframe_media_algorithm_response": "媒体算法阶段的示例回答。",
+      "reframe_counter_fact_response": "反例阶段的示例回答。",
+      "reframe_individual_difference_response": "个体差异阶段的示例回答。",
+      "second_rating": 3,
+      "action_intention": "行动意愿的示例回答。"
+    },
+    "receipts": [
+      {
+        "id": "demo-1",
+        "type": "EXPERIMENT_STARTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 0,
+        "data": {}
+      },
+      {
+        "id": "demo-2",
+        "type": "STEREOTYPE_SUBMITTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 1,
+        "data": {
+          "response": "示例观点：仅用于验证数据结构。"
+        }
+      },
+      {
+        "id": "demo-3",
+        "type": "VIEWPOINT_CONFIRMED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 2,
+        "data": {
+          "viewpoint": "示例观点：仅用于验证数据结构。",
+          "confirmed": true
+        }
+      },
+      {
+        "id": "demo-4",
+        "type": "RATING_SUBMITTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 3,
+        "data": {
+          "rating": 5
+        }
+      },
+      {
+        "id": "demo-5",
+        "type": "REFRAME_COMPLETED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 4,
+        "data": {
+          "response": "社会结构阶段的示例回答。"
+        }
+      },
+      {
+        "id": "demo-6",
+        "type": "REFRAME_COMPLETED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 5,
+        "data": {
+          "response": "媒体算法阶段的示例回答。"
+        }
+      },
+      {
+        "id": "demo-7",
+        "type": "REFRAME_COMPLETED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 6,
+        "data": {
+          "response": "反例阶段的示例回答。"
+        }
+      },
+      {
+        "id": "demo-8",
+        "type": "REFRAME_COMPLETED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 7,
+        "data": {
+          "response": "个体差异阶段的示例回答。"
+        }
+      },
+      {
+        "id": "demo-9",
+        "type": "RATING_SUBMITTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 8,
+        "data": {
+          "rating": 3
+        }
+      },
+      {
+        "id": "demo-10",
+        "type": "ACTION_INTENTION_SUBMITTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 9,
+        "data": {
+          "response": "行动意愿的示例回答。"
+        }
+      }
+    ]
+  }
+}

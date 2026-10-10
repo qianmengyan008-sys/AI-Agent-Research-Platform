@@ -2,9 +2,11 @@
 
 用于心理学实验的全新独立平台。技术栈：React + TypeScript + Vite、Node.js + Express + TypeScript、PostgreSQL。
 
-当前完成第一阶段 Step 1 工程初始化：TypeScript monorepo、React/Vite 首页、Express 进程健康接口及基础检查工具。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
+当前完成 Step 1 工程初始化及 Step 2 独立状态机核心：TypeScript monorepo、React/Vite 首页、Express 进程健康接口，以及三条版本化路径的纯函数迁移。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
 
-尚未实现实验状态迁移、数据库、登录、管理员后台或聊天，也未接入模型。首页用于检查前后端连接，不代表实验系统已就绪。
+状态机目前独立运行，尚未连接 API 或页面。尚未实现数据库、登录、管理员后台或聊天，也未接入模型。首页仍用于检查前后端连接，不代表实验系统已就绪。
+
+[Step 2 完整反馈、代码入口与迁移示例](docs/step2-feedback.md)
 
 ## 目录结构
 
@@ -14,7 +16,7 @@ apps/
   web/                   React + TypeScript + Vite
 packages/
   contracts/             共用 API 类型
-  experiment-core/       状态机领域边界；迁移逻辑在 Step 2 实现
+  experiment-core/       版本化路径定义、事件枚举、纯迁移函数、测试与示例
 docs/                    架构、数据库、状态机、开发计划
 ```
 
@@ -59,13 +61,19 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。测试覆盖健康接口契约与本阶段不开放实验修改接口。状态机、并发、恢复、数据库迁移、权限与导出测试随后续实现添加；当前不能声称这些功能已验证。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 97 个测试覆盖状态机三条路径、非法与重复事件、版本保护、JSON 快照恢复，以及原有 API 骨架。真实数据库并发、持久化恢复、迁移、权限与导出尚未实现或验证。
+
+完整认知路径示例：
+
+```bash
+npm run example:cognitive --workspace @research/experiment-core
+```
 
 单独运行：`npm run typecheck`、`npm run lint`、`npm run format:check`、`npm test`、`npm run build`。`npm run format` 用于格式化新代码；已有四份研究设计文档不纳入自动重排。
 
 ## 后续任务
 
-按上传文档的顺序：Step 2 纯状态机 → Step 3 PostgreSQL migration → Step 4 API → Step 5 参与者页面 → Step 6 管理员后台 → Step 7 完整自动化回归。自动化测试从当前步骤开始，不延迟到 Step 7。真实模型接入另在之后进行。
+Step 2 已完成。按上传文档要求等待下一步确认，再进入 Step 3 PostgreSQL migration → Step 4 API → Step 5 参与者页面 → Step 6 管理员后台 → Step 7 完整自动化回归。自动化测试持续随实现添加，不延迟到 Step 7。真实模型接入另在之后进行。
 
 ## 第一轮设计
 
