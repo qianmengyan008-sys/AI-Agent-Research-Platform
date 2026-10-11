@@ -16,7 +16,12 @@ const pool = process.env.DATABASE_URL
   : undefined;
 pool?.on('error', () => console.error('Research database connection interrupted'));
 const model = pool ? createConfiguredGenerator(process.env) : undefined;
-const services = pool && model ? createServices(pool, model.generator, model.settings) : undefined;
+const services =
+  pool && model
+    ? createServices(pool, model.generator, model.settings, (entry) =>
+        console.info(JSON.stringify({ type: 'business_trace', ...entry })),
+      )
+    : undefined;
 const server = createApp(services, process.env.ADMIN_ACCESS_TOKEN_HASH).listen(
   port,
   '127.0.0.1',

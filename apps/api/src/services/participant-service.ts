@@ -1,3 +1,4 @@
+import type { TraceSink } from './trace.js';
 import { randomBytes } from 'node:crypto';
 import { transition } from '@research/experiment-core';
 import type { Scalar } from '@research/experiment-core';
@@ -14,14 +15,25 @@ export function projection(b: Bundle) {
     status: b.status === 'completed' ? 'finished' : 'awaiting_input',
     form:
       b.status === 'open'
-        ? { id: b.state_token, fields: stage.fields.map((f) => ({ name: f.field, kind: f.type })) }
+        ? {
+            id: b.state_token,
+            fields: [
+              ...stage.fields.map((f) => ({ name: f.field, kind: f.type })),
+              ...(b.snapshot.path === 'cognitive' && stage.id === 'STEREOTYPE_CAPTURE'
+                ? [{ name: 'source', kind: 'text' as const, required: false }]
+                : []),
+            ],
+          }
         : null,
   };
 }
 export class ParticipantService {
   private readonly dummy = passwordHash('SYNTHETIC_UNKNOWN_ACCOUNT');
   private readonly failures = new Map<string, { count: number; until: number }>();
-  constructor(private readonly uow: UnitOfWork) {}
+  constructor(
+    private readonly uow: UnitOfWork,
+    private readonly trace: TraceSink = () => {},
+  ) {}
   async create(actor: AdminIdentity, input: unknown) {
     admin(actor);
     const v = object(input, ['experiment_id', 'participant_code', 'password']);
@@ -61,12 +73,14 @@ export class ParticipantService {
     await this.uow.transaction((r) =>
       r.participants.session(p!.id, hash(token), new Date(Date.now() + 8 * 60 * 60 * 1000)),
     );
+    this.trace({ step: 'login_authenticated', participantId: p!.id });
     return { token, expires_in: 28800 };
   }
   async authenticate(token: string): Promise<ParticipantIdentity> {
     if (!/^[a-f0-9]{64}$/.test(token)) fail(401, 'UNAUTHORIZED');
     const p = await this.uow.read((r) => r.participants.authenticate(hash(token)));
     if (!p) fail(401, 'UNAUTHORIZED');
+    this.trace({ step: 'participant_authenticated', participantId: p!.id });
     return { participantId: p!.id };
   }
   async logout(token: string) {
@@ -78,6 +92,11 @@ export class ParticipantService {
       const b = await r.states.load(actor.participantId, true);
       if (!b) fail(404, 'NOT_ASSIGNED');
       await recover(r, b!.session_id);
+      this.trace({
+        step: 'assignment_and_state_loaded',
+        participantId: actor.participantId,
+        sessionId: b!.session_id,
+      });
       const pending = await r.conversations.active(b!.session_id);
       return {
         instructions: b!.configuration.instructions,
@@ -93,12 +112,19 @@ export class ParticipantService {
       id = text(v.request_id, 128);
     if (!v.data || typeof v.data !== 'object' || Array.isArray(v.data)) fail(400, 'INVALID_INPUT');
     const checksum = hash(v);
-    return this.uow.transaction(async (r) => {
+    let replayed = false;
+    const response = await this.uow.transaction(async (r) => {
       const b = await r.states.load(actor.participantId, true);
       if (!b) fail(404, 'NOT_ASSIGNED');
       const prior = await r.states.receipt(b!.session_id, id);
       if (prior) {
         if (prior.request_hash !== checksum) fail(409, 'IDEMPOTENCY_CONFLICT');
+        replayed = true;
+        this.trace({
+          step: 'submission_replayed',
+          participantId: actor.participantId,
+          operationId: hash(id),
+        });
         return prior.response;
       }
       if (b!.status !== 'open') fail(409, 'EXPERIMENT_FINISHED');
@@ -126,6 +152,13 @@ export class ParticipantService {
         data,
         b!.definition,
       );
+      this.trace({
+        step: 'explicit_event_validated',
+        participantId: actor.participantId,
+        sessionId: b!.session_id,
+        operationId: hash(id),
+        outcome: result.ok ? 'accepted' : 'rejected',
+      });
       if (!result.ok) fail(400, 'INVALID_SUBMISSION');
       await r.states.save(
         b!.session_id,
@@ -140,5 +173,11 @@ export class ParticipantService {
       await r.states.storeReceipt(b!.session_id, id, checksum, response);
       return response;
     });
+    this.trace({
+      step: replayed ? 'submission_replay_returned' : 'state_event_variables_committed',
+      participantId: actor.participantId,
+      operationId: hash(id),
+    });
+    return response;
   }
 }

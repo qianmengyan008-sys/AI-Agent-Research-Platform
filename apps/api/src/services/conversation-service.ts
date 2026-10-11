@@ -1,3 +1,4 @@
+import type { TraceSink } from './trace.js';
 import { randomUUID } from 'node:crypto';
 import { UnitOfWork } from '../repositories/context.js';
 import type { Repositories } from '../repositories/context.js';
@@ -18,6 +19,7 @@ export class ConversationService {
   constructor(
     private readonly uow: UnitOfWork,
     private readonly model: ModelRunService,
+    private readonly trace: TraceSink = () => {},
   ) {}
   async send(actor: ParticipantIdentity, input: unknown) {
     const v = object(input, ['text', 'request_id', 'state_token']);
@@ -29,6 +31,11 @@ export class ConversationService {
       const b = await r.states.load(actor.participantId, true);
       if (!b) fail(404, 'NOT_ASSIGNED');
       await recover(r, b!.session_id);
+      this.trace({
+        step: 'conversation_state_loaded',
+        participantId: actor.participantId,
+        sessionId: b!.session_id,
+      });
       const prior = await r.conversations.find(b!.session_id, request);
       if (prior) {
         if (prior.request_hash !== checksum) fail(409, 'IDEMPOTENCY_CONFLICT');
@@ -65,8 +72,21 @@ export class ConversationService {
       );
       return { bundle: b!, turn, policy: policy!, recent, context };
     });
-    if ('existing' in prepared) return prepared.existing;
+    if ('existing' in prepared) {
+      this.trace({
+        step: 'message_replayed',
+        participantId: actor.participantId,
+        turnId: prepared.existing?.turn_id,
+      });
+      return prepared.existing;
+    }
     const { bundle, turn, policy, recent, context } = prepared;
+    this.trace({
+      step: 'user_message_committed',
+      participantId: actor.participantId,
+      sessionId: bundle.session_id,
+      turnId: turn.id,
+    });
     const started = performance.now();
     let result: Awaited<ReturnType<ModelRunService['generate']>> | null = null;
     let error: string | null = null;
@@ -80,12 +100,14 @@ export class ConversationService {
           recentMessages: recent,
         },
         context.model,
+        { participantId: actor.participantId, sessionId: bundle.session_id, turnId: turn.id },
       );
     } catch {
       error = 'MODEL_GENERATION_FAILED';
+      this.trace({ step: 'model_generation_failed', turnId: turn.id });
     }
     const latency = performance.now() - started;
-    return this.uow.transaction(async (r) => {
+    const response = await this.uow.transaction(async (r) => {
       const current = await r.states.load(actor.participantId, true);
       if (current) await recover(r, current.session_id);
       const saved = await r.conversations.turn(actor.participantId, turn.id);
@@ -131,6 +153,15 @@ export class ConversationService {
         status: stale && saved?.status !== 'generating' ? (saved?.status ?? 'stale') : status,
       });
     });
+    this.trace({
+      step: 'assistant_and_model_log_committed',
+      participantId: actor.participantId,
+      sessionId: bundle.session_id,
+      turnId: turn.id,
+      outcome: response.status,
+    });
+    this.trace({ step: 'conversation_returned_without_state_transition', turnId: turn.id });
+    return response;
   }
   async status(actor: ParticipantIdentity, id: string) {
     uuid(id);

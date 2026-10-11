@@ -31,14 +31,16 @@
     "format:check": "prettier --check .",
     "test": "npm run build:packages && vitest run",
     "example:ai": "npm run build:packages && npm run example --workspace @research/ai-orchestrator",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser",
     "live:e2e": "npm run build:packages && npm run live:e2e --workspace @research/model-adapter --",
     "example:http": "npm run build:packages && npm run example:http --workspace @research/model-adapter",
     "db:migrate": "npm run migrate --workspace @research/database --",
-    "test:database": "npm run build:packages && vitest run packages/database/tests"
+    "test:database": "npm run build:packages && vitest run packages/database/tests",
+    "test:browser": "npm run build:packages && playwright test"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.0",
     "@types/node": "24.19.2",
     "@types/supertest": "7.2.1",
     "eslint": "10.12.0",

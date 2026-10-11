@@ -7,13 +7,21 @@ import { ParticipantService } from './participant-service.js';
 import { ConversationService } from './conversation-service.js';
 import { AdminService } from './admin-service.js';
 import { ModelRunService } from './model-run-service.js';
-export function createServices(pool: Pool, generator: LanguageGenerator, settings: ModelSettings) {
+import { safeTrace } from './trace.js';
+import type { TraceSink } from './trace.js';
+export function createServices(
+  pool: Pool,
+  generator: LanguageGenerator,
+  settings: ModelSettings,
+  sink?: TraceSink,
+) {
+  const trace = safeTrace(sink);
   const uow = new UnitOfWork(pool);
-  const model = new ModelRunService(generator, settings);
+  const model = new ModelRunService(generator, settings, trace);
   return {
-    experiments: new ExperimentService(uow, settings),
-    participants: new ParticipantService(uow),
-    conversations: new ConversationService(uow, model),
+    experiments: new ExperimentService(uow, settings, trace),
+    participants: new ParticipantService(uow, trace),
+    conversations: new ConversationService(uow, model, trace),
     admin: new AdminService(uow),
   };
 }

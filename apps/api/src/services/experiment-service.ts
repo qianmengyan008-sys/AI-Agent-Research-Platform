@@ -1,3 +1,4 @@
+import type { TraceSink } from './trace.js';
 import { createInitialState, experimentDefinitions, transition } from '@research/experiment-core';
 import type { ExperimentDefinition, Scalar } from '@research/experiment-core';
 import { createContext, demoPolicy } from '@research/ai-orchestrator';
@@ -54,6 +55,7 @@ export class ExperimentService {
   constructor(
     private readonly uow: UnitOfWork,
     private readonly settings: ModelSettings,
+    private readonly trace: TraceSink = () => {},
   ) {}
   async create(actor: AdminIdentity, input: unknown) {
     admin(actor);
@@ -168,6 +170,11 @@ export class ExperimentService {
         'PARTICIPANT_ASSIGNED',
         'Initialize via backend start event',
       );
+      this.trace({
+        step: 'assignment_initialized',
+        participantId: participant,
+        sessionId: session,
+      });
       return { sessionId: session };
     });
   }

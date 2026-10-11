@@ -4,13 +4,13 @@
 
 当前完成 Step 1 工程初始化、Step 2 独立状态机，以及AI 编排层和可替换 Model Adapter（含 OpenAI 兼容 HTTP 实现）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
 
-Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与限量 JSON 导出。前端仍为连接检查页面；业务页面尚未开发。外部真实模型仍未验收；工程 API 原型不代表正式实验就绪。
+Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与限量 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／限量下载页面。外部真实模型仍未验收；工程 API 原型不代表正式实验就绪。
 
 [Step 2 完整反馈、代码入口与迁移示例](docs/step2-feedback.md)
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第十二轮反馈与本轮验收成果](docs/twelfth-round-feedback.md) · [Word 反馈](docs/twelfth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round12/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第十三轮反馈与本轮验收成果](docs/thirteenth-round-feedback.md) · [Word 反馈](docs/thirteenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round13/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -67,7 +67,7 @@ npm run dev:web
 curl --fail http://127.0.0.1:3001/api/health
 ```
 
-预期响应：`{"status":"ok","service":"research-api","mode":"scaffold"}`。这是进程健康检查，不检测数据库或研究流程。页面的“检查后端连接”按钮调用同一接口。
+预期响应：`{"status":"ok","service":"research-api","mode":"scaffold"}`。这是进程健康检查，不检测数据库或研究流程。业务页面改为参与者与管理员入口；此 health 继续兼容旧 API 检查。
 
 ## 自动化检查
 
@@ -75,7 +75,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 377 个测试全部通过，覆盖状态机、编排层、真实 PostgreSQL 和业务 API。业务服务／API 共 35 项，本轮新增 7 项，验证 Model Adapter 协议闭环、真实 API 进程重启、Validator 拦截、网络幂等和研究变量持久化。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 380 项、Playwright 8 项全部通过，共 388 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -101,7 +101,7 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 
 ## 后续任务
 
-第十一轮明确授权 Step 6.2：已实现业务服务／仓储／API，下一步由研究者复核配置和接口，再开发管理员与参与者页面。真实外部模型仍 pending，不代表实验就绪；收费真实验收与研究者语义审核需继续完成。自动化测试随实现持续添加。
+第十一轮明确授权 Step 6.2：已实现业务服务／仓储／API，下一步由研究者复核配置和接口，再完善正式字段、模型语义验收与全量导出。真实外部模型仍 pending，不代表实验就绪；收费真实验收与研究者语义审核需继续完成。自动化测试随实现持续添加。
 
 ## 第一轮设计
 
@@ -125,3 +125,7 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 [服务、仓储、接口与数据流](docs/step6-2-business-api.md)。独立数据库安全配置 DATABASE_URL 后，显式迁移再启动 API；未配置则只启用原健康检查。管理员配置非秘密 ADMIN_ACCESS_TOKEN_HASH，参与者通过数据库会话认证。聊天不推进阶段，结构化提交由后端 core 处理。导出目前 complete=false、每表最多 1000 条；正式全量导出、多管理员权限与后台生成队列仍待开发。
 
 [第十二轮完整业务联调与恢复](docs/step6-round12-integration.md)：原路径版本不变，研究命名变量与合法事件同事务保存；本地 HTTP Adapter fixture 和真实进程 SIGKILL／重启验收仍是合成模型测试。
+
+## Step 6.3 最小页面与浏览器联调
+
+[第十三轮九项联调材料](docs/step6-3-frontend-integration.md)。参与者凭据仅保存在页面内存，刷新后重新登录恢复数据库实验。管理员界面只读，无运行中状态干预。npm run test:browser 单独运行真实 Chromium、Vite、Express、临时 PostgreSQL 链路，模型为合成 MockAdapter。三张真实页面 PNG 包含在验收目录和项目 ZIP 中。

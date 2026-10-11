@@ -7,3 +7,53 @@ export interface HealthResponse {
   service: 'research-api';
   mode: 'scaffold';
 }
+
+/** Participant projection intentionally contains no internal stage or variables. */
+export interface ParticipantFormField {
+  name: string;
+  kind: 'text' | 'number' | 'confirmation';
+  required?: boolean;
+}
+export interface ParticipantCurrent {
+  instructions: string;
+  agent: { name: string };
+  state_token: string;
+  status: 'awaiting_input' | 'generating' | 'finished';
+  form: { id: string; fields: ParticipantFormField[] } | null;
+  pending_turn_id?: string;
+}
+export interface ParticipantMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  text: string;
+  created_at: string;
+}
+export interface ParticipantTurn {
+  turn_id: string;
+  status: 'generating' | 'pending' | 'ready' | 'failed' | 'stale' | 'cancelled';
+  text: string | null;
+}
+export interface AdminExperiment {
+  id: string;
+  name: string;
+  version: number;
+  status: string;
+}
+export interface AdminParticipant {
+  id: string;
+  participant_code: string;
+  status: string;
+  condition: string | null;
+  session_id: string | null;
+  stage: string | null;
+  core_version: number | null;
+}
+export interface AdminMessage {
+  id: string;
+  session_id: string;
+  sequence: number;
+  role: string;
+  content: string | null;
+  status: string;
+  created_at: string;
+}

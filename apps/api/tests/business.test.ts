@@ -1031,4 +1031,121 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(1);
     expect((await pool.query('SELECT * FROM research.experiment_variable')).rows).toHaveLength(0);
   });
+  it('allows exactly one explicit state change for concurrent different submission keys', async () => {
+    const s = await setup('cognitive_v1');
+    const results = await Promise.all(
+      ['concurrent-a', 'concurrent-b'].map((request_id) =>
+        request(app)
+          .post('/api/experiment/submissions')
+          .set('Authorization', `Bearer ${s.token}`)
+          .send({
+            request_id,
+            state_token: s.state.state_token,
+            data: { response: '明确填写', source: '明确来源' },
+          }),
+      ),
+    );
+    expect(results.map((r) => r.status).sort()).toEqual([200, 409]);
+    expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(2);
+    expect((await pool.query('SELECT * FROM research.submission_receipt')).rows).toHaveLength(1);
+    expect(
+      (await pool.query("SELECT * FROM research.experiment_variable WHERE key='raw_expression'"))
+        .rows,
+    ).toHaveLength(1);
+  });
+  it('records correlated safe operation traces without logging participant text or credentials', async () => {
+    const traces: import('../src/services/trace.js').BusinessTrace[] = [];
+    services = createServices(
+      pool,
+      new MockAdapter((prompt, signal) => generate(prompt, { signal })),
+      settings,
+      (entry) => traces.push(entry),
+    );
+    const s = await setup('cognitive_v1');
+    const turn = await services.conversations.send(s.identity, {
+      request_id: 'PRIVATE_REQUEST_CONTENT',
+      state_token: s.state.state_token,
+      text: 'PRIVATE_PARTICIPANT_TEXT',
+    });
+    await services.participants.submit(s.identity, {
+      request_id: 'PRIVATE_SUBMISSION_CONTENT',
+      state_token: s.state.state_token,
+      data: { response: 'PRIVATE_VARIABLE_TEXT' },
+    });
+    for (const step of [
+      'login_authenticated',
+      'participant_authenticated',
+      'assignment_and_state_loaded',
+      'conversation_state_loaded',
+      'user_message_committed',
+      'orchestrator_started',
+      'model_adapter_called',
+      'response_validator_completed',
+      'assistant_and_model_log_committed',
+      'conversation_returned_without_state_transition',
+      'explicit_event_validated',
+      'state_event_variables_committed',
+    ])
+      expect(traces.some((t) => t.step === step)).toBe(true);
+    expect(
+      traces
+        .filter((t) =>
+          ['orchestrator_started', 'model_adapter_called', 'response_validator_completed'].includes(
+            t.step,
+          ),
+        )
+        .every((t) => t.turnId === turn!.turn_id),
+    ).toBe(true);
+    expect(JSON.stringify(traces)).not.toMatch(/PRIVATE_|SYNTHETIC_PASSWORD|token|prompt/);
+    if (process.env.ROUND13_ACCEPTANCE_DIR)
+      await writeFile(
+        join(process.env.ROUND13_ACCEPTANCE_DIR, 'business-trace.json'),
+        JSON.stringify({ synthetic: true, traces }, null, 2) + '\n',
+      );
+  });
+  it('restores assignment, history and durable variables using a fresh connection pool and services', async () => {
+    const s = await setup('cognitive_v1');
+    await services.conversations.send(s.identity, {
+      request_id: 'durable-message',
+      state_token: s.state.state_token,
+      text: '数据库保存的输入',
+    });
+    await services.participants.submit(s.identity, {
+      request_id: 'durable-event',
+      state_token: s.state.state_token,
+      data: { response: '数据库保存的表达', source: '数据库保存的来源' },
+    });
+    const freshPool = new pg.Pool(connection(database));
+    try {
+      const fresh = createServices(freshPool, new MockAdapter('安全回复'), settings);
+      const identity = await fresh.participants.authenticate(s.token);
+      const state = await fresh.participants.current(identity);
+      expect(state.state_token).not.toBe(s.state.state_token);
+      expect(await fresh.conversations.messages(identity)).toHaveLength(2);
+      const data = await fresh.admin.export(actor, s.experimentId);
+      expect(data.assignments[0]).toMatchObject({
+        participant_id: s.participantId,
+        state_machine_version: 'cognitive_v1',
+      });
+      expect(data.states[0]).toMatchObject({ stage: 'VIEWPOINT_CONFIRMATION', core_version: 2 });
+      expect(data.variables.find((v) => v.key === 'source').value).toBe('数据库保存的来源');
+      expect(data.runs).toHaveLength(1);
+      expect(data.prompts).toHaveLength(9);
+      if (process.env.ROUND13_ACCEPTANCE_DIR)
+        await writeFile(
+          join(process.env.ROUND13_ACCEPTANCE_DIR, 'database-restoration.json'),
+          JSON.stringify(
+            {
+              synthetic: true,
+              restoration: 'fresh Pool and Services, no runtime state cache',
+              ...data,
+            },
+            null,
+            2,
+          ) + '\n',
+        );
+    } finally {
+      await freshPool.end();
+    }
+  });
 });
