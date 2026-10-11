@@ -1,0 +1,41 @@
+{
+  "round": 18,
+  "commands": [
+    {
+      "command": "npm ls --depth=0 --json",
+      "exit_code": 0,
+      "evidence": "dependency-tree.json"
+    },
+    {
+      "command": "npm run live:business:e2e -- docs/acceptance/step6-round18/real-model-business-report.json",
+      "exit_code": 2,
+      "status": "not_run",
+      "evidence": "real-model-business-report.json"
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round18 npm test -- --reporter=json --outputFile=docs/acceptance/step6-round18/test-results.json",
+      "exit_code": 0,
+      "passed": 409,
+      "evidence": "test-results.json"
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round18 BROWSER_REPORT_PATH=docs/acceptance/step6-round18/browser-results.json npm run test:browser",
+      "exit_code": 0,
+      "passed": 15,
+      "evidence": "browser-results.json"
+    },
+    {
+      "command": "npm run check",
+      "status": "passed",
+      "exit_code": 0,
+      "checks": [
+        "typecheck",
+        "lint",
+        "format:check",
+        "409 Vitest tests",
+        "workspace builds",
+        "15 Playwright tests"
+      ]
+    }
+  ]
+}

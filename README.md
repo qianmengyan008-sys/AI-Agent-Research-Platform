@@ -10,7 +10,9 @@ Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分�
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第十七轮反馈与本轮验收成果](docs/seventeenth-round-feedback.md) · [Word 反馈](docs/seventeenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round17/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第十八轮反馈与本轮验收成果](docs/eighteenth-round-feedback.md) · [Word 反馈](docs/eighteenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round18/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+
+[第十八轮正式验收报告](docs/eighteenth-round-acceptance-report.md) · [解除真实模型配置阻塞](docs/round18-live-model-guide.md) · [真实回复人工审核表（待填写）](docs/round18-semantic-review-template.md)。本轮仅重新验收并交付报告，应用代码／测试／依赖未变，真实模型仍被配置阻塞。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
