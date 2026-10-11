@@ -12,9 +12,12 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json",
-    "example": "tsx examples/acceptance.ts"
+    "example": "tsx examples/acceptance.ts",
+    "live:e2e": "node --use-env-proxy --import tsx examples/live-e2e.ts",
+    "example:http": "tsx examples/local-http-acceptance.ts"
   },
   "dependencies": {
-    "@research/ai-orchestrator": "0.1.0"
+    "@research/ai-orchestrator": "0.1.0",
+    "@research/experiment-core": "0.1.0"
   }
 }

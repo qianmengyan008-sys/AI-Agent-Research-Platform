@@ -82,14 +82,18 @@ export function validateResponse(reply: unknown, context: GenerationContext): Re
   }
   if (context.memory.cognitive?.confirmed_belief) {
     const belief = context.memory.cognitive.confirmed_belief;
-    if (/评分对象[：:“”「」\s]*([^。！？\n]+)/u.test(reply)) {
-      const object = reply.match(/评分对象[：:“”「」\s]*([^。！？\n]+)/u)?.[1];
-      if (!object?.includes(belief)) violations.push('BELIEF_REPLACEMENT');
-    }
+    // Inspect new claims outside exact frozen-belief quotations. A belief can
+    // itself contain “评分对象”; quoting it must not create a false replacement.
+    let anchor = '__CONFIRMED_BELIEF__';
+    while (reply.includes(anchor)) anchor += '_';
+    const claimsText = reply.replaceAll(belief, anchor);
+    const scoringClaims = [...claimsText.matchAll(/评分对象[：:“”「」\s]*([^。！？\n]+)/gu)];
+    if (scoringClaims.some((claim) => !claim[1]?.includes(anchor)))
+      violations.push('BELIEF_REPLACEMENT');
     const attributedClaims = [
-      ...reply.matchAll(/你(?:认为|相信|认定)[：:“”「」\s]*([^。！？\n]+)/gu),
+      ...claimsText.matchAll(/你(?:认为|相信|认定)[：:“”「」\s]*([^。！？\n]+)/gu),
     ];
-    if (attributedClaims.some((claim) => !belief || !claim[1]?.includes(belief)))
+    if (attributedClaims.some((claim) => !claim[1]?.includes(anchor)))
       violations.push('BELIEF_REPLACEMENT');
     if (
       contains(reply, [

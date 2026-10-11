@@ -1,6 +1,8 @@
 import { freeze } from './immutable.js';
 import type { GenerationContext, PromptBundle } from './types.js';
 
+export const PROMPT_VERSION = 'stage-language-v3';
+
 /** The generator receives language instructions, not the experiment definition. */
 export function buildPrompt(context: GenerationContext): PromptBundle {
   const systemPrompt = [

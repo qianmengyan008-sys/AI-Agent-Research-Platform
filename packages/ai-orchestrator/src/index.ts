@@ -20,4 +20,10 @@ export type {
   ResponseValidation,
   OrchestrationResult,
 } from './types.js';
-export { runGeneration, GenerationTimeoutError, GenerationAbortedError } from './generation.js';
+export {
+  runGeneration,
+  GenerationTimeoutError,
+  GenerationAbortedError,
+  GenerationFailureError,
+} from './generation.js';
+export { PROMPT_VERSION } from './prompt-builder.js';

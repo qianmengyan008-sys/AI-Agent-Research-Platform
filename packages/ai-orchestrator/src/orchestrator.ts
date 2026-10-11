@@ -3,7 +3,12 @@ import { buildPrompt } from './prompt-builder.js';
 import { validateResponse } from './response-validator.js';
 import { fallbackReply } from './fallback-handler.js';
 import { freeze } from './immutable.js';
-import { runGeneration, GenerationTimeoutError, GenerationAbortedError } from './generation.js';
+import {
+  runGeneration,
+  GenerationTimeoutError,
+  GenerationAbortedError,
+  GenerationFailureError,
+} from './generation.js';
 import type {
   LanguageGenerator,
   OrchestrationRequest,
@@ -57,6 +62,7 @@ export async function orchestrate(
     attempts += 1;
     let reply: unknown;
     let reasons: readonly ViolationCode[];
+    let retryable = true;
     try {
       // No raw invalid output or future-stage list is fed back to the generator.
       const attemptPrompt =
@@ -79,6 +85,7 @@ export async function orchestrate(
       );
       reasons = validateResponse(reply, context).violations;
     } catch (error) {
+      retryable = !(error instanceof GenerationFailureError) || error.retryable;
       reasons = [
         error instanceof GenerationTimeoutError
           ? 'GENERATOR_TIMEOUT'
@@ -95,7 +102,7 @@ export async function orchestrate(
     }
     for (const reason of reasons) violations.add(reason);
     await audit('rejected', reasons);
-    if (reasons.includes('GENERATOR_ABORTED')) break;
+    if (!retryable || reasons.includes('GENERATOR_ABORTED')) break;
   }
   if (status !== 'generated') {
     text = fallbackReply(context);

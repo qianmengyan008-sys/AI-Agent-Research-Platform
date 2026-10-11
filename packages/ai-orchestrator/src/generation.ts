@@ -54,3 +54,11 @@ export async function runGeneration<T>(
       );
   });
 }
+
+/** Provider-neutral error classification; messages never contain provider payloads. */
+export class GenerationFailureError extends Error {
+  constructor(readonly retryable: boolean) {
+    super('Language generation failed');
+    this.name = 'GenerationFailureError';
+  }
+}
