@@ -1,4 +1,7 @@
-import { runBusinessAcceptance } from '../src/acceptance/business-acceptance.js';
+import {
+  runBusinessAcceptance,
+  inspectPathRecords,
+} from '../src/acceptance/business-acceptance.js';
 import { spawn, execFileSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { once } from 'node:events';
@@ -1840,4 +1843,78 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     expect(report.semantic_review).toBe('pending_researcher_review');
     await evidence('latency-gate-acceptance', report);
   }, 30000);
+  it.each(['cognitive_v1', 'emotion_v1'] as const)(
+    'validates %s acceptance structure and rejects corrupted copies without modifying durable records',
+    async (path) => {
+      const report = await runBusinessAcceptance(
+        pool,
+        new MockAdapter((prompt) => generate(prompt)),
+        settings,
+        'local-fixture',
+      );
+      expect(report.status).toBe('completed');
+      const record = report.paths.find((p) => p.path === path)!;
+      const data = record.analysis_export as Awaited<ReturnType<Services['admin']['export']>>;
+      const belief = '合成示例：我觉得陌生人不太可靠。';
+      const valid = inspectPathRecords(data, path, belief);
+      expect(valid.passed).toBe(true);
+      const before = (
+        await pool.query('SELECT snapshot FROM research.experiment_state ORDER BY session_id')
+      ).rows;
+      const cases: { name: string; check: ReturnType<typeof inspectPathRecords> }[] = [];
+      const corrupt = (name: string, change: (copy: typeof data) => void) => {
+        const copy = structuredClone(data);
+        change(copy);
+        const check = inspectPathRecords(copy, path, belief);
+        expect(check.passed).toBe(false);
+        cases.push({ name, check });
+      };
+      corrupt('missing analysis path_type', (copy) => {
+        delete (copy.analysis_rows[0] as Record<string, unknown>).path_type;
+      });
+      corrupt('wrong path metadata', (copy) => {
+        copy.analysis_rows[0]!.path_type = 'daily';
+      });
+      corrupt('wrong completed version', (copy) => {
+        copy.states[0].core_version = 0;
+      });
+      corrupt('invalid fixed prompt version', (copy) => {
+        copy.runs[0].prompt_version_id = randomUUID();
+      });
+      corrupt('wrong stage sequence', (copy) => {
+        copy.transitions.reverse();
+      });
+      if (path === 'cognitive_v1') {
+        corrupt('changed confirmed belief', (copy) => {
+          copy.variables.find((v) => v.key === 'confirmed_belief').value = '未经确认的新观点';
+        });
+        corrupt('wrong rating source', (copy) => {
+          copy.variables.find((v) => v.key === 'rating_2').source_transition_id =
+            copy.variables.find((v) => v.key === 'confirmed_belief').source_transition_id;
+        });
+        corrupt('missing reframe response', (copy) => {
+          copy.variables = copy.variables.filter((v) => v.key !== 'reframe_counter_fact_response');
+        });
+      } else {
+        corrupt('wrong scene phase', (copy) => {
+          copy.variables.find((v) => v.key === 'scene_phase').value = 'COMPLETED';
+        });
+        corrupt('scene not from submitted payload', (copy) => {
+          copy.variables.find((v) => v.key === 'scene_state').value = '未经明确提交的场景';
+        });
+      }
+      expect(
+        (await pool.query('SELECT snapshot FROM research.experiment_state ORDER BY session_id'))
+          .rows,
+      ).toEqual(before);
+      await evidence(`structural-proof-${path}`, {
+        path,
+        valid,
+        corrupted_copies: cases,
+        database_unchanged: true,
+        semantic_review: 'pending_researcher_review',
+      });
+    },
+    30000,
+  );
 });

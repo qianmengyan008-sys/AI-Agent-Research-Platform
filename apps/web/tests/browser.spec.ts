@@ -635,3 +635,42 @@ test('three page refreshes and new logins retain assignment, source, ordered mes
   await screenshot(page, 'participant-refresh-recovery');
   await saveRecords(s, 'browser-multiple-refresh-records');
 });
+
+test('Pilot Mode is administrator-only, opt-in and read-only, with no participant diagnostics after switching back', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  await page.getByLabel('发送消息', { exact: true }).fill('内部试运行合成消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('谢谢分享');
+  const before = await services.admin.export(actor, s.experimentId);
+  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
+  await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
+  await expect(
+    page.getByRole('heading', { name: '内部试运行（Pilot Mode）', exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel('开发模式（仅管理员）', { exact: true })).not.toBeChecked();
+  expect(await page.getByLabel('管理员开发数据', { exact: true }).count()).toBe(0);
+  await page.getByLabel('开发模式（仅管理员）', { exact: true }).check();
+  const diagnostic = page.getByLabel('管理员开发数据', { exact: true });
+  for (const name of ['当前状态', '事件记录', '变量变化', '模型调用日志', '异常记录'])
+    await expect(diagnostic.getByRole('heading', { name, exact: true })).toBeVisible();
+  await expect(diagnostic).toContainText('"passed": true');
+  await screenshot(page, 'admin-pilot-mode');
+  await page.getByLabel('开发模式（仅管理员）', { exact: true }).uncheck();
+  expect(await page.getByLabel('管理员开发数据', { exact: true }).count()).toBe(0);
+  const after = await services.admin.export(actor, s.experimentId);
+  expect(after.states).toEqual(before.states);
+  expect(after.variables).toEqual(before.variables);
+  expect(after.messages).toEqual(before.messages);
+  expect(after.transitions).toEqual(before.transitions);
+  await page.getByRole('button', { name: '参与者入口', exact: true }).click();
+  await login(page, s);
+  expect(await page.locator('body').innerText()).not.toMatch(
+    /Pilot Mode|STEREOTYPE_CAPTURE|EXPERIMENT_STARTED|validator|prompt_version|model_name/,
+  );
+  await saveRecords(s, 'browser-pilot-mode-records');
+});

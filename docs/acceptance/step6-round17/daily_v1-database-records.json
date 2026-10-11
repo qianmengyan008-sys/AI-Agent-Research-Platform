@@ -1,0 +1,430 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "adapter": "MockAdapter",
+  "format": "research-json-v1",
+  "analysis_schema": "participant-research-v1",
+  "experiment_id": "7eb81c13-596b-475d-ad36-a07292d10f94",
+  "generated_at": "2026-10-11T10:24:13.475Z",
+  "per_table_limit": 1000,
+  "complete": false,
+  "note": "Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending",
+  "participants": [
+    {
+      "id": "03c773e4-e739-4319-9c26-ab04e4b8c829",
+      "participant_code": "P001",
+      "status": "enabled",
+      "created_at": "2026-10-11T10:24:13.409Z"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "13fe5100-8c64-4520-a9ac-a20b6f066b89",
+      "participant_id": "03c773e4-e739-4319-9c26-ab04e4b8c829",
+      "template_version_id": "8114f5c2-4aa0-482b-a89f-e9c45e2f7183",
+      "condition_id": "059ef04a-2e60-4ad5-94af-367588d37599",
+      "created_at": "2026-10-11T10:24:13.410Z",
+      "condition": "A",
+      "path_type": "daily",
+      "agent_configuration": {
+        "name": "合成 Agent"
+      },
+      "agent_version_id": "443da537-1257-4306-979b-8119f10104e3",
+      "state_machine_version_id": "59b1f1a0-baea-4770-a928-8c3dc472e71b",
+      "agent_version": "1",
+      "state_machine_version": "daily_v1",
+      "template_version": 1,
+      "model_settings": {
+        "base_url": null,
+        "provider": "mock",
+        "max_tokens": 512,
+        "model_name": "synthetic-service-model",
+        "timeout_ms": 1000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      }
+    }
+  ],
+  "states": [
+    {
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "assignment_id": "13fe5100-8c64-4520-a9ac-a20b6f066b89",
+      "status": "completed",
+      "chat_revision": 1,
+      "stage": "COMPLETED",
+      "core_version": 2,
+      "snapshot": {
+        "path": "daily",
+        "stage": "COMPLETED",
+        "version": 2,
+        "receipts": [
+          {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 0
+          },
+          {
+            "id": "submit-0",
+            "data": {},
+            "type": "CHAT_FINISHED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 1
+          }
+        ],
+        "lifecycle": "completed",
+        "variables": {},
+        "experimentVersion": "daily_v1",
+        "definitionSignature": "{\"path\":\"daily\",\"experimentVersion\":\"daily_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"NATURAL_CHAT\",\"on\":\"CHAT_FINISHED\",\"fields\":[]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "condition_id": "059ef04a-2e60-4ad5-94af-367588d37599",
+      "stage": "NATURAL_CHAT",
+      "prompt_version_id": "0929d800-6f05-4f25-8350-dd06c5eeb070",
+      "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+      "policy": {
+        "goal": "进行中性日常聊天，不主动引入实验干预。",
+        "path": "daily",
+        "stage": "NATURAL_CHAT",
+        "variableKeys": [],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [],
+        "roleDescription": "遵守当前任务边界的对话伙伴",
+        "forbiddenContent": ["认知重构", "制造误解", "改变你的刻板印象"],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "daily_v1",
+        "requiresConfirmedBelief": false
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "e5d4d1e2-36de-4814-ad47-488ecc47c4d3",
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "sequence": 1,
+      "role": "user",
+      "content": "合成参与者输入",
+      "status": "ready",
+      "created_at": "2026-10-11T10:24:13.452Z"
+    },
+    {
+      "id": "1b2168f0-bc0b-4cbd-adba-e045d22b8ba1",
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "sequence": 2,
+      "role": "assistant",
+      "content": "你愿意多聊聊刚才的感受吗？（1）",
+      "status": "ready",
+      "created_at": "2026-10-11T10:24:13.452Z"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "d921a0e8-271f-47f2-90af-fe3b73bec4a5",
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "core_event_id": "assignment-start",
+      "event": "EXPERIMENT_STARTED",
+      "previous_state": "INIT",
+      "current_state": "NATURAL_CHAT",
+      "from_version": 0,
+      "to_version": 1,
+      "actor_type": "backend",
+      "actor_id": "synthetic-admin",
+      "validated_payload": {},
+      "receipt": {
+        "id": "assignment-start",
+        "data": {},
+        "type": "EXPERIMENT_STARTED",
+        "experimentVersion": "daily_v1",
+        "expectedStateVersion": 0
+      },
+      "created_at": "2026-10-11T10:24:13.410Z"
+    },
+    {
+      "id": "83343575-2bf4-46ff-93e2-c74c9f096018",
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "core_event_id": "submit-0",
+      "event": "CHAT_FINISHED",
+      "previous_state": "NATURAL_CHAT",
+      "current_state": "COMPLETED",
+      "from_version": 1,
+      "to_version": 2,
+      "actor_type": "participant",
+      "actor_id": "03c773e4-e739-4319-9c26-ab04e4b8c829",
+      "validated_payload": {},
+      "receipt": {
+        "id": "submit-0",
+        "data": {},
+        "type": "CHAT_FINISHED",
+        "experimentVersion": "daily_v1",
+        "expectedStateVersion": 1
+      },
+      "created_at": "2026-10-11T10:24:13.462Z"
+    }
+  ],
+  "variables": [],
+  "runs": [
+    {
+      "id": "f9410fac-f8f6-40a7-ab22-d1d729a1dd12",
+      "turn_id": "2014970b-7712-44d3-a31c-a4e912556e63",
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "experiment_id": "7eb81c13-596b-475d-ad36-a07292d10f94",
+      "provider": "mock",
+      "model_name": "synthetic-service-model",
+      "prompt_version_id": "0929d800-6f05-4f25-8350-dd06c5eeb070",
+      "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.5479550000000017",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-11T10:24:13.458Z"
+    }
+  ],
+  "analysis_rows": [
+    {
+      "participant_id": "03c773e4-e739-4319-9c26-ab04e4b8c829",
+      "experiment_id": "7eb81c13-596b-475d-ad36-a07292d10f94",
+      "assignment_id": "13fe5100-8c64-4520-a9ac-a20b6f066b89",
+      "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+      "condition": "A",
+      "condition_id": "059ef04a-2e60-4ad5-94af-367588d37599",
+      "path_type": "daily",
+      "agent_version": {
+        "id": "443da537-1257-4306-979b-8119f10104e3",
+        "version": "1",
+        "configuration": {
+          "name": "合成 Agent"
+        }
+      },
+      "state_machine_version": {
+        "id": "59b1f1a0-baea-4770-a928-8c3dc472e71b",
+        "version": "daily_v1"
+      },
+      "template_version_id": "8114f5c2-4aa0-482b-a89f-e9c45e2f7183",
+      "prompt_version": [
+        {
+          "stage": "NATURAL_CHAT",
+          "id": "0929d800-6f05-4f25-8350-dd06c5eeb070",
+          "version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+        }
+      ],
+      "model_version": {
+        "requested_model": "synthetic-service-model",
+        "provider": "mock",
+        "supplier_revision": null
+      },
+      "model_settings": {
+        "base_url": null,
+        "provider": "mock",
+        "max_tokens": 512,
+        "model_name": "synthetic-service-model",
+        "timeout_ms": 1000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "timestamp": {
+        "assigned_at": "2026-10-11T10:24:13.410Z",
+        "exported_at": "2026-10-11T10:24:13.475Z"
+      },
+      "current_state": {
+        "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+        "assignment_id": "13fe5100-8c64-4520-a9ac-a20b6f066b89",
+        "status": "completed",
+        "chat_revision": 1,
+        "stage": "COMPLETED",
+        "core_version": 2,
+        "snapshot": {
+          "path": "daily",
+          "stage": "COMPLETED",
+          "version": 2,
+          "receipts": [
+            {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "daily_v1",
+              "expectedStateVersion": 0
+            },
+            {
+              "id": "submit-0",
+              "data": {},
+              "type": "CHAT_FINISHED",
+              "experimentVersion": "daily_v1",
+              "expectedStateVersion": 1
+            }
+          ],
+          "lifecycle": "completed",
+          "variables": {},
+          "experimentVersion": "daily_v1",
+          "definitionSignature": "{\"path\":\"daily\",\"experimentVersion\":\"daily_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"NATURAL_CHAT\",\"on\":\"CHAT_FINISHED\",\"fields\":[]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+        }
+      },
+      "state_transition": [
+        {
+          "id": "d921a0e8-271f-47f2-90af-fe3b73bec4a5",
+          "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "NATURAL_CHAT",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "synthetic-admin",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-11T10:24:13.410Z"
+        },
+        {
+          "id": "83343575-2bf4-46ff-93e2-c74c9f096018",
+          "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+          "core_event_id": "submit-0",
+          "event": "CHAT_FINISHED",
+          "previous_state": "NATURAL_CHAT",
+          "current_state": "COMPLETED",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "03c773e4-e739-4319-9c26-ab04e4b8c829",
+          "validated_payload": {},
+          "receipt": {
+            "id": "submit-0",
+            "data": {},
+            "type": "CHAT_FINISHED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-11T10:24:13.462Z"
+        }
+      ],
+      "conversation_history": [
+        {
+          "id": "e5d4d1e2-36de-4814-ad47-488ecc47c4d3",
+          "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+          "sequence": 1,
+          "role": "user",
+          "content": "合成参与者输入",
+          "status": "ready",
+          "created_at": "2026-10-11T10:24:13.452Z"
+        },
+        {
+          "id": "1b2168f0-bc0b-4cbd-adba-e045d22b8ba1",
+          "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+          "sequence": 2,
+          "role": "assistant",
+          "content": "你愿意多聊聊刚才的感受吗？（1）",
+          "status": "ready",
+          "created_at": "2026-10-11T10:24:13.452Z"
+        }
+      ],
+      "experiment_variables": [],
+      "model_runs": [
+        {
+          "id": "f9410fac-f8f6-40a7-ab22-d1d729a1dd12",
+          "turn_id": "2014970b-7712-44d3-a31c-a4e912556e63",
+          "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+          "experiment_id": "7eb81c13-596b-475d-ad36-a07292d10f94",
+          "provider": "mock",
+          "model_name": "synthetic-service-model",
+          "prompt_version_id": "0929d800-6f05-4f25-8350-dd06c5eeb070",
+          "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5479550000000017",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-11T10:24:13.458Z"
+        }
+      ],
+      "model_run_log": [
+        {
+          "id": "f9410fac-f8f6-40a7-ab22-d1d729a1dd12",
+          "turn_id": "2014970b-7712-44d3-a31c-a4e912556e63",
+          "session_id": "45ca508a-00cb-44ce-a277-5a4fdfc5b841",
+          "experiment_id": "7eb81c13-596b-475d-ad36-a07292d10f94",
+          "provider": "mock",
+          "model_name": "synthetic-service-model",
+          "prompt_version_id": "0929d800-6f05-4f25-8350-dd06c5eeb070",
+          "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5479550000000017",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-11T10:24:13.458Z"
+        }
+      ]
+    }
+  ],
+  "data_quality": {
+    "scope": "all experiment rows in this snapshot",
+    "passed": true,
+    "checks": {
+      "sessions_without_state": 0,
+      "messages_without_state": 0,
+      "state_event_mismatch": 0,
+      "transition_chain_gaps": 0,
+      "variables_without_valid_source": 0,
+      "turn_slot_mismatch": 0,
+      "ready_turn_without_reply": 0,
+      "ready_turn_without_model_log": 0
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import { experimentDefinitions } from '@research/experiment-core';
+import type { AdminService } from '../services/admin-service.js';
 import { isDeepStrictEqual } from 'node:util';
 import { randomUUID, createHash } from 'node:crypto';
 import type { Pool } from 'pg';
@@ -6,6 +8,145 @@ import type { ModelSettings } from '@research/model-adapter';
 import type { ParticipantCurrent, ParticipantTurn } from '@research/contracts';
 import { createApp } from '../app.js';
 import { createServices } from '../services/index.js';
+
+/** Structural acceptance only; never approves model semantics or repairs records. */
+export function inspectPathRecords(
+  data: Awaited<ReturnType<AdminService['export']>>,
+  path: 'cognitive_v1' | 'emotion_v1',
+  expectedBelief: string,
+) {
+  const definition = experimentDefinitions[path];
+  const assignment = data.assignments[0];
+  const state = data.states[0];
+  const row = data.analysis_rows[0];
+  const source = (v: (typeof data.variables)[number]) =>
+    data.transitions.find((t) => t.id === v.source_transition_id && t.session_id === v.session_id);
+  const variables = (key: string) => data.variables.filter((v) => v.key === key);
+  const base: Record<string, boolean> = {
+    one_fixed_assignment:
+      data.assignments.length === 1 &&
+      data.states.length === 1 &&
+      state?.assignment_id === assignment?.id &&
+      row?.session_id === state?.session_id &&
+      row?.participant_id === assignment?.participant_id &&
+      row?.experiment_id === data.experiment_id &&
+      row?.path_type === definition.path &&
+      assignment?.state_machine_version === path,
+    completed_state_matches_sequence:
+      state?.stage === 'COMPLETED' &&
+      state?.core_version === definition.stages.length - 1 &&
+      state?.snapshot.stage === state?.stage &&
+      state?.snapshot.version === state?.core_version,
+    analysis_histories_match_session:
+      !!row &&
+      isDeepStrictEqual(
+        row.conversation_history,
+        data.messages.filter((m) => m.session_id === state?.session_id),
+      ) &&
+      isDeepStrictEqual(
+        row.state_transition,
+        data.transitions.filter((t) => t.session_id === state?.session_id),
+      ) &&
+      isDeepStrictEqual(
+        row.experiment_variables,
+        data.variables.filter((v) => v.session_id === state?.session_id),
+      ) &&
+      isDeepStrictEqual(
+        row.model_run_log,
+        data.runs.filter((r) => r.session_id === state?.session_id),
+      ),
+    exact_stage_sequence: isDeepStrictEqual(
+      data.transitions.map((t) => t.current_state),
+      definition.stages.slice(1).map((s) => s.id),
+    ),
+    required_analysis_fields:
+      !!row &&
+      [
+        'participant_id',
+        'experiment_id',
+        'condition',
+        'path_type',
+        'agent_version',
+        'prompt_version',
+        'model_version',
+        'conversation_history',
+        'state_transition',
+        'experiment_variables',
+        'model_run_log',
+      ].every((k) => k in row),
+    pinned_model_and_prompts:
+      data.runs.length > 0 &&
+      data.runs.every(
+        (r) =>
+          r.model_name === assignment?.model_settings.model_name &&
+          r.provider === assignment?.model_settings.provider &&
+          data.prompts.some(
+            (p) =>
+              p.prompt_version_id === r.prompt_version_id &&
+              p.condition_id === assignment?.condition_id,
+          ),
+      ),
+    every_variable_has_source:
+      data.variables.length > 0 &&
+      data.variables.every((v) => !!source(v) && source(v)!.previous_state === v.recorded_stage),
+    database_integrity: data.data_quality.passed,
+  };
+  if (path === 'cognitive_v1') {
+    const confirmed = variables('confirmed_belief');
+    const coreBelief = variables('confirmed_viewpoint');
+    base.confirmed_belief_frozen =
+      confirmed.length === 1 &&
+      coreBelief.length === 1 &&
+      confirmed[0]?.value === expectedBelief &&
+      coreBelief[0]?.value === expectedBelief &&
+      state?.snapshot.variables.confirmed_viewpoint === expectedBelief;
+    base.ratings_linked_to_fixed_belief =
+      base.confirmed_belief_frozen &&
+      [
+        ['rating_1', 'initial_rating', 'INITIAL_RATING'],
+        ['rating_2', 'second_rating', 'SECOND_RATING'],
+      ].every(([alias, core, stage]) => {
+        const a = variables(alias!),
+          c = variables(core!);
+        return (
+          a.length === 1 &&
+          c.length === 1 &&
+          a[0]?.value === c[0]?.value &&
+          a[0]?.session_id === state?.session_id &&
+          source(a[0]!)?.previous_state === stage
+        );
+      });
+    base.all_four_reframes_with_sources = definition.stages
+      .filter((s) => s.id.startsWith('REFRAME_'))
+      .every((s) => {
+        const v = variables(s.fields[0]!.variable);
+        return (
+          v.length === 1 &&
+          source(v[0]!)?.previous_state === s.id &&
+          source(v[0]!)?.validated_payload.response === v[0]?.value
+        );
+      });
+  } else {
+    const phase = variables('scene_phase'),
+      scene = variables('scene_state');
+    base.scene_phase_follows_events =
+      phase.length > 0 && phase.every((v) => source(v)?.current_state === v.value);
+    base.scene_state_only_from_explicit_payload =
+      scene.length === 4 &&
+      scene.every(
+        (v) =>
+          ['FIRST_CONTACT', 'MISUNDERSTANDING', 'RESOLUTION', 'SHARED_EXPERIENCE'].includes(
+            source(v)?.previous_state,
+          ) && source(v)?.validated_payload.response === v.value,
+      );
+  }
+  return {
+    scope: 'synthetic bounded acceptance export; structural checks only',
+    passed: Object.values(base).every(Boolean),
+    checks: base,
+    semantic_review: 'pending_researcher_review',
+  };
+}
 
 /** Opt-in acceptance on a caller-owned isolated synthetic database, never production startup. */
 export async function runBusinessAcceptance(
@@ -60,7 +201,7 @@ export async function runBusinessAcceptance(
     interventions = false;
   try {
     await http('/health');
-    for (const path of ['cognitive_v1', 'emotion_v1']) {
+    for (const path of ['cognitive_v1', 'emotion_v1'] as const) {
       const e = await services.experiments.create(actor, {
         name: `合成验收 ${randomUUID()}`,
         instructions: '仅供工程验收，非正式实验；输入全部合成。',
@@ -215,12 +356,15 @@ export async function runBusinessAcceptance(
         required.every((k) => keys.includes(k));
       const uniqueBelief =
         !cognitive || data.variables.filter((v) => v.key === 'confirmed_belief').length === 1;
-      if (!completed || !uniqueBelief || exported.complete !== false) failed = true;
+      const structural = inspectPathRecords(data, path, belief);
+      if (!completed || !uniqueBelief || !structural.passed || exported.complete !== false)
+        failed = true;
       paths.push({
         path,
         status: completed && !failed ? 'completed' : 'failed',
         completed_stages: stage,
         observations,
+        structural_acceptance: structural,
         unique_confirmed_belief: cognitive ? uniqueBelief : null,
         rating_object: cognitive
           ? { fixed_confirmed_belief: belief, semantic_review: 'pending_researcher_review' }
