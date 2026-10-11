@@ -6,6 +6,7 @@ import type { ModelSettings } from '@research/model-adapter';
 import { UnitOfWork } from '../repositories/context.js';
 import { admin, fail, hash, object, text, uuid } from './common.js';
 import type { AdminIdentity } from './common.js';
+import { researchVariables } from './research-variables.js';
 function validatePolicies(definition: ExperimentDefinition, policies: readonly StagePolicy[]) {
   if (!Array.isArray(policies) || policies.some((p) => !p || typeof p !== 'object'))
     fail(400, 'INVALID_STAGE_POLICY');
@@ -160,7 +161,7 @@ export class ExperimentService {
         c!.definition,
       );
       if (!start.ok) fail(400, 'INVALID_DEFINITION');
-      await r.states.save(session, start, actor.id, {}, 'backend');
+      await r.states.save(session, start, actor.id, {}, 'backend', researchVariables(start));
       await r.experiments.audit(
         c!.experiment_id,
         actor.id,

@@ -193,7 +193,7 @@ export class ConversationRepository {
     ).rows;
     const assignments = (
       await this.db.query(
-        'SELECT id,participant_id,template_version_id,condition_id,created_at FROM research.experiment_assignment WHERE experiment_id=$1 ORDER BY id LIMIT 1000',
+        `SELECT a.id,a.participant_id,a.template_version_id,a.condition_id,a.created_at,c.agent_version_id,c.state_machine_version_id,av.personality_version AS agent_version,sm.core_experiment_version AS state_machine_version,t.version AS template_version,t.configuration->'model' AS model_settings FROM research.experiment_assignment a JOIN research.condition c ON c.id=a.condition_id JOIN research.agent_version av ON av.id=c.agent_version_id JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id JOIN research.template_version t ON t.id=a.template_version_id WHERE a.experiment_id=$1 ORDER BY a.id LIMIT 1000`,
         [experiment],
       )
     ).rows;
@@ -216,6 +216,18 @@ export class ConversationRepository {
         [experiment],
       )
     ).rows;
-    return { participants, assignments, messages, transitions, variables, runs };
+    const states = (
+      await this.db.query(
+        'SELECT s.id AS session_id,s.assignment_id,s.status,s.chat_revision,es.stage,es.core_version,es.snapshot FROM research.experiment_session s JOIN research.experiment_state es ON es.session_id=s.id WHERE s.experiment_id=$1 ORDER BY s.id LIMIT 1000',
+        [experiment],
+      )
+    ).rows;
+    const prompts = (
+      await this.db.query(
+        'SELECT cp.condition_id,cp.stage,p.id AS prompt_version_id,p.version AS prompt_version,p.policy FROM research.condition_prompt cp JOIN research.condition c ON c.id=cp.condition_id JOIN research.prompt_version p ON p.id=cp.prompt_version_id WHERE c.experiment_id=$1 ORDER BY cp.condition_id,cp.stage LIMIT 1000',
+        [experiment],
+      )
+    ).rows;
+    return { participants, assignments, states, prompts, messages, transitions, variables, runs };
   }
 }

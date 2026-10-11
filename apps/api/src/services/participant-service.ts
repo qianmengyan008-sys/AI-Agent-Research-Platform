@@ -5,6 +5,8 @@ import { UnitOfWork } from '../repositories/context.js';
 import type { Bundle } from '../repositories/state-repository.js';
 import { admin, fail, hash, object, passwordHash, text, uuid, verifyPassword } from './common.js';
 import type { AdminIdentity, ParticipantIdentity } from './common.js';
+import { recover } from './recovery.js';
+import { researchVariables } from './research-variables.js';
 export function projection(b: Bundle) {
   const stage = b.definition.stages.find((s) => s.id === b.snapshot.stage)!;
   return {
@@ -72,9 +74,10 @@ export class ParticipantService {
     return { logged_out: true };
   }
   async current(actor: ParticipantIdentity) {
-    return this.uow.read(async (r) => {
-      const b = await r.states.load(actor.participantId);
+    return this.uow.transaction(async (r) => {
+      const b = await r.states.load(actor.participantId, true);
       if (!b) fail(404, 'NOT_ASSIGNED');
+      await recover(r, b!.session_id);
       const pending = await r.conversations.active(b!.session_id);
       return {
         instructions: b!.configuration.instructions,
@@ -100,11 +103,17 @@ export class ParticipantService {
       }
       if (b!.status !== 'open') fail(409, 'EXPERIMENT_FINISHED');
       if (b!.state_token !== token) fail(409, 'STATE_CONFLICT');
+      await recover(r, b!.session_id);
       if (await r.states.pending(b!.session_id)) fail(409, 'GENERATION_PENDING');
       const stage = b!.definition.stages.find((s) => s.id === b!.snapshot.stage)!;
-      const data = object(
-        v.data,
-        stage.fields.map((f) => f.field),
+      const supportsSource = b!.snapshot.path === 'cognitive' && stage.id === 'STEREOTYPE_CAPTURE';
+      const submitted = object(v.data, [
+        ...stage.fields.map((f) => f.field),
+        ...(supportsSource ? ['source'] : []),
+      ]);
+      const source = submitted.source === undefined ? undefined : text(submitted.source, 10000);
+      const data = Object.fromEntries(
+        Object.entries(submitted).filter(([key]) => key !== 'source'),
       ) as Record<string, Scalar>;
       const result = transition(
         b!.snapshot,
@@ -118,7 +127,14 @@ export class ParticipantService {
         b!.definition,
       );
       if (!result.ok) fail(400, 'INVALID_SUBMISSION');
-      await r.states.save(b!.session_id, result, actor.participantId, data);
+      await r.states.save(
+        b!.session_id,
+        result,
+        actor.participantId,
+        submitted,
+        'participant',
+        researchVariables(result, source),
+      );
       const updated = await r.states.load(actor.participantId);
       const response = projection(updated!);
       await r.states.storeReceipt(b!.session_id, id, checksum, response);

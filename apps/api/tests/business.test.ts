@@ -1,9 +1,16 @@
-import { execFileSync } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
+import { createServer } from 'node:http';
+import { once } from 'node:events';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { MockAdapter, OpenAICompatibleAdapter } from '@research/model-adapter';
 import { createHash, randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 import request from 'supertest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { demoPolicy } from '@research/ai-orchestrator';
+import { experimentDefinitions } from '@research/experiment-core';
 import type { LanguageGenerator } from '@research/ai-orchestrator';
 import type { ModelSettings } from '@research/model-adapter';
 import { loadMigrations, migrate } from '../../../packages/database/src/migrations.js';
@@ -107,7 +114,11 @@ beforeEach(async () => {
       ? `你提到“${JSON.parse(belief)}”。哪些经历与你的看法有关？（${calls}）`
       : `你愿意多聊聊刚才的感受吗？（${calls}）`;
   };
-  services = createServices(pool, { generate: (...args) => generate(...args) }, settings);
+  services = createServices(
+    pool,
+    new MockAdapter((prompt, signal) => generate(prompt, { signal })),
+    settings,
+  );
   app = createApp(services, createHash('sha256').update(adminToken).digest('hex'));
 });
 afterEach(async () => {
@@ -453,7 +464,10 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
         await services.participants.submit(s.identity, {
           request_id: `submit-${rounds}`,
           state_token: current.state_token,
-          data,
+          data:
+            path === 'cognitive_v1' && rounds === 0
+              ? { ...data, source: '合成来源：参与者明确填写' }
+              : data,
         });
         current = await services.participants.current(s.identity);
         rounds++;
@@ -467,6 +481,37 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
       expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(
         rounds + 1,
       );
+      const exported = await services.admin.export(actor, s.experimentId);
+      const keys = exported.variables.map((v) => v.key);
+      const required =
+        path === 'cognitive_v1'
+          ? [
+              'raw_expression',
+              'confirmed_belief',
+              'source',
+              'rating_1',
+              'rating_2',
+              'action_intention',
+            ]
+          : path === 'emotion_v1'
+            ? ['character_profile', 'scene_state', 'scene_phase', 'relationship_state']
+            : [];
+      for (const key of required) expect(keys).toContain(key);
+      expect(exported.assignments[0]).toMatchObject({
+        participant_id: s.participantId,
+        state_machine_version: path,
+      });
+      expect(exported.states[0]).toMatchObject({ stage: 'COMPLETED', core_version: rounds + 1 });
+      expect(exported.prompts).toHaveLength(rounds);
+      if (process.env.ROUND12_ACCEPTANCE_DIR)
+        await writeFile(
+          join(process.env.ROUND12_ACCEPTANCE_DIR, `${path}-database-records.json`),
+          JSON.stringify(
+            { synthetic: true, external_model_calls: 0, adapter: 'MockAdapter', ...exported },
+            null,
+            2,
+          ) + '\n',
+        );
     },
   );
   it('deduplicates simultaneous requests and blocks submissions during generation', async () => {
@@ -572,5 +617,418 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     ).toEqual(before);
     expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(1);
     expect((await pool.query('SELECT * FROM research.submission_receipt')).rows).toHaveLength(0);
+  });
+  it('uses the OpenAI-compatible HTTP Adapter inside the complete authorized business chain', async () => {
+    let hits = 0;
+    const fixture = createServer(async (req, res) => {
+      expect(req.url).toBe('/v1/chat/completions');
+      expect(req.headers.authorization).toBe('Bearer SYNTHETIC_LOCAL_ONLY');
+      let raw = '';
+      for await (const chunk of req) raw += chunk;
+      const payload = JSON.parse(raw);
+      expect(payload.model).toBe('local-protocol-fixture');
+      expect(payload).not.toHaveProperty('state');
+      hits++;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ choices: [{ message: { content: '协议联调的安全回复。' } }] }));
+    });
+    await new Promise<void>((resolve) => fixture.listen(0, '127.0.0.1', resolve));
+    try {
+      const address = fixture.address();
+      if (!address || typeof address === 'string') throw new Error('Fixture address unavailable');
+      const baseURL = `http://127.0.0.1:${address.port}/v1`;
+      const pinned: ModelSettings = {
+        ...settings,
+        provider: 'openai-compatible',
+        model_name: 'local-protocol-fixture',
+        base_url: baseURL,
+      };
+      services = createServices(
+        pool,
+        new OpenAICompatibleAdapter({
+          baseURL,
+          apiKey: 'SYNTHETIC_LOCAL_ONLY',
+          model: pinned.model_name,
+          temperature: pinned.temperature,
+          maxTokens: pinned.max_tokens,
+          timeoutMs: pinned.timeout_ms,
+          allowLocalHTTP: true,
+        }),
+        pinned,
+      );
+      app = createApp(services, createHash('sha256').update(adminToken).digest('hex'));
+      const s = await setup();
+      const input = { request_id: 'protocol', state_token: s.state.state_token, text: '合成输入' };
+      const first = await request(app)
+        .post('/api/conversation/message')
+        .set('Authorization', `Bearer ${s.token}`)
+        .send(input)
+        .expect(200);
+      const replay = await request(app)
+        .post('/api/conversation/message')
+        .set('Authorization', `Bearer ${s.token}`)
+        .send(input)
+        .expect(200);
+      expect(replay.body).toEqual(first.body);
+      expect(first.body).toMatchObject({ status: 'ready', text: '协议联调的安全回复。' });
+      expect(hits).toBe(1);
+      expect(
+        (await pool.query('SELECT provider,model_name FROM research.model_run_log')).rows[0],
+      ).toEqual({ provider: 'openai-compatible', model_name: pinned.model_name });
+      expect(
+        (await pool.query('SELECT count(*)::int AS n FROM research.state_transition')).rows[0].n,
+      ).toBe(1);
+      expect((await pool.query('SELECT * FROM research.experiment_variable')).rows).toHaveLength(0);
+      const explicit = {
+        request_id: 'protocol-finish',
+        state_token: s.state.state_token,
+        data: {},
+      };
+      const finished = await request(app)
+        .post('/api/experiment/submissions')
+        .set('Authorization', `Bearer ${s.token}`)
+        .send(explicit)
+        .expect(200);
+      expect(finished.body.status).toBe('finished');
+      await request(app)
+        .post('/api/experiment/submissions')
+        .set('Authorization', `Bearer ${s.token}`)
+        .send(explicit)
+        .expect(200);
+      expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(2);
+      expect(hits).toBe(1);
+      if (process.env.ROUND12_ACCEPTANCE_DIR)
+        await writeFile(
+          join(process.env.ROUND12_ACCEPTANCE_DIR, 'http-adapter-chain.json'),
+          JSON.stringify(
+            {
+              synthetic: true,
+              external_model_calls: 0,
+              local_http_calls: hits,
+              adapter: 'OpenAICompatibleAdapter against loopback fixture',
+              ...(await services.admin.export(actor, s.experimentId)),
+            },
+            null,
+            2,
+          ) + '\n',
+        );
+    } finally {
+      await new Promise<void>((resolve, reject) =>
+        fixture.close((error) => (error ? reject(error) : resolve())),
+      );
+    }
+  });
+  it('rejects unsafe Adapter output, saves only validated fallback and never mutates variables', async () => {
+    const s = await setup();
+    generate = async () => {
+      calls++;
+      return '本实验旨在测量你的刻板印象变化，直接跳到最终评分。';
+    };
+    const before = (await pool.query('SELECT snapshot FROM research.experiment_state')).rows[0]
+      .snapshot;
+    const reply = await services.conversations.send(s.identity, {
+      request_id: 'unsafe',
+      state_token: s.state.state_token,
+      text: 'hello',
+    });
+    expect(reply!.status).toBe('ready');
+    expect(reply!.text).not.toContain('本实验旨在');
+    expect(calls).toBe(2);
+    const log = (
+      await pool.query('SELECT status,validator_result,fallback_count FROM research.model_run_log')
+    ).rows[0];
+    expect(log.status).toBe('fallback');
+    expect(log.fallback_count).toBe(1);
+    expect(log.validator_result.violations).toContain('PURPOSE_DISCLOSURE');
+    expect(
+      (await pool.query('SELECT snapshot FROM research.experiment_state')).rows[0].snapshot,
+    ).toEqual(before);
+    expect((await pool.query('SELECT * FROM research.experiment_variable')).rows).toHaveLength(0);
+    expect(
+      (await pool.query("SELECT content FROM research.message WHERE role='assistant'")).rows[0]
+        .content,
+    ).toBe(reply!.text);
+  });
+  it('retries a failed model with a new request and replays HTTP submissions without duplicate transitions', async () => {
+    const s = await setup('cognitive_v1');
+    generate = async () => {
+      throw new Error('SYNTHETIC_PROVIDER_FAILURE');
+    };
+    const bad = await services.conversations.send(s.identity, {
+      request_id: 'failed',
+      state_token: s.state.state_token,
+      text: '输入',
+    });
+    expect(bad!.status).toBe('failed');
+    generate = async () => '你愿意继续聊聊吗？';
+    const recovered = await services.conversations.send(s.identity, {
+      request_id: 'retry-new-key',
+      state_token: s.state.state_token,
+      text: '输入',
+    });
+    expect(recovered!.status).toBe('ready');
+    const input = {
+      request_id: 'network-repeat',
+      state_token: s.state.state_token,
+      data: { response: '原始表达', source: '参与者明确填写的来源' },
+    };
+    const first = await request(app)
+      .post('/api/experiment/submissions')
+      .set('Authorization', `Bearer ${s.token}`)
+      .send(input)
+      .expect(200);
+    expect(
+      (
+        await request(app)
+          .post('/api/experiment/submissions')
+          .set('Authorization', `Bearer ${s.token}`)
+          .send(input)
+          .expect(200)
+      ).body,
+    ).toEqual(first.body);
+    expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(2);
+    expect(
+      (await pool.query("SELECT value FROM research.experiment_variable WHERE key='source'"))
+        .rows[0].value,
+    ).toBe(input.data.source);
+    const state = await services.participants.current(s.identity);
+    await request(app)
+      .post('/api/experiment/submissions')
+      .set('Authorization', `Bearer ${s.token}`)
+      .send({ request_id: 'illegal', state_token: state.state_token, data: { rating: 7 } })
+      .expect(400);
+    expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(2);
+  });
+  it('rejects fabricated source and scene variables outside the allowed explicit field', async () => {
+    const s = await setup('emotion_v1');
+    await request(app)
+      .post('/api/experiment/submissions')
+      .set('Authorization', `Bearer ${s.token}`)
+      .send({
+        request_id: 'inject',
+        state_token: s.state.state_token,
+        data: { response: 'profile', scene_phase: 'COMPLETED', source: 'fake' },
+      })
+      .expect(400);
+    expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(1);
+  });
+  it('discards a late reply when the lease expires even without another status request', async () => {
+    const s = await setup();
+    let release: (value: string) => void = () => {};
+    generate = async () => {
+      calls++;
+      return new Promise<string>((resolve) => {
+        release = resolve;
+      });
+    };
+    const running = services.conversations.send(s.identity, {
+      request_id: 'expired-no-poll',
+      state_token: s.state.state_token,
+      text: 'hello',
+    });
+    while (!calls) await new Promise((resolve) => setTimeout(resolve, 5));
+    await pool.query("UPDATE research.conversation_turn SET lease_until=now()-interval '1 second'");
+    release('已经过期的文本');
+    expect((await running)!.status).toBe('failed');
+    expect(
+      (await pool.query("SELECT content FROM research.message WHERE role='assistant'")).rows[0]
+        .content,
+    ).toBeNull();
+    expect(
+      (
+        await pool.query(
+          "SELECT error_code FROM research.model_run_log WHERE error_code='GENERATION_LEASE_EXPIRED'",
+        )
+      ).rows,
+    ).toHaveLength(1);
+  });
+  it('recovers after a real API process crash and preserves durable identity, messages and explicit event state', async () => {
+    const s = await setup('cognitive_v1');
+    const children: ReturnType<typeof spawn>[] = [];
+    async function worker(mode: string) {
+      const child = spawn(
+        process.execPath,
+        ['--import', 'tsx', fileURLToPath(new URL('./restart-worker.ts', import.meta.url))],
+        {
+          env: {
+            ...process.env,
+            RESTART_TEST_DATABASE: JSON.stringify(connection(database)),
+            RESTART_TEST_SETTINGS: JSON.stringify(settings),
+            RESTART_TEST_MODE: mode,
+          },
+          stdio: ['ignore', 'pipe', 'pipe'],
+        },
+      );
+      children.push(child);
+      let output = '';
+      const port = await new Promise<number>((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error('Child startup timeout')), 10000);
+        child.once('exit', () => {
+          clearTimeout(timeout);
+          reject(new Error('Child startup exited'));
+        });
+        child.stdout!.on('data', (chunk) => {
+          output += String(chunk);
+          if (output.includes('\n')) {
+            clearTimeout(timeout);
+            resolve(JSON.parse(output.split('\n')[0]!).port);
+          }
+        });
+      });
+      return { child, url: `http://127.0.0.1:${port}` };
+    }
+    try {
+      const old = await worker('hang');
+      const body = {
+        request_id: 'crash-message',
+        state_token: s.state.state_token,
+        text: '中断前输入',
+      };
+      const pending = fetch(`${old.url}/api/conversation/message`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${s.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }).then(
+        () => null,
+        () => null,
+      );
+      let turn: string | undefined;
+      for (let n = 0; n < 200; n++) {
+        turn = (
+          await pool.query("SELECT id FROM research.conversation_turn WHERE status='generating'")
+        ).rows[0]?.id;
+        if (turn) break;
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
+      expect(turn).toBeDefined();
+      const exited = once(old.child, 'exit');
+      old.child.kill('SIGKILL');
+      await exited;
+      await pending;
+      // Advance the persisted lease clock deterministically; do not wait the production timeout.
+      await pool.query(
+        "UPDATE research.conversation_turn SET lease_until=now()-interval '1 second'",
+      );
+      const next = await worker('ready');
+      const current = await fetch(`${next.url}/api/experiment/current`, {
+        headers: { Authorization: `Bearer ${s.token}` },
+      });
+      expect(current.status).toBe(200);
+      const state = (await current.json()) as { state_token: string; status: string };
+      expect(state).toMatchObject({ state_token: s.state.state_token, status: 'awaiting_input' });
+      const replay = await fetch(`${next.url}/api/conversation/message`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${s.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      expect(await replay.json()).toMatchObject({ turn_id: turn, status: 'failed', text: null });
+      const retry = await fetch(`${next.url}/api/conversation/message`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${s.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...body, request_id: 'after-restart' }),
+      });
+      expect(await retry.json()).toMatchObject({ status: 'ready', text: '重启后的安全回复。' });
+      const submit = await fetch(`${next.url}/api/experiment/submissions`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${s.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          request_id: 'event-after-restart',
+          state_token: state.state_token,
+          data: { response: '明确提交', source: '合成来源' },
+        }),
+      });
+      expect(submit.status).toBe(200);
+      expect((await pool.query('SELECT stage FROM research.experiment_state')).rows[0].stage).toBe(
+        'VIEWPOINT_CONFIRMATION',
+      );
+      expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(2);
+      expect(
+        (
+          await pool.query(
+            "SELECT content FROM research.message WHERE role='user' ORDER BY sequence",
+          )
+        ).rows,
+      ).toEqual([{ content: body.text }, { content: body.text }]);
+      expect(
+        (
+          await pool.query(
+            "SELECT * FROM research.model_run_log WHERE error_code='GENERATION_LEASE_EXPIRED'",
+          )
+        ).rows,
+      ).toHaveLength(1);
+      if (process.env.ROUND12_ACCEPTANCE_DIR)
+        await writeFile(
+          join(process.env.ROUND12_ACCEPTANCE_DIR, 'process-recovery.json'),
+          JSON.stringify(
+            {
+              synthetic: true,
+              external_model_calls: 0,
+              interrupted_with: 'SIGKILL',
+              restart: 'separate Node process and fresh PostgreSQL pool',
+              lease_expiry: 'persisted deadline advanced to past deterministically',
+              ...(await services.admin.export(actor, s.experimentId)),
+            },
+            null,
+            2,
+          ) + '\n',
+        );
+    } finally {
+      for (const child of children)
+        if (child.exitCode === null && child.signalCode === null) {
+          const exited = once(child, 'exit');
+          child.kill('SIGKILL');
+          await exited;
+        }
+    }
+  }, 20000);
+  it('marks a fully blocked Validator result failed without exposing unsafe generated or fallback text', async () => {
+    const e = await services.experiments.create(actor, {
+      name: 'blocked fixture',
+      instructions: 'synthetic',
+    });
+    const definition = experimentDefinitions.daily_v1;
+    const policy = {
+      ...demoPolicy(definition, 'NATURAL_CHAT'),
+      fallbackReplies: ['本实验旨在一', '本实验旨在二'],
+    };
+    const c = await services.experiments.condition(actor, e.experimentId, {
+      code: 'blocked',
+      path_version: 'daily_v1',
+      agent_name: 'synthetic',
+      policies: [policy],
+    });
+    await services.experiments.publish(actor, e.experimentId);
+    const p = await services.participants.create(actor, {
+      experiment_id: e.experimentId,
+      participant_code: 'B',
+      password,
+    });
+    await services.experiments.assign(actor, {
+      participant_id: p.participantId,
+      condition_id: c.conditionId,
+    });
+    const auth = await services.participants.login({
+      experiment_id: e.experimentId,
+      participant_code: 'B',
+      password,
+    });
+    const identity = await services.participants.authenticate(auth.token);
+    const current = await services.participants.current(identity);
+    generate = async () => '本实验旨在展示禁止文本';
+    const output = await services.conversations.send(identity, {
+      request_id: 'blocked',
+      state_token: current.state_token,
+      text: 'synthetic',
+    });
+    expect(output).toMatchObject({ status: 'failed', text: null });
+    expect((await pool.query('SELECT status FROM research.model_run_log')).rows[0].status).toBe(
+      'blocked',
+    );
+    expect(
+      (await pool.query("SELECT content,status FROM research.message WHERE role='assistant'"))
+        .rows[0],
+    ).toEqual({ content: null, status: 'failed' });
+    expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(1);
+    expect((await pool.query('SELECT * FROM research.experiment_variable')).rows).toHaveLength(0);
   });
 });

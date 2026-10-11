@@ -3,6 +3,7 @@ import type {
   ExperimentDefinition,
   ExperimentStateSnapshot,
   TransitionResult,
+  VariableChange,
 } from '@research/experiment-core';
 import type { StagePolicy } from '@research/ai-orchestrator';
 import type { Configuration } from './experiment-repository.js';
@@ -58,6 +59,7 @@ export class StateRepository {
     actor: string,
     payload: unknown,
     actorType: 'participant' | 'backend' = 'participant',
+    supplemental: readonly VariableChange[] = [],
   ) {
     const state = result.newState;
     await this.db.query(
@@ -83,7 +85,9 @@ export class StateRepository {
           ],
         )
       ).rows[0]!;
-      for (const variable of result.variables.filter((v) => v.sourceEventId === event.eventId))
+      for (const variable of [...result.variables, ...supplemental].filter(
+        (v) => v.sourceEventId === event.eventId,
+      ))
         await this.db.query(
           `INSERT INTO research.experiment_variable(session_id,key,value,revision,source_transition_id,recorded_stage) VALUES($1,$2,$3,(SELECT COALESCE(MAX(revision),0)+1 FROM research.experiment_variable WHERE session_id=$1 AND key=$2),$4,$5)`,
           [session, variable.key, JSON.stringify(variable.value), t.id, variable.stage],

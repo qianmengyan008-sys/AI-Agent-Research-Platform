@@ -1,0 +1,69 @@
+{
+  "round": 12,
+  "scope": "Step 6 business integration and recovery",
+  "passed": 377,
+  "failed": 0,
+  "skipped": 0,
+  "test_files": 15,
+  "business_tests": 35,
+  "new_tests": 7,
+  "check": {
+    "command": "npm run check",
+    "status": "passed",
+    "checks": ["typecheck", "eslint", "prettier", "377 tests", "all workspace builds"]
+  },
+  "external_model": {
+    "status": "not_run",
+    "calls": 0
+  },
+  "postgres": "real isolated PostgreSQL 17.7 TCP/Docker",
+  "api": "Supertest plus separate Node subprocess real HTTP",
+  "paths": {
+    "cognitive_v1": {
+      "messages": 18,
+      "transitions": 10,
+      "variables": 15,
+      "runs": 9
+    },
+    "emotion_v1": {
+      "messages": 14,
+      "transitions": 8,
+      "variables": 21,
+      "runs": 7
+    },
+    "daily_v1": {
+      "messages": 2,
+      "transitions": 2,
+      "variables": 0,
+      "runs": 1
+    }
+  },
+  "recovery": {
+    "process_interrupt": "SIGKILL after user and generating turn persisted",
+    "restart": "separate Node API process with fresh PostgreSQL pool",
+    "lease_clock": "database deadline advanced deterministically to past",
+    "state_change": "explicit participant event only"
+  },
+  "core_and_ai_model_sources_changed": false,
+  "historical_migrations_changed": false,
+  "research_data": {
+    "source": "explicit optional participant field at cognitive capture; not inferred",
+    "legacy_alias_backfill": false,
+    "scene_state": "latest explicit scene-stage participant text",
+    "scene_phase": "backend event.toStage",
+    "canonical_variables": "append-only experiment_variable sharing source_transition_id; core snapshot names remain v1"
+  },
+  "limits": [
+    "synthetic models, no supplier live acceptance",
+    "no business UI or deployment",
+    "bounded export complete=false",
+    "no supplier model revision/token usage",
+    "single bootstrap admin",
+    "access-driven expiry recovery, no background queue"
+  ],
+  "environment_draft": {
+    "status": "saved",
+    "requires_publish": true,
+    "changed": "start_skill only; credentials and network preserved"
+  }
+}

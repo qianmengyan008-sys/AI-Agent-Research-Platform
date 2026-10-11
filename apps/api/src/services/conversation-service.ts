@@ -4,23 +4,8 @@ import type { Repositories } from '../repositories/context.js';
 import type { Turn } from '../repositories/conversation-repository.js';
 import { fail, hash, object, text, uuid } from './common.js';
 import type { ParticipantIdentity } from './common.js';
+import { recover } from './recovery.js';
 import { ModelRunService } from './model-run-service.js';
-async function recover(r: Repositories, session: string) {
-  for (const t of await r.conversations.expire(session)) {
-    const c = t.generation_context;
-    await r.conversations.log(
-      t,
-      c.experiment,
-      c.promptId,
-      c.promptVersion,
-      c.model,
-      null,
-      0,
-      'failed',
-      'GENERATION_LEASE_EXPIRED',
-    );
-  }
-}
 async function publicTurn(r: Repositories, t: Turn) {
   const reply = await r.conversations.reply(t.id);
   return {
@@ -102,6 +87,7 @@ export class ConversationService {
     const latency = performance.now() - started;
     return this.uow.transaction(async (r) => {
       const current = await r.states.load(actor.participantId, true);
+      if (current) await recover(r, current.session_id);
       const saved = await r.conversations.turn(actor.participantId, turn.id);
       const stale =
         !current ||

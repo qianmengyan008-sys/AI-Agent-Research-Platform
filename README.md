@@ -10,7 +10,7 @@ Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分�
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第十一轮反馈与本轮验收成果](docs/eleventh-round-feedback.md) · [Word 反馈](docs/eleventh-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round11/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第十二轮反馈与本轮验收成果](docs/twelfth-round-feedback.md) · [Word 反馈](docs/twelfth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round12/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -75,7 +75,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 370 个测试全部通过，覆盖状态机、编排层、真实 PostgreSQL 和业务 API。本轮新增 28 个服务／API 测试及 1 个迁移升级测试，覆盖身份隔离、三条完整路径、事务回滚、租约恢复与导出权限。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 377 个测试全部通过，覆盖状态机、编排层、真实 PostgreSQL 和业务 API。业务服务／API 共 35 项，本轮新增 7 项，验证 Model Adapter 协议闭环、真实 API 进程重启、Validator 拦截、网络幂等和研究变量持久化。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -123,3 +123,5 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 ## Step 6.2 业务后端
 
 [服务、仓储、接口与数据流](docs/step6-2-business-api.md)。独立数据库安全配置 DATABASE_URL 后，显式迁移再启动 API；未配置则只启用原健康检查。管理员配置非秘密 ADMIN_ACCESS_TOKEN_HASH，参与者通过数据库会话认证。聊天不推进阶段，结构化提交由后端 core 处理。导出目前 complete=false、每表最多 1000 条；正式全量导出、多管理员权限与后台生成队列仍待开发。
+
+[第十二轮完整业务联调与恢复](docs/step6-round12-integration.md)：原路径版本不变，研究命名变量与合法事件同事务保存；本地 HTTP Adapter fixture 和真实进程 SIGKILL／重启验收仍是合成模型测试。

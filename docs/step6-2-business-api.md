@@ -107,3 +107,7 @@ Bearer → ParticipantService 查会话 → 服务身份
 本轮 28 个服务／API 测试和 1 个迁移升级测试；全量测试报告为验收依据。真实 PostgreSQL 上验证配置创建／发布／分配、密码与会话、自己的数据、非法修改、消息和日志、显式推进、三条路径完成、并发幂等、租约与迟到保护、事务回滚、重连、导出权限和字段排除。
 
 测试的模型为本地合成 LanguageGenerator，不是实际 LLM，正式模型与语义审核仍 pending。管理员导出 complete=false、每表最多 1000 条，尚无全量分页、完整发布清单、CSV／ZIP 导出任务；参与者消息也没有分页。token_usage 仍未知为空。场景、量表与刺激仅工程演示或研究者配置，不能宣称正式实验上线。
+
+## 第十二轮联调更新
+
+认知首次捕获的 submissions.data 可补充 source（明确来源文本），其他阶段不能提交 source。服务保存原核心键及研究别名，详见 [第十二轮文档](step6-round12-integration.md)。当前查询／提交／生成结束会恢复过期租约。导出增加 states、prompts、固定 Agent／状态机版本和 model_settings，仍 complete=false。业务测试现在为 35 项。
