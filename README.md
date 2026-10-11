@@ -4,13 +4,13 @@
 
 当前完成 Step 1 工程初始化、Step 2 独立状态机，以及AI 编排层和可替换 Model Adapter（含 OpenAI 兼容 HTTP 实现）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
 
-状态机目前独立运行，尚未连接 API 或页面。已完成首批 PostgreSQL schema／迁移和数据库测试，尚未连接业务 API；登录、管理员后台或聊天尚未实现。模型 Adapter 已实现，本轮真实外部模型验证因缺少配置尚未运行。首页仍用于检查前后端连接，不代表实验系统已就绪。
+Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与限量 JSON 导出。前端仍为连接检查页面；业务页面尚未开发。外部真实模型仍未验收；工程 API 原型不代表正式实验就绪。
 
 [Step 2 完整反馈、代码入口与迁移示例](docs/step2-feedback.md)
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第十轮反馈与本轮验收成果](docs/tenth-round-feedback.md) · [Word 反馈](docs/tenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round10/ 下的全量测试与 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第十一轮反馈与本轮验收成果](docs/eleventh-round-feedback.md) · [Word 反馈](docs/eleventh-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round11/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -75,7 +75,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 341 个测试覆盖状态机、编排层和原有 API 骨架。本轮覆盖真实 PostgreSQL 迁移、并发迁移锁和快照重连；业务 API 身份权限、任务恢复与导出尚未实现。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 370 个测试全部通过，覆盖状态机、编排层、真实 PostgreSQL 和业务 API。本轮新增 28 个服务／API 测试及 1 个迁移升级测试，覆盖身份隔离、三条完整路径、事务回滚、租约恢复与导出权限。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -91,7 +91,7 @@ npm run example:ai
 
 该示例只使用本地固定文本，不访问模型服务、不修改实验状态。阶段策略是工程演示材料，输出规则目前只做确定性文本检查，未验证真实模型语义行为。
 
-完整认知与情感调用流程（合成数据）：`npx tsx packages/ai-orchestrator/examples/export-acceptance.ts`。异常记录通过返回的 auditEvents 或可选 auditSink 交给后端；尚无管理员查询页面或数据库日志持久化。
+完整认知与情感调用流程（合成数据）：`npx tsx packages/ai-orchestrator/examples/export-acceptance.ts`。异常记录通过返回的 auditEvents 或可选 auditSink 交给后端；尚无管理员查询页面；业务 API 现在会持久化生成日志。
 
 Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example --workspace @research/model-adapter`。本轮新增 OpenAI 兼容 HTTP Adapter；实际外部模型验证仍需安全配置密钥与模型名。默认每次生成超时 10 秒，最多尝试 2 次，取消后不重试。
 
@@ -101,7 +101,7 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 
 ## 后续任务
 
-第十轮明确授权 Step 6.1：已实现数据库迁移与测试，下一步按设计进入 API，再依次管理员和参与者页面。真实外部模型仍 pending，不代表实验就绪；收费真实验收与研究者语义审核需继续完成。自动化测试随实现持续添加。
+第十一轮明确授权 Step 6.2：已实现业务服务／仓储／API，下一步由研究者复核配置和接口，再开发管理员与参与者页面。真实外部模型仍 pending，不代表实验就绪；收费真实验收与研究者语义审核需继续完成。自动化测试随实现持续添加。
 
 ## 第一轮设计
 
@@ -119,3 +119,7 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 ## Step 6.1 PostgreSQL
 
 [数据库迁移与执行](database/README.md) · [ER 设计](docs/step6-1-database-er.md) · [API 设计](docs/step6-api-design.md) · [页面／开发与测试计划](docs/step6-ui-and-test-plan.md)。普通检查现在需要 Docker daemon（云环境与 GitHub Ubuntu runner 已支持），数据库测试自动创建并清理独立 PostgreSQL 17.7 容器。执行 npm run test:database 可单独复现。所有测试不需要外部数据库或模型密钥。迁移目标由安全 DATABASE_URL 显式配置；不自动连接任何既有数据库。
+
+## Step 6.2 业务后端
+
+[服务、仓储、接口与数据流](docs/step6-2-business-api.md)。独立数据库安全配置 DATABASE_URL 后，显式迁移再启动 API；未配置则只启用原健康检查。管理员配置非秘密 ADMIN_ACCESS_TOKEN_HASH，参与者通过数据库会话认证。聊天不推进阶段，结构化提交由后端 core 处理。导出目前 complete=false、每表最多 1000 条；正式全量导出、多管理员权限与后台生成队列仍待开发。

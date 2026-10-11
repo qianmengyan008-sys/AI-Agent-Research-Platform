@@ -1,6 +1,6 @@
 # PostgreSQL migration（Step 6.1）
 
-本轮仅实现数据库 schema、迁移执行器和真实 PostgreSQL 集成测试；API／账号／页面尚未连接数据库。禁止对 WorkBuddy 或其他既有数据库运行这些迁移。
+现已实现数据库 schema、迁移执行器及 Step 6.2 账号／业务 API 集成；页面尚未开发。禁止对 WorkBuddy 或其他既有数据库运行这些迁移。
 
 ## 文件结构
 
@@ -10,6 +10,8 @@ database/migrations/
   001_configuration.down.sql   删除 research schema（破坏性）
   002_runtime.up.sql           参与者、固定分配、状态、消息、变量、日志、Admin Event
   002_runtime.down.sql         删除运行数据表（破坏性）
+  003_application.up.sql       登录会话、状态令牌、幂等提交、生成租约及旧回合升级
+  003_application.down.sql     删除新增身份／提交数据与字段（破坏性）
 packages/database/src/
   migrations.ts                事务、校验和、迁移账本、并发锁
   cli.ts                       显式 DATABASE_URL 的命令行入口
@@ -47,6 +49,8 @@ npm run db:migrate -- up
 
 已发布模板／条件／Prompt 映射冻结；Agent／状态机／Prompt 版本追加保存。参与者只能分配给已发布且归属同实验的条件。分配不可重写，会话不能换分配。状态快照与 core_version 一致，聊天计数独立。事件和变量追加保存，确认观点和两次评分不能覆盖或另写新 revision。
 
-数据库不能独立证明所有 JSON 中的正式实验语义。后续发布服务必须验证 core 定义、当前阶段策略覆盖、配置 hash、量表和权限；后续 ExperimentService 才是唯一合法迁移写入口。当前 schema 没有生产角色／RLS／认证系统；participant_message 只是字段最小化视图，绝不是按用户过滤后的授权接口。
+数据库不能独立证明所有 JSON 中的正式实验语义。Step 6.2 发布服务验证 core 定义、当前阶段策略覆盖及配置 hash；正式量表与语义仍需研究者审核。运行状态只通过服务调用 core 合法迁移写入。当前 schema 没有生产角色／RLS；业务 API 已实现账号和会话认证；participant_message 只是字段最小化视图，绝不是按用户过滤后的授权接口。
 
-model_run_log 预留 token_usage，可空；当前 Adapter 尚未采集供应商 token 用量，不估算、不填假值。Admin Event 是追加审计记录，不自动执行状态干预。业务日志及后台权限需 Step 6.2 实现。
+model_run_log 预留 token_usage，可空；当前 Adapter 尚未采集供应商 token 用量，不估算、不填假值。Admin Event 是追加审计记录，不自动执行状态干预。业务 API 已持久化日志并验证独立管理员权限；多研究者角色尚未实现。
+
+[Step 6.2 服务与运行说明](../docs/step6-2-business-api.md)。新增迁移保持 001/002 不变；当前 research 共有 21 张业务表。独立临时 PostgreSQL 测试覆盖三次迁移与旧 pending 回合升级。
