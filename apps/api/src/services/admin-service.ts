@@ -75,6 +75,7 @@ export class AdminService {
             ? data.variables.filter((v) => v.session_id === session)
             : [],
           model_runs: session ? data.runs.filter((r) => r.session_id === session) : [],
+          model_run_log: session ? data.runs.filter((r) => r.session_id === session) : [],
         };
       });
       return {

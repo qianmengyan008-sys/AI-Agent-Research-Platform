@@ -602,3 +602,36 @@ test('administrator inspects experiment version, failed turn, latency, validator
   await screenshot(page, 'admin-stability');
   await saveRecords(s, 'browser-admin-stability-records');
 });
+
+test('three page refreshes and new logins retain assignment, source, ordered messages and one explicit transition', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  await page.getByLabel('发送消息', { exact: true }).fill('多次刷新前消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('谢谢分享');
+  await page.getByLabel('当前回答', { exact: true }).fill('多次刷新明确表达');
+  await page.getByLabel('表达来源（选填）', { exact: true }).fill('多次刷新固定来源');
+  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+  const before = await services.admin.export(actor, s.experimentId);
+  for (let n = 0; n < 3; n++) {
+    await page.reload();
+    await login(page, s);
+    await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+    await expect(page.getByRole('log')).toContainText('多次刷新前消息');
+    const after = await services.admin.export(actor, s.experimentId);
+    expect(after.states).toEqual(before.states);
+    expect(after.assignments).toEqual(before.assignments);
+    expect(after.variables).toEqual(before.variables);
+    expect(after.transitions).toEqual(before.transitions);
+    expect(after.messages).toEqual(before.messages);
+    expect(after.data_quality.passed).toBe(true);
+  }
+  expect(await page.locator('body').innerText()).not.toMatch(
+    /VIEWPOINT_CONFIRMATION|STEREOTYPE_SUBMITTED|validator|prompt_version|model_name/,
+  );
+  await screenshot(page, 'participant-refresh-recovery');
+  await saveRecords(s, 'browser-multiple-refresh-records');
+});

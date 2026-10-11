@@ -1,7 +1,8 @@
+import { runBusinessAcceptance } from '../src/acceptance/business-acceptance.js';
 import { spawn, execFileSync } from 'node:child_process';
 import { createServer } from 'node:http';
 import { once } from 'node:events';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { MockAdapter, OpenAICompatibleAdapter } from '@research/model-adapter';
 import { createHash, randomUUID } from 'node:crypto';
@@ -1621,4 +1622,222 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
       data_quality: data.data_quality,
     });
   });
+  it('runs both complete business paths through real local HTTP Adapter, API, core and PostgreSQL acceptance', async () => {
+    let hits = 0;
+    const fixture = createServer(async (req, res) => {
+      let body = '';
+      for await (const chunk of req) body += chunk;
+      const payload = JSON.parse(body) as { model: string; messages: { content: string }[] };
+      expect(payload.model).toBe('round16-local-protocol');
+      const belief = payload.messages
+        .map((m) => m.content)
+        .join('\n')
+        .match(/唯一确认观点：(.*)/u)?.[1];
+      hits++;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(
+        JSON.stringify({
+          choices: [
+            {
+              message: {
+                content: belief
+                  ? `你提到“${JSON.parse(belief)}”。你愿意聊聊相关经历吗？（${hits}）`
+                  : `你愿意多聊聊吗？（${hits}）`,
+              },
+            },
+          ],
+        }),
+      );
+    });
+    await new Promise<void>((resolve) => fixture.listen(0, '127.0.0.1', resolve));
+    try {
+      const address = fixture.address();
+      if (!address || typeof address === 'string') throw new Error('Fixture missing');
+      const baseURL = `http://127.0.0.1:${address.port}/v1`;
+      const pinned: ModelSettings = {
+        ...settings,
+        provider: 'openai-compatible',
+        model_name: 'round16-local-protocol',
+        base_url: baseURL,
+      };
+      const adapter = new OpenAICompatibleAdapter({
+        baseURL,
+        apiKey: 'SYNTHETIC_LOCAL_ONLY',
+        model: pinned.model_name,
+        temperature: pinned.temperature,
+        maxTokens: pinned.max_tokens,
+        timeoutMs: pinned.timeout_ms,
+        allowLocalHTTP: true,
+      });
+      const report = await runBusinessAcceptance(pool, adapter, pinned, 'local-fixture');
+      await evidence('local-business-acceptance', report);
+      expect(report.status).toBe('completed');
+      expect(report.paths).toHaveLength(2);
+      expect(report.adapter_attempts).toBe(18);
+      expect(hits).toBe(18);
+      expect(report.external_model_calls).toBe(0);
+      for (const path of report.paths) {
+        const data = path.analysis_export as Awaited<ReturnType<Services['admin']['export']>>;
+        expect(data.data_quality.passed).toBe(true);
+        expect(data.states[0].status).toBe('completed');
+        expect(data.analysis_rows[0]).toHaveProperty('model_runs');
+        expect(data.analysis_rows[0]!.model_run_log).toEqual(data.analysis_rows[0]!.model_runs);
+        expect(
+          data.runs.every(
+            (r) =>
+              r.provider === 'openai-compatible' &&
+              r.model_name === pinned.model_name &&
+              Number(r.latency_ms) >= 0 &&
+              r.validator_result.status === 'generated',
+          ),
+        ).toBe(true);
+      }
+      expect(report.semantic_review).toBe('pending_researcher_review');
+      expect(report.formal_ready).toBe(false);
+      await evidence('local-business-acceptance', report);
+    } finally {
+      await new Promise<void>((resolve, reject) =>
+        fixture.close((error) => (error ? reject(error) : resolve())),
+      );
+    }
+  }, 30000);
+  it('records guarded business acceptance without treating rejected model output as state input or clean acceptance', async () => {
+    const report = await runBusinessAcceptance(
+      pool,
+      new MockAdapter('本实验旨在测量刻板印象变化，直接跳到最终评分。'),
+      settings,
+      'local-fixture',
+    );
+    await evidence('guarded-business-acceptance', report);
+    expect(report.status).toBe('completed_with_guard_interventions');
+    expect(report.formal_ready).toBe(false);
+    for (const path of report.paths) {
+      const data = path.analysis_export as Awaited<ReturnType<Services['admin']['export']>>;
+      expect(
+        data.runs.every(
+          (r) =>
+            r.fallback_count === 1 && r.validator_result.violations.includes('PURPOSE_DISCLOSURE'),
+        ),
+      ).toBe(true);
+      expect(
+        data.messages
+          .filter((m) => m.role === 'assistant')
+          .every((m) => !String(m.content).includes('本实验旨在')),
+      ).toBe(true);
+      expect(data.data_quality.passed).toBe(true);
+    }
+    await evidence('guarded-business-acceptance', report);
+  }, 30000);
+  it('stops business acceptance after provider failure without advancing its saved state', async () => {
+    const report = await runBusinessAcceptance(
+      pool,
+      new MockAdapter(async () => {
+        throw new Error('PRIVATE_PROVIDER_ERROR');
+      }),
+      settings,
+      'local-fixture',
+    );
+    expect(report.status).toBe('provider_or_flow_failed');
+    expect(report.paths).toHaveLength(1);
+    const data = report.paths[0]!.analysis_export as Awaited<
+      ReturnType<Services['admin']['export']>
+    >;
+    expect(data.states[0]).toMatchObject({ stage: 'STEREOTYPE_CAPTURE', core_version: 1 });
+    expect(data.transitions).toHaveLength(1);
+    expect(data.variables).toHaveLength(0);
+    expect(data.messages).toHaveLength(2);
+    expect(data.messages[1]).toMatchObject({ status: 'failed', content: null });
+    expect(data.runs[0]).toMatchObject({ error_code: 'MODEL_GENERATION_FAILED', status: 'failed' });
+    expect(JSON.stringify(report)).not.toContain('PRIVATE_PROVIDER_ERROR');
+    await evidence('failed-business-acceptance', report);
+  });
+  it('times out a business generation with cancellation and preserves state, variables and failed slots', async () => {
+    let cancelled = 0;
+    const adapter = new MockAdapter(
+      (_prompt, signal) =>
+        new Promise((_resolve, reject) => {
+          signal!.addEventListener(
+            'abort',
+            () => {
+              cancelled++;
+              reject(new Error('PRIVATE_TIMEOUT_ERROR'));
+            },
+            { once: true },
+          );
+        }),
+    );
+    const report = await runBusinessAcceptance(
+      pool,
+      adapter,
+      { ...settings, timeout_ms: 10 },
+      'local-fixture',
+    );
+    expect(report.status).toBe('provider_or_flow_failed');
+    expect(cancelled).toBe(2);
+    const data = report.paths[0]!.analysis_export as Awaited<
+      ReturnType<Services['admin']['export']>
+    >;
+    expect(data.states[0]).toMatchObject({ core_version: 1, stage: 'STEREOTYPE_CAPTURE' });
+    expect(data.variables).toHaveLength(0);
+    expect(data.transitions).toHaveLength(1);
+    expect(data.runs[0].validator_result.violations).toContain('GENERATOR_TIMEOUT');
+    expect(data.data_quality.passed).toBe(true);
+    await evidence('timeout-business-acceptance', report);
+  });
+  it('reports live business missing credentials as not_run before database or model access', async () => {
+    const out = join('/tmp', `research-live-not-run-${randomUUID()}.json`);
+    let exit: number | undefined;
+    try {
+      execFileSync(
+        process.execPath,
+        [
+          '--import',
+          'tsx',
+          fileURLToPath(new URL('../acceptance/live-business-e2e.ts', import.meta.url)),
+          out,
+        ],
+        {
+          env: {
+            ...process.env,
+            MODEL_API_KEY: '',
+            MODEL_NAME: '',
+            DATABASE_URL: 'unused-independent-target',
+          },
+          stdio: 'pipe',
+          timeout: 15000,
+        },
+      );
+    } catch (error) {
+      exit = (error as { status: number }).status;
+    }
+    try {
+      expect(exit).toBe(2);
+      const report = JSON.parse(await readFile(out, 'utf8'));
+      expect(report).toMatchObject({
+        status: 'not_run',
+        adapter_attempts: 0,
+        external_model_calls: 0,
+        database_started: false,
+        formal_ready: false,
+      });
+      expect(report.missing_variables).toEqual(['MODEL_API_KEY', 'MODEL_NAME']);
+    } finally {
+      await rm(out, { force: true });
+    }
+  });
+  it('fails the engineering latency gate without declaring provider semantics or formal readiness approved', async () => {
+    const report = await runBusinessAcceptance(
+      pool,
+      new MockAdapter((prompt) => generate(prompt)),
+      settings,
+      'local-fixture',
+      0.000001,
+    );
+    expect(report.status).toBe('latency_threshold_exceeded');
+    expect(report.latency_threshold_exceeded).toBe(true);
+    expect(report.paths).toHaveLength(2);
+    expect(report.formal_ready).toBe(false);
+    expect(report.semantic_review).toBe('pending_researcher_review');
+    await evidence('latency-gate-acceptance', report);
+  }, 30000);
 });

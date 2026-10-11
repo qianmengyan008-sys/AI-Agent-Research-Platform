@@ -36,7 +36,8 @@
     "example:http": "npm run build:packages && npm run example:http --workspace @research/model-adapter",
     "db:migrate": "npm run migrate --workspace @research/database --",
     "test:database": "npm run build:packages && vitest run packages/database/tests",
-    "test:browser": "npm run build:packages && playwright test"
+    "test:browser": "npm run build:packages && playwright test",
+    "live:business:e2e": "npm run build:packages && node --use-env-proxy --import tsx apps/api/acceptance/live-business-e2e.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
