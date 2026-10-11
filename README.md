@@ -10,9 +10,9 @@ Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分�
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第十八轮反馈与本轮验收成果](docs/eighteenth-round-feedback.md) · [Word 反馈](docs/eighteenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round18/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第十九轮反馈与本轮验收成果](docs/nineteenth-round-feedback.md) · [Word 反馈](docs/nineteenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round19/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
 
-[第十八轮正式验收报告](docs/eighteenth-round-acceptance-report.md) · [解除真实模型配置阻塞](docs/round18-live-model-guide.md) · [真实回复人工审核表（待填写）](docs/round18-semantic-review-template.md)。本轮仅重新验收并交付报告，应用代码／测试／依赖未变，真实模型仍被配置阻塞。
+[第十九轮正式验收报告](docs/nineteenth-round-acceptance-report.md) · [解除真实模型配置阻塞](docs/round18-live-model-guide.md) · [真实回复人工审核表（待填写）](docs/round18-semantic-review-template.md)。[逐条语义审核工具](docs/round19-semantic-review-guide.md)。本轮按用户选择交付阻塞报告与离线审核工具；真实模型与语义验收仍未完成，Pilot 未放行。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -77,7 +77,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 409 项、Playwright 15 项全部通过，共 424 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 417 项、Playwright 15 项全部通过，共 432 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 

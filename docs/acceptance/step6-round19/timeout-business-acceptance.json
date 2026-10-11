@@ -1,0 +1,1073 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "data": {
+    "mode": "local-fixture",
+    "synthetic": true,
+    "status": "provider_or_flow_failed",
+    "settings": {
+      "provider": "mock",
+      "model_name": "synthetic-service-model",
+      "base_url": null,
+      "temperature": 0.2,
+      "max_tokens": 512,
+      "timeout_ms": 10,
+      "max_attempts": 2
+    },
+    "adapter_attempts": 2,
+    "external_model_calls": 0,
+    "latency_threshold_exceeded": false,
+    "formal_ready": false,
+    "semantic_review": "pending_researcher_review",
+    "export_complete": false,
+    "paths": [
+      {
+        "path": "cognitive_v1",
+        "status": "failed",
+        "completed_stages": 0,
+        "observations": [
+          {
+            "request_id": "message-0-0",
+            "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+            "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+            "stage": "STEREOTYPE_CAPTURE",
+            "user_message_id": "ba5f5e38-ddbf-418d-97d8-399ba5b792c5",
+            "assistant_message_id": "7a11000a-9cbc-4be0-bdea-a28196578770",
+            "state_unchanged": true,
+            "variables_unchanged": true,
+            "events_unchanged": true,
+            "replay_same": true,
+            "replay_no_extra_calls": true,
+            "reply_status": "failed"
+          }
+        ],
+        "structural_acceptance": {
+          "scope": "synthetic bounded acceptance export; structural checks only",
+          "passed": false,
+          "checks": {
+            "one_fixed_assignment": true,
+            "completed_state_matches_sequence": false,
+            "analysis_histories_match_session": true,
+            "exact_stage_sequence": false,
+            "required_analysis_fields": true,
+            "pinned_model_and_prompts": true,
+            "every_variable_has_source": false,
+            "database_integrity": true,
+            "confirmed_belief_frozen": false,
+            "ratings_linked_to_fixed_belief": false,
+            "all_four_reframes_with_sources": false
+          },
+          "semantic_review": "pending_researcher_review"
+        },
+        "unique_confirmed_belief": false,
+        "rating_object": {
+          "fixed_confirmed_belief": "合成示例：我觉得陌生人不太可靠。",
+          "semantic_review": "pending_researcher_review"
+        },
+        "latency": {
+          "count": 1,
+          "max_ms": 21.291298000000097,
+          "p50_ms": 21.291298000000097,
+          "p95_ms": 21.291298000000097,
+          "threshold_ms": 10000,
+          "within_engineering_threshold": true
+        },
+        "analysis_export": {
+          "format": "research-json-v1",
+          "analysis_schema": "participant-research-v1",
+          "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+          "generated_at": "2026-10-11T11:40:46.253Z",
+          "per_table_limit": 1000,
+          "complete": false,
+          "note": "Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending",
+          "participants": [
+            {
+              "id": "5401f7df-1ad5-45a1-9190-52e19135913e",
+              "participant_code": "SYNTHETIC",
+              "status": "enabled",
+              "created_at": "2026-10-11T11:40:46.146Z"
+            }
+          ],
+          "assignments": [
+            {
+              "id": "d860a036-5a8f-4e35-9f50-baebde0718d2",
+              "participant_id": "5401f7df-1ad5-45a1-9190-52e19135913e",
+              "template_version_id": "1e3961b5-4128-4372-93e8-a72c25f16efc",
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "created_at": "2026-10-11T11:40:46.148Z",
+              "condition": "ACCEPTANCE",
+              "path_type": "cognitive",
+              "agent_configuration": {
+                "name": "合成验收 Agent"
+              },
+              "agent_version_id": "354a4bf6-b987-4459-b921-232cd2ccf63b",
+              "state_machine_version_id": "7df178bc-4293-40f3-aab1-f2bbe721fe20",
+              "agent_version": "1",
+              "state_machine_version": "cognitive_v1",
+              "template_version": 1,
+              "model_settings": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 10,
+                "temperature": 0.2,
+                "max_attempts": 2
+              }
+            }
+          ],
+          "states": [
+            {
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "assignment_id": "d860a036-5a8f-4e35-9f50-baebde0718d2",
+              "status": "open",
+              "chat_revision": 1,
+              "stage": "STEREOTYPE_CAPTURE",
+              "core_version": 1,
+              "snapshot": {
+                "path": "cognitive",
+                "stage": "STEREOTYPE_CAPTURE",
+                "version": 1,
+                "receipts": [
+                  {
+                    "id": "assignment-start",
+                    "data": {},
+                    "type": "EXPERIMENT_STARTED",
+                    "experimentVersion": "cognitive_v1",
+                    "expectedStateVersion": 0
+                  }
+                ],
+                "lifecycle": "active",
+                "variables": {},
+                "experimentVersion": "cognitive_v1",
+                "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+              }
+            }
+          ],
+          "prompts": [
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "ACTION_INTENTION",
+              "prompt_version_id": "27f93515-177e-44f3-9ca9-3019ff8869f9",
+              "prompt_version": "stage-language-v3-b7795af9362a06a5cb20dcdd2738bcc112ecb79b33a54aa27beb45801f6ff7d9",
+              "policy": {
+                "goal": "邀请用户表达行动意愿，不自行完成流程。",
+                "path": "cognitive",
+                "stage": "ACTION_INTENTION",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "听起来这对你有些意义。你愿意多说一点吗？",
+                  "我在听。刚才提到的内容里，哪一点让你印象最深？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": [],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": false
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "INITIAL_RATING",
+              "prompt_version_id": "58ecb16a-c987-4e5f-a345-1caab8a4cd55",
+              "prompt_version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87",
+              "policy": {
+                "goal": "说明当前评分任务，不替用户打分。",
+                "path": "cognitive",
+                "stage": "INITIAL_RATING",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？",
+                  "想到“{{confirmed_belief}}”，你现在的认同程度是什么？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": [],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": true
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "REFRAME_COUNTER_FACT",
+              "prompt_version_id": "fe57dc57-0f14-467b-a0b1-5725472137aa",
+              "prompt_version": "stage-language-v3-2e1265935bd3cf1191bf4c82b3ab59542c7185ab0fca81c2fa6ec7024b96fc0c",
+              "policy": {
+                "goal": "围绕确认观点讨论可能的反例，不替换评分对象。",
+                "path": "cognitive",
+                "stage": "REFRAME_COUNTER_FACT",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+                  "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": true
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+              "prompt_version_id": "c0400c23-9bac-4389-b6d8-cc187b979c76",
+              "prompt_version": "stage-language-v3-8186df0f47afec2c9a07e72da13554b77a2b622cfe05e1a0546901a921f79abe",
+              "policy": {
+                "goal": "围绕确认观点讨论个体差异。",
+                "path": "cognitive",
+                "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+                  "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": true
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "REFRAME_MEDIA_ALGORITHM",
+              "prompt_version_id": "767e48c6-1206-47fc-9bbd-ebbeb846dcb7",
+              "prompt_version": "stage-language-v3-930d8ea68d64d37fdc5374868be037621891beccd153bd74d2d7a9b6221abcd2",
+              "policy": {
+                "goal": "围绕确认观点讨论媒体呈现与算法因素。",
+                "path": "cognitive",
+                "stage": "REFRAME_MEDIA_ALGORITHM",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+                  "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": true
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "prompt_version_id": "a5889224-6a9d-4788-8ec5-fe88674d5130",
+              "prompt_version": "stage-language-v3-7568c06c7c292586a7acd219c277a232527ade75f49efe4ca4fb5fad4c13c163",
+              "policy": {
+                "goal": "围绕确认观点讨论社会结构因素，回应用户补充。",
+                "path": "cognitive",
+                "stage": "REFRAME_SOCIAL_STRUCTURE",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+                  "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": true
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "SECOND_RATING",
+              "prompt_version_id": "7be33406-82a2-49de-b255-18dcbabe4804",
+              "prompt_version": "stage-language-v3-1e07912c84fb89e78473e0a038d9825837df047b90457502a2f5acf510fafe69",
+              "policy": {
+                "goal": "说明当前再次评分任务，不修改既有评分。",
+                "path": "cognitive",
+                "stage": "SECOND_RATING",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？",
+                  "想到“{{confirmed_belief}}”，你现在的认同程度是什么？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": [],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": true
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "STEREOTYPE_CAPTURE",
+              "prompt_version_id": "7b11fd96-4bb8-44c7-b58d-026f11b704df",
+              "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+              "policy": {
+                "goal": "邀请用户表达当前观点，不代替用户填写。",
+                "path": "cognitive",
+                "stage": "STEREOTYPE_CAPTURE",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "听起来这对你有些意义。你愿意多说一点吗？",
+                  "我在听。刚才提到的内容里，哪一点让你印象最深？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": [],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": false
+              }
+            },
+            {
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "stage": "VIEWPOINT_CONFIRMATION",
+              "prompt_version_id": "c436d46a-6473-4a07-93ba-bf72b8fafe75",
+              "prompt_version": "stage-language-v3-f81887dea7c156a357858d590c56daf8fd18c51cde22b021bdb56e9ee1d0a39d",
+              "policy": {
+                "goal": "邀请用户明确确认自己的观点，不替用户确认。",
+                "path": "cognitive",
+                "stage": "VIEWPOINT_CONFIRMATION",
+                "variableKeys": [],
+                "forbiddenJumps": [
+                  "进入下一阶段",
+                  "跳过这一阶段",
+                  "回到初次接触",
+                  "实验已结束",
+                  "对话已经结束",
+                  "不用再回答"
+                ],
+                "maxReplyLength": 2000,
+                "fallbackReplies": [
+                  "听起来这对你有些意义。你愿意多说一点吗？",
+                  "我在听。刚才提到的内容里，哪一点让你印象最深？"
+                ],
+                "forbiddenScenes": [],
+                "roleDescription": "遵守当前任务边界的对话伙伴",
+                "forbiddenContent": [],
+                "forbiddenPurpose": [
+                  "本实验旨在",
+                  "实验目的是",
+                  "你被分配到实验组",
+                  "测量你的刻板印象变化"
+                ],
+                "experimentVersion": "cognitive_v1",
+                "requiresConfirmedBelief": false
+              }
+            }
+          ],
+          "messages": [
+            {
+              "id": "ba5f5e38-ddbf-418d-97d8-399ba5b792c5",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "sequence": 1,
+              "role": "user",
+              "content": "这是合成参与者的当前阶段回应，请自然回应。",
+              "status": "ready",
+              "created_at": "2026-10-11T11:40:46.204Z"
+            },
+            {
+              "id": "7a11000a-9cbc-4be0-bdea-a28196578770",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "sequence": 2,
+              "role": "assistant",
+              "content": null,
+              "status": "failed",
+              "created_at": "2026-10-11T11:40:46.204Z"
+            }
+          ],
+          "transitions": [
+            {
+              "id": "117b0148-41db-4581-bc5d-0e2dc115c18b",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "core_event_id": "assignment-start",
+              "event": "EXPERIMENT_STARTED",
+              "previous_state": "INIT",
+              "current_state": "STEREOTYPE_CAPTURE",
+              "from_version": 0,
+              "to_version": 1,
+              "actor_type": "backend",
+              "actor_id": "synthetic-live-acceptance",
+              "validated_payload": {},
+              "receipt": {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              "created_at": "2026-10-11T11:40:46.148Z"
+            }
+          ],
+          "variables": [],
+          "runs": [
+            {
+              "id": "5e674445-7150-4418-bb0d-915b3ba6a636",
+              "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+              "provider": "mock",
+              "model_name": "synthetic-service-model",
+              "prompt_version_id": "7b11fd96-4bb8-44c7-b58d-026f11b704df",
+              "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+              "validator_version": "stage-language-v3",
+              "code_commit": "development",
+              "temperature": "0.2",
+              "max_tokens": 512,
+              "latency_ms": "21.291298000000097",
+              "retry_count": 1,
+              "fallback_count": 1,
+              "token_usage": null,
+              "validator_result": {
+                "status": "fallback",
+                "violations": ["GENERATOR_TIMEOUT"],
+                "auditEvents": [
+                  {
+                    "path": "cognitive",
+                    "type": "MODEL_GENERATION_FAILED",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 1,
+                    "outcome": "rejected",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  },
+                  {
+                    "path": "cognitive",
+                    "type": "MODEL_GENERATION_FAILED",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 2,
+                    "outcome": "rejected",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  },
+                  {
+                    "path": "cognitive",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 2,
+                    "outcome": "fallback",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  }
+                ]
+              },
+              "error_code": "MODEL_GENERATION_FAILED",
+              "status": "failed",
+              "created_at": "2026-10-11T11:40:46.232Z"
+            }
+          ],
+          "analysis_rows": [
+            {
+              "participant_id": "5401f7df-1ad5-45a1-9190-52e19135913e",
+              "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+              "assignment_id": "d860a036-5a8f-4e35-9f50-baebde0718d2",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "condition": "ACCEPTANCE",
+              "condition_id": "a5d1034d-ac2c-43e8-89ce-89b2cde987e2",
+              "path_type": "cognitive",
+              "agent_version": {
+                "id": "354a4bf6-b987-4459-b921-232cd2ccf63b",
+                "version": "1",
+                "configuration": {
+                  "name": "合成验收 Agent"
+                }
+              },
+              "state_machine_version": {
+                "id": "7df178bc-4293-40f3-aab1-f2bbe721fe20",
+                "version": "cognitive_v1"
+              },
+              "template_version_id": "1e3961b5-4128-4372-93e8-a72c25f16efc",
+              "prompt_version": [
+                {
+                  "stage": "ACTION_INTENTION",
+                  "id": "27f93515-177e-44f3-9ca9-3019ff8869f9",
+                  "version": "stage-language-v3-b7795af9362a06a5cb20dcdd2738bcc112ecb79b33a54aa27beb45801f6ff7d9"
+                },
+                {
+                  "stage": "INITIAL_RATING",
+                  "id": "58ecb16a-c987-4e5f-a345-1caab8a4cd55",
+                  "version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87"
+                },
+                {
+                  "stage": "REFRAME_COUNTER_FACT",
+                  "id": "fe57dc57-0f14-467b-a0b1-5725472137aa",
+                  "version": "stage-language-v3-2e1265935bd3cf1191bf4c82b3ab59542c7185ab0fca81c2fa6ec7024b96fc0c"
+                },
+                {
+                  "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+                  "id": "c0400c23-9bac-4389-b6d8-cc187b979c76",
+                  "version": "stage-language-v3-8186df0f47afec2c9a07e72da13554b77a2b622cfe05e1a0546901a921f79abe"
+                },
+                {
+                  "stage": "REFRAME_MEDIA_ALGORITHM",
+                  "id": "767e48c6-1206-47fc-9bbd-ebbeb846dcb7",
+                  "version": "stage-language-v3-930d8ea68d64d37fdc5374868be037621891beccd153bd74d2d7a9b6221abcd2"
+                },
+                {
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "id": "a5889224-6a9d-4788-8ec5-fe88674d5130",
+                  "version": "stage-language-v3-7568c06c7c292586a7acd219c277a232527ade75f49efe4ca4fb5fad4c13c163"
+                },
+                {
+                  "stage": "SECOND_RATING",
+                  "id": "7be33406-82a2-49de-b255-18dcbabe4804",
+                  "version": "stage-language-v3-1e07912c84fb89e78473e0a038d9825837df047b90457502a2f5acf510fafe69"
+                },
+                {
+                  "stage": "STEREOTYPE_CAPTURE",
+                  "id": "7b11fd96-4bb8-44c7-b58d-026f11b704df",
+                  "version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd"
+                },
+                {
+                  "stage": "VIEWPOINT_CONFIRMATION",
+                  "id": "c436d46a-6473-4a07-93ba-bf72b8fafe75",
+                  "version": "stage-language-v3-f81887dea7c156a357858d590c56daf8fd18c51cde22b021bdb56e9ee1d0a39d"
+                }
+              ],
+              "model_version": {
+                "requested_model": "synthetic-service-model",
+                "provider": "mock",
+                "supplier_revision": null
+              },
+              "model_settings": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 10,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "timestamp": {
+                "assigned_at": "2026-10-11T11:40:46.148Z",
+                "exported_at": "2026-10-11T11:40:46.253Z"
+              },
+              "current_state": {
+                "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+                "assignment_id": "d860a036-5a8f-4e35-9f50-baebde0718d2",
+                "status": "open",
+                "chat_revision": 1,
+                "stage": "STEREOTYPE_CAPTURE",
+                "core_version": 1,
+                "snapshot": {
+                  "path": "cognitive",
+                  "stage": "STEREOTYPE_CAPTURE",
+                  "version": 1,
+                  "receipts": [
+                    {
+                      "id": "assignment-start",
+                      "data": {},
+                      "type": "EXPERIMENT_STARTED",
+                      "experimentVersion": "cognitive_v1",
+                      "expectedStateVersion": 0
+                    }
+                  ],
+                  "lifecycle": "active",
+                  "variables": {},
+                  "experimentVersion": "cognitive_v1",
+                  "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+                }
+              },
+              "state_transition": [
+                {
+                  "id": "117b0148-41db-4581-bc5d-0e2dc115c18b",
+                  "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+                  "core_event_id": "assignment-start",
+                  "event": "EXPERIMENT_STARTED",
+                  "previous_state": "INIT",
+                  "current_state": "STEREOTYPE_CAPTURE",
+                  "from_version": 0,
+                  "to_version": 1,
+                  "actor_type": "backend",
+                  "actor_id": "synthetic-live-acceptance",
+                  "validated_payload": {},
+                  "receipt": {
+                    "id": "assignment-start",
+                    "data": {},
+                    "type": "EXPERIMENT_STARTED",
+                    "experimentVersion": "cognitive_v1",
+                    "expectedStateVersion": 0
+                  },
+                  "created_at": "2026-10-11T11:40:46.148Z"
+                }
+              ],
+              "conversation_history": [
+                {
+                  "id": "ba5f5e38-ddbf-418d-97d8-399ba5b792c5",
+                  "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+                  "sequence": 1,
+                  "role": "user",
+                  "content": "这是合成参与者的当前阶段回应，请自然回应。",
+                  "status": "ready",
+                  "created_at": "2026-10-11T11:40:46.204Z"
+                },
+                {
+                  "id": "7a11000a-9cbc-4be0-bdea-a28196578770",
+                  "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+                  "sequence": 2,
+                  "role": "assistant",
+                  "content": null,
+                  "status": "failed",
+                  "created_at": "2026-10-11T11:40:46.204Z"
+                }
+              ],
+              "experiment_variables": [],
+              "model_runs": [
+                {
+                  "id": "5e674445-7150-4418-bb0d-915b3ba6a636",
+                  "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+                  "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+                  "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+                  "provider": "mock",
+                  "model_name": "synthetic-service-model",
+                  "prompt_version_id": "7b11fd96-4bb8-44c7-b58d-026f11b704df",
+                  "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+                  "validator_version": "stage-language-v3",
+                  "code_commit": "development",
+                  "temperature": "0.2",
+                  "max_tokens": 512,
+                  "latency_ms": "21.291298000000097",
+                  "retry_count": 1,
+                  "fallback_count": 1,
+                  "token_usage": null,
+                  "validator_result": {
+                    "status": "fallback",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "auditEvents": [
+                      {
+                        "path": "cognitive",
+                        "type": "MODEL_GENERATION_FAILED",
+                        "stage": "STEREOTYPE_CAPTURE",
+                        "attempt": 1,
+                        "outcome": "rejected",
+                        "violations": ["GENERATOR_TIMEOUT"],
+                        "stateVersion": 1,
+                        "experimentVersion": "cognitive_v1"
+                      },
+                      {
+                        "path": "cognitive",
+                        "type": "MODEL_GENERATION_FAILED",
+                        "stage": "STEREOTYPE_CAPTURE",
+                        "attempt": 2,
+                        "outcome": "rejected",
+                        "violations": ["GENERATOR_TIMEOUT"],
+                        "stateVersion": 1,
+                        "experimentVersion": "cognitive_v1"
+                      },
+                      {
+                        "path": "cognitive",
+                        "stage": "STEREOTYPE_CAPTURE",
+                        "attempt": 2,
+                        "outcome": "fallback",
+                        "violations": ["GENERATOR_TIMEOUT"],
+                        "stateVersion": 1,
+                        "experimentVersion": "cognitive_v1"
+                      }
+                    ]
+                  },
+                  "error_code": "MODEL_GENERATION_FAILED",
+                  "status": "failed",
+                  "created_at": "2026-10-11T11:40:46.232Z"
+                }
+              ],
+              "model_run_log": [
+                {
+                  "id": "5e674445-7150-4418-bb0d-915b3ba6a636",
+                  "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+                  "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+                  "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+                  "provider": "mock",
+                  "model_name": "synthetic-service-model",
+                  "prompt_version_id": "7b11fd96-4bb8-44c7-b58d-026f11b704df",
+                  "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+                  "validator_version": "stage-language-v3",
+                  "code_commit": "development",
+                  "temperature": "0.2",
+                  "max_tokens": 512,
+                  "latency_ms": "21.291298000000097",
+                  "retry_count": 1,
+                  "fallback_count": 1,
+                  "token_usage": null,
+                  "validator_result": {
+                    "status": "fallback",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "auditEvents": [
+                      {
+                        "path": "cognitive",
+                        "type": "MODEL_GENERATION_FAILED",
+                        "stage": "STEREOTYPE_CAPTURE",
+                        "attempt": 1,
+                        "outcome": "rejected",
+                        "violations": ["GENERATOR_TIMEOUT"],
+                        "stateVersion": 1,
+                        "experimentVersion": "cognitive_v1"
+                      },
+                      {
+                        "path": "cognitive",
+                        "type": "MODEL_GENERATION_FAILED",
+                        "stage": "STEREOTYPE_CAPTURE",
+                        "attempt": 2,
+                        "outcome": "rejected",
+                        "violations": ["GENERATOR_TIMEOUT"],
+                        "stateVersion": 1,
+                        "experimentVersion": "cognitive_v1"
+                      },
+                      {
+                        "path": "cognitive",
+                        "stage": "STEREOTYPE_CAPTURE",
+                        "attempt": 2,
+                        "outcome": "fallback",
+                        "violations": ["GENERATOR_TIMEOUT"],
+                        "stateVersion": 1,
+                        "experimentVersion": "cognitive_v1"
+                      }
+                    ]
+                  },
+                  "error_code": "MODEL_GENERATION_FAILED",
+                  "status": "failed",
+                  "created_at": "2026-10-11T11:40:46.232Z"
+                }
+              ]
+            }
+          ],
+          "data_quality": {
+            "scope": "all experiment rows in this snapshot",
+            "passed": true,
+            "checks": {
+              "sessions_without_state": 0,
+              "messages_without_state": 0,
+              "state_event_mismatch": 0,
+              "transition_chain_gaps": 0,
+              "variables_without_valid_source": 0,
+              "turn_slot_mismatch": 0,
+              "ready_turn_without_reply": 0,
+              "ready_turn_without_model_log": 0
+            }
+          }
+        },
+        "diagnostics": {
+          "read_only": true,
+          "per_table_limit": 1000,
+          "complete": false,
+          "states": [
+            {
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "assignment_id": "d860a036-5a8f-4e35-9f50-baebde0718d2",
+              "status": "open",
+              "chat_revision": 1,
+              "stage": "STEREOTYPE_CAPTURE",
+              "core_version": 1,
+              "snapshot": {
+                "path": "cognitive",
+                "stage": "STEREOTYPE_CAPTURE",
+                "version": 1,
+                "receipts": [
+                  {
+                    "id": "assignment-start",
+                    "data": {},
+                    "type": "EXPERIMENT_STARTED",
+                    "experimentVersion": "cognitive_v1",
+                    "expectedStateVersion": 0
+                  }
+                ],
+                "lifecycle": "active",
+                "variables": {},
+                "experimentVersion": "cognitive_v1",
+                "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+              }
+            }
+          ],
+          "events": [
+            {
+              "id": "117b0148-41db-4581-bc5d-0e2dc115c18b",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "core_event_id": "assignment-start",
+              "event": "EXPERIMENT_STARTED",
+              "previous_state": "INIT",
+              "current_state": "STEREOTYPE_CAPTURE",
+              "from_version": 0,
+              "to_version": 1,
+              "actor_type": "backend",
+              "actor_id": "synthetic-live-acceptance",
+              "validated_payload": {},
+              "receipt": {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              "created_at": "2026-10-11T11:40:46.148Z"
+            }
+          ],
+          "variables": [],
+          "model_runs": [
+            {
+              "id": "5e674445-7150-4418-bb0d-915b3ba6a636",
+              "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+              "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+              "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+              "provider": "mock",
+              "model_name": "synthetic-service-model",
+              "prompt_version_id": "7b11fd96-4bb8-44c7-b58d-026f11b704df",
+              "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+              "validator_version": "stage-language-v3",
+              "code_commit": "development",
+              "temperature": "0.2",
+              "max_tokens": 512,
+              "latency_ms": "21.291298000000097",
+              "retry_count": 1,
+              "fallback_count": 1,
+              "token_usage": null,
+              "validator_result": {
+                "status": "fallback",
+                "violations": ["GENERATOR_TIMEOUT"],
+                "auditEvents": [
+                  {
+                    "path": "cognitive",
+                    "type": "MODEL_GENERATION_FAILED",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 1,
+                    "outcome": "rejected",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  },
+                  {
+                    "path": "cognitive",
+                    "type": "MODEL_GENERATION_FAILED",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 2,
+                    "outcome": "rejected",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  },
+                  {
+                    "path": "cognitive",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 2,
+                    "outcome": "fallback",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  }
+                ]
+              },
+              "error_code": "MODEL_GENERATION_FAILED",
+              "status": "failed",
+              "created_at": "2026-10-11T11:40:46.232Z"
+            }
+          ],
+          "debug_log": [
+            {
+              "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+              "request_id": "message-0-0",
+              "participant_id": "5401f7df-1ad5-45a1-9190-52e19135913e",
+              "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+              "conversation_id": "64c81487-7fc1-4d4d-8bb0-49a836fc156d",
+              "turn_status": "failed",
+              "state_before": "STEREOTYPE_CAPTURE",
+              "state_after": "STEREOTYPE_CAPTURE",
+              "event": null,
+              "accepted_core_version": 1,
+              "model_run_id": "5e674445-7150-4418-bb0d-915b3ba6a636",
+              "model_name": "synthetic-service-model",
+              "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+              "response_latency": "21.291298000000097",
+              "validator_result": {
+                "status": "fallback",
+                "violations": ["GENERATOR_TIMEOUT"],
+                "auditEvents": [
+                  {
+                    "path": "cognitive",
+                    "type": "MODEL_GENERATION_FAILED",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 1,
+                    "outcome": "rejected",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  },
+                  {
+                    "path": "cognitive",
+                    "type": "MODEL_GENERATION_FAILED",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 2,
+                    "outcome": "rejected",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  },
+                  {
+                    "path": "cognitive",
+                    "stage": "STEREOTYPE_CAPTURE",
+                    "attempt": 2,
+                    "outcome": "fallback",
+                    "violations": ["GENERATOR_TIMEOUT"],
+                    "stateVersion": 1,
+                    "experimentVersion": "cognitive_v1"
+                  }
+                ]
+              },
+              "fallback_count": 1,
+              "model_status": "failed",
+              "error_code": "MODEL_GENERATION_FAILED",
+              "logged_at": "2026-10-11T11:40:46.232Z"
+            }
+          ],
+          "event_log": [
+            {
+              "transition_id": "117b0148-41db-4581-bc5d-0e2dc115c18b",
+              "request_id": null,
+              "participant_id": "5401f7df-1ad5-45a1-9190-52e19135913e",
+              "experiment_id": "45428760-684b-4345-a31f-7ceb249744cd",
+              "conversation_id": "64c81487-7fc1-4d4d-8bb0-49a836fc156d",
+              "state_before": "INIT",
+              "state_after": "STEREOTYPE_CAPTURE",
+              "event": "EXPERIMENT_STARTED",
+              "from_version": 0,
+              "to_version": 1,
+              "model_name": null,
+              "prompt_version": null,
+              "response_latency": null,
+              "validator_result": null,
+              "fallback_count": null,
+              "logged_at": "2026-10-11T11:40:46.148Z"
+            }
+          ],
+          "data_quality": {
+            "scope": "all experiment rows in this snapshot",
+            "passed": true,
+            "checks": {
+              "sessions_without_state": 0,
+              "messages_without_state": 0,
+              "state_event_mismatch": 0,
+              "transition_chain_gaps": 0,
+              "variables_without_valid_source": 0,
+              "turn_slot_mismatch": 0,
+              "ready_turn_without_reply": 0,
+              "ready_turn_without_model_log": 0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "format": "real-model-semantic-review-v1",
+  "scope": "local-fixture",
+  "source_status": "provider_or_flow_failed",
+  "external_model_calls": 0,
+  "missing_variables": [],
+  "semantic_review": "pending_researcher_review",
+  "problem_type_options": ["流程错误", "状态错误", "语言问题", "指代问题", "重复问题", "数据问题"],
+  "row_count": 1,
+  "rows": [
+    {
+      "test_id": "cognitive_v1:1041a261-03a4-48da-90ac-68fafe57ee36",
+      "path": "cognitive_v1",
+      "stage": "STEREOTYPE_CAPTURE",
+      "session_id": "fa27b7ef-d907-40cb-9ec8-7fa619c42776",
+      "turn_id": "1041a261-03a4-48da-90ac-68fafe57ee36",
+      "user_message_id": "ba5f5e38-ddbf-418d-97d8-399ba5b792c5",
+      "assistant_message_id": "7a11000a-9cbc-4be0-bdea-a28196578770",
+      "input": "这是合成参与者的当前阶段回应，请自然回应。",
+      "expected_behavior": "仅回应当前 STEREOTYPE_CAPTURE；围绕明确用户观点，不替换观点、不暗示评分、不跳评分或四重构；表达、逻辑和指代清楚。",
+      "model_output": null,
+      "reply_status": "failed",
+      "model_run_id": "5e674445-7150-4418-bb0d-915b3ba6a636",
+      "model": {
+        "model_name": "synthetic-service-model",
+        "provider": "mock",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "21.291298000000097",
+        "retry_count": 1,
+        "validator_result": {
+          "status": "fallback",
+          "violations": ["GENERATOR_TIMEOUT"],
+          "auditEvents": [
+            {
+              "path": "cognitive",
+              "type": "MODEL_GENERATION_FAILED",
+              "stage": "STEREOTYPE_CAPTURE",
+              "attempt": 1,
+              "outcome": "rejected",
+              "violations": ["GENERATOR_TIMEOUT"],
+              "stateVersion": 1,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "type": "MODEL_GENERATION_FAILED",
+              "stage": "STEREOTYPE_CAPTURE",
+              "attempt": 2,
+              "outcome": "rejected",
+              "violations": ["GENERATOR_TIMEOUT"],
+              "stateVersion": 1,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "STEREOTYPE_CAPTURE",
+              "attempt": 2,
+              "outcome": "fallback",
+              "violations": ["GENERATOR_TIMEOUT"],
+              "stateVersion": 1,
+              "experimentVersion": "cognitive_v1"
+            }
+          ]
+        },
+        "fallback_count": 1,
+        "error_code": "MODEL_GENERATION_FAILED",
+        "status": "failed",
+        "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd"
+      },
+      "final_research_variables": [],
+      "engineering_observation": {
+        "state_unchanged": true,
+        "variables_unchanged": true,
+        "events_unchanged": true
+      },
+      "passed": null,
+      "review_status": "pending_researcher_review",
+      "problem_types": [],
+      "fix_proposal": null,
+      "reviewer": null,
+      "reviewed_at": null
+    }
+  ],
+  "pilot_ready": false,
+  "formal_ready": false,
+  "note": "Extraction trusts the source scope label; it is not proof of provider calls or a semantic verdict. Final research variables are post-flow context, not the prompt seen by the model. No discarded candidate text is reconstructed."
+}

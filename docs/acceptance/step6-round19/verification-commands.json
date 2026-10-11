@@ -1,0 +1,55 @@
+{
+  "round": 19,
+  "commands": [
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run lint",
+      "exit_code": 0
+    },
+    {
+      "command": "npm ls --depth=0 --json",
+      "exit_code": 0,
+      "evidence": "dependency-tree.json"
+    },
+    {
+      "command": "node --use-env-proxy --import tsx apps/api/acceptance/live-business-e2e.ts docs/acceptance/step6-round19/real-model-business-report.json",
+      "status": "not_run",
+      "exit_code": 2,
+      "external_model_calls": 0,
+      "database_started": false
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round19 npm test -- --reporter=json --outputFile=docs/acceptance/step6-round19/test-results.json",
+      "exit_code": 0,
+      "passed": 417,
+      "evidence": "test-results.json"
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round19 BROWSER_REPORT_PATH=docs/acceptance/step6-round19/browser-results.json npm run test:browser",
+      "exit_code": 0,
+      "passed": 15,
+      "evidence": "browser-results.json"
+    },
+    {
+      "command": "npm run review:real-model (real not_run + four explicit fixtures)",
+      "exit_code": 0,
+      "evidence": "review-tool-results.json"
+    },
+    {
+      "command": "npm run check",
+      "status": "passed",
+      "exit_code": 0,
+      "checks": [
+        "typecheck",
+        "lint",
+        "format:check",
+        "417 Vitest tests",
+        "workspace builds",
+        "15 Playwright tests"
+      ]
+    }
+  ]
+}

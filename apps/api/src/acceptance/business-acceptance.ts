@@ -267,6 +267,11 @@ export async function runBusinessAcceptance(
             calls === callsBefore + Number(after.runs.at(-1)?.retry_count ?? 0) + 1;
           observations.push({
             request_id: input.request_id,
+            turn_id: reply.turn_id,
+            session_id: after.states[0].session_id,
+            stage: before.states[0].stage,
+            user_message_id: after.messages.at(-2)?.id,
+            assistant_message_id: after.messages.at(-1)?.id,
             state_unchanged: stateUnchanged,
             variables_unchanged: variablesUnchanged,
             events_unchanged: transitionsUnchanged,

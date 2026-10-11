@@ -37,7 +37,8 @@
     "db:migrate": "npm run migrate --workspace @research/database --",
     "test:database": "npm run build:packages && vitest run packages/database/tests",
     "test:browser": "npm run build:packages && playwright test",
-    "live:business:e2e": "npm run build:packages && node --use-env-proxy --import tsx apps/api/acceptance/live-business-e2e.ts"
+    "live:business:e2e": "npm run build:packages && node --use-env-proxy --import tsx apps/api/acceptance/live-business-e2e.ts",
+    "review:real-model": "node --import tsx apps/api/acceptance/semantic-review.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
