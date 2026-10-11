@@ -137,7 +137,7 @@ describe('generation and bounded fallback', () => {
   });
 
   it.each(['', cognitiveReply, '进入下一阶段。', '本实验旨在测试反应。'])(
-    'recovers from empty, repeated or invalid response %# with one generator call',
+    'recovers from empty, repeated or invalid response %# with bounded regeneration',
     async (reply) => {
       const r = request();
       const updated = {
@@ -148,7 +148,7 @@ describe('generation and bounded fallback', () => {
       };
       const generate = vi.fn(async () => reply);
       const result = await orchestrate(updated, { generate });
-      expect(generate).toHaveBeenCalledTimes(1);
+      expect(generate).toHaveBeenCalledTimes(2);
       expect(result.status).toBe('fallback');
       expect(result.stage).toBe(r.state.stage);
       expect(result.text).toContain('已确认观点示例');
@@ -164,7 +164,7 @@ describe('generation and bounded fallback', () => {
     expect(result.status).toBe('fallback');
     expect(result.violations).toEqual(['GENERATOR_FAILURE']);
     expect(JSON.stringify(result)).not.toContain('PRIVATE_PROVIDER_ERROR');
-    expect(generate).toHaveBeenCalledTimes(1);
+    expect(generate).toHaveBeenCalledTimes(2);
   });
 
   it('selects another approved fallback when the first is a repeated reply', async () => {
@@ -201,7 +201,7 @@ describe('generation and bounded fallback', () => {
     const result = await orchestrate(used, { generate });
     expect(result.status).toBe('blocked');
     expect(result.text).toBeNull();
-    expect(generate).toHaveBeenCalledTimes(1);
+    expect(generate).toHaveBeenCalledTimes(2);
   });
 
   it('validates fallback texts and blocks when all configured replies violate rules', async () => {

@@ -29,6 +29,9 @@ export interface StagePolicy {
     readonly id: string;
     readonly description: string;
     readonly fixedTransition: string;
+    readonly scene_state: string;
+    readonly scene_phase: string;
+    readonly allowed_actions: readonly string[];
   };
   readonly forbiddenPurpose: readonly string[];
   readonly forbiddenJumps: readonly string[];
@@ -87,7 +90,9 @@ export type ViolationCode =
   | 'CURRENT_STAGE_RESTRICTION'
   | 'BELIEF_ANCHOR_MISSING'
   | 'BELIEF_REPLACEMENT'
-  | 'GENERATOR_FAILURE';
+  | 'GENERATOR_FAILURE'
+  | 'CONTROL_INSTRUCTION'
+  | 'BACKEND_DISCLOSURE';
 export interface ResponseValidation {
   readonly valid: boolean;
   readonly violations: readonly ViolationCode[];
@@ -100,4 +105,23 @@ export interface OrchestrationResult {
   readonly stateVersion: number;
   readonly violations: readonly ViolationCode[];
   readonly prompt: PromptBundle;
+  readonly attempts: number;
+  readonly auditEvents: readonly AuditEvent[];
+  readonly auditDelivery: 'returned' | 'delivered' | 'failed';
+}
+
+/** Metadata only; no participant input, belief, prompt or provider error. */
+export interface AuditEvent {
+  readonly path: ExperimentPath;
+  readonly stage: string;
+  readonly experimentVersion: string;
+  readonly stateVersion: number;
+  readonly attempt: number;
+  readonly outcome: 'rejected' | 'regenerated' | 'fallback' | 'blocked';
+  readonly violations: readonly ViolationCode[];
+}
+export interface OrchestrationOptions {
+  /** Total generation attempts, including the first; bounded to 1–3. Default 2. */
+  readonly maxAttempts?: number;
+  readonly auditSink?: (event: AuditEvent) => void | Promise<void>;
 }

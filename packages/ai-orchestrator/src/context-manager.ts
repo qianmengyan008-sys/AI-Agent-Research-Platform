@@ -21,9 +21,12 @@ function checkPolicy(policy: StagePolicy): void {
     !record(policy) ||
     !isText(policy.roleDescription) ||
     !isText(policy.goal) ||
+    policy.roleDescription.length > 1000 ||
+    policy.goal.length > 1000 ||
     typeof policy.requiresConfirmedBelief !== 'boolean' ||
     !Array.isArray(policy.variableKeys) ||
     !policy.variableKeys.every(isText) ||
+    policy.variableKeys.length > 10 ||
     !list(policy.forbiddenPurpose) ||
     !list(policy.forbiddenJumps) ||
     !list(policy.forbiddenScenes) ||
@@ -39,7 +42,20 @@ function checkPolicy(policy: StagePolicy): void {
     policy.scene &&
     (!isText(policy.scene.id) ||
       !isText(policy.scene.description) ||
-      !isText(policy.scene.fixedTransition))
+      !isText(policy.scene.fixedTransition) ||
+      !isText(policy.scene.scene_state) ||
+      !isText(policy.scene.scene_phase) ||
+      !list(policy.scene.allowed_actions) ||
+      policy.scene.allowed_actions.length === 0 ||
+      policy.scene.allowed_actions.length > 10 ||
+      [
+        policy.scene.id,
+        policy.scene.description,
+        policy.scene.fixedTransition,
+        policy.scene.scene_state,
+        policy.scene.scene_phase,
+        ...policy.scene.allowed_actions,
+      ].some((value) => value.length > 1000))
   )
     throw new Error('Invalid scene');
 }
@@ -170,6 +186,10 @@ export function createContext(request: OrchestrationRequest): GenerationContext 
   }
   const keyVariables: Record<string, Scalar | null> = {};
   for (const key of policy.variableKeys) {
+    if (state.path === 'cognitive')
+      throw new Error(
+        'Cognitive variables are exposed only through the protected belief projection',
+      );
     if (['__proto__', 'constructor', 'prototype'].includes(key))
       throw new Error('Unsafe variable key');
     const value = state.variables[key];

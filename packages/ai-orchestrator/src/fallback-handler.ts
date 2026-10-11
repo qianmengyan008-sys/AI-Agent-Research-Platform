@@ -1,7 +1,7 @@
 import { validateResponse } from './response-validator.js';
 import type { GenerationContext } from './types.js';
 
-/** Never call a model for recovery; approved replies must pass the same validator. */
+/** Local recovery after bounded regeneration; every template passes the same validator. */
 export function fallbackReply(context: GenerationContext): string | null {
   for (const template of context.policy.fallbackReplies) {
     const reply = template.replaceAll(

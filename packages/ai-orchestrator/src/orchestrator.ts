@@ -7,32 +7,98 @@ import type {
   LanguageGenerator,
   OrchestrationRequest,
   OrchestrationResult,
-  ResponseValidation,
+  OrchestrationOptions,
+  AuditEvent,
+  ViolationCode,
 } from './types.js';
 
 export async function orchestrate(
   request: OrchestrationRequest,
   generator: LanguageGenerator,
+  options: OrchestrationOptions = {},
 ): Promise<OrchestrationResult> {
+  const maxAttempts = options.maxAttempts ?? 2;
+  if (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 3)
+    throw new Error('maxAttempts must be an integer from 1 to 3');
   const context = createContext(request);
   const prompt = buildPrompt(context);
-  let reply: unknown;
-  let validation: ResponseValidation;
-  try {
-    reply = await generator.generate(prompt);
-    validation = validateResponse(reply, context);
-  } catch {
-    validation = { valid: false, violations: ['GENERATOR_FAILURE'] };
+  const violations = new Set<ViolationCode>();
+  const auditEvents: AuditEvent[] = [];
+  let auditDelivery: OrchestrationResult['auditDelivery'] = options.auditSink
+    ? 'delivered'
+    : 'returned';
+  let text: string | null = null;
+  let status: OrchestrationResult['status'] = 'blocked';
+  let attempts = 0;
+  async function audit(outcome: AuditEvent['outcome'], reasons: readonly ViolationCode[]) {
+    const event = freeze({
+      path: context.path,
+      stage: context.stage,
+      experimentVersion: context.experimentVersion,
+      stateVersion: context.stateVersion,
+      attempt: attempts,
+      outcome,
+      violations: [...reasons],
+    });
+    auditEvents.push(event);
+    if (options.auditSink) {
+      try {
+        await options.auditSink(event);
+      } catch {
+        auditDelivery = 'failed';
+      }
+    }
   }
-  const text = validation.valid ? (reply as string) : fallbackReply(context);
+  while (attempts < maxAttempts) {
+    attempts += 1;
+    let reply: unknown;
+    let reasons: readonly ViolationCode[];
+    try {
+      // No raw invalid output or future-stage list is fed back to the generator.
+      const attemptPrompt =
+        attempts === 1
+          ? prompt
+          : freeze({
+              ...prompt,
+              messages: [
+                ...prompt.messages,
+                {
+                  role: 'system' as const,
+                  content:
+                    '重新生成当前任务的自然回复。严格遵守既有规则、确认观点和当前场景，不重复已给出的回复。',
+                },
+              ],
+            });
+      reply = await generator.generate(attemptPrompt);
+      reasons = validateResponse(reply, context).violations;
+    } catch {
+      reasons = ['GENERATOR_FAILURE'];
+    }
+    if (reasons.length === 0) {
+      text = reply as string;
+      status = 'generated';
+      if (attempts > 1) await audit('regenerated', []);
+      break;
+    }
+    for (const reason of reasons) violations.add(reason);
+    await audit('rejected', reasons);
+  }
+  if (status !== 'generated') {
+    text = fallbackReply(context);
+    status = text === null ? 'blocked' : 'fallback';
+    await audit(status, [...violations]);
+  }
   return freeze({
-    status: validation.valid ? 'generated' : text === null ? 'blocked' : 'fallback',
+    status,
     text,
     stage: context.stage,
     experimentVersion: context.experimentVersion,
     stateVersion: context.stateVersion,
-    violations: validation.violations,
+    violations: [...violations],
     prompt,
+    attempts,
+    auditEvents,
+    auditDelivery,
   });
 }
 

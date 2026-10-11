@@ -34,12 +34,12 @@ export function demoPolicy(definition: ExperimentDefinition, stage: string): Sta
   const emotional = definition.path === 'emotional';
   const fallbackReplies = requiresConfirmedBelief
     ? [
-        '你确认的观点是“{{confirmed_belief}}”。我们继续围绕这一观点交流：你愿意补充当前问题的想法吗？',
-        '我们仍以“{{confirmed_belief}}”为讨论对象。请说说你对当前问题还有哪些看法。',
+        '你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？',
+        '听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？',
       ]
     : [
-        '我们继续当前话题。你愿意补充一下自己的想法吗？',
-        '我会围绕当前问题回应。你想进一步说明哪一点？',
+        '听起来这对你有些意义。你愿意多说一点吗？',
+        '我在听。刚才提到的内容里，哪一点让你印象最深？',
       ];
   return freeze({
     path: definition.path,
@@ -55,6 +55,9 @@ export function demoPolicy(definition: ExperimentDefinition, stage: string): Sta
             id: `demo-library-${stage}`,
             description: '演示场景：图书馆内共同整理图书，仅用于工程验证。',
             fixedTransition: '继续当前图书馆场景，不自行转场。',
+            scene_state: 'library',
+            scene_phase: stage.toLowerCase(),
+            allowed_actions: ['描述当前图书馆情境', '回应当前任务相关交流'],
           },
         }
       : {}),
