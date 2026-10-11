@@ -57,3 +57,13 @@ export interface AdminMessage {
   status: string;
   created_at: string;
 }
+
+/** Internal read-only diagnostics; must never be consumed by participant routes. */
+export interface AdminDevelopment {
+  read_only: true;
+  complete: false;
+  states: Record<string, unknown>[];
+  events: Record<string, unknown>[];
+  variables: Record<string, unknown>[];
+  model_runs: Record<string, unknown>[];
+}

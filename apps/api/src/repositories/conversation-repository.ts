@@ -193,26 +193,26 @@ export class ConversationRepository {
     ).rows;
     const assignments = (
       await this.db.query(
-        `SELECT a.id,a.participant_id,a.template_version_id,a.condition_id,a.created_at,c.agent_version_id,c.state_machine_version_id,av.personality_version AS agent_version,sm.core_experiment_version AS state_machine_version,t.version AS template_version,t.configuration->'model' AS model_settings FROM research.experiment_assignment a JOIN research.condition c ON c.id=a.condition_id JOIN research.agent_version av ON av.id=c.agent_version_id JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id JOIN research.template_version t ON t.id=a.template_version_id WHERE a.experiment_id=$1 ORDER BY a.id LIMIT 1000`,
+        `SELECT a.id,a.participant_id,a.template_version_id,a.condition_id,a.created_at,c.code AS condition,sm.path_type,av.configuration AS agent_configuration,c.agent_version_id,c.state_machine_version_id,av.personality_version AS agent_version,sm.core_experiment_version AS state_machine_version,t.version AS template_version,t.configuration->'model' AS model_settings FROM research.experiment_assignment a JOIN research.condition c ON c.id=a.condition_id JOIN research.agent_version av ON av.id=c.agent_version_id JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id JOIN research.template_version t ON t.id=a.template_version_id WHERE a.experiment_id=$1 ORDER BY a.id LIMIT 1000`,
         [experiment],
       )
     ).rows;
     const messages = await this.adminMessages(experiment);
     const transitions = (
       await this.db.query(
-        'SELECT t.* FROM research.state_transition t JOIN research.experiment_session s ON s.id=t.session_id WHERE s.experiment_id=$1 ORDER BY t.created_at LIMIT 1000',
+        'SELECT t.* FROM research.state_transition t JOIN research.experiment_session s ON s.id=t.session_id WHERE s.experiment_id=$1 ORDER BY t.session_id,t.to_version LIMIT 1000',
         [experiment],
       )
     ).rows;
     const variables = (
       await this.db.query(
-        'SELECT v.* FROM research.experiment_variable v JOIN research.experiment_session s ON s.id=v.session_id WHERE s.experiment_id=$1 ORDER BY v.created_at LIMIT 1000',
+        'SELECT v.* FROM research.experiment_variable v JOIN research.experiment_session s ON s.id=v.session_id WHERE s.experiment_id=$1 ORDER BY v.session_id,v.key,v.revision LIMIT 1000',
         [experiment],
       )
     ).rows;
     const runs = (
       await this.db.query(
-        'SELECT r.* FROM research.model_run_log r WHERE r.experiment_id=$1 ORDER BY r.created_at LIMIT 1000',
+        'SELECT r.* FROM research.model_run_log r WHERE r.experiment_id=$1 ORDER BY r.created_at,r.id LIMIT 1000',
         [experiment],
       )
     ).rows;

@@ -41,7 +41,7 @@ let pool: pg.Pool,
 let failModel = false,
   releaseModel: (() => void) | undefined;
 const traces: BusinessTrace[] = [];
-const artifacts = process.env.ROUND13_ACCEPTANCE_DIR;
+const artifacts = process.env.RESEARCH_ACCEPTANCE_DIR ?? process.env.ROUND13_ACCEPTANCE_DIR;
 test.beforeAll(async () => {
   test.setTimeout(60000);
   execFileSync(
@@ -119,10 +119,11 @@ test.beforeAll(async () => {
     settings,
     (entry) => traces.push(entry),
   );
-  apiServer = createApp(services, createHash('sha256').update(adminToken).digest('hex')).listen(
-    0,
-    '127.0.0.1',
-  );
+  apiServer = createApp(
+    services,
+    createHash('sha256').update(adminToken).digest('hex'),
+    true,
+  ).listen(0, '127.0.0.1');
   await new Promise<void>((resolve) => apiServer.once('listening', resolve));
   const address = apiServer.address();
   if (!address || typeof address === 'string') throw new Error('No API address');
@@ -442,4 +443,123 @@ test('login errors are readable and a participant credential cannot open the adm
   await page.getByRole('button', { name: '进入后台', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('登录信息无效');
   expect(await page.getByLabel('选择实验', { exact: true }).count()).toBe(0);
+});
+
+test('administrator explicitly opens read-only development data while participant views remain private', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  await page.getByLabel('发送消息', { exact: true }).fill('开发模式合成消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('谢谢分享');
+  await page.getByLabel('当前回答', { exact: true }).fill('开发模式明确表达');
+  await page.getByLabel('表达来源（选填）', { exact: true }).fill('开发模式明确来源');
+  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
+  await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
+  await expect(page.getByLabel('开发模式（仅管理员）', { exact: true })).not.toBeChecked();
+  expect(await page.getByLabel('管理员开发数据', { exact: true }).count()).toBe(0);
+  await page.getByLabel('开发模式（仅管理员）', { exact: true }).check();
+  await expect(page.getByLabel('管理员开发数据', { exact: true })).toContainText(
+    'STEREOTYPE_SUBMITTED',
+  );
+  await expect(page.getByLabel('管理员开发数据', { exact: true })).toContainText('model_name');
+  await expect(page.getByLabel('管理员开发数据', { exact: true })).toContainText(
+    '开发模式明确来源',
+  );
+  await screenshot(page, 'admin-development');
+  await page.getByRole('button', { name: '参与者入口', exact: true }).click();
+  await login(page, s);
+  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+  expect(await page.getByLabel('管理员开发数据', { exact: true }).count()).toBe(0);
+  expect(await page.locator('body').innerText()).not.toMatch(
+    /VIEWPOINT_CONFIRMATION|STEREOTYPE_SUBMITTED|validator|prompt_version|model_name/,
+  );
+  await saveRecords(s, 'browser-development-records');
+});
+
+test('a definitive stale-state rejection releases message retry and refresh resumes the database state', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  const auth = await services.participants.login({
+    experiment_id: s.experimentId,
+    participant_code: s.code,
+    password,
+  });
+  const identity = await services.participants.authenticate(auth.token);
+  const state = await services.participants.current(identity);
+  await services.participants.submit(identity, {
+    request_id: 'other-tab-submit',
+    state_token: state.state_token,
+    data: { response: '另一标签页明确提交', source: '已保存来源' },
+  });
+  await page.getByLabel('发送消息', { exact: true }).fill('旧状态消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('冲突');
+  expect(await page.getByRole('button', { name: '重试同一消息', exact: true }).count()).toBe(0);
+  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
+  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+  await page.getByLabel('发送消息', { exact: true }).fill('刷新后新消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('刷新后新消息');
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.states[0].core_version).toBe(2);
+  expect(data.messages).toHaveLength(2);
+  expect(data.variables.find((v) => v.key === 'source').value).toBe('已保存来源');
+});
+
+test('rapid duplicate clicks create one user and one assistant message in sequence', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  releaseModel = () => {};
+  await page.getByLabel('发送消息', { exact: true }).fill('双击消息');
+  await page.getByRole('button', { name: '发送', exact: true }).dblclick();
+  await expect(page.getByText('正在处理，请稍候。', { exact: true })).toBeVisible();
+  for (let n = 0; n < 100 && calls === 0; n++) await new Promise((r) => setTimeout(r, 10));
+  releaseModel!();
+  releaseModel = undefined;
+  await expect(page.getByRole('log')).toContainText('谢谢分享');
+  expect(calls).toBe(1);
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.messages.map((m) => m.role)).toEqual(['user', 'assistant']);
+  expect(data.messages.map((m) => m.sequence)).toEqual([1, 2]);
+  expect(data.transitions).toHaveLength(1);
+});
+
+test('model failure and browser reload preserve advanced state and previously saved source', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  await page.getByLabel('当前回答', { exact: true }).fill('恢复用明确表达');
+  await page.getByLabel('表达来源（选填）', { exact: true }).fill('恢复用来源');
+  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+  failModel = true;
+  await page.getByLabel('发送消息', { exact: true }).fill('恢复用失败消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(
+    page.getByText('回复未能生成，请重新发送或联系研究人员。', { exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await login(page, s);
+  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
+  await expect(page.getByRole('log')).toContainText('恢复用失败消息');
+  failModel = false;
+  await page.getByLabel('发送消息', { exact: true }).fill('恢复后消息');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('谢谢分享');
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.states[0].core_version).toBe(2);
+  expect(data.variables.find((v) => v.key === 'source').value).toBe('恢复用来源');
+  expect(data.transitions).toHaveLength(2);
+  await saveRecords(s, 'browser-recovery-records');
 });

@@ -10,7 +10,7 @@ Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分�
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第十三轮反馈与本轮验收成果](docs/thirteenth-round-feedback.md) · [Word 反馈](docs/thirteenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round13/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第十四轮反馈与本轮验收成果](docs/fourteenth-round-feedback.md) · [Word 反馈](docs/fourteenth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round14/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -75,7 +75,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 380 项、Playwright 8 项全部通过，共 388 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 384 项、Playwright 12 项全部通过，共 396 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -129,3 +129,5 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 ## Step 6.3 最小页面与浏览器联调
 
 [第十三轮九项联调材料](docs/step6-3-frontend-integration.md)。参与者凭据仅保存在页面内存，刷新后重新登录恢复数据库实验。管理员界面只读，无运行中状态干预。npm run test:browser 单独运行真实 Chromium、Vite、Express、临时 PostgreSQL 链路，模型为合成 MockAdapter。三张真实页面 PNG 包含在验收目录和项目 ZIP 中。
+
+[第十四轮完整闭环与分析导出](docs/step6-round14-usability.md)：新增按参与者关联的 analysis_rows，以及默认关闭、管理员专用的只读开发模式（ADMIN_DEVELOPMENT_MODE=false）。正式全量导出和真实模型验收仍未完成。

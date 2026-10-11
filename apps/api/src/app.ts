@@ -5,7 +5,7 @@ import { ServiceError } from './services/common.js';
 import { businessRoutes } from './controllers/routes.js';
 import type { HealthResponse } from '@research/contracts';
 
-export function createApp(services?: Services, adminTokenHash?: string) {
+export function createApp(services?: Services, adminTokenHash?: string, developmentMode = false) {
   if (adminTokenHash !== undefined && !/^[a-f0-9]{64}$/.test(adminTokenHash))
     throw new Error('ADMIN_ACCESS_TOKEN_HASH must be a SHA-256 digest');
   const app = express();
@@ -20,7 +20,7 @@ export function createApp(services?: Services, adminTokenHash?: string) {
   });
   if (services) {
     app.use(express.json({ limit: '64kb' }));
-    app.use('/api', businessRoutes(services, adminTokenHash));
+    app.use('/api', businessRoutes(services, adminTokenHash, developmentMode));
   }
   const errors: ErrorRequestHandler = (error: unknown, _req, res, _next) => {
     void _next;

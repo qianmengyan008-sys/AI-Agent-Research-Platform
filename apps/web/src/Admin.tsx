@@ -1,5 +1,10 @@
-import { useState } from 'react';
-import type { AdminExperiment, AdminMessage, AdminParticipant } from '@research/contracts';
+import { useRef, useState } from 'react';
+import type {
+  AdminDevelopment,
+  AdminExperiment,
+  AdminMessage,
+  AdminParticipant,
+} from '@research/contracts';
 import { api, ApiError, errorText } from './api';
 export function Admin() {
   const [token, setToken] = useState('');
@@ -9,8 +14,13 @@ export function Admin() {
   const [messages, setMessages] = useState<AdminMessage[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const running = useRef(false);
+  const [developmentAllowed, setDevelopmentAllowed] = useState(false);
+  const [development, setDevelopment] = useState(false);
+  const [diagnostics, setDiagnostics] = useState<AdminDevelopment | null>(null);
   async function work(fn: () => Promise<void>) {
-    if (busy) return;
+    if (running.current) return;
+    running.current = true;
     setBusy(true);
     setError('');
     try {
@@ -19,17 +29,22 @@ export function Admin() {
       setError(errorText(e));
       if (e instanceof ApiError && e.status === 401) {
         setToken('');
+        setDiagnostics(null);
+        setDevelopment(false);
+        setExperiment('');
         setExperiments([]);
         setParticipants([]);
         setMessages([]);
       }
     } finally {
+      running.current = false;
       setBusy(false);
     }
   }
   async function load(id: string) {
     setParticipants([]);
     setMessages([]);
+    setDiagnostics(null);
     if (!id) return;
     const [p, m] = await Promise.all([
       api<AdminParticipant[]>(`/admin/participants?experiment_id=${id}`, token),
@@ -37,6 +52,8 @@ export function Admin() {
     ]);
     setParticipants(p);
     setMessages(m);
+    if (development && developmentAllowed)
+      setDiagnostics(await api<AdminDevelopment>(`/admin/development?experiment_id=${id}`, token));
   }
   return (
     <section aria-labelledby="admin-title">
@@ -48,7 +65,13 @@ export function Admin() {
             e.preventDefault();
             const value = String(new FormData(e.currentTarget).get('credential'));
             void work(async () => {
-              const list = await api<AdminExperiment[]>('/admin/experiments', value);
+              const [list, capabilities] = await Promise.all([
+                api<AdminExperiment[]>('/admin/experiments', value),
+                api<{ development_mode: boolean }>('/admin/capabilities', value),
+              ]);
+              setDevelopmentAllowed(capabilities.development_mode);
+              setDevelopment(false);
+              setDiagnostics(null);
               setExperiments(list);
               setToken(value);
             });
@@ -89,6 +112,8 @@ export function Admin() {
               disabled={busy}
               onClick={() => {
                 setToken('');
+                setDevelopment(false);
+                setDiagnostics(null);
                 setExperiment('');
                 setExperiments([]);
                 setParticipants([]);
@@ -149,6 +174,43 @@ export function Admin() {
                   </p>
                 ))}
               </div>
+              <h3>只读开发模式</h3>
+              <label>
+                开发模式（仅管理员）
+                <input
+                  type="checkbox"
+                  disabled={busy || !developmentAllowed}
+                  checked={development}
+                  onChange={(e) => {
+                    const enabled = e.target.checked;
+                    setDevelopment(enabled);
+                    setDiagnostics(null);
+                    if (enabled)
+                      void work(async () => {
+                        setDiagnostics(
+                          await api<AdminDevelopment>(
+                            `/admin/development?experiment_id=${experiment}`,
+                            token,
+                          ),
+                        );
+                      });
+                  }}
+                />
+              </label>
+              {!developmentAllowed && <p>开发模式未启用。</p>}
+              {development && diagnostics && (
+                <div aria-label="管理员开发数据">
+                  <p>只读诊断，不能修改实验状态；每类最多 1000 条。</p>
+                  <h4>当前状态</h4>
+                  <pre>{JSON.stringify(diagnostics.states, null, 2)}</pre>
+                  <h4>事件记录</h4>
+                  <pre>{JSON.stringify(diagnostics.events, null, 2)}</pre>
+                  <h4>变量变化</h4>
+                  <pre>{JSON.stringify(diagnostics.variables, null, 2)}</pre>
+                  <h4>模型调用日志</h4>
+                  <pre>{JSON.stringify(diagnostics.model_runs, null, 2)}</pre>
+                </div>
+              )}
               <h3>导出数据</h3>
               <p>当前为限量 JSON 导出，每类最多 1000 条，不能作为完整研究归档。</p>
               <button

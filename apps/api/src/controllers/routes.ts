@@ -4,7 +4,11 @@ import type { Request } from 'express';
 import type { Services } from '../services/index.js';
 import { fail } from '../services/common.js';
 import type { ParticipantIdentity } from '../services/common.js';
-export function businessRoutes(services: Services, adminTokenHash?: string) {
+export function businessRoutes(
+  services: Services,
+  adminTokenHash?: string,
+  developmentMode = false,
+) {
   const router = Router();
   const bearer = (req: Request) => {
     const h = req.headers.authorization;
@@ -24,6 +28,13 @@ export function businessRoutes(services: Services, adminTokenHash?: string) {
     if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected))
       fail(401, 'UNAUTHORIZED');
     next();
+  });
+  router.get('/admin/capabilities', (_req, res) => {
+    res.json({ development_mode: developmentMode });
+  });
+  router.get('/admin/development', async (req, res) => {
+    if (!developmentMode) fail(404, 'DEVELOPMENT_DISABLED');
+    res.json(await services.admin.development(actor, String(req.query.experiment_id ?? '')));
   });
   router.get('/admin/experiments', async (_req, res) => {
     res.json(await services.admin.experiments(actor));

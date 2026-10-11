@@ -106,7 +106,14 @@ export function Participant() {
   }, [token, current?.status, current?.pending_turn_id]);
   async function send(request: MessageRequest) {
     setRetry(request);
-    const result = await api<ParticipantTurn>('/conversation/message', token, request);
+    let result: ParticipantTurn;
+    try {
+      result = await api<ParticipantTurn>('/conversation/message', token, request);
+    } catch (e) {
+      // A definitive rejection was never accepted; only ambiguous network/5xx outcomes retain the key.
+      if (e instanceof ApiError && e.status > 0 && e.status < 500) setRetry(null);
+      throw e;
+    }
     setRetry(null);
     setDraft('');
     setNotice(
@@ -188,6 +195,15 @@ export function Participant() {
       </div>
       {error && <p role="alert">{error}</p>}
       {notice && <p role="status">{notice}</p>}
+      {current && (
+        <p role="status">
+          {current.status === 'finished'
+            ? '实验已完成'
+            : busy || generating
+              ? '正在处理，请稍候。'
+              : '可以继续对话或明确提交当前填写。'}
+        </p>
+      )}
       {!current ? (
         <button
           disabled={busy}
@@ -239,16 +255,15 @@ export function Participant() {
                         });
                     }}
                   >
-                    <label>
-                      发送消息
-                      <textarea
-                        maxLength={4000}
-                        value={draft}
-                        disabled={disabled || !!retry}
-                        onChange={(e) => setDraft(e.target.value)}
-                        required
-                      />
-                    </label>
+                    <label htmlFor="participant-message">发送消息</label>
+                    <textarea
+                      id="participant-message"
+                      maxLength={4000}
+                      value={draft}
+                      disabled={disabled || !!retry}
+                      onChange={(e) => setDraft(e.target.value)}
+                      required
+                    />
                     <button disabled={disabled || !draft.trim() || !!retry}>
                       {disabled ? '处理中…' : '发送'}
                     </button>

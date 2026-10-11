@@ -22,13 +22,18 @@ const services =
         console.info(JSON.stringify({ type: 'business_trace', ...entry })),
       )
     : undefined;
-const server = createApp(services, process.env.ADMIN_ACCESS_TOKEN_HASH).listen(
-  port,
-  '127.0.0.1',
-  () => {
-    console.info(`Research API listening on port ${port}`);
-  },
-);
+if (
+  process.env.ADMIN_DEVELOPMENT_MODE !== undefined &&
+  !['true', 'false'].includes(process.env.ADMIN_DEVELOPMENT_MODE)
+)
+  throw new Error('ADMIN_DEVELOPMENT_MODE must be true or false');
+const server = createApp(
+  services,
+  process.env.ADMIN_ACCESS_TOKEN_HASH,
+  process.env.ADMIN_DEVELOPMENT_MODE === 'true',
+).listen(port, '127.0.0.1', () => {
+  console.info(`Research API listening on port ${port}`);
+});
 server.on('error', (error) => {
   console.error('Research API startup failed:', error.message);
   process.exitCode = 1;

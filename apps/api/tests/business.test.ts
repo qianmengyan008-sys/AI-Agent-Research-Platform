@@ -38,6 +38,8 @@ let port: number,
   started = false;
 let services: Services, app: ReturnType<typeof createApp>, calls: number;
 let generate: LanguageGenerator['generate'];
+const round12Acceptance = process.env.RESEARCH_ACCEPTANCE_DIR ?? process.env.ROUND12_ACCEPTANCE_DIR;
+const round13Acceptance = process.env.RESEARCH_ACCEPTANCE_DIR ?? process.env.ROUND13_ACCEPTANCE_DIR;
 const actor = { role: 'admin' as const, id: 'synthetic-admin' };
 const connection = (db: string) => ({
   host: '127.0.0.1',
@@ -503,9 +505,9 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
       });
       expect(exported.states[0]).toMatchObject({ stage: 'COMPLETED', core_version: rounds + 1 });
       expect(exported.prompts).toHaveLength(rounds);
-      if (process.env.ROUND12_ACCEPTANCE_DIR)
+      if (round12Acceptance)
         await writeFile(
-          join(process.env.ROUND12_ACCEPTANCE_DIR, `${path}-database-records.json`),
+          join(round12Acceptance, `${path}-database-records.json`),
           JSON.stringify(
             { synthetic: true, external_model_calls: 0, adapter: 'MockAdapter', ...exported },
             null,
@@ -697,9 +699,9 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
         .expect(200);
       expect((await pool.query('SELECT * FROM research.state_transition')).rows).toHaveLength(2);
       expect(hits).toBe(1);
-      if (process.env.ROUND12_ACCEPTANCE_DIR)
+      if (round12Acceptance)
         await writeFile(
-          join(process.env.ROUND12_ACCEPTANCE_DIR, 'http-adapter-chain.json'),
+          join(round12Acceptance, 'http-adapter-chain.json'),
           JSON.stringify(
             {
               synthetic: true,
@@ -956,9 +958,9 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
           )
         ).rows,
       ).toHaveLength(1);
-      if (process.env.ROUND12_ACCEPTANCE_DIR)
+      if (round12Acceptance)
         await writeFile(
-          join(process.env.ROUND12_ACCEPTANCE_DIR, 'process-recovery.json'),
+          join(round12Acceptance, 'process-recovery.json'),
           JSON.stringify(
             {
               synthetic: true,
@@ -1097,9 +1099,9 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
         .every((t) => t.turnId === turn!.turn_id),
     ).toBe(true);
     expect(JSON.stringify(traces)).not.toMatch(/PRIVATE_|SYNTHETIC_PASSWORD|token|prompt/);
-    if (process.env.ROUND13_ACCEPTANCE_DIR)
+    if (round13Acceptance)
       await writeFile(
-        join(process.env.ROUND13_ACCEPTANCE_DIR, 'business-trace.json'),
+        join(round13Acceptance, 'business-trace.json'),
         JSON.stringify({ synthetic: true, traces }, null, 2) + '\n',
       );
   });
@@ -1131,9 +1133,9 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
       expect(data.variables.find((v) => v.key === 'source').value).toBe('数据库保存的来源');
       expect(data.runs).toHaveLength(1);
       expect(data.prompts).toHaveLength(9);
-      if (process.env.ROUND13_ACCEPTANCE_DIR)
+      if (round13Acceptance)
         await writeFile(
-          join(process.env.ROUND13_ACCEPTANCE_DIR, 'database-restoration.json'),
+          join(round13Acceptance, 'database-restoration.json'),
           JSON.stringify(
             {
               synthetic: true,
@@ -1147,5 +1149,163 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     } finally {
       await freshPool.end();
     }
+  });
+  it('exports participant-linked analysis rows with condition, path, pinned versions, timestamps and isolated histories', async () => {
+    const s = await setup('cognitive_v1');
+    await services.conversations.send(s.identity, {
+      request_id: 'analysis-chat',
+      state_token: s.state.state_token,
+      text: '合成分析消息',
+    });
+    await services.participants.submit(s.identity, {
+      request_id: 'analysis-submit',
+      state_token: s.state.state_token,
+      data: { response: '合成原始表达', source: '明确来源' },
+    });
+    const second = await services.participants.create(actor, {
+      experiment_id: s.experimentId,
+      participant_code: 'P002',
+      password,
+    });
+    await services.experiments.assign(actor, {
+      participant_id: second.participantId,
+      condition_id: s.conditionId,
+    });
+    const data = await services.admin.export(actor, s.experimentId);
+    expect(data.analysis_rows).toHaveLength(2);
+    const row = data.analysis_rows.find((r) => r.participant_id === s.participantId)!;
+    expect(row).toMatchObject({
+      experiment_id: s.experimentId,
+      condition: 'A',
+      path_type: 'cognitive',
+      model_version: { requested_model: settings.model_name, supplier_revision: null },
+    });
+    expect(row.agent_version.id).toBeTruthy();
+    expect(row.prompt_version).toHaveLength(9);
+    expect(Date.parse(row.timestamp.assigned_at)).not.toBeNaN();
+    expect(row.conversation_history).toHaveLength(2);
+    expect(row.state_transition).toHaveLength(2);
+    expect(row.experiment_variables.find((v) => v.key === 'source').value).toBe('明确来源');
+    const other = data.analysis_rows.find((r) => r.participant_id === second.participantId)!;
+    expect(other.conversation_history).toHaveLength(0);
+    expect(other.experiment_variables).toHaveLength(0);
+    expect(data.complete).toBe(false);
+    if (round13Acceptance)
+      await writeFile(
+        join(round13Acceptance, 'analysis-export.json'),
+        JSON.stringify({ synthetic: true, external_model_calls: 0, ...data }, null, 2) + '\n',
+      );
+  });
+  it('keeps development mode disabled by default and requires administrator authentication for capabilities', async () => {
+    const s = await setup();
+    await request(app).get('/api/admin/capabilities').expect(401);
+    await request(app)
+      .get(`/api/admin/development?experiment_id=${s.experimentId}`)
+      .set('Authorization', `Bearer ${s.token}`)
+      .expect(401);
+    const c = await request(app)
+      .get('/api/admin/capabilities')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200);
+    expect(c.body).toEqual({ development_mode: false });
+    await request(app)
+      .get(`/api/admin/development?experiment_id=${s.experimentId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(404);
+    expect(
+      (await pool.query("SELECT * FROM research.admin_event WHERE event='DEVELOPMENT_VIEWED'"))
+        .rows,
+    ).toHaveLength(0);
+  });
+  it('provides audited read-only development data only to administrators without altering participant projection', async () => {
+    const s = await setup('cognitive_v1');
+    await services.conversations.send(s.identity, {
+      request_id: 'dev-chat',
+      state_token: s.state.state_token,
+      text: 'synthetic',
+    });
+    await services.participants.submit(s.identity, {
+      request_id: 'dev-submit',
+      state_token: s.state.state_token,
+      data: { response: 'synthetic', source: 'synthetic source' },
+    });
+    const enabled = createApp(
+      services,
+      createHash('sha256').update(adminToken).digest('hex'),
+      true,
+    );
+    const before = (await pool.query('SELECT snapshot FROM research.experiment_state')).rows;
+    await request(enabled)
+      .get(`/api/admin/development?experiment_id=${s.experimentId}`)
+      .set('Authorization', `Bearer ${s.token}`)
+      .expect(401);
+    const d = await request(enabled)
+      .get(`/api/admin/development?experiment_id=${s.experimentId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200);
+    expect(d.body).toMatchObject({ read_only: true, complete: false });
+    expect(d.body.events).toHaveLength(2);
+    expect(d.body.model_runs).toHaveLength(1);
+    expect((await pool.query('SELECT snapshot FROM research.experiment_state')).rows).toEqual(
+      before,
+    );
+    const participant = await request(enabled)
+      .get('/api/experiment/current')
+      .set('Authorization', `Bearer ${s.token}`)
+      .expect(200);
+    expect(JSON.stringify(participant.body)).not.toMatch(
+      /VIEWPOINT_CONFIRMATION|STEREOTYPE_SUBMITTED|validator|prompt|model_runs|snapshot/,
+    );
+    await request(enabled)
+      .patch('/api/admin/development')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ stage: 'COMPLETED' })
+      .expect(404);
+    expect(
+      (await pool.query("SELECT * FROM research.admin_event WHERE event='DEVELOPMENT_VIEWED'"))
+        .rows,
+    ).toHaveLength(1);
+    if (round13Acceptance)
+      await writeFile(
+        join(round13Acceptance, 'development-api.json'),
+        JSON.stringify({ synthetic: true, ...d.body }, null, 2) + '\n',
+      );
+  });
+  it('preserves assigned completed resources when a new draft and different policies are created', async () => {
+    const s = await setup();
+    await services.participants.submit(s.identity, {
+      request_id: 'finish',
+      state_token: s.state.state_token,
+      data: {},
+    });
+    const before = await services.admin.export(actor, s.experimentId);
+    const e = await services.experiments.create(actor, {
+      name: '另一个版本化实验',
+      instructions: '不同研究说明',
+    });
+    const policies = experimentDefinitions.daily_v1.stages.slice(1, -1).map((stage) => ({
+      ...demoPolicy(experimentDefinitions.daily_v1, stage.id),
+      goal: '另一个实验的当前语言任务',
+    }));
+    await services.experiments.condition(actor, e.experimentId, {
+      code: 'B',
+      path_version: 'daily_v1',
+      agent_name: '不同 Agent',
+      policies,
+    });
+    await services.experiments.publish(actor, e.experimentId);
+    const after = await services.admin.export(actor, s.experimentId);
+    expect(after.assignments).toEqual(before.assignments);
+    expect(after.prompts).toEqual(before.prompts);
+    expect(after.states).toEqual(before.states);
+    expect(after.transitions).toEqual(before.transitions);
+    await expect(
+      services.experiments.condition(actor, s.experimentId, {
+        code: 'illegal',
+        path_version: 'daily_v1',
+        agent_name: 'changed',
+        demo_policies: true,
+      }),
+    ).rejects.toMatchObject({ status: 409 });
   });
 });
