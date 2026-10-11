@@ -131,5 +131,31 @@ export async function boundaryFaultDiagnostics(settings: ModelSettings) {
     faultSettings,
     'injected-validator-rejection',
   );
-  return { mode: 'local-fault-injection', realProviderCalls: 0, failed, rejected };
+  let abortNotifications = 0;
+  const timeout = await diagnosticCall(
+    request,
+    {
+      generate: async (_prompt, options) =>
+        new Promise<string>((_resolve, reject) => {
+          options?.signal?.addEventListener(
+            'abort',
+            () => {
+              abortNotifications += 1;
+              reject(new GenerationFailureError(false));
+            },
+            { once: true },
+          );
+        }),
+    },
+    { ...faultSettings, timeout_ms: Math.min(faultSettings.timeout_ms, 20) },
+    'injected-model-timeout',
+  );
+  return {
+    mode: 'local-fault-injection',
+    realProviderCalls: 0,
+    failed,
+    rejected,
+    timeout,
+    abortNotifications,
+  };
 }

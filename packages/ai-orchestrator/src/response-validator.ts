@@ -71,7 +71,9 @@ export function validateResponse(reply: unknown, context: GenerationContext): Re
     (/重新.{0,8}(?:认识|见面|打饭)|(?:提前|现在|就此).{0,5}(?:结束故事|结束对话)/u.test(reply) ||
       (context.policy.scene.scene_state === 'cafeteria' &&
         context.policy.scene.scene_phase === 'seated' &&
-        /(?:去|前往|起身|离开座位).{0,8}(?:打饭|取餐|排队)/u.test(reply)))
+        /(?:去|前往|起身|离开座位|重新).{0,8}(?:打饭|取餐|排队)|(?:回到|返回|跳回|去|前往).{0,8}图书馆/u.test(
+          reply,
+        )))
   )
     violations.push('WRONG_SCENE');
   if (contains(reply, context.policy.forbiddenContent))

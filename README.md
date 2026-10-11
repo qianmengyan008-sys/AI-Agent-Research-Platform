@@ -10,7 +10,7 @@
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第八轮反馈与本轮验收成果](docs/eighth-round-feedback.md) · [Word 反馈](docs/eighth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step5-round8/ 下的全量测试报告、本地 HTTP 路径记录和真实模型 not_run 状态。
+[最新：第九轮反馈与本轮验收成果](docs/ninth-round-feedback.md) · [Word 反馈](docs/ninth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step5-round9/ 下的全量测试报告、本地 HTTP 路径记录和真实模型 not_run 状态。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -73,7 +73,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 307 个测试覆盖状态机、编排层和原有 API 骨架。真实数据库并发、持久化恢复、迁移、权限与导出尚未实现或验证。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 321 个测试覆盖状态机、编排层和原有 API 骨架。真实数据库并发、持久化恢复、迁移、权限与导出尚未实现或验证。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -99,7 +99,7 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 
 ## 后续任务
 
-按第八轮指令，完成真实 Adapter 实现、本地 HTTP 实验验收及回归测试集；真实外部模型验收因 MODEL_API_KEY / MODEL_NAME 未配置而 pending，不代表 Step 5 全部通过。真实模型验收通过并经研究者审核后，才进入数据库、API 业务、参与者页面和后台开发；不沿用旧计划自动进入数据库任务。自动化测试随实现持续添加。
+按第九轮指令，完成真实 Adapter 实现、本地 HTTP 实验验收及回归测试集；真实外部模型验收因 MODEL_API_KEY / MODEL_NAME 未配置而 pending，不代表 Step 5 全部通过。真实模型验收通过并经研究者审核后，才进入数据库、API 业务、参与者页面和后台开发；不沿用旧计划自动进入数据库任务。自动化测试随实现持续添加。
 
 ## 第一轮设计
 
@@ -111,3 +111,5 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 - [开发计划与验收](docs/development-plan.md)
 
 核心约束：后端控制实验状态；模型仅生成当前阶段的语言；关键变量入库；每次实现变更经过自动化测试。
+
+[Step 6 数据库与业务层设计提案](docs/step6-business-design.md)：支持配置版本、复现、审计与受控异步生成。目前仅为设计，真实模型验收和研究者审核通过后才能实施。

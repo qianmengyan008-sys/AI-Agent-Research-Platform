@@ -6,7 +6,11 @@ export function experimentLog(input: {
   conversation_id: string;
   participant_id: string;
   model_name: string;
-  model_parameters?: { readonly temperature: number; readonly max_tokens: number };
+  model_parameters?: {
+    readonly temperature: number;
+    readonly max_tokens: number;
+    readonly provider?: string;
+  };
   state_before: ExperimentStateSnapshot;
   state_after: ExperimentStateSnapshot;
   result: OrchestrationResult;
@@ -30,7 +34,9 @@ export function experimentLog(input: {
       input.model_parameters.temperature > 2 ||
       !Number.isSafeInteger(input.model_parameters.max_tokens) ||
       input.model_parameters.max_tokens < 1 ||
-      input.model_parameters.max_tokens > 32768)
+      input.model_parameters.max_tokens > 32768 ||
+      (input.model_parameters.provider !== undefined &&
+        !['mock', 'openai-compatible', 'deepseek'].includes(input.model_parameters.provider)))
   )
     throw new Error('Invalid model log parameters');
   const snapshot = (state: ExperimentStateSnapshot) =>
@@ -47,6 +53,7 @@ export function experimentLog(input: {
     state_before: snapshot(input.state_before),
     state_after: snapshot(input.state_after),
     model_name: input.model_name,
+    provider: input.model_parameters?.provider ?? null,
     prompt_version: PROMPT_VERSION,
     temperature: input.model_parameters?.temperature ?? null,
     max_tokens: input.model_parameters?.max_tokens ?? null,

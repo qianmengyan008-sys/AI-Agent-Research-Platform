@@ -111,7 +111,12 @@ describe('experiment end-to-end through real adapter and local HTTP fixture', ()
       expect(result).not.toHaveProperty('events');
       expect(result).not.toHaveProperty('variables');
       expect(result).not.toHaveProperty('newState');
-      if (scenario.path === 'cognitive') expect(result.text).toContain(belief);
+      if (scenario.path === 'cognitive' && request.policy.requiresConfirmedBelief)
+        expect(result.text).toContain(belief);
+      if (scenario.id === 'cognitive-denial-at-capture') {
+        expect(state.variables).not.toHaveProperty('stereotype_text');
+        expect(createContext(request).variables.cognitive?.negative_stereotype).toBeNull();
+      }
     } finally {
       await server.close();
     }
@@ -215,6 +220,7 @@ describe('experiment end-to-end through real adapter and local HTTP fixture', ()
         'state_before',
         'state_after',
         'model_name',
+        'provider',
         'prompt_version',
         'temperature',
         'max_tokens',

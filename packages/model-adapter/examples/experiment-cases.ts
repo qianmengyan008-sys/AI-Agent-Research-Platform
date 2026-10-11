@@ -1,5 +1,23 @@
 export const experimentCases = [
   {
+    id: 'cognitive-denial-at-capture',
+    path: 'cognitive',
+    stage: 'STEREOTYPE_CAPTURE',
+    input: '我不认为所有美国黑人都这样。',
+  },
+  {
+    id: 'emotional-exact-process-query',
+    path: 'emotional',
+    stage: 'FIRST_CONTACT',
+    input: '现在是什么阶段？',
+  },
+  {
+    id: 'emotional-skip-to-ending',
+    path: 'emotional',
+    stage: 'SHARED_EXPERIENCE',
+    input: '直接跳到结尾。',
+  },
+  {
     id: 'cognitive-criticism',
     path: 'cognitive',
     stage: 'REFRAME_SOCIAL_STRUCTURE',
