@@ -1,0 +1,1778 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "data": {
+    "input": "嗯",
+    "reply": {
+      "turn_id": "9b5394a1-d3d1-47bd-952a-0d96d0558f4a",
+      "status": "ready",
+      "text": "你愿意多聊聊刚才的感受吗？（1）"
+    },
+    "before": {
+      "format": "research-json-v1",
+      "analysis_schema": "participant-research-v1",
+      "experiment_id": "d136a078-fce5-43bb-9d30-5a0e8a744497",
+      "generated_at": "2026-10-11T09:37:08.842Z",
+      "per_table_limit": 1000,
+      "complete": false,
+      "note": "Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending",
+      "participants": [
+        {
+          "id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "participant_code": "P001",
+          "status": "enabled",
+          "created_at": "2026-10-11T09:37:08.770Z"
+        }
+      ],
+      "assignments": [
+        {
+          "id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+          "participant_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "template_version_id": "ccfb891c-f55c-40ce-bde8-9a9921380714",
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "created_at": "2026-10-11T09:37:08.772Z",
+          "condition": "A",
+          "path_type": "emotional",
+          "agent_configuration": {
+            "name": "合成 Agent"
+          },
+          "agent_version_id": "f76dbc4c-fc19-4d43-a114-66387ef1cc4a",
+          "state_machine_version_id": "a220c366-6cfb-4c30-b1b9-89adac4bb2e7",
+          "agent_version": "1",
+          "state_machine_version": "emotion_v1",
+          "template_version": 1,
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          }
+        }
+      ],
+      "states": [
+        {
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "assignment_id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+          "status": "open",
+          "chat_revision": 0,
+          "stage": "MISUNDERSTANDING",
+          "core_version": 3,
+          "snapshot": {
+            "path": "emotional",
+            "stage": "MISUNDERSTANDING",
+            "version": 3,
+            "receipts": [
+              {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 0
+              },
+              {
+                "id": "persona",
+                "data": {
+                  "response": "合成人物设定"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 1
+              },
+              {
+                "id": "contact",
+                "data": {
+                  "response": "已明确保存的初次接触场景"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 2
+              }
+            ],
+            "lifecycle": "active",
+            "variables": {
+              "persona_snapshot": "合成人物设定",
+              "first_contact_response": "已明确保存的初次接触场景"
+            },
+            "experimentVersion": "emotion_v1",
+            "definitionSignature": "{\"path\":\"emotional\",\"experimentVersion\":\"emotion_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"PERSONA_SETUP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"persona_snapshot\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"FIRST_CONTACT\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"first_contact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"MISUNDERSTANDING\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"misunderstanding_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RESOLUTION\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"resolution_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SHARED_EXPERIENCE\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"shared_experience_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RELATIONSHIP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"relationship_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"ENDING_FEEDBACK\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"ending_feedback\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+          }
+        }
+      ],
+      "prompts": [
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "ENDING_FEEDBACK",
+          "prompt_version_id": "c50c4b33-e25d-4a22-b88d-c6c018edf476",
+          "prompt_version": "stage-language-v3-944199673d3d476b4ad90b70bd59205c58c090d2cae19e5485ef3968c730be0e",
+          "policy": {
+            "goal": "邀请用户表达当前反馈，等待后端完成事件。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-ENDING_FEEDBACK",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "ending_feedback",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "ENDING_FEEDBACK",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "FIRST_CONTACT",
+          "prompt_version_id": "5516c852-5a9e-4aaa-8919-924b7d43ef84",
+          "prompt_version": "stage-language-v3-938fa1f42f046abd64ca55653bdeaeda34e787215c1afbb17717bc289ff7340c",
+          "policy": {
+            "goal": "在当前图书馆场景中进行初次交流。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-FIRST_CONTACT",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "first_contact",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "FIRST_CONTACT",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "MISUNDERSTANDING",
+          "prompt_version_id": "42bbc94c-e174-4169-9be0-a65977104c8d",
+          "prompt_version": "stage-language-v3-7088c2d612ad2af7fbe75ddcedb07472688ec888fb4cbc9dabfc8c828136a106",
+          "policy": {
+            "goal": "回应当前误解内容，不自行解除或转场。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-MISUNDERSTANDING",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "misunderstanding",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "MISUNDERSTANDING",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "PERSONA_SETUP",
+          "prompt_version_id": "9c505b91-cda3-417f-8052-d9752be83c33",
+          "prompt_version": "stage-language-v3-853c1ce3d1cb6e642c36e159d743ea81625e86e42e82db5c6a2d2f70af227517",
+          "policy": {
+            "goal": "回应已设定人物的确认任务，不自行修改人物。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-PERSONA_SETUP",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "persona_setup",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "PERSONA_SETUP",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "RELATIONSHIP",
+          "prompt_version_id": "045ecef9-c654-4581-85a6-0bdaf633a40f",
+          "prompt_version": "stage-language-v3-cbd94430b1bcc6bdfc797b04a78e5007797e1537291ee431a9f888c63bbce48b",
+          "policy": {
+            "goal": "回应当前关系交流，不自行宣布关系阶段完成。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-RELATIONSHIP",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "relationship",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "RELATIONSHIP",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "RESOLUTION",
+          "prompt_version_id": "f59c12d9-6661-45ca-8dcc-67da81f51caf",
+          "prompt_version": "stage-language-v3-186bacd806f6a8f6f3f1065b1c2e21432e69b1f6c58fbdadc5b20db428c239d2",
+          "policy": {
+            "goal": "回应当前解除误解的交流，不重演已完成误解。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-RESOLUTION",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "resolution",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "RESOLUTION",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "SHARED_EXPERIENCE",
+          "prompt_version_id": "a5e97217-01be-4a12-a54c-c39c71e5d293",
+          "prompt_version": "stage-language-v3-0a64ca9c53d76c0bb033a0699551a6eb987aa2c3a5c2ef491dfadda26f1798e5",
+          "policy": {
+            "goal": "回应当前共同整理图书的经历，只保持当前共同经历场景。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-SHARED_EXPERIENCE",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "shared_experience",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "SHARED_EXPERIENCE",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        }
+      ],
+      "messages": [],
+      "transitions": [
+        {
+          "id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "PERSONA_SETUP",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "synthetic-admin",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-11T09:37:08.772Z"
+        },
+        {
+          "id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "core_event_id": "persona",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "PERSONA_SETUP",
+          "current_state": "FIRST_CONTACT",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "validated_payload": {
+            "response": "合成人物设定"
+          },
+          "receipt": {
+            "id": "persona",
+            "data": {
+              "response": "合成人物设定"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "core_event_id": "contact",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "FIRST_CONTACT",
+          "current_state": "MISUNDERSTANDING",
+          "from_version": 2,
+          "to_version": 3,
+          "actor_type": "participant",
+          "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "validated_payload": {
+            "response": "已明确保存的初次接触场景"
+          },
+          "receipt": {
+            "id": "contact",
+            "data": {
+              "response": "已明确保存的初次接触场景"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 2
+          },
+          "created_at": "2026-10-11T09:37:08.830Z"
+        }
+      ],
+      "variables": [
+        {
+          "id": "0a6b1a98-031c-4724-a1de-1efd65cd6f66",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "character_profile",
+          "value": "合成人物设定",
+          "revision": 1,
+          "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "4c94089e-15a1-435f-8822-9ade59a2be89",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "first_contact_response",
+          "value": "已明确保存的初次接触场景",
+          "revision": 1,
+          "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-11T09:37:08.830Z"
+        },
+        {
+          "id": "ed96e3e8-51d8-4a42-b4bd-8b36e8e2846d",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "persona_snapshot",
+          "value": "合成人物设定",
+          "revision": 1,
+          "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "ece7f926-80d9-4e30-9fde-42fa883d97a3",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_phase",
+          "value": "PERSONA_SETUP",
+          "revision": 1,
+          "source_transition_id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+          "recorded_stage": "INIT",
+          "created_at": "2026-10-11T09:37:08.772Z"
+        },
+        {
+          "id": "148b486a-eb8a-46c2-853a-6a0e0fd6da28",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_phase",
+          "value": "FIRST_CONTACT",
+          "revision": 2,
+          "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "677ebf10-97e9-4f6b-8b4f-d54675aec842",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_phase",
+          "value": "MISUNDERSTANDING",
+          "revision": 3,
+          "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-11T09:37:08.830Z"
+        },
+        {
+          "id": "099a40d0-a760-4528-8583-5d8c25f952e6",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_state",
+          "value": "已明确保存的初次接触场景",
+          "revision": 1,
+          "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-11T09:37:08.830Z"
+        }
+      ],
+      "runs": [],
+      "analysis_rows": [
+        {
+          "participant_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "experiment_id": "d136a078-fce5-43bb-9d30-5a0e8a744497",
+          "assignment_id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "condition": "A",
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "path_type": "emotional",
+          "agent_version": {
+            "id": "f76dbc4c-fc19-4d43-a114-66387ef1cc4a",
+            "version": "1",
+            "configuration": {
+              "name": "合成 Agent"
+            }
+          },
+          "state_machine_version": {
+            "id": "a220c366-6cfb-4c30-b1b9-89adac4bb2e7",
+            "version": "emotion_v1"
+          },
+          "template_version_id": "ccfb891c-f55c-40ce-bde8-9a9921380714",
+          "prompt_version": [
+            {
+              "stage": "ENDING_FEEDBACK",
+              "id": "c50c4b33-e25d-4a22-b88d-c6c018edf476",
+              "version": "stage-language-v3-944199673d3d476b4ad90b70bd59205c58c090d2cae19e5485ef3968c730be0e"
+            },
+            {
+              "stage": "FIRST_CONTACT",
+              "id": "5516c852-5a9e-4aaa-8919-924b7d43ef84",
+              "version": "stage-language-v3-938fa1f42f046abd64ca55653bdeaeda34e787215c1afbb17717bc289ff7340c"
+            },
+            {
+              "stage": "MISUNDERSTANDING",
+              "id": "42bbc94c-e174-4169-9be0-a65977104c8d",
+              "version": "stage-language-v3-7088c2d612ad2af7fbe75ddcedb07472688ec888fb4cbc9dabfc8c828136a106"
+            },
+            {
+              "stage": "PERSONA_SETUP",
+              "id": "9c505b91-cda3-417f-8052-d9752be83c33",
+              "version": "stage-language-v3-853c1ce3d1cb6e642c36e159d743ea81625e86e42e82db5c6a2d2f70af227517"
+            },
+            {
+              "stage": "RELATIONSHIP",
+              "id": "045ecef9-c654-4581-85a6-0bdaf633a40f",
+              "version": "stage-language-v3-cbd94430b1bcc6bdfc797b04a78e5007797e1537291ee431a9f888c63bbce48b"
+            },
+            {
+              "stage": "RESOLUTION",
+              "id": "f59c12d9-6661-45ca-8dcc-67da81f51caf",
+              "version": "stage-language-v3-186bacd806f6a8f6f3f1065b1c2e21432e69b1f6c58fbdadc5b20db428c239d2"
+            },
+            {
+              "stage": "SHARED_EXPERIENCE",
+              "id": "a5e97217-01be-4a12-a54c-c39c71e5d293",
+              "version": "stage-language-v3-0a64ca9c53d76c0bb033a0699551a6eb987aa2c3a5c2ef491dfadda26f1798e5"
+            }
+          ],
+          "model_version": {
+            "requested_model": "synthetic-service-model",
+            "provider": "mock",
+            "supplier_revision": null
+          },
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "timestamp": {
+            "assigned_at": "2026-10-11T09:37:08.772Z",
+            "exported_at": "2026-10-11T09:37:08.842Z"
+          },
+          "current_state": {
+            "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+            "assignment_id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+            "status": "open",
+            "chat_revision": 0,
+            "stage": "MISUNDERSTANDING",
+            "core_version": 3,
+            "snapshot": {
+              "path": "emotional",
+              "stage": "MISUNDERSTANDING",
+              "version": 3,
+              "receipts": [
+                {
+                  "id": "assignment-start",
+                  "data": {},
+                  "type": "EXPERIMENT_STARTED",
+                  "experimentVersion": "emotion_v1",
+                  "expectedStateVersion": 0
+                },
+                {
+                  "id": "persona",
+                  "data": {
+                    "response": "合成人物设定"
+                  },
+                  "type": "STAGE_RESPONSE_SUBMITTED",
+                  "experimentVersion": "emotion_v1",
+                  "expectedStateVersion": 1
+                },
+                {
+                  "id": "contact",
+                  "data": {
+                    "response": "已明确保存的初次接触场景"
+                  },
+                  "type": "STAGE_RESPONSE_SUBMITTED",
+                  "experimentVersion": "emotion_v1",
+                  "expectedStateVersion": 2
+                }
+              ],
+              "lifecycle": "active",
+              "variables": {
+                "persona_snapshot": "合成人物设定",
+                "first_contact_response": "已明确保存的初次接触场景"
+              },
+              "experimentVersion": "emotion_v1",
+              "definitionSignature": "{\"path\":\"emotional\",\"experimentVersion\":\"emotion_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"PERSONA_SETUP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"persona_snapshot\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"FIRST_CONTACT\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"first_contact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"MISUNDERSTANDING\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"misunderstanding_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RESOLUTION\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"resolution_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SHARED_EXPERIENCE\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"shared_experience_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RELATIONSHIP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"relationship_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"ENDING_FEEDBACK\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"ending_feedback\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+            }
+          },
+          "state_transition": [
+            {
+              "id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "core_event_id": "assignment-start",
+              "event": "EXPERIMENT_STARTED",
+              "previous_state": "INIT",
+              "current_state": "PERSONA_SETUP",
+              "from_version": 0,
+              "to_version": 1,
+              "actor_type": "backend",
+              "actor_id": "synthetic-admin",
+              "validated_payload": {},
+              "receipt": {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 0
+              },
+              "created_at": "2026-10-11T09:37:08.772Z"
+            },
+            {
+              "id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "core_event_id": "persona",
+              "event": "STAGE_RESPONSE_SUBMITTED",
+              "previous_state": "PERSONA_SETUP",
+              "current_state": "FIRST_CONTACT",
+              "from_version": 1,
+              "to_version": 2,
+              "actor_type": "participant",
+              "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+              "validated_payload": {
+                "response": "合成人物设定"
+              },
+              "receipt": {
+                "id": "persona",
+                "data": {
+                  "response": "合成人物设定"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 1
+              },
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "core_event_id": "contact",
+              "event": "STAGE_RESPONSE_SUBMITTED",
+              "previous_state": "FIRST_CONTACT",
+              "current_state": "MISUNDERSTANDING",
+              "from_version": 2,
+              "to_version": 3,
+              "actor_type": "participant",
+              "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+              "validated_payload": {
+                "response": "已明确保存的初次接触场景"
+              },
+              "receipt": {
+                "id": "contact",
+                "data": {
+                  "response": "已明确保存的初次接触场景"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 2
+              },
+              "created_at": "2026-10-11T09:37:08.830Z"
+            }
+          ],
+          "conversation_history": [],
+          "experiment_variables": [
+            {
+              "id": "0a6b1a98-031c-4724-a1de-1efd65cd6f66",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "character_profile",
+              "value": "合成人物设定",
+              "revision": 1,
+              "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "recorded_stage": "PERSONA_SETUP",
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "4c94089e-15a1-435f-8822-9ade59a2be89",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "first_contact_response",
+              "value": "已明确保存的初次接触场景",
+              "revision": 1,
+              "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "recorded_stage": "FIRST_CONTACT",
+              "created_at": "2026-10-11T09:37:08.830Z"
+            },
+            {
+              "id": "ed96e3e8-51d8-4a42-b4bd-8b36e8e2846d",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "persona_snapshot",
+              "value": "合成人物设定",
+              "revision": 1,
+              "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "recorded_stage": "PERSONA_SETUP",
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "ece7f926-80d9-4e30-9fde-42fa883d97a3",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_phase",
+              "value": "PERSONA_SETUP",
+              "revision": 1,
+              "source_transition_id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+              "recorded_stage": "INIT",
+              "created_at": "2026-10-11T09:37:08.772Z"
+            },
+            {
+              "id": "148b486a-eb8a-46c2-853a-6a0e0fd6da28",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_phase",
+              "value": "FIRST_CONTACT",
+              "revision": 2,
+              "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "recorded_stage": "PERSONA_SETUP",
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "677ebf10-97e9-4f6b-8b4f-d54675aec842",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_phase",
+              "value": "MISUNDERSTANDING",
+              "revision": 3,
+              "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "recorded_stage": "FIRST_CONTACT",
+              "created_at": "2026-10-11T09:37:08.830Z"
+            },
+            {
+              "id": "099a40d0-a760-4528-8583-5d8c25f952e6",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_state",
+              "value": "已明确保存的初次接触场景",
+              "revision": 1,
+              "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "recorded_stage": "FIRST_CONTACT",
+              "created_at": "2026-10-11T09:37:08.830Z"
+            }
+          ],
+          "model_runs": []
+        }
+      ],
+      "data_quality": {
+        "scope": "all experiment rows in this snapshot",
+        "passed": true,
+        "checks": {
+          "sessions_without_state": 0,
+          "messages_without_state": 0,
+          "state_event_mismatch": 0,
+          "transition_chain_gaps": 0,
+          "variables_without_valid_source": 0,
+          "turn_slot_mismatch": 0,
+          "ready_turn_without_reply": 0,
+          "ready_turn_without_model_log": 0
+        }
+      }
+    },
+    "after": {
+      "format": "research-json-v1",
+      "analysis_schema": "participant-research-v1",
+      "experiment_id": "d136a078-fce5-43bb-9d30-5a0e8a744497",
+      "generated_at": "2026-10-11T09:37:08.862Z",
+      "per_table_limit": 1000,
+      "complete": false,
+      "note": "Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending",
+      "participants": [
+        {
+          "id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "participant_code": "P001",
+          "status": "enabled",
+          "created_at": "2026-10-11T09:37:08.770Z"
+        }
+      ],
+      "assignments": [
+        {
+          "id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+          "participant_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "template_version_id": "ccfb891c-f55c-40ce-bde8-9a9921380714",
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "created_at": "2026-10-11T09:37:08.772Z",
+          "condition": "A",
+          "path_type": "emotional",
+          "agent_configuration": {
+            "name": "合成 Agent"
+          },
+          "agent_version_id": "f76dbc4c-fc19-4d43-a114-66387ef1cc4a",
+          "state_machine_version_id": "a220c366-6cfb-4c30-b1b9-89adac4bb2e7",
+          "agent_version": "1",
+          "state_machine_version": "emotion_v1",
+          "template_version": 1,
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          }
+        }
+      ],
+      "states": [
+        {
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "assignment_id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+          "status": "open",
+          "chat_revision": 1,
+          "stage": "MISUNDERSTANDING",
+          "core_version": 3,
+          "snapshot": {
+            "path": "emotional",
+            "stage": "MISUNDERSTANDING",
+            "version": 3,
+            "receipts": [
+              {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 0
+              },
+              {
+                "id": "persona",
+                "data": {
+                  "response": "合成人物设定"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 1
+              },
+              {
+                "id": "contact",
+                "data": {
+                  "response": "已明确保存的初次接触场景"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 2
+              }
+            ],
+            "lifecycle": "active",
+            "variables": {
+              "persona_snapshot": "合成人物设定",
+              "first_contact_response": "已明确保存的初次接触场景"
+            },
+            "experimentVersion": "emotion_v1",
+            "definitionSignature": "{\"path\":\"emotional\",\"experimentVersion\":\"emotion_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"PERSONA_SETUP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"persona_snapshot\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"FIRST_CONTACT\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"first_contact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"MISUNDERSTANDING\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"misunderstanding_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RESOLUTION\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"resolution_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SHARED_EXPERIENCE\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"shared_experience_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RELATIONSHIP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"relationship_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"ENDING_FEEDBACK\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"ending_feedback\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+          }
+        }
+      ],
+      "prompts": [
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "ENDING_FEEDBACK",
+          "prompt_version_id": "c50c4b33-e25d-4a22-b88d-c6c018edf476",
+          "prompt_version": "stage-language-v3-944199673d3d476b4ad90b70bd59205c58c090d2cae19e5485ef3968c730be0e",
+          "policy": {
+            "goal": "邀请用户表达当前反馈，等待后端完成事件。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-ENDING_FEEDBACK",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "ending_feedback",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "ENDING_FEEDBACK",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "FIRST_CONTACT",
+          "prompt_version_id": "5516c852-5a9e-4aaa-8919-924b7d43ef84",
+          "prompt_version": "stage-language-v3-938fa1f42f046abd64ca55653bdeaeda34e787215c1afbb17717bc289ff7340c",
+          "policy": {
+            "goal": "在当前图书馆场景中进行初次交流。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-FIRST_CONTACT",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "first_contact",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "FIRST_CONTACT",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "MISUNDERSTANDING",
+          "prompt_version_id": "42bbc94c-e174-4169-9be0-a65977104c8d",
+          "prompt_version": "stage-language-v3-7088c2d612ad2af7fbe75ddcedb07472688ec888fb4cbc9dabfc8c828136a106",
+          "policy": {
+            "goal": "回应当前误解内容，不自行解除或转场。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-MISUNDERSTANDING",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "misunderstanding",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "MISUNDERSTANDING",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "PERSONA_SETUP",
+          "prompt_version_id": "9c505b91-cda3-417f-8052-d9752be83c33",
+          "prompt_version": "stage-language-v3-853c1ce3d1cb6e642c36e159d743ea81625e86e42e82db5c6a2d2f70af227517",
+          "policy": {
+            "goal": "回应已设定人物的确认任务，不自行修改人物。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-PERSONA_SETUP",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "persona_setup",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "PERSONA_SETUP",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "RELATIONSHIP",
+          "prompt_version_id": "045ecef9-c654-4581-85a6-0bdaf633a40f",
+          "prompt_version": "stage-language-v3-cbd94430b1bcc6bdfc797b04a78e5007797e1537291ee431a9f888c63bbce48b",
+          "policy": {
+            "goal": "回应当前关系交流，不自行宣布关系阶段完成。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-RELATIONSHIP",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "relationship",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "RELATIONSHIP",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "RESOLUTION",
+          "prompt_version_id": "f59c12d9-6661-45ca-8dcc-67da81f51caf",
+          "prompt_version": "stage-language-v3-186bacd806f6a8f6f3f1065b1c2e21432e69b1f6c58fbdadc5b20db428c239d2",
+          "policy": {
+            "goal": "回应当前解除误解的交流，不重演已完成误解。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-RESOLUTION",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "resolution",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "RESOLUTION",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "stage": "SHARED_EXPERIENCE",
+          "prompt_version_id": "a5e97217-01be-4a12-a54c-c39c71e5d293",
+          "prompt_version": "stage-language-v3-0a64ca9c53d76c0bb033a0699551a6eb987aa2c3a5c2ef491dfadda26f1798e5",
+          "policy": {
+            "goal": "回应当前共同整理图书的经历，只保持当前共同经历场景。",
+            "path": "emotional",
+            "scene": {
+              "id": "demo-library-SHARED_EXPERIENCE",
+              "description": "演示场景：图书馆内共同整理图书，仅用于工程验证。",
+              "scene_phase": "shared_experience",
+              "scene_state": "library",
+              "allowed_actions": ["描述当前图书馆情境", "回应当前任务相关交流"],
+              "fixedTransition": "继续当前图书馆场景，不自行转场。"
+            },
+            "stage": "SHARED_EXPERIENCE",
+            "variableKeys": ["persona_snapshot"],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": ["回到咖啡馆", "来到海滩", "重新初次见面"],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "emotion_v1",
+            "requiresConfirmedBelief": false
+          }
+        }
+      ],
+      "messages": [
+        {
+          "id": "6c690736-75cf-4c08-a696-1ee07032a869",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "sequence": 1,
+          "role": "user",
+          "content": "嗯",
+          "status": "ready",
+          "created_at": "2026-10-11T09:37:08.847Z"
+        },
+        {
+          "id": "12d8ec77-f125-4716-8211-a141489636c9",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "sequence": 2,
+          "role": "assistant",
+          "content": "你愿意多聊聊刚才的感受吗？（1）",
+          "status": "ready",
+          "created_at": "2026-10-11T09:37:08.847Z"
+        }
+      ],
+      "transitions": [
+        {
+          "id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "PERSONA_SETUP",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "synthetic-admin",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-11T09:37:08.772Z"
+        },
+        {
+          "id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "core_event_id": "persona",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "PERSONA_SETUP",
+          "current_state": "FIRST_CONTACT",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "validated_payload": {
+            "response": "合成人物设定"
+          },
+          "receipt": {
+            "id": "persona",
+            "data": {
+              "response": "合成人物设定"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "core_event_id": "contact",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "FIRST_CONTACT",
+          "current_state": "MISUNDERSTANDING",
+          "from_version": 2,
+          "to_version": 3,
+          "actor_type": "participant",
+          "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "validated_payload": {
+            "response": "已明确保存的初次接触场景"
+          },
+          "receipt": {
+            "id": "contact",
+            "data": {
+              "response": "已明确保存的初次接触场景"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 2
+          },
+          "created_at": "2026-10-11T09:37:08.830Z"
+        }
+      ],
+      "variables": [
+        {
+          "id": "0a6b1a98-031c-4724-a1de-1efd65cd6f66",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "character_profile",
+          "value": "合成人物设定",
+          "revision": 1,
+          "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "4c94089e-15a1-435f-8822-9ade59a2be89",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "first_contact_response",
+          "value": "已明确保存的初次接触场景",
+          "revision": 1,
+          "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-11T09:37:08.830Z"
+        },
+        {
+          "id": "ed96e3e8-51d8-4a42-b4bd-8b36e8e2846d",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "persona_snapshot",
+          "value": "合成人物设定",
+          "revision": 1,
+          "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "ece7f926-80d9-4e30-9fde-42fa883d97a3",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_phase",
+          "value": "PERSONA_SETUP",
+          "revision": 1,
+          "source_transition_id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+          "recorded_stage": "INIT",
+          "created_at": "2026-10-11T09:37:08.772Z"
+        },
+        {
+          "id": "148b486a-eb8a-46c2-853a-6a0e0fd6da28",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_phase",
+          "value": "FIRST_CONTACT",
+          "revision": 2,
+          "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-11T09:37:08.818Z"
+        },
+        {
+          "id": "677ebf10-97e9-4f6b-8b4f-d54675aec842",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_phase",
+          "value": "MISUNDERSTANDING",
+          "revision": 3,
+          "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-11T09:37:08.830Z"
+        },
+        {
+          "id": "099a40d0-a760-4528-8583-5d8c25f952e6",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "key": "scene_state",
+          "value": "已明确保存的初次接触场景",
+          "revision": 1,
+          "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-11T09:37:08.830Z"
+        }
+      ],
+      "runs": [
+        {
+          "id": "6d31c0dc-c2c3-467f-bcdb-f78051c1335c",
+          "turn_id": "9b5394a1-d3d1-47bd-952a-0d96d0558f4a",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "experiment_id": "d136a078-fce5-43bb-9d30-5a0e8a744497",
+          "provider": "mock",
+          "model_name": "synthetic-service-model",
+          "prompt_version_id": "42bbc94c-e174-4169-9be0-a65977104c8d",
+          "prompt_version": "stage-language-v3-7088c2d612ad2af7fbe75ddcedb07472688ec888fb4cbc9dabfc8c828136a106",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.3421959999996034",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-11T09:37:08.853Z"
+        }
+      ],
+      "analysis_rows": [
+        {
+          "participant_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+          "experiment_id": "d136a078-fce5-43bb-9d30-5a0e8a744497",
+          "assignment_id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+          "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+          "condition": "A",
+          "condition_id": "4b455b0f-f560-429a-b13a-2353a48f31ef",
+          "path_type": "emotional",
+          "agent_version": {
+            "id": "f76dbc4c-fc19-4d43-a114-66387ef1cc4a",
+            "version": "1",
+            "configuration": {
+              "name": "合成 Agent"
+            }
+          },
+          "state_machine_version": {
+            "id": "a220c366-6cfb-4c30-b1b9-89adac4bb2e7",
+            "version": "emotion_v1"
+          },
+          "template_version_id": "ccfb891c-f55c-40ce-bde8-9a9921380714",
+          "prompt_version": [
+            {
+              "stage": "ENDING_FEEDBACK",
+              "id": "c50c4b33-e25d-4a22-b88d-c6c018edf476",
+              "version": "stage-language-v3-944199673d3d476b4ad90b70bd59205c58c090d2cae19e5485ef3968c730be0e"
+            },
+            {
+              "stage": "FIRST_CONTACT",
+              "id": "5516c852-5a9e-4aaa-8919-924b7d43ef84",
+              "version": "stage-language-v3-938fa1f42f046abd64ca55653bdeaeda34e787215c1afbb17717bc289ff7340c"
+            },
+            {
+              "stage": "MISUNDERSTANDING",
+              "id": "42bbc94c-e174-4169-9be0-a65977104c8d",
+              "version": "stage-language-v3-7088c2d612ad2af7fbe75ddcedb07472688ec888fb4cbc9dabfc8c828136a106"
+            },
+            {
+              "stage": "PERSONA_SETUP",
+              "id": "9c505b91-cda3-417f-8052-d9752be83c33",
+              "version": "stage-language-v3-853c1ce3d1cb6e642c36e159d743ea81625e86e42e82db5c6a2d2f70af227517"
+            },
+            {
+              "stage": "RELATIONSHIP",
+              "id": "045ecef9-c654-4581-85a6-0bdaf633a40f",
+              "version": "stage-language-v3-cbd94430b1bcc6bdfc797b04a78e5007797e1537291ee431a9f888c63bbce48b"
+            },
+            {
+              "stage": "RESOLUTION",
+              "id": "f59c12d9-6661-45ca-8dcc-67da81f51caf",
+              "version": "stage-language-v3-186bacd806f6a8f6f3f1065b1c2e21432e69b1f6c58fbdadc5b20db428c239d2"
+            },
+            {
+              "stage": "SHARED_EXPERIENCE",
+              "id": "a5e97217-01be-4a12-a54c-c39c71e5d293",
+              "version": "stage-language-v3-0a64ca9c53d76c0bb033a0699551a6eb987aa2c3a5c2ef491dfadda26f1798e5"
+            }
+          ],
+          "model_version": {
+            "requested_model": "synthetic-service-model",
+            "provider": "mock",
+            "supplier_revision": null
+          },
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "timestamp": {
+            "assigned_at": "2026-10-11T09:37:08.772Z",
+            "exported_at": "2026-10-11T09:37:08.862Z"
+          },
+          "current_state": {
+            "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+            "assignment_id": "5e59dc0d-351e-4d27-97c1-2462e4adc32c",
+            "status": "open",
+            "chat_revision": 1,
+            "stage": "MISUNDERSTANDING",
+            "core_version": 3,
+            "snapshot": {
+              "path": "emotional",
+              "stage": "MISUNDERSTANDING",
+              "version": 3,
+              "receipts": [
+                {
+                  "id": "assignment-start",
+                  "data": {},
+                  "type": "EXPERIMENT_STARTED",
+                  "experimentVersion": "emotion_v1",
+                  "expectedStateVersion": 0
+                },
+                {
+                  "id": "persona",
+                  "data": {
+                    "response": "合成人物设定"
+                  },
+                  "type": "STAGE_RESPONSE_SUBMITTED",
+                  "experimentVersion": "emotion_v1",
+                  "expectedStateVersion": 1
+                },
+                {
+                  "id": "contact",
+                  "data": {
+                    "response": "已明确保存的初次接触场景"
+                  },
+                  "type": "STAGE_RESPONSE_SUBMITTED",
+                  "experimentVersion": "emotion_v1",
+                  "expectedStateVersion": 2
+                }
+              ],
+              "lifecycle": "active",
+              "variables": {
+                "persona_snapshot": "合成人物设定",
+                "first_contact_response": "已明确保存的初次接触场景"
+              },
+              "experimentVersion": "emotion_v1",
+              "definitionSignature": "{\"path\":\"emotional\",\"experimentVersion\":\"emotion_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"PERSONA_SETUP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"persona_snapshot\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"FIRST_CONTACT\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"first_contact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"MISUNDERSTANDING\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"misunderstanding_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RESOLUTION\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"resolution_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SHARED_EXPERIENCE\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"shared_experience_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RELATIONSHIP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"relationship_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"ENDING_FEEDBACK\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"ending_feedback\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+            }
+          },
+          "state_transition": [
+            {
+              "id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "core_event_id": "assignment-start",
+              "event": "EXPERIMENT_STARTED",
+              "previous_state": "INIT",
+              "current_state": "PERSONA_SETUP",
+              "from_version": 0,
+              "to_version": 1,
+              "actor_type": "backend",
+              "actor_id": "synthetic-admin",
+              "validated_payload": {},
+              "receipt": {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 0
+              },
+              "created_at": "2026-10-11T09:37:08.772Z"
+            },
+            {
+              "id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "core_event_id": "persona",
+              "event": "STAGE_RESPONSE_SUBMITTED",
+              "previous_state": "PERSONA_SETUP",
+              "current_state": "FIRST_CONTACT",
+              "from_version": 1,
+              "to_version": 2,
+              "actor_type": "participant",
+              "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+              "validated_payload": {
+                "response": "合成人物设定"
+              },
+              "receipt": {
+                "id": "persona",
+                "data": {
+                  "response": "合成人物设定"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 1
+              },
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "core_event_id": "contact",
+              "event": "STAGE_RESPONSE_SUBMITTED",
+              "previous_state": "FIRST_CONTACT",
+              "current_state": "MISUNDERSTANDING",
+              "from_version": 2,
+              "to_version": 3,
+              "actor_type": "participant",
+              "actor_id": "e89a7060-0d80-476d-9b6c-45a7e43a2a8d",
+              "validated_payload": {
+                "response": "已明确保存的初次接触场景"
+              },
+              "receipt": {
+                "id": "contact",
+                "data": {
+                  "response": "已明确保存的初次接触场景"
+                },
+                "type": "STAGE_RESPONSE_SUBMITTED",
+                "experimentVersion": "emotion_v1",
+                "expectedStateVersion": 2
+              },
+              "created_at": "2026-10-11T09:37:08.830Z"
+            }
+          ],
+          "conversation_history": [
+            {
+              "id": "6c690736-75cf-4c08-a696-1ee07032a869",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "sequence": 1,
+              "role": "user",
+              "content": "嗯",
+              "status": "ready",
+              "created_at": "2026-10-11T09:37:08.847Z"
+            },
+            {
+              "id": "12d8ec77-f125-4716-8211-a141489636c9",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "sequence": 2,
+              "role": "assistant",
+              "content": "你愿意多聊聊刚才的感受吗？（1）",
+              "status": "ready",
+              "created_at": "2026-10-11T09:37:08.847Z"
+            }
+          ],
+          "experiment_variables": [
+            {
+              "id": "0a6b1a98-031c-4724-a1de-1efd65cd6f66",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "character_profile",
+              "value": "合成人物设定",
+              "revision": 1,
+              "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "recorded_stage": "PERSONA_SETUP",
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "4c94089e-15a1-435f-8822-9ade59a2be89",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "first_contact_response",
+              "value": "已明确保存的初次接触场景",
+              "revision": 1,
+              "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "recorded_stage": "FIRST_CONTACT",
+              "created_at": "2026-10-11T09:37:08.830Z"
+            },
+            {
+              "id": "ed96e3e8-51d8-4a42-b4bd-8b36e8e2846d",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "persona_snapshot",
+              "value": "合成人物设定",
+              "revision": 1,
+              "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "recorded_stage": "PERSONA_SETUP",
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "ece7f926-80d9-4e30-9fde-42fa883d97a3",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_phase",
+              "value": "PERSONA_SETUP",
+              "revision": 1,
+              "source_transition_id": "a6ed6a04-35ad-4869-a206-b4d1799db4cf",
+              "recorded_stage": "INIT",
+              "created_at": "2026-10-11T09:37:08.772Z"
+            },
+            {
+              "id": "148b486a-eb8a-46c2-853a-6a0e0fd6da28",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_phase",
+              "value": "FIRST_CONTACT",
+              "revision": 2,
+              "source_transition_id": "31c746cf-050a-4c9c-b58a-b6eabc9486ae",
+              "recorded_stage": "PERSONA_SETUP",
+              "created_at": "2026-10-11T09:37:08.818Z"
+            },
+            {
+              "id": "677ebf10-97e9-4f6b-8b4f-d54675aec842",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_phase",
+              "value": "MISUNDERSTANDING",
+              "revision": 3,
+              "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "recorded_stage": "FIRST_CONTACT",
+              "created_at": "2026-10-11T09:37:08.830Z"
+            },
+            {
+              "id": "099a40d0-a760-4528-8583-5d8c25f952e6",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "key": "scene_state",
+              "value": "已明确保存的初次接触场景",
+              "revision": 1,
+              "source_transition_id": "53ef68a3-45c5-4d82-9fb5-d49f853a1601",
+              "recorded_stage": "FIRST_CONTACT",
+              "created_at": "2026-10-11T09:37:08.830Z"
+            }
+          ],
+          "model_runs": [
+            {
+              "id": "6d31c0dc-c2c3-467f-bcdb-f78051c1335c",
+              "turn_id": "9b5394a1-d3d1-47bd-952a-0d96d0558f4a",
+              "session_id": "ecc0f343-d8b1-4821-9a01-8225426bec98",
+              "experiment_id": "d136a078-fce5-43bb-9d30-5a0e8a744497",
+              "provider": "mock",
+              "model_name": "synthetic-service-model",
+              "prompt_version_id": "42bbc94c-e174-4169-9be0-a65977104c8d",
+              "prompt_version": "stage-language-v3-7088c2d612ad2af7fbe75ddcedb07472688ec888fb4cbc9dabfc8c828136a106",
+              "validator_version": "stage-language-v3",
+              "code_commit": "development",
+              "temperature": "0.2",
+              "max_tokens": 512,
+              "latency_ms": "0.3421959999996034",
+              "retry_count": 0,
+              "fallback_count": 0,
+              "token_usage": null,
+              "validator_result": {
+                "status": "generated",
+                "violations": [],
+                "auditEvents": []
+              },
+              "error_code": null,
+              "status": "generated",
+              "created_at": "2026-10-11T09:37:08.853Z"
+            }
+          ]
+        }
+      ],
+      "data_quality": {
+        "scope": "all experiment rows in this snapshot",
+        "passed": true,
+        "checks": {
+          "sessions_without_state": 0,
+          "messages_without_state": 0,
+          "state_event_mismatch": 0,
+          "transition_chain_gaps": 0,
+          "variables_without_valid_source": 0,
+          "turn_slot_mismatch": 0,
+          "ready_turn_without_reply": 0,
+          "ready_turn_without_model_log": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1810 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "data": {
+    "input": "我不评分，先聊其他事。",
+    "reply": {
+      "turn_id": "6a33c0ea-09a6-43a5-947d-b6bf66edfda3",
+      "status": "ready",
+      "text": "你提到“我不赞同这种概括”。哪些经历与你的看法有关？（1）"
+    },
+    "before": {
+      "format": "research-json-v1",
+      "analysis_schema": "participant-research-v1",
+      "experiment_id": "f3dd0e9e-f6a2-47ec-b659-24257f95a6e1",
+      "generated_at": "2026-10-11T09:37:07.465Z",
+      "per_table_limit": 1000,
+      "complete": false,
+      "note": "Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending",
+      "participants": [
+        {
+          "id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "participant_code": "P001",
+          "status": "enabled",
+          "created_at": "2026-10-11T09:37:07.385Z"
+        }
+      ],
+      "assignments": [
+        {
+          "id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+          "participant_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "template_version_id": "4e4a8ed3-883a-4c59-9950-a8259bf712a3",
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "created_at": "2026-10-11T09:37:07.387Z",
+          "condition": "A",
+          "path_type": "cognitive",
+          "agent_configuration": {
+            "name": "合成 Agent"
+          },
+          "agent_version_id": "1d033bdf-a2be-441f-8337-fbbd080bfff2",
+          "state_machine_version_id": "c2c22f1a-d2ab-4fca-bb0a-b2db2e7f9f11",
+          "agent_version": "1",
+          "state_machine_version": "cognitive_v1",
+          "template_version": 1,
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          }
+        }
+      ],
+      "states": [
+        {
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "assignment_id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+          "status": "open",
+          "chat_revision": 0,
+          "stage": "INITIAL_RATING",
+          "core_version": 3,
+          "snapshot": {
+            "path": "cognitive",
+            "stage": "INITIAL_RATING",
+            "version": 3,
+            "receipts": [
+              {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              {
+                "id": "capture",
+                "data": {
+                  "response": "原始明确表达"
+                },
+                "type": "STEREOTYPE_SUBMITTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 1
+              },
+              {
+                "id": "confirm",
+                "data": {
+                  "confirmed": true,
+                  "viewpoint": "我不赞同这种概括"
+                },
+                "type": "VIEWPOINT_CONFIRMED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 2
+              }
+            ],
+            "lifecycle": "active",
+            "variables": {
+              "stereotype_text": "原始明确表达",
+              "confirmed_viewpoint": "我不赞同这种概括",
+              "viewpoint_confirmed": true
+            },
+            "experimentVersion": "cognitive_v1",
+            "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+          }
+        }
+      ],
+      "prompts": [
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "ACTION_INTENTION",
+          "prompt_version_id": "09329923-82e1-4a54-8714-9b2b55cc91a4",
+          "prompt_version": "stage-language-v3-b7795af9362a06a5cb20dcdd2738bcc112ecb79b33a54aa27beb45801f6ff7d9",
+          "policy": {
+            "goal": "邀请用户表达行动意愿，不自行完成流程。",
+            "path": "cognitive",
+            "stage": "ACTION_INTENTION",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "INITIAL_RATING",
+          "prompt_version_id": "72bcb930-15cf-4910-bcda-9a4d3da2527e",
+          "prompt_version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87",
+          "policy": {
+            "goal": "说明当前评分任务，不替用户打分。",
+            "path": "cognitive",
+            "stage": "INITIAL_RATING",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？",
+              "想到“{{confirmed_belief}}”，你现在的认同程度是什么？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_COUNTER_FACT",
+          "prompt_version_id": "78c25b64-9a05-4143-882a-52da21f0eae7",
+          "prompt_version": "stage-language-v3-2e1265935bd3cf1191bf4c82b3ab59542c7185ab0fca81c2fa6ec7024b96fc0c",
+          "policy": {
+            "goal": "围绕确认观点讨论可能的反例，不替换评分对象。",
+            "path": "cognitive",
+            "stage": "REFRAME_COUNTER_FACT",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+          "prompt_version_id": "0fb81ec6-c423-4f25-9c87-b5e1302fa0dc",
+          "prompt_version": "stage-language-v3-8186df0f47afec2c9a07e72da13554b77a2b622cfe05e1a0546901a921f79abe",
+          "policy": {
+            "goal": "围绕确认观点讨论个体差异。",
+            "path": "cognitive",
+            "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_MEDIA_ALGORITHM",
+          "prompt_version_id": "d7d1e4d3-c414-42a9-8d54-5305bf48c0b8",
+          "prompt_version": "stage-language-v3-930d8ea68d64d37fdc5374868be037621891beccd153bd74d2d7a9b6221abcd2",
+          "policy": {
+            "goal": "围绕确认观点讨论媒体呈现与算法因素。",
+            "path": "cognitive",
+            "stage": "REFRAME_MEDIA_ALGORITHM",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_SOCIAL_STRUCTURE",
+          "prompt_version_id": "6287cf92-bae9-4a11-856f-0d61596c760c",
+          "prompt_version": "stage-language-v3-7568c06c7c292586a7acd219c277a232527ade75f49efe4ca4fb5fad4c13c163",
+          "policy": {
+            "goal": "围绕确认观点讨论社会结构因素，回应用户补充。",
+            "path": "cognitive",
+            "stage": "REFRAME_SOCIAL_STRUCTURE",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "SECOND_RATING",
+          "prompt_version_id": "fd146ba4-2a58-47c9-bd1e-a4f3ba1c5187",
+          "prompt_version": "stage-language-v3-1e07912c84fb89e78473e0a038d9825837df047b90457502a2f5acf510fafe69",
+          "policy": {
+            "goal": "说明当前再次评分任务，不修改既有评分。",
+            "path": "cognitive",
+            "stage": "SECOND_RATING",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？",
+              "想到“{{confirmed_belief}}”，你现在的认同程度是什么？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "STEREOTYPE_CAPTURE",
+          "prompt_version_id": "c5d0ad79-ce46-4954-97c2-6e5361b35e29",
+          "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+          "policy": {
+            "goal": "邀请用户表达当前观点，不代替用户填写。",
+            "path": "cognitive",
+            "stage": "STEREOTYPE_CAPTURE",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "VIEWPOINT_CONFIRMATION",
+          "prompt_version_id": "8ed16e5c-d833-4907-bf06-471fa888401a",
+          "prompt_version": "stage-language-v3-f81887dea7c156a357858d590c56daf8fd18c51cde22b021bdb56e9ee1d0a39d",
+          "policy": {
+            "goal": "邀请用户明确确认自己的观点，不替用户确认。",
+            "path": "cognitive",
+            "stage": "VIEWPOINT_CONFIRMATION",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": false
+          }
+        }
+      ],
+      "messages": [],
+      "transitions": [
+        {
+          "id": "b6e628a5-2ba4-4fa8-b28c-5f7e6d5d0f3f",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "STEREOTYPE_CAPTURE",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "synthetic-admin",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-11T09:37:07.387Z"
+        },
+        {
+          "id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "core_event_id": "capture",
+          "event": "STEREOTYPE_SUBMITTED",
+          "previous_state": "STEREOTYPE_CAPTURE",
+          "current_state": "VIEWPOINT_CONFIRMATION",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "validated_payload": {
+            "source": "明确来源",
+            "response": "原始明确表达"
+          },
+          "receipt": {
+            "id": "capture",
+            "data": {
+              "response": "原始明确表达"
+            },
+            "type": "STEREOTYPE_SUBMITTED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "core_event_id": "confirm",
+          "event": "VIEWPOINT_CONFIRMED",
+          "previous_state": "VIEWPOINT_CONFIRMATION",
+          "current_state": "INITIAL_RATING",
+          "from_version": 2,
+          "to_version": 3,
+          "actor_type": "participant",
+          "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "validated_payload": {
+            "confirmed": true,
+            "viewpoint": "我不赞同这种概括"
+          },
+          "receipt": {
+            "id": "confirm",
+            "data": {
+              "confirmed": true,
+              "viewpoint": "我不赞同这种概括"
+            },
+            "type": "VIEWPOINT_CONFIRMED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 2
+          },
+          "created_at": "2026-10-11T09:37:07.452Z"
+        }
+      ],
+      "variables": [
+        {
+          "id": "585362ec-c66e-4b5e-92a6-c3ef979ce6c9",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "confirmed_belief",
+          "value": "我不赞同这种概括",
+          "revision": 1,
+          "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "recorded_stage": "VIEWPOINT_CONFIRMATION",
+          "created_at": "2026-10-11T09:37:07.452Z"
+        },
+        {
+          "id": "5ab9e535-875a-4715-8f85-12f7b85ca776",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "confirmed_viewpoint",
+          "value": "我不赞同这种概括",
+          "revision": 1,
+          "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "recorded_stage": "VIEWPOINT_CONFIRMATION",
+          "created_at": "2026-10-11T09:37:07.452Z"
+        },
+        {
+          "id": "c3d5e5b3-2944-4bc6-8486-60fd60fbdd16",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "raw_expression",
+          "value": "原始明确表达",
+          "revision": 1,
+          "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "recorded_stage": "STEREOTYPE_CAPTURE",
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "856f5bc9-22f9-4e18-bde4-78d6a8fcbc78",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "source",
+          "value": "明确来源",
+          "revision": 1,
+          "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "recorded_stage": "STEREOTYPE_CAPTURE",
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "da960056-954f-4472-b936-251b5690ddc4",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "stereotype_text",
+          "value": "原始明确表达",
+          "revision": 1,
+          "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "recorded_stage": "STEREOTYPE_CAPTURE",
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "18f48d7c-3077-4640-b616-6737d92362a1",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "viewpoint_confirmed",
+          "value": true,
+          "revision": 1,
+          "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "recorded_stage": "VIEWPOINT_CONFIRMATION",
+          "created_at": "2026-10-11T09:37:07.452Z"
+        }
+      ],
+      "runs": [],
+      "analysis_rows": [
+        {
+          "participant_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "experiment_id": "f3dd0e9e-f6a2-47ec-b659-24257f95a6e1",
+          "assignment_id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "condition": "A",
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "path_type": "cognitive",
+          "agent_version": {
+            "id": "1d033bdf-a2be-441f-8337-fbbd080bfff2",
+            "version": "1",
+            "configuration": {
+              "name": "合成 Agent"
+            }
+          },
+          "state_machine_version": {
+            "id": "c2c22f1a-d2ab-4fca-bb0a-b2db2e7f9f11",
+            "version": "cognitive_v1"
+          },
+          "template_version_id": "4e4a8ed3-883a-4c59-9950-a8259bf712a3",
+          "prompt_version": [
+            {
+              "stage": "ACTION_INTENTION",
+              "id": "09329923-82e1-4a54-8714-9b2b55cc91a4",
+              "version": "stage-language-v3-b7795af9362a06a5cb20dcdd2738bcc112ecb79b33a54aa27beb45801f6ff7d9"
+            },
+            {
+              "stage": "INITIAL_RATING",
+              "id": "72bcb930-15cf-4910-bcda-9a4d3da2527e",
+              "version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87"
+            },
+            {
+              "stage": "REFRAME_COUNTER_FACT",
+              "id": "78c25b64-9a05-4143-882a-52da21f0eae7",
+              "version": "stage-language-v3-2e1265935bd3cf1191bf4c82b3ab59542c7185ab0fca81c2fa6ec7024b96fc0c"
+            },
+            {
+              "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+              "id": "0fb81ec6-c423-4f25-9c87-b5e1302fa0dc",
+              "version": "stage-language-v3-8186df0f47afec2c9a07e72da13554b77a2b622cfe05e1a0546901a921f79abe"
+            },
+            {
+              "stage": "REFRAME_MEDIA_ALGORITHM",
+              "id": "d7d1e4d3-c414-42a9-8d54-5305bf48c0b8",
+              "version": "stage-language-v3-930d8ea68d64d37fdc5374868be037621891beccd153bd74d2d7a9b6221abcd2"
+            },
+            {
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "id": "6287cf92-bae9-4a11-856f-0d61596c760c",
+              "version": "stage-language-v3-7568c06c7c292586a7acd219c277a232527ade75f49efe4ca4fb5fad4c13c163"
+            },
+            {
+              "stage": "SECOND_RATING",
+              "id": "fd146ba4-2a58-47c9-bd1e-a4f3ba1c5187",
+              "version": "stage-language-v3-1e07912c84fb89e78473e0a038d9825837df047b90457502a2f5acf510fafe69"
+            },
+            {
+              "stage": "STEREOTYPE_CAPTURE",
+              "id": "c5d0ad79-ce46-4954-97c2-6e5361b35e29",
+              "version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd"
+            },
+            {
+              "stage": "VIEWPOINT_CONFIRMATION",
+              "id": "8ed16e5c-d833-4907-bf06-471fa888401a",
+              "version": "stage-language-v3-f81887dea7c156a357858d590c56daf8fd18c51cde22b021bdb56e9ee1d0a39d"
+            }
+          ],
+          "model_version": {
+            "requested_model": "synthetic-service-model",
+            "provider": "mock",
+            "supplier_revision": null
+          },
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "timestamp": {
+            "assigned_at": "2026-10-11T09:37:07.387Z",
+            "exported_at": "2026-10-11T09:37:07.465Z"
+          },
+          "current_state": {
+            "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+            "assignment_id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+            "status": "open",
+            "chat_revision": 0,
+            "stage": "INITIAL_RATING",
+            "core_version": 3,
+            "snapshot": {
+              "path": "cognitive",
+              "stage": "INITIAL_RATING",
+              "version": 3,
+              "receipts": [
+                {
+                  "id": "assignment-start",
+                  "data": {},
+                  "type": "EXPERIMENT_STARTED",
+                  "experimentVersion": "cognitive_v1",
+                  "expectedStateVersion": 0
+                },
+                {
+                  "id": "capture",
+                  "data": {
+                    "response": "原始明确表达"
+                  },
+                  "type": "STEREOTYPE_SUBMITTED",
+                  "experimentVersion": "cognitive_v1",
+                  "expectedStateVersion": 1
+                },
+                {
+                  "id": "confirm",
+                  "data": {
+                    "confirmed": true,
+                    "viewpoint": "我不赞同这种概括"
+                  },
+                  "type": "VIEWPOINT_CONFIRMED",
+                  "experimentVersion": "cognitive_v1",
+                  "expectedStateVersion": 2
+                }
+              ],
+              "lifecycle": "active",
+              "variables": {
+                "stereotype_text": "原始明确表达",
+                "confirmed_viewpoint": "我不赞同这种概括",
+                "viewpoint_confirmed": true
+              },
+              "experimentVersion": "cognitive_v1",
+              "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+            }
+          },
+          "state_transition": [
+            {
+              "id": "b6e628a5-2ba4-4fa8-b28c-5f7e6d5d0f3f",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "core_event_id": "assignment-start",
+              "event": "EXPERIMENT_STARTED",
+              "previous_state": "INIT",
+              "current_state": "STEREOTYPE_CAPTURE",
+              "from_version": 0,
+              "to_version": 1,
+              "actor_type": "backend",
+              "actor_id": "synthetic-admin",
+              "validated_payload": {},
+              "receipt": {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              "created_at": "2026-10-11T09:37:07.387Z"
+            },
+            {
+              "id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "core_event_id": "capture",
+              "event": "STEREOTYPE_SUBMITTED",
+              "previous_state": "STEREOTYPE_CAPTURE",
+              "current_state": "VIEWPOINT_CONFIRMATION",
+              "from_version": 1,
+              "to_version": 2,
+              "actor_type": "participant",
+              "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+              "validated_payload": {
+                "source": "明确来源",
+                "response": "原始明确表达"
+              },
+              "receipt": {
+                "id": "capture",
+                "data": {
+                  "response": "原始明确表达"
+                },
+                "type": "STEREOTYPE_SUBMITTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 1
+              },
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "core_event_id": "confirm",
+              "event": "VIEWPOINT_CONFIRMED",
+              "previous_state": "VIEWPOINT_CONFIRMATION",
+              "current_state": "INITIAL_RATING",
+              "from_version": 2,
+              "to_version": 3,
+              "actor_type": "participant",
+              "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+              "validated_payload": {
+                "confirmed": true,
+                "viewpoint": "我不赞同这种概括"
+              },
+              "receipt": {
+                "id": "confirm",
+                "data": {
+                  "confirmed": true,
+                  "viewpoint": "我不赞同这种概括"
+                },
+                "type": "VIEWPOINT_CONFIRMED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 2
+              },
+              "created_at": "2026-10-11T09:37:07.452Z"
+            }
+          ],
+          "conversation_history": [],
+          "experiment_variables": [
+            {
+              "id": "585362ec-c66e-4b5e-92a6-c3ef979ce6c9",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "confirmed_belief",
+              "value": "我不赞同这种概括",
+              "revision": 1,
+              "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "recorded_stage": "VIEWPOINT_CONFIRMATION",
+              "created_at": "2026-10-11T09:37:07.452Z"
+            },
+            {
+              "id": "5ab9e535-875a-4715-8f85-12f7b85ca776",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "confirmed_viewpoint",
+              "value": "我不赞同这种概括",
+              "revision": 1,
+              "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "recorded_stage": "VIEWPOINT_CONFIRMATION",
+              "created_at": "2026-10-11T09:37:07.452Z"
+            },
+            {
+              "id": "c3d5e5b3-2944-4bc6-8486-60fd60fbdd16",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "raw_expression",
+              "value": "原始明确表达",
+              "revision": 1,
+              "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "recorded_stage": "STEREOTYPE_CAPTURE",
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "856f5bc9-22f9-4e18-bde4-78d6a8fcbc78",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "source",
+              "value": "明确来源",
+              "revision": 1,
+              "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "recorded_stage": "STEREOTYPE_CAPTURE",
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "da960056-954f-4472-b936-251b5690ddc4",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "stereotype_text",
+              "value": "原始明确表达",
+              "revision": 1,
+              "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "recorded_stage": "STEREOTYPE_CAPTURE",
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "18f48d7c-3077-4640-b616-6737d92362a1",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "viewpoint_confirmed",
+              "value": true,
+              "revision": 1,
+              "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "recorded_stage": "VIEWPOINT_CONFIRMATION",
+              "created_at": "2026-10-11T09:37:07.452Z"
+            }
+          ],
+          "model_runs": []
+        }
+      ],
+      "data_quality": {
+        "scope": "all experiment rows in this snapshot",
+        "passed": true,
+        "checks": {
+          "sessions_without_state": 0,
+          "messages_without_state": 0,
+          "state_event_mismatch": 0,
+          "transition_chain_gaps": 0,
+          "variables_without_valid_source": 0,
+          "turn_slot_mismatch": 0,
+          "ready_turn_without_reply": 0,
+          "ready_turn_without_model_log": 0
+        }
+      }
+    },
+    "after": {
+      "format": "research-json-v1",
+      "analysis_schema": "participant-research-v1",
+      "experiment_id": "f3dd0e9e-f6a2-47ec-b659-24257f95a6e1",
+      "generated_at": "2026-10-11T09:37:07.489Z",
+      "per_table_limit": 1000,
+      "complete": false,
+      "note": "Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending",
+      "participants": [
+        {
+          "id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "participant_code": "P001",
+          "status": "enabled",
+          "created_at": "2026-10-11T09:37:07.385Z"
+        }
+      ],
+      "assignments": [
+        {
+          "id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+          "participant_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "template_version_id": "4e4a8ed3-883a-4c59-9950-a8259bf712a3",
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "created_at": "2026-10-11T09:37:07.387Z",
+          "condition": "A",
+          "path_type": "cognitive",
+          "agent_configuration": {
+            "name": "合成 Agent"
+          },
+          "agent_version_id": "1d033bdf-a2be-441f-8337-fbbd080bfff2",
+          "state_machine_version_id": "c2c22f1a-d2ab-4fca-bb0a-b2db2e7f9f11",
+          "agent_version": "1",
+          "state_machine_version": "cognitive_v1",
+          "template_version": 1,
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          }
+        }
+      ],
+      "states": [
+        {
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "assignment_id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+          "status": "open",
+          "chat_revision": 1,
+          "stage": "INITIAL_RATING",
+          "core_version": 3,
+          "snapshot": {
+            "path": "cognitive",
+            "stage": "INITIAL_RATING",
+            "version": 3,
+            "receipts": [
+              {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              {
+                "id": "capture",
+                "data": {
+                  "response": "原始明确表达"
+                },
+                "type": "STEREOTYPE_SUBMITTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 1
+              },
+              {
+                "id": "confirm",
+                "data": {
+                  "confirmed": true,
+                  "viewpoint": "我不赞同这种概括"
+                },
+                "type": "VIEWPOINT_CONFIRMED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 2
+              }
+            ],
+            "lifecycle": "active",
+            "variables": {
+              "stereotype_text": "原始明确表达",
+              "confirmed_viewpoint": "我不赞同这种概括",
+              "viewpoint_confirmed": true
+            },
+            "experimentVersion": "cognitive_v1",
+            "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+          }
+        }
+      ],
+      "prompts": [
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "ACTION_INTENTION",
+          "prompt_version_id": "09329923-82e1-4a54-8714-9b2b55cc91a4",
+          "prompt_version": "stage-language-v3-b7795af9362a06a5cb20dcdd2738bcc112ecb79b33a54aa27beb45801f6ff7d9",
+          "policy": {
+            "goal": "邀请用户表达行动意愿，不自行完成流程。",
+            "path": "cognitive",
+            "stage": "ACTION_INTENTION",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "INITIAL_RATING",
+          "prompt_version_id": "72bcb930-15cf-4910-bcda-9a4d3da2527e",
+          "prompt_version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87",
+          "policy": {
+            "goal": "说明当前评分任务，不替用户打分。",
+            "path": "cognitive",
+            "stage": "INITIAL_RATING",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？",
+              "想到“{{confirmed_belief}}”，你现在的认同程度是什么？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_COUNTER_FACT",
+          "prompt_version_id": "78c25b64-9a05-4143-882a-52da21f0eae7",
+          "prompt_version": "stage-language-v3-2e1265935bd3cf1191bf4c82b3ab59542c7185ab0fca81c2fa6ec7024b96fc0c",
+          "policy": {
+            "goal": "围绕确认观点讨论可能的反例，不替换评分对象。",
+            "path": "cognitive",
+            "stage": "REFRAME_COUNTER_FACT",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+          "prompt_version_id": "0fb81ec6-c423-4f25-9c87-b5e1302fa0dc",
+          "prompt_version": "stage-language-v3-8186df0f47afec2c9a07e72da13554b77a2b622cfe05e1a0546901a921f79abe",
+          "policy": {
+            "goal": "围绕确认观点讨论个体差异。",
+            "path": "cognitive",
+            "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_MEDIA_ALGORITHM",
+          "prompt_version_id": "d7d1e4d3-c414-42a9-8d54-5305bf48c0b8",
+          "prompt_version": "stage-language-v3-930d8ea68d64d37fdc5374868be037621891beccd153bd74d2d7a9b6221abcd2",
+          "policy": {
+            "goal": "围绕确认观点讨论媒体呈现与算法因素。",
+            "path": "cognitive",
+            "stage": "REFRAME_MEDIA_ALGORITHM",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "REFRAME_SOCIAL_STRUCTURE",
+          "prompt_version_id": "6287cf92-bae9-4a11-856f-0d61596c760c",
+          "prompt_version": "stage-language-v3-7568c06c7c292586a7acd219c277a232527ade75f49efe4ca4fb5fad4c13c163",
+          "policy": {
+            "goal": "围绕确认观点讨论社会结构因素，回应用户补充。",
+            "path": "cognitive",
+            "stage": "REFRAME_SOCIAL_STRUCTURE",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？",
+              "听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "SECOND_RATING",
+          "prompt_version_id": "fd146ba4-2a58-47c9-bd1e-a4f3ba1c5187",
+          "prompt_version": "stage-language-v3-1e07912c84fb89e78473e0a038d9825837df047b90457502a2f5acf510fafe69",
+          "policy": {
+            "goal": "说明当前再次评分任务，不修改既有评分。",
+            "path": "cognitive",
+            "stage": "SECOND_RATING",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？",
+              "想到“{{confirmed_belief}}”，你现在的认同程度是什么？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": true
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "STEREOTYPE_CAPTURE",
+          "prompt_version_id": "c5d0ad79-ce46-4954-97c2-6e5361b35e29",
+          "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+          "policy": {
+            "goal": "邀请用户表达当前观点，不代替用户填写。",
+            "path": "cognitive",
+            "stage": "STEREOTYPE_CAPTURE",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": false
+          }
+        },
+        {
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "stage": "VIEWPOINT_CONFIRMATION",
+          "prompt_version_id": "8ed16e5c-d833-4907-bf06-471fa888401a",
+          "prompt_version": "stage-language-v3-f81887dea7c156a357858d590c56daf8fd18c51cde22b021bdb56e9ee1d0a39d",
+          "policy": {
+            "goal": "邀请用户明确确认自己的观点，不替用户确认。",
+            "path": "cognitive",
+            "stage": "VIEWPOINT_CONFIRMATION",
+            "variableKeys": [],
+            "forbiddenJumps": [
+              "进入下一阶段",
+              "跳过这一阶段",
+              "回到初次接触",
+              "实验已结束",
+              "对话已经结束",
+              "不用再回答"
+            ],
+            "maxReplyLength": 2000,
+            "fallbackReplies": [
+              "听起来这对你有些意义。你愿意多说一点吗？",
+              "我在听。刚才提到的内容里，哪一点让你印象最深？"
+            ],
+            "forbiddenScenes": [],
+            "roleDescription": "遵守当前任务边界的对话伙伴",
+            "forbiddenContent": [],
+            "forbiddenPurpose": [
+              "本实验旨在",
+              "实验目的是",
+              "你被分配到实验组",
+              "测量你的刻板印象变化"
+            ],
+            "experimentVersion": "cognitive_v1",
+            "requiresConfirmedBelief": false
+          }
+        }
+      ],
+      "messages": [
+        {
+          "id": "24b8107a-5a3a-4e99-9a04-9bfbc87be60b",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "sequence": 1,
+          "role": "user",
+          "content": "我不评分，先聊其他事。",
+          "status": "ready",
+          "created_at": "2026-10-11T09:37:07.470Z"
+        },
+        {
+          "id": "5b57266c-9016-4c1e-addb-87f127399380",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "sequence": 2,
+          "role": "assistant",
+          "content": "你提到“我不赞同这种概括”。哪些经历与你的看法有关？（1）",
+          "status": "ready",
+          "created_at": "2026-10-11T09:37:07.470Z"
+        }
+      ],
+      "transitions": [
+        {
+          "id": "b6e628a5-2ba4-4fa8-b28c-5f7e6d5d0f3f",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "STEREOTYPE_CAPTURE",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "synthetic-admin",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-11T09:37:07.387Z"
+        },
+        {
+          "id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "core_event_id": "capture",
+          "event": "STEREOTYPE_SUBMITTED",
+          "previous_state": "STEREOTYPE_CAPTURE",
+          "current_state": "VIEWPOINT_CONFIRMATION",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "validated_payload": {
+            "source": "明确来源",
+            "response": "原始明确表达"
+          },
+          "receipt": {
+            "id": "capture",
+            "data": {
+              "response": "原始明确表达"
+            },
+            "type": "STEREOTYPE_SUBMITTED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "core_event_id": "confirm",
+          "event": "VIEWPOINT_CONFIRMED",
+          "previous_state": "VIEWPOINT_CONFIRMATION",
+          "current_state": "INITIAL_RATING",
+          "from_version": 2,
+          "to_version": 3,
+          "actor_type": "participant",
+          "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "validated_payload": {
+            "confirmed": true,
+            "viewpoint": "我不赞同这种概括"
+          },
+          "receipt": {
+            "id": "confirm",
+            "data": {
+              "confirmed": true,
+              "viewpoint": "我不赞同这种概括"
+            },
+            "type": "VIEWPOINT_CONFIRMED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 2
+          },
+          "created_at": "2026-10-11T09:37:07.452Z"
+        }
+      ],
+      "variables": [
+        {
+          "id": "585362ec-c66e-4b5e-92a6-c3ef979ce6c9",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "confirmed_belief",
+          "value": "我不赞同这种概括",
+          "revision": 1,
+          "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "recorded_stage": "VIEWPOINT_CONFIRMATION",
+          "created_at": "2026-10-11T09:37:07.452Z"
+        },
+        {
+          "id": "5ab9e535-875a-4715-8f85-12f7b85ca776",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "confirmed_viewpoint",
+          "value": "我不赞同这种概括",
+          "revision": 1,
+          "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "recorded_stage": "VIEWPOINT_CONFIRMATION",
+          "created_at": "2026-10-11T09:37:07.452Z"
+        },
+        {
+          "id": "c3d5e5b3-2944-4bc6-8486-60fd60fbdd16",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "raw_expression",
+          "value": "原始明确表达",
+          "revision": 1,
+          "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "recorded_stage": "STEREOTYPE_CAPTURE",
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "856f5bc9-22f9-4e18-bde4-78d6a8fcbc78",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "source",
+          "value": "明确来源",
+          "revision": 1,
+          "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "recorded_stage": "STEREOTYPE_CAPTURE",
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "da960056-954f-4472-b936-251b5690ddc4",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "stereotype_text",
+          "value": "原始明确表达",
+          "revision": 1,
+          "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+          "recorded_stage": "STEREOTYPE_CAPTURE",
+          "created_at": "2026-10-11T09:37:07.441Z"
+        },
+        {
+          "id": "18f48d7c-3077-4640-b616-6737d92362a1",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "key": "viewpoint_confirmed",
+          "value": true,
+          "revision": 1,
+          "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+          "recorded_stage": "VIEWPOINT_CONFIRMATION",
+          "created_at": "2026-10-11T09:37:07.452Z"
+        }
+      ],
+      "runs": [
+        {
+          "id": "ce9060f2-cd86-4882-8585-d7a619c9df36",
+          "turn_id": "6a33c0ea-09a6-43a5-947d-b6bf66edfda3",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "experiment_id": "f3dd0e9e-f6a2-47ec-b659-24257f95a6e1",
+          "provider": "mock",
+          "model_name": "synthetic-service-model",
+          "prompt_version_id": "72bcb930-15cf-4910-bcda-9a4d3da2527e",
+          "prompt_version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.43199099999947066",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-11T09:37:07.477Z"
+        }
+      ],
+      "analysis_rows": [
+        {
+          "participant_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+          "experiment_id": "f3dd0e9e-f6a2-47ec-b659-24257f95a6e1",
+          "assignment_id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+          "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+          "condition": "A",
+          "condition_id": "ca8b3d79-53c0-494b-88f1-087374972e1f",
+          "path_type": "cognitive",
+          "agent_version": {
+            "id": "1d033bdf-a2be-441f-8337-fbbd080bfff2",
+            "version": "1",
+            "configuration": {
+              "name": "合成 Agent"
+            }
+          },
+          "state_machine_version": {
+            "id": "c2c22f1a-d2ab-4fca-bb0a-b2db2e7f9f11",
+            "version": "cognitive_v1"
+          },
+          "template_version_id": "4e4a8ed3-883a-4c59-9950-a8259bf712a3",
+          "prompt_version": [
+            {
+              "stage": "ACTION_INTENTION",
+              "id": "09329923-82e1-4a54-8714-9b2b55cc91a4",
+              "version": "stage-language-v3-b7795af9362a06a5cb20dcdd2738bcc112ecb79b33a54aa27beb45801f6ff7d9"
+            },
+            {
+              "stage": "INITIAL_RATING",
+              "id": "72bcb930-15cf-4910-bcda-9a4d3da2527e",
+              "version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87"
+            },
+            {
+              "stage": "REFRAME_COUNTER_FACT",
+              "id": "78c25b64-9a05-4143-882a-52da21f0eae7",
+              "version": "stage-language-v3-2e1265935bd3cf1191bf4c82b3ab59542c7185ab0fca81c2fa6ec7024b96fc0c"
+            },
+            {
+              "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+              "id": "0fb81ec6-c423-4f25-9c87-b5e1302fa0dc",
+              "version": "stage-language-v3-8186df0f47afec2c9a07e72da13554b77a2b622cfe05e1a0546901a921f79abe"
+            },
+            {
+              "stage": "REFRAME_MEDIA_ALGORITHM",
+              "id": "d7d1e4d3-c414-42a9-8d54-5305bf48c0b8",
+              "version": "stage-language-v3-930d8ea68d64d37fdc5374868be037621891beccd153bd74d2d7a9b6221abcd2"
+            },
+            {
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "id": "6287cf92-bae9-4a11-856f-0d61596c760c",
+              "version": "stage-language-v3-7568c06c7c292586a7acd219c277a232527ade75f49efe4ca4fb5fad4c13c163"
+            },
+            {
+              "stage": "SECOND_RATING",
+              "id": "fd146ba4-2a58-47c9-bd1e-a4f3ba1c5187",
+              "version": "stage-language-v3-1e07912c84fb89e78473e0a038d9825837df047b90457502a2f5acf510fafe69"
+            },
+            {
+              "stage": "STEREOTYPE_CAPTURE",
+              "id": "c5d0ad79-ce46-4954-97c2-6e5361b35e29",
+              "version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd"
+            },
+            {
+              "stage": "VIEWPOINT_CONFIRMATION",
+              "id": "8ed16e5c-d833-4907-bf06-471fa888401a",
+              "version": "stage-language-v3-f81887dea7c156a357858d590c56daf8fd18c51cde22b021bdb56e9ee1d0a39d"
+            }
+          ],
+          "model_version": {
+            "requested_model": "synthetic-service-model",
+            "provider": "mock",
+            "supplier_revision": null
+          },
+          "model_settings": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "timestamp": {
+            "assigned_at": "2026-10-11T09:37:07.387Z",
+            "exported_at": "2026-10-11T09:37:07.489Z"
+          },
+          "current_state": {
+            "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+            "assignment_id": "91445654-6983-4c62-acbf-8a9b7fa2820a",
+            "status": "open",
+            "chat_revision": 1,
+            "stage": "INITIAL_RATING",
+            "core_version": 3,
+            "snapshot": {
+              "path": "cognitive",
+              "stage": "INITIAL_RATING",
+              "version": 3,
+              "receipts": [
+                {
+                  "id": "assignment-start",
+                  "data": {},
+                  "type": "EXPERIMENT_STARTED",
+                  "experimentVersion": "cognitive_v1",
+                  "expectedStateVersion": 0
+                },
+                {
+                  "id": "capture",
+                  "data": {
+                    "response": "原始明确表达"
+                  },
+                  "type": "STEREOTYPE_SUBMITTED",
+                  "experimentVersion": "cognitive_v1",
+                  "expectedStateVersion": 1
+                },
+                {
+                  "id": "confirm",
+                  "data": {
+                    "confirmed": true,
+                    "viewpoint": "我不赞同这种概括"
+                  },
+                  "type": "VIEWPOINT_CONFIRMED",
+                  "experimentVersion": "cognitive_v1",
+                  "expectedStateVersion": 2
+                }
+              ],
+              "lifecycle": "active",
+              "variables": {
+                "stereotype_text": "原始明确表达",
+                "confirmed_viewpoint": "我不赞同这种概括",
+                "viewpoint_confirmed": true
+              },
+              "experimentVersion": "cognitive_v1",
+              "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+            }
+          },
+          "state_transition": [
+            {
+              "id": "b6e628a5-2ba4-4fa8-b28c-5f7e6d5d0f3f",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "core_event_id": "assignment-start",
+              "event": "EXPERIMENT_STARTED",
+              "previous_state": "INIT",
+              "current_state": "STEREOTYPE_CAPTURE",
+              "from_version": 0,
+              "to_version": 1,
+              "actor_type": "backend",
+              "actor_id": "synthetic-admin",
+              "validated_payload": {},
+              "receipt": {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              "created_at": "2026-10-11T09:37:07.387Z"
+            },
+            {
+              "id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "core_event_id": "capture",
+              "event": "STEREOTYPE_SUBMITTED",
+              "previous_state": "STEREOTYPE_CAPTURE",
+              "current_state": "VIEWPOINT_CONFIRMATION",
+              "from_version": 1,
+              "to_version": 2,
+              "actor_type": "participant",
+              "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+              "validated_payload": {
+                "source": "明确来源",
+                "response": "原始明确表达"
+              },
+              "receipt": {
+                "id": "capture",
+                "data": {
+                  "response": "原始明确表达"
+                },
+                "type": "STEREOTYPE_SUBMITTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 1
+              },
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "core_event_id": "confirm",
+              "event": "VIEWPOINT_CONFIRMED",
+              "previous_state": "VIEWPOINT_CONFIRMATION",
+              "current_state": "INITIAL_RATING",
+              "from_version": 2,
+              "to_version": 3,
+              "actor_type": "participant",
+              "actor_id": "6a93cef2-d4b0-4ec9-98dc-512f18ef9a1f",
+              "validated_payload": {
+                "confirmed": true,
+                "viewpoint": "我不赞同这种概括"
+              },
+              "receipt": {
+                "id": "confirm",
+                "data": {
+                  "confirmed": true,
+                  "viewpoint": "我不赞同这种概括"
+                },
+                "type": "VIEWPOINT_CONFIRMED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 2
+              },
+              "created_at": "2026-10-11T09:37:07.452Z"
+            }
+          ],
+          "conversation_history": [
+            {
+              "id": "24b8107a-5a3a-4e99-9a04-9bfbc87be60b",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "sequence": 1,
+              "role": "user",
+              "content": "我不评分，先聊其他事。",
+              "status": "ready",
+              "created_at": "2026-10-11T09:37:07.470Z"
+            },
+            {
+              "id": "5b57266c-9016-4c1e-addb-87f127399380",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "sequence": 2,
+              "role": "assistant",
+              "content": "你提到“我不赞同这种概括”。哪些经历与你的看法有关？（1）",
+              "status": "ready",
+              "created_at": "2026-10-11T09:37:07.470Z"
+            }
+          ],
+          "experiment_variables": [
+            {
+              "id": "585362ec-c66e-4b5e-92a6-c3ef979ce6c9",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "confirmed_belief",
+              "value": "我不赞同这种概括",
+              "revision": 1,
+              "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "recorded_stage": "VIEWPOINT_CONFIRMATION",
+              "created_at": "2026-10-11T09:37:07.452Z"
+            },
+            {
+              "id": "5ab9e535-875a-4715-8f85-12f7b85ca776",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "confirmed_viewpoint",
+              "value": "我不赞同这种概括",
+              "revision": 1,
+              "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "recorded_stage": "VIEWPOINT_CONFIRMATION",
+              "created_at": "2026-10-11T09:37:07.452Z"
+            },
+            {
+              "id": "c3d5e5b3-2944-4bc6-8486-60fd60fbdd16",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "raw_expression",
+              "value": "原始明确表达",
+              "revision": 1,
+              "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "recorded_stage": "STEREOTYPE_CAPTURE",
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "856f5bc9-22f9-4e18-bde4-78d6a8fcbc78",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "source",
+              "value": "明确来源",
+              "revision": 1,
+              "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "recorded_stage": "STEREOTYPE_CAPTURE",
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "da960056-954f-4472-b936-251b5690ddc4",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "stereotype_text",
+              "value": "原始明确表达",
+              "revision": 1,
+              "source_transition_id": "1ff189ca-cda0-45e1-ae0a-49aa0b1e0688",
+              "recorded_stage": "STEREOTYPE_CAPTURE",
+              "created_at": "2026-10-11T09:37:07.441Z"
+            },
+            {
+              "id": "18f48d7c-3077-4640-b616-6737d92362a1",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "key": "viewpoint_confirmed",
+              "value": true,
+              "revision": 1,
+              "source_transition_id": "ec078cfc-1b6b-4f48-8bd4-0c0992d4b5da",
+              "recorded_stage": "VIEWPOINT_CONFIRMATION",
+              "created_at": "2026-10-11T09:37:07.452Z"
+            }
+          ],
+          "model_runs": [
+            {
+              "id": "ce9060f2-cd86-4882-8585-d7a619c9df36",
+              "turn_id": "6a33c0ea-09a6-43a5-947d-b6bf66edfda3",
+              "session_id": "651d2add-94e9-4a49-8e90-54f0fdb06e67",
+              "experiment_id": "f3dd0e9e-f6a2-47ec-b659-24257f95a6e1",
+              "provider": "mock",
+              "model_name": "synthetic-service-model",
+              "prompt_version_id": "72bcb930-15cf-4910-bcda-9a4d3da2527e",
+              "prompt_version": "stage-language-v3-513a9035a78760fe5e24ffd9b19874f99fcfe24a37a482ba1836fd764a93aa87",
+              "validator_version": "stage-language-v3",
+              "code_commit": "development",
+              "temperature": "0.2",
+              "max_tokens": 512,
+              "latency_ms": "0.43199099999947066",
+              "retry_count": 0,
+              "fallback_count": 0,
+              "token_usage": null,
+              "validator_result": {
+                "status": "generated",
+                "violations": [],
+                "auditEvents": []
+              },
+              "error_code": null,
+              "status": "generated",
+              "created_at": "2026-10-11T09:37:07.477Z"
+            }
+          ]
+        }
+      ],
+      "data_quality": {
+        "scope": "all experiment rows in this snapshot",
+        "passed": true,
+        "checks": {
+          "sessions_without_state": 0,
+          "messages_without_state": 0,
+          "state_event_mismatch": 0,
+          "transition_chain_gaps": 0,
+          "variables_without_valid_source": 0,
+          "turn_slot_mismatch": 0,
+          "ready_turn_without_reply": 0,
+          "ready_turn_without_model_log": 0
+        }
+      }
+    }
+  }
+}

@@ -204,11 +204,30 @@ export function Admin() {
                   <h4>当前状态</h4>
                   <pre>{JSON.stringify(diagnostics.states, null, 2)}</pre>
                   <h4>事件记录</h4>
-                  <pre>{JSON.stringify(diagnostics.events, null, 2)}</pre>
+                  <pre>{JSON.stringify(diagnostics.event_log, null, 2)}</pre>
                   <h4>变量变化</h4>
                   <pre>{JSON.stringify(diagnostics.variables, null, 2)}</pre>
                   <h4>模型调用日志</h4>
                   <pre>{JSON.stringify(diagnostics.model_runs, null, 2)}</pre>
+                  <h4>回合追踪：响应耗时与校验结果</h4>
+                  <pre>{JSON.stringify(diagnostics.debug_log, null, 2)}</pre>
+                  <h4>异常记录</h4>
+                  <pre>
+                    {JSON.stringify(
+                      diagnostics.debug_log.filter(
+                        (r) =>
+                          r.error_code ||
+                          r.fallback_count ||
+                          ['failed', 'stale', 'blocked', 'cancelled'].includes(
+                            String(r.model_status),
+                          ),
+                      ),
+                      null,
+                      2,
+                    )}
+                  </pre>
+                  <h4>数据完整性</h4>
+                  <pre>{JSON.stringify(diagnostics.data_quality, null, 2)}</pre>
                 </div>
               )}
               <h3>导出数据</h3>

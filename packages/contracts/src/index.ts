@@ -66,4 +66,7 @@ export interface AdminDevelopment {
   events: Record<string, unknown>[];
   variables: Record<string, unknown>[];
   model_runs: Record<string, unknown>[];
+  debug_log: Record<string, unknown>[];
+  event_log: Record<string, unknown>[];
+  data_quality: { scope: string; passed: boolean; checks: Record<string, number> };
 }

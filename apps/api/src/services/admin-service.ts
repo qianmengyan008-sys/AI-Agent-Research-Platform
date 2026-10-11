@@ -87,6 +87,7 @@ export class AdminService {
         note: 'Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending',
         ...data,
         analysis_rows: analysisRows,
+        data_quality: await r.conversations.integrity(experiment),
       };
     }, true);
   }
@@ -111,6 +112,9 @@ export class AdminService {
         events: data.transitions,
         variables: data.variables,
         model_runs: data.runs,
+        debug_log: await r.conversations.diagnostics(experiment),
+        event_log: await r.conversations.eventDiagnostics(experiment),
+        data_quality: await r.conversations.integrity(experiment),
       };
     }, true);
   }

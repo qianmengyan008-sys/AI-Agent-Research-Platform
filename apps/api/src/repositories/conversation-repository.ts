@@ -184,6 +184,86 @@ export class ConversationRepository {
       )
     ).rows as Record<string, unknown>[];
   }
+  async diagnostics(experiment: string) {
+    return (
+      await this.db.query(
+        `SELECT t.id AS turn_id,t.idempotency_key AS request_id,a.participant_id,
+          s.experiment_id,c.id AS conversation_id,t.status AS turn_status,
+          t.generation_context->>'stage' AS state_before,
+          after_state.current_state AS state_after,NULL::text AS event,
+          t.accepted_core_version,r.id AS model_run_id,r.model_name,r.prompt_version,
+          r.latency_ms AS response_latency,r.validator_result,r.fallback_count,
+          r.status AS model_status,r.error_code,r.created_at AS logged_at
+        FROM research.conversation_turn t
+        JOIN research.experiment_session s ON s.id=t.session_id
+        JOIN research.experiment_assignment a ON a.id=s.assignment_id
+        JOIN research.conversation c ON c.session_id=s.id
+        LEFT JOIN research.model_run_log r ON r.turn_id=t.id
+        LEFT JOIN LATERAL (
+          SELECT current_state FROM research.state_transition st
+          WHERE st.session_id=s.id AND st.created_at<=COALESCE(r.created_at,t.created_at)
+          ORDER BY st.to_version DESC LIMIT 1
+        ) after_state ON true
+        WHERE s.experiment_id=$1 ORDER BY t.created_at,t.id,r.created_at,r.id LIMIT 1000`,
+        [experiment],
+      )
+    ).rows as Record<string, unknown>[];
+  }
+  async integrity(experiment: string) {
+    const checks = (
+      await this.db.query<Record<string, number>>(
+        `WITH sessions AS (SELECT id FROM research.experiment_session WHERE experiment_id=$1)
+        SELECT
+          (SELECT count(*)::int FROM sessions s LEFT JOIN research.experiment_state es
+            ON es.session_id=s.id WHERE es.session_id IS NULL) AS sessions_without_state,
+          (SELECT count(*)::int FROM research.message m JOIN sessions s ON s.id=m.session_id
+            LEFT JOIN research.experiment_state es ON es.session_id=s.id WHERE es.session_id IS NULL) AS messages_without_state,
+          (SELECT count(*)::int FROM research.experiment_state es JOIN sessions s ON s.id=es.session_id
+            WHERE NOT EXISTS (SELECT 1 FROM research.state_transition st WHERE st.session_id=s.id
+              AND st.to_version=es.core_version AND st.current_state=es.stage)
+            OR es.core_version<>(SELECT count(*) FROM research.state_transition st WHERE st.session_id=s.id)) AS state_event_mismatch,
+          (SELECT count(*)::int FROM research.state_transition st JOIN sessions s ON s.id=st.session_id
+            WHERE st.from_version>0 AND NOT EXISTS (SELECT 1 FROM research.state_transition prev
+              WHERE prev.session_id=s.id AND prev.to_version=st.from_version AND prev.current_state=st.previous_state)) AS transition_chain_gaps,
+          (SELECT count(*)::int FROM research.experiment_variable v JOIN sessions s ON s.id=v.session_id
+            LEFT JOIN research.state_transition st ON st.id=v.source_transition_id AND st.session_id=v.session_id
+            WHERE st.id IS NULL OR v.recorded_stage<>st.previous_state) AS variables_without_valid_source,
+          (SELECT count(*)::int FROM research.conversation_turn t JOIN sessions s ON s.id=t.session_id
+            WHERE (SELECT count(*) FROM research.message m WHERE m.turn_id=t.id)<>2) AS turn_slot_mismatch,
+          (SELECT count(*)::int FROM research.conversation_turn t JOIN sessions s ON s.id=t.session_id
+            WHERE t.status='ready' AND NOT EXISTS (SELECT 1 FROM research.message m
+              WHERE m.turn_id=t.id AND m.role='assistant' AND m.status='ready' AND m.content IS NOT NULL)) AS ready_turn_without_reply,
+          (SELECT count(*)::int FROM research.conversation_turn t JOIN sessions s ON s.id=t.session_id
+            WHERE t.status='ready' AND NOT EXISTS (SELECT 1 FROM research.model_run_log r
+              WHERE r.turn_id=t.id AND r.status IN ('generated','fallback'))) AS ready_turn_without_model_log`,
+        [experiment],
+      )
+    ).rows[0]!;
+    return {
+      scope: 'all experiment rows in this snapshot',
+      passed: Object.values(checks).every((n) => n === 0),
+      checks,
+    };
+  }
+  async eventDiagnostics(experiment: string) {
+    return (
+      await this.db.query(
+        `SELECT st.id AS transition_id,
+          CASE WHEN st.actor_type='participant' THEN st.core_event_id ELSE NULL END AS request_id,
+          a.participant_id,s.experiment_id,c.id AS conversation_id,
+          st.previous_state AS state_before,st.current_state AS state_after,st.event,
+          st.from_version,st.to_version,NULL::text AS model_name,NULL::text AS prompt_version,
+          NULL::numeric AS response_latency,NULL::jsonb AS validator_result,NULL::integer AS fallback_count,
+          st.created_at AS logged_at
+        FROM research.state_transition st
+        JOIN research.experiment_session s ON s.id=st.session_id
+        JOIN research.experiment_assignment a ON a.id=s.assignment_id
+        JOIN research.conversation c ON c.session_id=s.id
+        WHERE s.experiment_id=$1 ORDER BY s.id,st.to_version LIMIT 1000`,
+        [experiment],
+      )
+    ).rows as Record<string, unknown>[];
+  }
   async export(experiment: string) {
     const participants = (
       await this.db.query(

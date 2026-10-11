@@ -563,3 +563,42 @@ test('model failure and browser reload preserve advanced state and previously sa
   expect(data.transitions).toHaveLength(2);
   await saveRecords(s, 'browser-recovery-records');
 });
+
+test('administrator inspects experiment version, failed turn, latency, validator and data quality without changing research state', async ({
+  page,
+}) => {
+  const s = await account();
+  await login(page, s);
+  failModel = true;
+  await page.getByLabel('发送消息', { exact: true }).fill('异常记录测试');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(
+    page.getByText('回复未能生成，请重新发送或联系研究人员。', { exact: true }),
+  ).toBeVisible();
+  failModel = false;
+  await page.getByLabel('发送消息', { exact: true }).fill('异常后恢复对话');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('谢谢分享');
+  const before = await services.admin.export(actor, s.experimentId);
+  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
+  await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
+  await expect(
+    page.getByLabel('选择实验', { exact: true }).locator('option:checked'),
+  ).toContainText('v1');
+  await expect(page.getByLabel('管理员对话记录', { exact: true })).toContainText('failed');
+  await page.getByLabel('开发模式（仅管理员）', { exact: true }).check();
+  const debug = page.getByLabel('管理员开发数据', { exact: true });
+  await expect(debug).toContainText('response_latency');
+  await expect(debug).toContainText('validator_result');
+  await expect(debug).toContainText('MODEL_GENERATION_FAILED');
+  await expect(debug).toContainText('"passed": true');
+  await expect(debug.getByRole('heading', { name: '异常记录', exact: true })).toBeVisible();
+  const after = await services.admin.export(actor, s.experimentId);
+  expect(after.states).toEqual(before.states);
+  expect(after.variables).toEqual(before.variables);
+  expect(after.messages).toEqual(before.messages);
+  await screenshot(page, 'admin-stability');
+  await saveRecords(s, 'browser-admin-stability-records');
+});
