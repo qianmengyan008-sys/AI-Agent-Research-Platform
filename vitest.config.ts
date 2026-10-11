@@ -5,6 +5,7 @@ export default defineConfig({
     environment: 'node',
     include: [
       'apps/api/tests/**/*.test.ts',
+      'packages/database/tests/**/*.test.ts',
       'packages/experiment-core/tests/**/*.test.ts',
       'packages/ai-orchestrator/tests/**/*.test.ts',
       'packages/model-adapter/tests/**/*.test.ts',

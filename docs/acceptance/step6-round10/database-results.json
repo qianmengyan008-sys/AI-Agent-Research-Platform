@@ -1,0 +1,111 @@
+{
+  "mode": "real-postgresql-docker",
+  "serverVersionVerified": "17.7",
+  "image": "postgres:17.7-alpine@sha256:bb377b7239d2774ac8cc76f481596ce96c5a6b5e9d141f6d0a0ee371a6e7c0f2",
+  "data": "synthetic only",
+  "tables": 19,
+  "migrations": [
+    {
+      "id": "001_configuration",
+      "up": "database/migrations/001_configuration.up.sql",
+      "down": "database/migrations/001_configuration.down.sql",
+      "checksum": "dc9db31cc26931970ef2f668b57fd564ade2b8b734a4752f3ccdea3963e585bc"
+    },
+    {
+      "id": "002_runtime",
+      "up": "database/migrations/002_runtime.up.sql",
+      "down": "database/migrations/002_runtime.down.sql",
+      "checksum": "acfffce3fd888a26a116d93ab4648dc634d55e523903fea6ae3a6e4d76734486"
+    }
+  ],
+  "passed": 20,
+  "failed": 0,
+  "skipped": 0,
+  "tests": [
+    {
+      "name": "PostgreSQL 17 migration and storage integration creates all 19 configuration and runtime tables on an empty database",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration repeated up is idempotent and retains checksummed ledger entries",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration rejects tampered migration history",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration rolls back a failed migration DDL and ledger entry atomically",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration supports reverse rollback and clean reapplication",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration does not allow assignments to draft configurations",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration rejects cross-experiment participant assignment",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration freezes published template records",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration freezes published condition records",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration freezes published prompt records",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration prevents assignment rewrites after pinning",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration restores an exact core snapshot through a new connection and accepts the next legal event",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration rolls back state, transition and variable when a transaction fails",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration preserves immutable distinct first and second ratings and the frozen belief",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration isolates model failure from state and variables and records unknown token usage as null",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration stores messages with sequence uniqueness and a restricted participant projection",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration enforces observer database privilege boundaries without claiming participant row authorization",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration serializes concurrent migration processes with the advisory lock",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration cannot redirect a session to another assignment",
+      "status": "passed"
+    },
+    {
+      "name": "PostgreSQL 17 migration and storage integration rejects a model log linked to another experiment prompt",
+      "status": "passed"
+    }
+  ],
+  "apiIdentityAuthorization": "not_implemented",
+  "exportService": "not_implemented",
+  "databaseReconnectCoreRestore": "passed",
+  "productionBackupRestore": "not_run",
+  "externalDatabaseConnections": 0
+}
