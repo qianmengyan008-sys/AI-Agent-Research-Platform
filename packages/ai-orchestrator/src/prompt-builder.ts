@@ -33,8 +33,12 @@ export function buildPrompt(context: GenerationContext): PromptBundle {
       : []),
     `回复长度上限：${context.policy.maxReplyLength} 字符。`,
   ].join('\n');
+  // Explicit allowlist. Backend event codes, versions, raw variables and local
+  // validator rules are not part of the model message projection.
   const memorySummary = JSON.stringify({
-    ...context.memory,
+    stageSummary: context.memory.stageSummary,
+    keyVariables: context.memory.keyVariables,
+    emotional: context.variables.emotional,
     cognitive: context.memory.cognitive?.confirmed_belief
       ? { confirmed_belief: context.memory.cognitive.confirmed_belief }
       : null,

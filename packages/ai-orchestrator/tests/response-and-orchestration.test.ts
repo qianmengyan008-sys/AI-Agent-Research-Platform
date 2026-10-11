@@ -243,6 +243,7 @@ describe('generation and bounded fallback', () => {
         }),
     };
     const pending = orchestrate(r, generator);
+    await Promise.resolve(); // Wait until the cancellable generation operation starts.
     const originalVersion = r.state.version;
     Object.assign(r.state, { version: originalVersion + 1, stage: 'REFRAME_MEDIA_ALGORITHM' });
     finish(cognitiveReply);

@@ -1,0 +1,72 @@
+{
+  "scope": "Step 4 model preflight; Step 5 real model deferred",
+  "tests": {
+    "total": 232,
+    "passed": 232,
+    "failed": 0,
+    "skipped": 0,
+    "newExperimentInterface": 25,
+    "newModelAdapterInterface": 21
+  },
+  "paths": {
+    "cognitive": {
+      "stageCalls": 9,
+      "backendTransitions": 10,
+      "lifecycle": "completed",
+      "stateUnchangedByOrchestrator": true
+    },
+    "emotional": {
+      "stageCalls": 7,
+      "backendTransitions": 8,
+      "lifecycle": "completed",
+      "stateUnchangedByOrchestrator": true
+    },
+    "daily": {
+      "stageCalls": 1,
+      "backendTransitions": 2,
+      "lifecycle": "completed",
+      "stateUnchangedByOrchestrator": true
+    }
+  },
+  "substitution": {
+    "finalStateIdentical": true,
+    "transitionsIdentical": true
+  },
+  "failureCases": [
+    {
+      "name": "providerFailure",
+      "status": "fallback",
+      "violations": ["GENERATOR_FAILURE"],
+      "stateUnchanged": true
+    },
+    {
+      "name": "timeout",
+      "status": "fallback",
+      "violations": ["GENERATOR_TIMEOUT"],
+      "stateUnchanged": true
+    },
+    {
+      "name": "invalidReply",
+      "status": "fallback",
+      "violations": ["CURRENT_STAGE_RESTRICTION", "BELIEF_ANCHOR_MISSING"],
+      "stateUnchanged": true
+    }
+  ],
+  "boundaries": {
+    "mockAdapter": true,
+    "realProviderAdapters": false,
+    "realModelCalls": 0,
+    "database": false,
+    "apiBusiness": false,
+    "newFrontend": false,
+    "semanticGuarantee": false
+  },
+  "artifacts": [
+    "docs/sixth-round-feedback.md",
+    "docs/sixth-round-feedback.docx",
+    "docs/model-adapter-design.md",
+    "docs/inputs/sixth-round-requirements.docx",
+    "docs/acceptance/step4-preflight/test-results.json",
+    "docs/acceptance/step4-preflight/adapter-examples.json"
+  ]
+}

@@ -3,6 +3,7 @@ import { buildPrompt } from './prompt-builder.js';
 import { validateResponse } from './response-validator.js';
 import { fallbackReply } from './fallback-handler.js';
 import { freeze } from './immutable.js';
+import { runGeneration, GenerationTimeoutError, GenerationAbortedError } from './generation.js';
 import type {
   LanguageGenerator,
   OrchestrationRequest,
@@ -20,6 +21,9 @@ export async function orchestrate(
   const maxAttempts = options.maxAttempts ?? 2;
   if (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 3)
     throw new Error('maxAttempts must be an integer from 1 to 3');
+  const timeoutMs = options.timeoutMs ?? 10000;
+  if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60000)
+    throw new Error('timeoutMs must be an integer from 1 to 60000');
   const context = createContext(request);
   const prompt = buildPrompt(context);
   const violations = new Set<ViolationCode>();
@@ -69,10 +73,19 @@ export async function orchestrate(
                 },
               ],
             });
-      reply = await generator.generate(attemptPrompt);
+      reply = await runGeneration(
+        (signal) => generator.generate(attemptPrompt, { timeoutMs, signal }),
+        { timeoutMs, ...(options.signal ? { signal: options.signal } : {}) },
+      );
       reasons = validateResponse(reply, context).violations;
-    } catch {
-      reasons = ['GENERATOR_FAILURE'];
+    } catch (error) {
+      reasons = [
+        error instanceof GenerationTimeoutError
+          ? 'GENERATOR_TIMEOUT'
+          : error instanceof GenerationAbortedError
+            ? 'GENERATOR_ABORTED'
+            : 'GENERATOR_FAILURE',
+      ];
     }
     if (reasons.length === 0) {
       text = reply as string;
@@ -82,6 +95,7 @@ export async function orchestrate(
     }
     for (const reason of reasons) violations.add(reason);
     await audit('rejected', reasons);
+    if (reasons.includes('GENERATOR_ABORTED')) break;
   }
   if (status !== 'generated') {
     text = fallbackReply(context);

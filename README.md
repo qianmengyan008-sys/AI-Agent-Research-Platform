@@ -2,7 +2,7 @@
 
 用于心理学实验的全新独立平台。技术栈：React + TypeScript + Vite、Node.js + Express + TypeScript、PostgreSQL。
 
-当前完成 Step 1 工程初始化、Step 2 独立状态机，以及经过第五轮强化的 Step 3 AI 编排层（仅本地 mock）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
+当前完成 Step 1 工程初始化、Step 2 独立状态机，以及经过第六轮验收强化的 AI 编排层与独立 Model Adapter（仅本地 mock）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
 
 状态机目前独立运行，尚未连接 API 或页面。尚未实现数据库、登录、管理员后台或聊天，也未接入模型。首页仍用于检查前后端连接，不代表实验系统已就绪。
 
@@ -10,7 +10,9 @@
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第五轮反馈与本轮验收成果](docs/fifth-round-feedback.md) · [Word 反馈](docs/fifth-round-feedback.docx)。整个项目 ZIP 包含反馈和 docs/acceptance/step3-review/ 下的真实测试报告、两条完整路径调用记录及汇总，可一起上传给 GPT。
+[最新：第六轮反馈与本轮验收成果](docs/sixth-round-feedback.md) · [Word 反馈](docs/sixth-round-feedback.docx) · [Model Adapter 设计](docs/model-adapter-design.md)。整个项目 ZIP 包含反馈和 docs/acceptance/step4-preflight/ 下的真实测试报告、三条完整 Mock Adapter 调用流程与失败示例，可一起上传给 GPT。
+
+[第五轮历史成果](docs/fifth-round-feedback.md)（本轮更新了上下文投影、评分保护与超时接口）。
 
 [第四轮历史成果](docs/fourth-round-feedback.md)（其中单次调用后立即兜底的描述已被第五轮有限重试机制取代）。
 
@@ -23,7 +25,8 @@ apps/
 packages/
   contracts/             共用 API 类型
   experiment-core/       版本化路径定义、事件枚举、纯迁移函数、测试与示例
-  ai-orchestrator/       当前阶段语言编排、有限上下文、输出校验、有限重试、自然兜底与异常记录接口
+  ai-orchestrator/       当前语言编排、上下文投影、输出校验、超时、重试与异常接口
+  model-adapter/         可替换语言生成接口、本地 Mock Adapter 和接口验收测试
 docs/                    架构、数据库、状态机、开发计划
 ```
 
@@ -68,7 +71,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 188 个测试覆盖状态机、编排层和原有 API 骨架。真实数据库并发、持久化恢复、迁移、权限与导出尚未实现或验证。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 232 个测试覆盖状态机、编排层和原有 API 骨架。真实数据库并发、持久化恢复、迁移、权限与导出尚未实现或验证。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -86,11 +89,13 @@ npm run example:ai
 
 完整认知与情感调用流程（合成数据）：`npx tsx packages/ai-orchestrator/examples/export-acceptance.ts`。异常记录通过返回的 auditEvents 或可选 auditSink 交给后端；尚无管理员查询页面或数据库日志持久化。
 
+Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example --workspace @research/model-adapter`。真实供应商 adapter 尚未实现。默认每次生成超时 10 秒，最多尝试 2 次，取消后不重试。
+
 单独运行：`npm run typecheck`、`npm run lint`、`npm run format:check`、`npm test`、`npm run build`。`npm run format` 用于格式化新代码；已有四份研究设计文档不纳入自动重排。
 
 ## 后续任务
 
-按第五轮指令，本轮强化并复核 Step 3 AI 编排层；Step 4 真实模型接入暂缓。数据库、API 业务、参与者页面、后台与真实模型均等待后续具体确认；不沿用旧计划自动进入数据库任务。自动化测试随实现持续添加。
+按第六轮指令，完成模型接入前的接口与 Mock Adapter 验收；Step 5 真实模型接入与端到端测试暂缓。数据库、API 业务、参与者页面、后台与真实模型均等待后续具体确认；不沿用旧计划自动进入数据库任务。自动化测试随实现持续添加。
 
 ## 第一轮设计
 

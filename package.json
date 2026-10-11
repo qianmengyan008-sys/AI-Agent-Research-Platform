@@ -13,11 +13,12 @@
     "packages/experiment-core",
     "apps/api",
     "apps/web",
-    "packages/ai-orchestrator"
+    "packages/ai-orchestrator",
+    "packages/model-adapter"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "build:packages": "npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core",
+    "build:packages": "npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator",
     "typecheck": "npm run build:packages && npm run typecheck --workspaces",
     "dev": "npm run dev:web",
     "dev:web": "npm run build:packages && npm run dev --workspace @research/web",

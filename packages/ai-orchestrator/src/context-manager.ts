@@ -124,16 +124,15 @@ export function createContext(request: OrchestrationRequest): GenerationContext 
   if (state.path === 'emotional' && !policy.scene)
     throw new Error('Emotional stage requires a fixed current scene');
   const cognitive = state.path === 'cognitive' ? cognitiveVariables(state.variables) : null;
-  if (
+  const frozenBeliefStage =
     state.path === 'cognitive' &&
-    state.stage.startsWith('REFRAME_') &&
-    !policy.requiresConfirmedBelief
-  ) {
-    throw new Error('Reframing policy must require the confirmed belief');
+    (state.stage.startsWith('REFRAME_') ||
+      ['INITIAL_RATING', 'SECOND_RATING'].includes(state.stage));
+  if (frozenBeliefStage && !policy.requiresConfirmedBelief) {
+    throw new Error('Rating and reframing policy must require the confirmed belief');
   }
   if (
-    (policy.requiresConfirmedBelief ||
-      (state.path === 'cognitive' && state.stage.startsWith('REFRAME_'))) &&
+    (policy.requiresConfirmedBelief || frozenBeliefStage) &&
     (!cognitive?.confirmed_belief || state.variables.viewpoint_confirmed !== true)
   )
     throw new Error('Cognitive reframing requires an explicitly confirmed belief');
@@ -190,6 +189,8 @@ export function createContext(request: OrchestrationRequest): GenerationContext 
       throw new Error(
         'Cognitive variables are exposed only through the protected belief projection',
       );
+    if (state.path !== 'emotional' || key !== 'persona_snapshot')
+      throw new Error('Variable key is not in the model-visible allowlist');
     if (['__proto__', 'constructor', 'prototype'].includes(key))
       throw new Error('Unsafe variable key');
     const value = state.variables[key];
@@ -204,7 +205,24 @@ export function createContext(request: OrchestrationRequest): GenerationContext 
       throw new Error('Invalid key variable');
     keyVariables[key] = value ?? null;
   }
+  const completedEvents = [...eventCounts].map(([type, count]) => ({ type, count }));
   return freeze({
+    experiment: {
+      currentStage: state.stage,
+      experimentVersion: state.experimentVersion,
+      stateVersion: state.version,
+      completedEvents,
+    },
+    variables: {
+      cognitive,
+      emotional: policy.scene
+        ? {
+            persona_snapshot: keyVariables.persona_snapshot ?? null,
+            scene_state: policy.scene.scene_state,
+            scene_phase: policy.scene.scene_phase,
+          }
+        : null,
+    },
     path: state.path,
     experimentVersion: state.experimentVersion,
     stage: state.stage,
@@ -212,7 +230,7 @@ export function createContext(request: OrchestrationRequest): GenerationContext 
     policy: structuredClone(policy),
     memory: {
       stageSummary: summary,
-      completedEvents: [...eventCounts].map(([type, count]) => ({ type, count })),
+      completedEvents,
       keyVariables,
       cognitive,
     },

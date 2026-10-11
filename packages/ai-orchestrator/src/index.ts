@@ -15,7 +15,9 @@ export type {
   PromptMessage,
   PromptBundle,
   LanguageGenerator,
+  GenerationOptions,
   ViolationCode,
   ResponseValidation,
   OrchestrationResult,
 } from './types.js';
+export { runGeneration, GenerationTimeoutError, GenerationAbortedError } from './generation.js';

@@ -9,7 +9,10 @@ export function demoPolicy(definition: ExperimentDefinition, stage: string): Sta
     stage === definition.stages[0]?.id
   )
     throw new Error('Only active stages have generation policies');
-  const requiresConfirmedBelief = definition.path === 'cognitive' && stage.startsWith('REFRAME_');
+  const isReframe = definition.path === 'cognitive' && stage.startsWith('REFRAME_');
+  const requiresConfirmedBelief =
+    isReframe ||
+    (definition.path === 'cognitive' && ['INITIAL_RATING', 'SECOND_RATING'].includes(stage));
   const goals: Record<string, string> = {
     STEREOTYPE_CAPTURE: '邀请用户表达当前观点，不代替用户填写。',
     VIEWPOINT_CONFIRMATION: '邀请用户明确确认自己的观点，不替用户确认。',
@@ -32,15 +35,22 @@ export function demoPolicy(definition: ExperimentDefinition, stage: string): Sta
   const goal = goals[stage];
   if (!goal) throw new Error('A custom stage requires its own approved policy');
   const emotional = definition.path === 'emotional';
-  const fallbackReplies = requiresConfirmedBelief
+  const ratingStage =
+    definition.path === 'cognitive' && ['INITIAL_RATING', 'SECOND_RATING'].includes(stage);
+  const fallbackReplies = ratingStage
     ? [
-        '你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？',
-        '听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？',
+        '对于“{{confirmed_belief}}”，你会怎样评价自己的认同程度？',
+        '想到“{{confirmed_belief}}”，你现在的认同程度是什么？',
       ]
-    : [
-        '听起来这对你有些意义。你愿意多说一点吗？',
-        '我在听。刚才提到的内容里，哪一点让你印象最深？',
-      ];
+    : requiresConfirmedBelief
+      ? [
+          '你提到“{{confirmed_belief}}”。哪些经历让你形成了这样的看法？',
+          '听到你说“{{confirmed_belief}}”，我很好奇，你觉得哪些因素与此有关？',
+        ]
+      : [
+          '听起来这对你有些意义。你愿意多说一点吗？',
+          '我在听。刚才提到的内容里，哪一点让你印象最深？',
+        ];
   return freeze({
     path: definition.path,
     experimentVersion: definition.experimentVersion,
@@ -74,7 +84,7 @@ export function demoPolicy(definition: ExperimentDefinition, stage: string): Sta
     forbiddenContent:
       definition.path === 'daily'
         ? ['认知重构', '制造误解', '改变你的刻板印象']
-        : requiresConfirmedBelief
+        : isReframe
           ? ['现在进行第二次评分', '现在填写行动意愿']
           : [],
     fallbackReplies,

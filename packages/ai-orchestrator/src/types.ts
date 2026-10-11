@@ -54,6 +54,21 @@ export interface GenerationContext {
   readonly stage: string;
   readonly stateVersion: number;
   readonly policy: StagePolicy;
+  /** Backend-only structured facts, never serialized wholesale to the model. */
+  readonly experiment: {
+    readonly currentStage: string;
+    readonly experimentVersion: string;
+    readonly stateVersion: number;
+    readonly completedEvents: readonly { readonly type: string; readonly count: number }[];
+  };
+  readonly variables: {
+    readonly cognitive: CognitiveVariables | null;
+    readonly emotional: {
+      readonly persona_snapshot: Scalar | null;
+      readonly scene_state: string;
+      readonly scene_phase: string;
+    } | null;
+  };
   readonly memory: {
     readonly stageSummary: string;
     readonly completedEvents: readonly { readonly type: string; readonly count: number }[];
@@ -78,7 +93,7 @@ export interface PromptBundle {
 }
 /** No tools, state writes, callbacks, or structured transition outputs. */
 export interface LanguageGenerator {
-  generate(prompt: PromptBundle): Promise<unknown>;
+  generate(prompt: PromptBundle, options?: GenerationOptions): Promise<unknown>;
 }
 export type ViolationCode =
   | 'EMPTY_REPLY'
@@ -91,6 +106,8 @@ export type ViolationCode =
   | 'BELIEF_ANCHOR_MISSING'
   | 'BELIEF_REPLACEMENT'
   | 'GENERATOR_FAILURE'
+  | 'GENERATOR_TIMEOUT'
+  | 'GENERATOR_ABORTED'
   | 'CONTROL_INSTRUCTION'
   | 'BACKEND_DISCLOSURE';
 export interface ResponseValidation {
@@ -120,7 +137,12 @@ export interface AuditEvent {
   readonly outcome: 'rejected' | 'regenerated' | 'fallback' | 'blocked';
   readonly violations: readonly ViolationCode[];
 }
-export interface OrchestrationOptions {
+export interface GenerationOptions {
+  /** Per attempt, 1–60000ms; default 10000ms. */
+  readonly timeoutMs?: number;
+  readonly signal?: AbortSignal;
+}
+export interface OrchestrationOptions extends GenerationOptions {
   /** Total generation attempts, including the first; bounded to 1–3. Default 2. */
   readonly maxAttempts?: number;
   readonly auditSink?: (event: AuditEvent) => void | Promise<void>;
