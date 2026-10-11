@@ -1,0 +1,48 @@
+{
+  "round": 20,
+  "commands": [
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run lint",
+      "exit_code": 0
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round20 npm test -- --reporter=json --outputFile=docs/acceptance/step6-round20/test-results.json",
+      "exit_code": 0,
+      "passed": 426
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round20 BROWSER_REPORT_PATH=docs/acceptance/step6-round20/browser-results.json npm run test:browser",
+      "exit_code": 0,
+      "passed": 15
+    },
+    {
+      "command": "node --use-env-proxy --import tsx packages/model-adapter/examples/compare-providers.ts docs/acceptance/step6-round20/real-model-comparison",
+      "exit_code": 2,
+      "status": "not_run",
+      "external_model_calls": 0
+    },
+    {
+      "command": "node --use-env-proxy --import tsx packages/model-adapter/examples/compare-providers.ts docs/acceptance/step6-round20/fixture-model-comparison --fixture",
+      "exit_code": 0,
+      "cases": 64,
+      "external_model_calls": 0
+    },
+    {
+      "command": "npm run check",
+      "status": "passed",
+      "exit_code": 0,
+      "checks": [
+        "typecheck",
+        "lint",
+        "format:check",
+        "426 Vitest tests",
+        "workspace builds",
+        "15 Playwright tests"
+      ]
+    }
+  ]
+}

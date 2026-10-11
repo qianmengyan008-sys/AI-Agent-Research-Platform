@@ -13,6 +13,18 @@ export interface ModelSettings {
   readonly max_attempts: number;
 }
 export type ModelEnvironment = Readonly<Record<string, string | undefined>>;
+/** Provider-specific credentials/endpoints take precedence; generic configuration stays compatible. */
+function selectedEnvironment(env: ModelEnvironment): ModelEnvironment {
+  const prefix =
+    env.MODEL_PROVIDER === 'gpt' ? 'GPT' : env.MODEL_PROVIDER === 'deepseek' ? 'DEEPSEEK' : null;
+  if (!prefix) return env;
+  return {
+    ...env,
+    MODEL_NAME: env[`${prefix}_MODEL_NAME`] ?? env.MODEL_NAME,
+    MODEL_API_BASE_URL: env[`${prefix}_API_BASE_URL`] ?? env.MODEL_API_BASE_URL,
+    MODEL_API_KEY: env[`${prefix}_API_KEY`] ?? env.MODEL_API_KEY,
+  };
+}
 function number(
   env: ModelEnvironment,
   name: string,
@@ -33,7 +45,9 @@ function number(
   return value;
 }
 export function modelSettings(env: ModelEnvironment): ModelSettings {
-  const provider = env.MODEL_PROVIDER ?? 'mock';
+  env = selectedEnvironment(env);
+  const provider =
+    env.MODEL_PROVIDER === 'gpt' ? 'openai-compatible' : (env.MODEL_PROVIDER ?? 'mock');
   if (!['mock', 'openai-compatible', 'deepseek'].includes(provider))
     throw new Error('Invalid MODEL_PROVIDER');
   const model = provider === 'mock' ? 'local-mock' : env.MODEL_NAME;
@@ -56,6 +70,7 @@ export function createConfiguredGenerator(
   env: ModelEnvironment,
   transport?: FetchTransport,
 ): { readonly generator: LanguageGenerator; readonly settings: ModelSettings } {
+  env = selectedEnvironment(env);
   const settings = modelSettings(env);
   const generator: LanguageGenerator =
     settings.provider === 'mock'
