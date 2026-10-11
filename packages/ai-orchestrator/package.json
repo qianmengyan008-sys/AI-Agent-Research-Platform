@@ -1,0 +1,21 @@
+{
+  "name": "@research/ai-orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json",
+    "example": "tsx examples/calls.ts"
+  },
+  "dependencies": {
+    "@research/contracts": "0.1.0",
+    "@research/experiment-core": "0.1.0"
+  }
+}
