@@ -1,9 +1,14 @@
 import { writeFile } from 'node:fs/promises';
 import { cognitiveV1, emotionV1 } from '@research/experiment-core';
-import { createContext, demoPolicy, orchestrate } from '@research/ai-orchestrator';
-import { createConfiguredGenerator, participantReply } from '../src/index.js';
+import { demoPolicy } from '@research/ai-orchestrator';
+import { createConfiguredGenerator } from '../src/index.js';
 import { runExperiment, stateAt, confirmedBelief } from './experiment-run.js';
 import { experimentCases } from './experiment-cases.js';
+import {
+  diagnosticCall,
+  generationDiagnostics,
+  boundaryFaultDiagnostics,
+} from './generation-diagnostics.js';
 
 const output = process.argv[2];
 const env: Record<string, string | undefined> = {
@@ -53,23 +58,33 @@ if (missing.length > 0) {
           policy: demoPolicy(definition, state.stage),
           userInput: scenario.input,
         };
-        const before = JSON.stringify(state);
-        const result = await orchestrate(request, counted, {
-          timeoutMs: settings.timeout_ms,
-          maxAttempts: settings.max_attempts,
-        });
-        cases.push({
-          id: scenario.id,
-          stage: state.stage,
-          result,
-          participant: participantReply(result),
-          stateUnchanged: JSON.stringify(state) === before,
-          cognitive: createContext(request).variables.cognitive,
-        });
+        cases.push(await diagnosticCall(request, counted, settings, scenario.id));
       }
     }
-    const completed = cognitive.status === 'completed' && emotional?.status === 'completed';
-    const results = [...cognitive.calls, ...(emotional?.calls ?? []), ...cases];
+    const pathsCompleted = cognitive.status === 'completed' && emotional?.status === 'completed';
+    const diagnostics = pathsCompleted ? await generationDiagnostics(counted, settings) : null;
+    const faults = await boundaryFaultDiagnostics(settings);
+    const diagnosticResults = diagnostics
+      ? [diagnostics.single, ...diagnostics.multi, diagnostics.long]
+      : [];
+    const results = [
+      ...cognitive.calls,
+      ...(emotional?.calls ?? []),
+      ...cases,
+      ...diagnosticResults,
+    ];
+    const completed =
+      pathsCompleted &&
+      cases.length === experimentCases.length &&
+      diagnostics?.multi.length === 3 &&
+      results.every(
+        (call) =>
+          call.stateUnchanged &&
+          call.result.status !== 'blocked' &&
+          !call.result.violations.some((v) =>
+            ['GENERATOR_FAILURE', 'GENERATOR_TIMEOUT', 'GENERATOR_ABORTED'].includes(v),
+          ),
+      );
     const cleanOutputs =
       completed &&
       results.every(
@@ -83,11 +98,14 @@ if (missing.length > 0) {
           ? 'completed'
           : 'completed_with_guard_interventions',
       synthetic: true,
+      inputData: 'synthetic; provider calls are real',
       settings,
       realProviderCalls: calls,
       cognitive,
       emotional,
       cases,
+      diagnostics,
+      localFaultInjection: faults,
       controlInvariantsPassed: completed && results.every((call) => call.stateUnchanged),
       allOutputsPassedTextGuardsWithoutRecovery: cleanOutputs,
       semanticReview: 'pending_researcher_review',

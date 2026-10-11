@@ -129,6 +129,8 @@ export interface OrchestrationResult {
 
 /** Metadata only; no participant input, belief, prompt or provider error. */
 export interface AuditEvent {
+  /** Diagnostic failure only, never an experiment state-machine event. */
+  readonly type?: 'MODEL_GENERATION_FAILED';
   readonly path: ExperimentPath;
   readonly stage: string;
   readonly experimentVersion: string;

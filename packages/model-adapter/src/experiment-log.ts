@@ -6,6 +6,7 @@ export function experimentLog(input: {
   conversation_id: string;
   participant_id: string;
   model_name: string;
+  model_parameters?: { readonly temperature: number; readonly max_tokens: number };
   state_before: ExperimentStateSnapshot;
   state_after: ExperimentStateSnapshot;
   result: OrchestrationResult;
@@ -22,6 +23,16 @@ export function experimentLog(input: {
     input.fallback_count < 0
   )
     throw new Error('Invalid experiment log metadata');
+  if (
+    input.model_parameters &&
+    (!Number.isFinite(input.model_parameters.temperature) ||
+      input.model_parameters.temperature < 0 ||
+      input.model_parameters.temperature > 2 ||
+      !Number.isSafeInteger(input.model_parameters.max_tokens) ||
+      input.model_parameters.max_tokens < 1 ||
+      input.model_parameters.max_tokens > 32768)
+  )
+    throw new Error('Invalid model log parameters');
   const snapshot = (state: ExperimentStateSnapshot) =>
     Object.freeze({
       path: state.path,
@@ -37,6 +48,9 @@ export function experimentLog(input: {
     state_after: snapshot(input.state_after),
     model_name: input.model_name,
     prompt_version: PROMPT_VERSION,
+    temperature: input.model_parameters?.temperature ?? null,
+    max_tokens: input.model_parameters?.max_tokens ?? null,
+    retry_count: Math.max(0, input.result.attempts - 1),
     response_latency: input.response_latency,
     validator_result: Object.freeze({
       status: input.result.status,

@@ -40,7 +40,13 @@ export async function orchestrate(
   let status: OrchestrationResult['status'] = 'blocked';
   let attempts = 0;
   async function audit(outcome: AuditEvent['outcome'], reasons: readonly ViolationCode[]) {
+    const modelFailure =
+      outcome === 'rejected' &&
+      reasons.some((reason) =>
+        ['GENERATOR_FAILURE', 'GENERATOR_TIMEOUT', 'GENERATOR_ABORTED'].includes(reason),
+      );
     const event = freeze({
+      ...(modelFailure ? { type: 'MODEL_GENERATION_FAILED' as const } : {}),
       path: context.path,
       stage: context.stage,
       experimentVersion: context.experimentVersion,

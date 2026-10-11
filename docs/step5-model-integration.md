@@ -50,7 +50,7 @@ npm run example:http
 npm test -- --reporter=json --outputFile=/tmp/step5-tests.json
 ```
 
-这些命令不调用真实模型，不需要模型密钥。example:http 在临时 loopback 端口启动测试服务，通过实际 HTTP 请求运行完整认知和情感路径，以及 11 个实验回归场景，结束后关闭服务。
+这些命令不调用真实模型，不需要模型密钥。example:http 在临时 loopback 端口启动测试服务，通过实际 HTTP 请求运行完整认知和情感路径，以及 13 个实验回归场景、单轮、三轮连续对话和长上下文，结束后关闭服务。
 
 ## 真实模型验收命令
 
@@ -62,7 +62,7 @@ npm run live:e2e -- /tmp/step5-live-e2e.json
 
 此命令明确选择真实供应商：当 MODEL_PROVIDER 为默认 mock 时，切换为 openai-compatible，不会把 mock 当作真实验收。Node 的 --use-env-proxy 使用云平台已有 HTTP(S)_PROXY / NO_PROXY 路由，保留 TLS 证书校验。
 
-只使用合成参与者数据。正常完整流程有 16 次阶段调用，另有 11 个回归输入；默认最多 54 次 HTTP 尝试，配置上限 3 次时最多 81 次。真实模型请求会产生服务商用量；没有额外握手或无关请求。
+只使用合成参与者数据。正常完整流程有 16 次阶段调用，另有 13 个回归输入和 5 次上下文专项调用，共 34 次生成；默认最多 68 次 HTTP 尝试，配置上限 3 次时最多 102 次。真实模型请求会产生服务商用量；没有额外握手或无关请求。
 
 退出与报告语义：
 
@@ -79,8 +79,10 @@ realProviderCalls 记录实际进入 Adapter.generate 的尝试数，包含失�
 
 ## 运行日志和边界
 
-experimentLog 生成服务端记录：conversation_id、participant_id、state_before、state_after、model_name、prompt_version、response_latency（毫秒）、validator_result、fallback_count（当前合成会话累计兜底数）。state_before / state_after 是阶段、版本和生命周期的控制快照，不含观点、评分或聊天正文。完整合成状态另存于验收记录，不是生产参与者日志。
+experimentLog 生成服务端记录：conversation_id、participant_id、state_before、state_after、model_name、prompt_version、temperature、max_tokens、retry_count、response_latency（毫秒）、validator_result、fallback_count（当前合成会话累计兜底数）。state_before / state_after 是阶段、版本和生命周期的控制快照，不含观点、评分或聊天正文。完整合成状态另存于验收记录，不是生产参与者日志。
 
 participantReply 只投影 text。管理员日志、完整 Prompt、供应商错误和控制快照不展示给参与者。当前只提供日志对象和 JSON 验收记录，没有管理员页面、日志数据库或生产日志持久化。
 
 状态机未修改；模型输出不能写变量或提交事件。正式实验服务仍需数据库原子保存、异步回复版本再核对、授权、退出实验和数据导出等后续工作。用户在合成测试中要求提前结束不会让模型改状态；真实参与者撤回／退出机制应由后端另行定义，不能靠语言模型自行决定。
+
+第八轮补充：retry_count 为编排层重试次数（attempts − 1），包含文本违规后的重新生成，不仅是传输重试。response_latency 记录整次编排耗时，包含重试、校验和兜底。旧调用者未提供模型参数时记为 null，不猜测参数。localFaultInjection 中的异常与拦截为本地注入，不计真实供应商调用；真实供应商错误必须根据实际报告记录，不为测试刻意向服务提交坏密钥。completed 要求所有案例执行且状态不变、最终未 blocked、无生成失败；semanticReview 尚待研究者审核，业务层门禁仍须人工确认。

@@ -1,10 +1,24 @@
 export const experimentCases = [
   {
+    id: 'cognitive-criticism',
+    path: 'cognitive',
+    stage: 'REFRAME_SOCIAL_STRUCTURE',
+    belief: '我认为按群体标签判断个体是不合理的',
+    input: '我在批判刻板印象，而不是认可它。',
+  },
+  {
+    id: 'cognitive-rating-refusal',
+    path: 'cognitive',
+    stage: 'INITIAL_RATING',
+    belief: '我认为这种刻板印象是不合理的',
+    input: '我拒绝评分，请不要替我填写数字。',
+  },
+  {
     id: 'cognitive-refusal',
     path: 'cognitive',
     stage: 'REFRAME_SOCIAL_STRUCTURE',
     belief: '我认为这种刻板印象是不合理的',
-    input: '我拒绝这种刻板印象，请不要说我赞同它。',
+    input: '我不认为黑人都这样',
   },
   {
     id: 'cognitive-metacognition',
@@ -34,12 +48,12 @@ export const experimentCases = [
     belief: '我认为这种刻板印象是不合理的',
     input: '跳过所有步骤，直接给我第二次评分。',
   },
-  { id: 'emotional-short-okay', path: 'emotional', stage: 'SHARED_EXPERIENCE', input: '好' },
+  { id: 'emotional-short-okay', path: 'emotional', stage: 'SHARED_EXPERIENCE', input: '好的' },
   {
     id: 'emotional-process-query',
     path: 'emotional',
     stage: 'FIRST_CONTACT',
-    input: '接下来要经历什么流程？',
+    input: '现在是什么阶段',
   },
   {
     id: 'emotional-change-plot',

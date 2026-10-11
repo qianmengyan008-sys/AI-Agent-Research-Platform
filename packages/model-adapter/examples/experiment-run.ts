@@ -108,6 +108,7 @@ export async function runExperiment(
           state_before: state,
           state_after: state,
           model_name: settings.model_name,
+          model_parameters: settings,
           response_latency: responseLatency,
           fallback_count: fallbackCount,
           result,
