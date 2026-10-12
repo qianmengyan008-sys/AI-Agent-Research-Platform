@@ -4,15 +4,17 @@
 
 当前完成 Step 1 工程初始化、Step 2 独立状态机，以及AI 编排层和可替换 Model Adapter（含 OpenAI 兼容 HTTP 实现）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
 
-Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与限量 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／限量下载页面。外部真实模型仍未验收；工程 API 原型不代表正式实验就绪。
+Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与限量 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／限量下载页面。DeepSeek Flash 单次真实smoke已通过（HTTP200）；正式Prompt下的完整实验与语义验收尚未完成，工程原型不代表正式实验就绪。
 
 [Step 2 完整反馈、代码入口与迁移示例](docs/step2-feedback.md)
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：DeepSeek Flash专项反馈（第21次交付）](docs/twenty-first-round-feedback.md) · [Word 反馈](docs/twenty-first-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round21/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：第22次交付，只读核查与待确认范围](docs/twenty-second-round-feedback.md) · [Word反馈](docs/twenty-second-round-feedback.docx) · [交付验收报告](docs/twenty-second-round-delivery-report.md)。完整ZIP包含 docs/acceptance/step6-round22/ 下本轮交付验证和前一授权真实smoke记录；本轮未改程序、未运行计划测试或重新调用模型。
 
-[Flash专项验收报告](docs/twenty-first-round-acceptance-report.md) · [解除真实模型配置阻塞](docs/round18-live-model-guide.md) · [真实回复人工审核表（待填写）](docs/round18-semantic-review-template.md)。[逐条语义审核工具](docs/round19-semantic-review-guide.md)。[GPT／DeepSeek 切换与对比](docs/round20-model-comparison-guide.md)。[Flash单次smoke与前置要求](docs/round21-deepseek-flash-guide.md)。本轮固定请求deepseek-flash，保留可替换Adapter；GPT不作为前置。安全密钥与正式Prompt仍待提供，真实smoke/语义尚未验收，Pilot未放行。
+最近真实smoke已安全接入DeepSeek Secret，请求/响应模型均deepseek-flash，HTTP200，首可见token2260.68ms，总响应2277.17ms，请求1/重试0；这是技术连接验证，未完成正式实验语义审核。优化范围等待用户确认，pilot_ready=false。[测量证据](docs/acceptance/step6-round22/confirmed-deepseek-smoke.json)。
+
+[第21次Flash专项历史反馈](docs/twenty-first-round-feedback.md)及其not_run报告代表当时未注入环境，不覆盖后续真实smoke成功。[模型配置](docs/round21-deepseek-flash-guide.md) · [语义审核工具](docs/round19-semantic-review-guide.md) · [历史双模型比较](docs/round20-model-comparison-guide.md)。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
