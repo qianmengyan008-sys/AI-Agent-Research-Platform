@@ -1,0 +1,133 @@
+{
+  "round": 21,
+  "date": "2026-10-12",
+  "timezone": "Etc/GMT-8",
+  "environment": {
+    "round": 21,
+    "date": "2026-10-12",
+    "timezone": "Etc/GMT-8",
+    "input_title": "Codex 第二十轮反馈：确定 DeepSeek-Flash 并解除真实模型阻塞",
+    "base_commit": "0eb058034cc36ac6bbb08ebe1d6dfd4f2dc9486e",
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "docker": "28.4.0",
+    "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+    "runtime_presence": {
+      "DEEPSEEK_API_KEY": false,
+      "DEEPSEEK_MODEL_NAME": false,
+      "DATABASE_URL": false,
+      "ADMIN_ACCESS_TOKEN_HASH": false
+    },
+    "smoke_nonsecret_overrides": {
+      "MODEL_PROVIDER": "deepseek",
+      "DEEPSEEK_MODEL_NAME": "deepseek-flash",
+      "DEEPSEEK_API_BASE_URL": "https://api.deepseek.com/v1"
+    },
+    "key_supplied_in_chat_not_copied_to_tools_or_files": true,
+    "lockfile_sha256": "c8ed363636b459ce20892b7303206db344ae21811835de383fce3d128e9bd550",
+    "secrets_recorded": false
+  },
+  "engineering": {
+    "vitest_passed": 435,
+    "playwright_passed": 15,
+    "total_passed": 450,
+    "failed": 0,
+    "skipped": 0,
+    "new_tests": 9
+  },
+  "engineering_check": {
+    "command": "npm run check",
+    "status": "passed",
+    "exit_code": 0,
+    "checks": [
+      "typecheck",
+      "lint",
+      "format:check",
+      "435 Vitest tests",
+      "workspace builds",
+      "15 Playwright tests"
+    ]
+  },
+  "smoke": {
+    "mode": "real-provider",
+    "provider": "deepseek",
+    "requested_model": "deepseek-flash",
+    "response_model": null,
+    "route_claim_verified": false,
+    "scope": "single protocol smoke, not study semantic acceptance",
+    "retry_count": 0,
+    "fallback_count": 0,
+    "pilot_ready": false,
+    "formal_ready": false,
+    "status": "not_run",
+    "failure_layer": "runtime_configuration",
+    "missing_variables": ["DEEPSEEK_API_KEY"],
+    "adapter_attempts": 0,
+    "external_model_calls": 0,
+    "request_sent": false,
+    "http_status": null,
+    "latency_ms": null,
+    "output": null,
+    "error_code": null
+  },
+  "model_identity": {
+    "provider": "deepseek",
+    "requested_model": "deepseek-flash",
+    "request_sent": false,
+    "response_model": null,
+    "user_supplied_route_claim": "DeepSeek V4.1 Flash",
+    "route_claim_verified": false,
+    "source": "deepseek-flash-smoke.json",
+    "business_response_model_archival": "not_implemented; existing model_name is requested configuration, not provider identity"
+  },
+  "performance": {
+    "real": {
+      "mode": "real-provider",
+      "status": "not_run",
+      "count": 0,
+      "p50_ms": null,
+      "p95_ms": null,
+      "max_ms": null,
+      "over_3s_count": null,
+      "over_5s_count": null,
+      "retry_count": null,
+      "fallback_count": null,
+      "definition": "whole operation elapsed time; no 1-second cutoff; no fabricated zero measurements"
+    },
+    "fixture": {
+      "mode": "local-fixture",
+      "source": "local-business-acceptance.json",
+      "count": 18,
+      "p50_ms": 2.308778999999049,
+      "p95_ms": 2.6024209999995946,
+      "max_ms": 2.6024209999995946,
+      "over_3s_count": 0,
+      "over_5s_count": 0,
+      "retry_count": 0,
+      "fallback_count": 0,
+      "definition": "whole operation elapsed time; no 1-second cutoff; no fabricated zero measurements"
+    }
+  },
+  "study_execution": "not_run",
+  "semantic_review": "not_run",
+  "required_provider": "deepseek_only",
+  "both_provider_comparison_required": false,
+  "pilot_ready": false,
+  "formal_ready": false,
+  "blocking": [
+    "secure_runtime_key",
+    "technical_smoke",
+    "formal_stage_policies_and_prompt_version",
+    "source_fields_and_scales",
+    "four_reframe_interaction_counts",
+    "stereotype_vs_context_metacognition",
+    "action_intention_target",
+    "emotional_opening_and_character_name",
+    "fixed_scene_skeleton_and_transitions",
+    "three_bubble_final_assembly",
+    "end_feedback_and_farewell_semantics",
+    "candidate_and_response_model_business_trace",
+    "human_semantic_signoff",
+    "formal_archive_and_target_environment"
+  ]
+}

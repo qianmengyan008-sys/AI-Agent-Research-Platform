@@ -1,0 +1,41 @@
+{
+  "commands": [
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run lint",
+      "exit_code": 0
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round21 npm test -- --reporter=json --outputFile=docs/acceptance/step6-round21/test-results.json",
+      "exit_code": 0,
+      "passed": 435
+    },
+    {
+      "command": "RESEARCH_ACCEPTANCE_DIR=docs/acceptance/step6-round21 BROWSER_REPORT_PATH=docs/acceptance/step6-round21/browser-results.json npm run test:browser",
+      "exit_code": 0,
+      "passed": 15
+    },
+    {
+      "command": "MODEL_PROVIDER=deepseek DEEPSEEK_MODEL_NAME=deepseek-flash DEEPSEEK_API_BASE_URL=https://api.deepseek.com/v1 node --use-env-proxy --import tsx packages/model-adapter/examples/smoke-deepseek.ts docs/acceptance/step6-round21/deepseek-flash-smoke.json",
+      "exit_code": 2,
+      "status": "not_run",
+      "external_model_calls": 0
+    },
+    {
+      "command": "npm run check",
+      "status": "passed",
+      "exit_code": 0,
+      "checks": [
+        "typecheck",
+        "lint",
+        "format:check",
+        "435 Vitest tests",
+        "workspace builds",
+        "15 Playwright tests"
+      ]
+    }
+  ]
+}

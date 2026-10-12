@@ -1,4 +1,5 @@
 import { runGeneration, GenerationFailureError } from '@research/ai-orchestrator';
+import { GenerationTimeoutError, GenerationAbortedError } from '@research/ai-orchestrator';
 import type { GenerationOptions, LanguageGenerator, PromptBundle } from '@research/ai-orchestrator';
 
 export type ProviderErrorCode =
@@ -29,6 +30,16 @@ export interface OpenAICompatibleConfig {
   readonly allowLocalHTTP?: boolean;
 }
 export type FetchTransport = typeof fetch;
+export interface ModelGenerationMeasurement {
+  readonly status: 'completed' | 'failed';
+  readonly requested_model: string;
+  readonly response_model: string | null;
+  readonly http_status: number | null;
+  readonly latency_ms: number;
+  readonly retry_count: 0;
+  readonly text: string | null;
+  readonly error_code: ProviderErrorCode | 'TIMEOUT' | 'ABORTED' | 'UNEXPECTED' | null;
+}
 const MAX_RESPONSE_BYTES = 1024 * 1024;
 
 /** One HTTP request per call. Retry budget belongs to the orchestrator. */
@@ -67,6 +78,56 @@ export class OpenAICompatibleAdapter implements LanguageGenerator {
     this.#transport = transport;
   }
   generate(prompt: PromptBundle, options: GenerationOptions = {}): Promise<string> {
+    return this.#request(prompt, options);
+  }
+  /** Single adapter attempt; metadata belongs to this call, never shared across requests. */
+  async generateWithMetadata(
+    prompt: PromptBundle,
+    options: GenerationOptions = {},
+  ): Promise<ModelGenerationMeasurement> {
+    let httpStatus: number | null = null,
+      responseModel: string | null = null;
+    const started = performance.now();
+    try {
+      const text = await this.#request(prompt, options, (status, model) => {
+        httpStatus = status;
+        responseModel = model;
+      });
+      return {
+        status: 'completed',
+        requested_model: this.#config.model,
+        response_model: responseModel,
+        http_status: httpStatus,
+        latency_ms: performance.now() - started,
+        retry_count: 0,
+        text,
+        error_code: null,
+      };
+    } catch (error) {
+      return {
+        status: 'failed',
+        requested_model: this.#config.model,
+        response_model: responseModel,
+        http_status: httpStatus,
+        latency_ms: performance.now() - started,
+        retry_count: 0,
+        text: null,
+        error_code:
+          error instanceof ModelAdapterError
+            ? error.code
+            : error instanceof GenerationTimeoutError
+              ? 'TIMEOUT'
+              : error instanceof GenerationAbortedError
+                ? 'ABORTED'
+                : 'UNEXPECTED',
+      };
+    }
+  }
+  #request(
+    prompt: PromptBundle,
+    options: GenerationOptions,
+    observe?: (status: number, model: string | null) => void,
+  ): Promise<string> {
     return runGeneration(
       async (signal) => {
         try {
@@ -87,6 +148,7 @@ export class OpenAICompatibleAdapter implements LanguageGenerator {
               stream: false,
             }),
           });
+          observe?.(response.status, null);
           if (!response.ok) {
             await response.body?.cancel();
             const code: ProviderErrorCode =
@@ -129,6 +191,16 @@ export class OpenAICompatibleAdapter implements LanguageGenerator {
           } catch {
             throw new ModelAdapterError('INVALID_RESPONSE', false);
           }
+          const responseModel =
+            payload &&
+            typeof payload === 'object' &&
+            'model' in payload &&
+            typeof payload.model === 'string' &&
+            payload.model.length > 0 &&
+            payload.model.length <= 128
+              ? payload.model
+              : null;
+          observe?.(response.status, responseModel);
           if (
             !payload ||
             typeof payload !== 'object' ||

@@ -9,6 +9,7 @@ export type {
   OpenAICompatibleConfig,
   FetchTransport,
   ProviderErrorCode,
+  ModelGenerationMeasurement,
 } from './providers/openai-compatible-adapter.js';
 export { modelSettings, createConfiguredGenerator } from './config.js';
 export type { ModelSettings, ModelEnvironment } from './config.js';

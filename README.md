@@ -10,9 +10,9 @@ Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分�
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第二十轮反馈与本轮验收成果](docs/twentieth-round-feedback.md) · [Word 反馈](docs/twentieth-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round20/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
+[最新：DeepSeek Flash专项反馈（第21次交付）](docs/twenty-first-round-feedback.md) · [Word 反馈](docs/twenty-first-round-feedback.docx) · [模型配置与运行](docs/step5-model-integration.md)。项目 ZIP 包含 docs/acceptance/step6-round21/ 下的全量测试、服务／HTTP API 和 PostgreSQL 验收；历轮真实模型 not_run 报告继续保留。
 
-[第二十轮正式验收报告](docs/twentieth-round-acceptance-report.md) · [解除真实模型配置阻塞](docs/round18-live-model-guide.md) · [真实回复人工审核表（待填写）](docs/round18-semantic-review-template.md)。[逐条语义审核工具](docs/round19-semantic-review-guide.md)。[GPT／DeepSeek 切换与对比](docs/round20-model-comparison-guide.md)。本轮补齐 Adapter 环境切换与同组比较；真实两家配置仍缺失，人工评分未执行，Pilot 未放行。
+[Flash专项验收报告](docs/twenty-first-round-acceptance-report.md) · [解除真实模型配置阻塞](docs/round18-live-model-guide.md) · [真实回复人工审核表（待填写）](docs/round18-semantic-review-template.md)。[逐条语义审核工具](docs/round19-semantic-review-guide.md)。[GPT／DeepSeek 切换与对比](docs/round20-model-comparison-guide.md)。[Flash单次smoke与前置要求](docs/round21-deepseek-flash-guide.md)。本轮固定请求deepseek-flash，保留可替换Adapter；GPT不作为前置。安全密钥与正式Prompt仍待提供，真实smoke/语义尚未验收，Pilot未放行。
 
 [第六轮历史成果](docs/sixth-round-feedback.md)（其中真实 Adapter 尚未实现的描述已被本轮实现更新）。
 
@@ -77,7 +77,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 426 项、Playwright 15 项全部通过，共 441 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 435 项、Playwright 15 项全部通过，共 450 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
