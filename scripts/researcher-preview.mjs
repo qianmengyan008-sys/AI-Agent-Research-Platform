@@ -293,21 +293,29 @@ try {
       res.status(404).json({ error: 'NOT_FOUND' });
     });
     const listenPort = Number(process.env.RESEARCHER_PREVIEW_PORT ?? '4173');
-    if (!Number.isInteger(listenPort) || listenPort < 1 || listenPort > 65535)
+    if (!Number.isInteger(listenPort) || listenPort < 0 || listenPort > 65535)
       throw new Error('INVALID_PREVIEW_PORT');
     gateway = app.listen(listenPort, '127.0.0.1');
     await new Promise((ok, fail) => {
       gateway.once('listening', ok);
       gateway.once('error', fail);
     });
-    console.info(`RESEARCHER_PREVIEW_LISTENING_PORT=${listenPort}`);
-    for (const signal of ['SIGINT', 'SIGTERM'])
-      process.once(signal, () =>
-        gateway.close(async () => {
-          await pool.end();
-          process.exit(0);
-        }),
-      );
+    console.info(`RESEARCHER_PREVIEW_LISTENING_PORT=${gateway.address().port}`);
+    let stopping = false;
+    const shutdown = () => {
+      if (stopping) return;
+      stopping = true;
+      gateway.close(async () => {
+        await pool.end();
+        process.exit(0);
+      });
+    };
+    for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, shutdown);
+    // Local Windows supervisor uses IPC for graceful stop; no public control route.
+    process.once('disconnect', shutdown);
+    process.on('message', (message) => {
+      if (message?.type === 'researcher-preview-stop') shutdown();
+    });
   }
 } catch (error) {
   await release().catch(() => {});

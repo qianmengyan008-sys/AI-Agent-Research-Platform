@@ -10,7 +10,14 @@ if (!input || !destination)
 const data = JSON.parse(await readFile(input, 'utf8'));
 if (data.complete !== true || data.per_table_limit !== null || !Array.isArray(data.analysis_rows))
   throw new Error('COMPLETE_EXPORT_REQUIRED');
-const dims = ['实验忠实度', '回应性', '自然性', '指代清晰度', '重复程度', '中性表达'];
+const dims = [
+  '流程忠实度',
+  '对用户输入的响应性',
+  '语义准确性／指代清晰度',
+  '语言自然度',
+  '中性与非诱导性',
+  '重复与机械感',
+];
 const percentile = (values, p) => {
   const a = values.toSorted((a, b) => a - b);
   return a.length ? a[Math.ceil(a.length * p) - 1] : null;
