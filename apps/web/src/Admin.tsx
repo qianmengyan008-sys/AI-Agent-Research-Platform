@@ -232,7 +232,7 @@ export function Admin() {
                 </div>
               )}
               <h3>导出数据</h3>
-              <p>当前为限量 JSON 导出，每类最多 1000 条，不能作为完整研究归档。</p>
+              <p>导出所选实验的完整记录与数量清单。导出成功不代表正式研究材料或实验已获批准。</p>
               <button
                 disabled={busy}
                 onClick={() =>
@@ -254,7 +254,7 @@ export function Admin() {
                   })
                 }
               >
-                下载限量 JSON
+                下载完整 JSON
               </button>
             </>
           )}

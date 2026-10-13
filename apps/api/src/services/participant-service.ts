@@ -1,3 +1,4 @@
+import { enforceRating, inputKind, limits, turnStages } from './research-profile.js';
 import type { TraceSink } from './trace.js';
 import { randomBytes } from 'node:crypto';
 import { transition } from '@research/experiment-core';
@@ -11,6 +12,15 @@ import { researchVariables } from './research-variables.js';
 export function projection(b: Bundle) {
   const stage = b.definition.stages.find((s) => s.id === b.snapshot.stage)!;
   return {
+    ...(b.configuration.research_config &&
+    ['INITIAL_RATING', 'SECOND_RATING'].includes(b.snapshot.stage)
+      ? {
+          rating_card: {
+            ...b.configuration.research_config.rating,
+            belief: String(b.snapshot.variables.confirmed_viewpoint ?? ''),
+          },
+        }
+      : {}),
     state_token: b.state_token,
     status: b.status === 'completed' ? 'finished' : 'awaiting_input',
     form:
@@ -18,7 +28,17 @@ export function projection(b: Bundle) {
         ? {
             id: b.state_token,
             fields: [
-              ...stage.fields.map((f) => ({ name: f.field, kind: f.type })),
+              ...stage.fields.map((f) => ({
+                name: f.field,
+                kind: f.type,
+                ...(f.type === 'number' && b.configuration.research_config
+                  ? {
+                      min: b.configuration.research_config.rating.min,
+                      max: b.configuration.research_config.rating.max,
+                      step: b.configuration.research_config.rating.step,
+                    }
+                  : {}),
+              })),
               ...(b.snapshot.path === 'cognitive' && stage.id === 'STEREOTYPE_CAPTURE'
                 ? [{ name: 'source', kind: 'text' as const, required: false }]
                 : []),
@@ -141,6 +161,28 @@ export class ParticipantService {
       const data = Object.fromEntries(
         Object.entries(submitted).filter(([key]) => key !== 'source'),
       ) as Record<string, Scalar>;
+      if (
+        b!.configuration.research_config &&
+        b!.snapshot.path === 'emotional' &&
+        typeof data.response === 'string' &&
+        inputKind(data.response) !== 'answer'
+      )
+        fail(400, 'NON_STORY_INPUT');
+      enforceRating(b!, data);
+      if (b!.configuration.research_config && b!.snapshot.path !== 'daily') {
+        const count = await r.conversations.turnCounts(b!.session_id, turnStages(b!));
+        const minimum = limits(b!).min;
+        if (count.effective < minimum) fail(409, 'MINIMUM_TURNS_REQUIRED');
+        if (
+          b!.snapshot.path === 'emotional' &&
+          b!.snapshot.stage !== 'RELATIONSHIP' &&
+          b!.snapshot.stage !== 'PERSONA_SETUP' &&
+          b!.snapshot.stage !== 'ENDING_FEEDBACK'
+        ) {
+          const local = await r.conversations.turnCounts(b!.session_id, [b!.snapshot.stage]);
+          if (local.effective < 1) fail(409, 'MINIMUM_TURNS_REQUIRED');
+        }
+      }
       const result = transition(
         b!.snapshot,
         {
@@ -166,7 +208,7 @@ export class ParticipantService {
         actor.participantId,
         submitted,
         'participant',
-        researchVariables(result, source),
+        researchVariables(result, source, b!.configuration.research_config),
       );
       const updated = await r.states.load(actor.participantId);
       const response = projection(updated!);

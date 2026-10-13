@@ -1,3 +1,4 @@
+import { mentorConfig, mentorPolicy } from './research-profile.js';
 import type { TraceSink } from './trace.js';
 import { createInitialState, experimentDefinitions, transition } from '@research/experiment-core';
 import type { ExperimentDefinition, Scalar } from '@research/experiment-core';
@@ -59,10 +60,17 @@ export class ExperimentService {
   ) {}
   async create(actor: AdminIdentity, input: unknown) {
     admin(actor);
-    const v = object(input, ['name', 'instructions']);
+    const v = object(input, ['name', 'instructions', 'research_profile']);
     const name = text(v.name, 200);
     const instructions = text(v.instructions, 10000);
-    const configuration = { instructions, model: this.settings, policiesAreDemo: false };
+    if (v.research_profile !== undefined && v.research_profile !== mentorConfig.version)
+      fail(400, 'UNKNOWN_RESEARCH_PROFILE');
+    const configuration = {
+      instructions,
+      model: this.settings,
+      policiesAreDemo: false,
+      ...(v.research_profile ? { research_config: structuredClone(mentorConfig) } : {}),
+    };
     return this.uow.transaction(async (r) => {
       const created = await r.experiments.create(name, configuration, hash(configuration));
       await r.experiments.audit(
@@ -81,8 +89,16 @@ export class ExperimentService {
     const key = text(v.path_version, 128);
     const definition = experimentDefinitions[key as keyof typeof experimentDefinitions];
     if (!definition) fail(400, 'UNKNOWN_PATH_VERSION');
+    const template = await this.uow.read((r) => r.experiments.template(experiment));
+    const research = template?.configuration.research_config;
     let policies: readonly StagePolicy[];
-    if (v.demo_policies === true && v.policies === undefined)
+    if (research) {
+      if (v.demo_policies === true || v.policies !== undefined)
+        fail(400, 'FROZEN_POLICIES_REQUIRED');
+      policies = definition.stages
+        .slice(1, -1)
+        .map((s) => mentorPolicy(definition, s.id, research));
+    } else if (v.demo_policies === true && v.policies === undefined)
       policies = definition.stages.slice(1, -1).map((s) => demoPolicy(definition, s.id));
     else if (Array.isArray(v.policies) && v.demo_policies !== true)
       policies = v.policies as StagePolicy[];

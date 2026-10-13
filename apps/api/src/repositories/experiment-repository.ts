@@ -1,4 +1,5 @@
 import type { PoolClient } from 'pg';
+import type { ResearchConfig } from '../services/research-profile.js';
 import type { ExperimentDefinition } from '@research/experiment-core';
 import type { StagePolicy } from '@research/ai-orchestrator';
 import type { ModelSettings } from '@research/model-adapter';
@@ -6,6 +7,7 @@ export interface Configuration {
   instructions: string;
   model: ModelSettings;
   policiesAreDemo: boolean;
+  research_config?: ResearchConfig;
 }
 export class ExperimentRepository {
   constructor(private readonly db: PoolClient) {}

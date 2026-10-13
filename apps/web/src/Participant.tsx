@@ -1,3 +1,4 @@
+import { RatingCard } from './RatingCard';
 import { useEffect, useRef, useState } from 'react';
 import type { ParticipantCurrent, ParticipantMessage, ParticipantTurn } from '@research/contracts';
 import { api, ApiError, errorText } from './api';
@@ -74,17 +75,27 @@ export function Participant() {
     if (!token || current?.status !== 'generating' || !current.pending_turn_id) return;
     let cancelled = false,
       polling = false;
+    const controller = new AbortController();
     const timer = setInterval(() => {
       if (polling) return;
       polling = true;
-      void api<ParticipantTurn>(`/conversation/turns/${current.pending_turn_id}`, token)
+      void api<ParticipantTurn>(
+        `/conversation/turns/${current.pending_turn_id}`,
+        token,
+        undefined,
+        { signal: controller.signal },
+      )
         .then(async (turn) => {
           if (cancelled) return;
           if (!['pending', 'generating'].includes(turn.status)) {
             if (turn.status !== 'ready') setNotice('回复未能生成，请重新发送或联系研究人员。');
             const [state, history] = await Promise.all([
-              api<ParticipantCurrent>('/experiment/current', token),
-              api<ParticipantMessage[]>('/conversation/messages', token),
+              api<ParticipantCurrent>('/experiment/current', token, undefined, {
+                signal: controller.signal,
+              }),
+              api<ParticipantMessage[]>('/conversation/messages', token, undefined, {
+                signal: controller.signal,
+              }),
             ]);
             if (!cancelled) {
               setCurrent(state);
@@ -99,9 +110,19 @@ export function Participant() {
           polling = false;
         });
     }, 1000);
-    return () => {
+    // Upper bound includes the backend maximum attempt/lease budget; this is
+    // a client recovery deadline, never an experiment turn-count rule.
+    const waitDeadline = setTimeout(() => {
       cancelled = true;
       clearInterval(timer);
+      controller.abort();
+      setNotice('等待回复已超时，请刷新实验查看已保存结果，或联系研究人员。');
+    }, 240000);
+    return () => {
+      cancelled = true;
+      clearTimeout(waitDeadline);
+      clearInterval(timer);
+      controller.abort();
     };
   }, [token, current?.status, current?.pending_turn_id]);
   async function send(request: MessageRequest) {
@@ -132,7 +153,11 @@ export function Participant() {
         ? values[f.name] === true
         : typeof values[f.name] === 'string' &&
           String(values[f.name]).trim() !== '' &&
-          (f.kind !== 'number' || Number.isFinite(Number(values[f.name])))),
+          (f.kind !== 'number' ||
+            (Number.isFinite(Number(values[f.name])) &&
+              (f.min === undefined || Number(values[f.name]) >= f.min) &&
+              (f.max === undefined || Number(values[f.name]) <= f.max) &&
+              (f.step !== 1 || Number.isInteger(Number(values[f.name])))))),
   );
   if (!token)
     return (
@@ -323,31 +348,43 @@ export function Participant() {
                       });
                     }}
                   >
-                    {current.form?.fields.map((f) => (
-                      <label key={f.name}>
-                        {labels[f.name] ?? '当前填写内容'}
-                        {f.kind === 'confirmation' ? (
-                          <input
-                            type="checkbox"
-                            checked={values[f.name] === true}
-                            disabled={disabled || retrySubmission}
-                            onChange={(e) =>
-                              setValues((v) => ({ ...v, [f.name]: e.target.checked }))
-                            }
-                          />
-                        ) : (
-                          <input
-                            type={f.kind === 'number' ? 'number' : 'text'}
-                            step={f.kind === 'number' ? 'any' : undefined}
-                            required={f.required !== false}
-                            maxLength={10000}
-                            disabled={disabled || retrySubmission}
-                            value={String(values[f.name] ?? '')}
-                            onChange={(e) => setValues((v) => ({ ...v, [f.name]: e.target.value }))}
-                          />
-                        )}
-                      </label>
-                    ))}
+                    {current.rating_card && (
+                      <RatingCard
+                        card={current.rating_card}
+                        value={String(values.rating ?? '')}
+                        disabled={disabled || retrySubmission}
+                        onChange={(rating) => setValues((v) => ({ ...v, rating }))}
+                      />
+                    )}
+                    {current.form?.fields
+                      .filter((f) => !(current.rating_card && f.name === 'rating'))
+                      .map((f) => (
+                        <label key={f.name}>
+                          {labels[f.name] ?? '当前填写内容'}
+                          {f.kind === 'confirmation' ? (
+                            <input
+                              type="checkbox"
+                              checked={values[f.name] === true}
+                              disabled={disabled || retrySubmission}
+                              onChange={(e) =>
+                                setValues((v) => ({ ...v, [f.name]: e.target.checked }))
+                              }
+                            />
+                          ) : (
+                            <input
+                              type={f.kind === 'number' ? 'number' : 'text'}
+                              step={f.kind === 'number' ? 'any' : undefined}
+                              required={f.required !== false}
+                              maxLength={10000}
+                              disabled={disabled || retrySubmission}
+                              value={String(values[f.name] ?? '')}
+                              onChange={(e) =>
+                                setValues((v) => ({ ...v, [f.name]: e.target.value }))
+                              }
+                            />
+                          )}
+                        </label>
+                      ))}
                     <button disabled={disabled || (!retrySubmission && !canSubmit)}>
                       {retrySubmission ? '重试同一提交' : '提交当前填写'}
                     </button>

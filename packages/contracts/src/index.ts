@@ -13,6 +13,9 @@ export interface ParticipantFormField {
   name: string;
   kind: 'text' | 'number' | 'confirmation';
   required?: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 export interface ParticipantCurrent {
   instructions: string;
@@ -21,6 +24,7 @@ export interface ParticipantCurrent {
   status: 'awaiting_input' | 'generating' | 'finished';
   form: { id: string; fields: ParticipantFormField[] } | null;
   pending_turn_id?: string;
+  rating_card?: { instruction: string; low_anchor: string; high_anchor: string; belief: string };
 }
 export interface ParticipantMessage {
   id: string;

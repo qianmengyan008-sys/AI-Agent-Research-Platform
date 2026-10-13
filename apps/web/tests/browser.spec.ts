@@ -158,16 +158,17 @@ test.beforeEach(() => {
   calls = 0;
   traces.length = 0;
 });
-async function account(path = 'cognitive_v1') {
+async function account(path = 'cognitive_v1', profile = false) {
   const e = await services.experiments.create(actor, {
     name: `浏览器合成实验 ${randomUUID().slice(0, 8)}`,
     instructions: '这是合成实验说明。准备好后进入对话，填写当前问题并明确提交。',
+    ...(profile ? { research_profile: 'mentor-test-v1' } : {}),
   });
   const c = await services.experiments.condition(actor, e.experimentId, {
     code: 'A',
     path_version: path,
     agent_name: '研究对话助手',
-    demo_policies: true,
+    ...(profile ? {} : { demo_policies: true }),
   });
   await services.experiments.publish(actor, e.experimentId);
   const code = `P-${randomUUID().slice(0, 8)}`;
@@ -409,14 +410,14 @@ test('read-only administrator views state and conversation and downloads authori
   expect(await page.getByRole('button', { name: /修改|干预/ }).count()).toBe(0);
   await screenshot(page, 'admin-read-only');
   const download = page.waitForEvent('download');
-  await page.getByRole('button', { name: '下载限量 JSON', exact: true }).click();
+  await page.getByRole('button', { name: '下载完整 JSON', exact: true }).click();
   const file = await download;
   expect(await file.failure()).toBeNull();
   const path = await file.path();
   if (!path) throw new Error('No download');
   const { readFile } = await import('node:fs/promises');
   const body = JSON.parse(await readFile(path, 'utf8'));
-  expect(body.complete).toBe(false);
+  expect(body.complete).toBe(true);
   expect(body.assignments[0].participant_id).toBe(s.participantId);
   expect(JSON.stringify(body)).not.toMatch(/password_hash|token_hash|SYNTHETIC_BROWSER_PASSWORD/);
   await saveRecords(s, 'browser-admin-export');
@@ -673,4 +674,127 @@ test('Pilot Mode is administrator-only, opt-in and read-only, with no participan
     /Pilot Mode|STEREOTYPE_CAPTURE|EXPERIMENT_STARTED|validator|prompt_version|model_name/,
   );
   await saveRecords(s, 'browser-pilot-mode-records');
+});
+
+test('hung message requests time out and retry with the same operation ID exactly once', async ({
+  page,
+}) => {
+  const s = await account('daily_v1');
+  await login(page, s);
+  await page.clock.install();
+  const ids: string[] = [];
+  await page.route('**/api/conversation/message', async (route) => {
+    ids.push(route.request().postDataJSON().request_id);
+    if (ids.length === 1) {
+      await route.fetch(); // The server saves successfully, but the browser never receives it.
+      return;
+    }
+    await route.continue();
+  });
+  await page.getByLabel('发送消息', { exact: true }).fill('网络悬挂恢复样本');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect.poll(() => ids.length).toBe(1);
+  await expect.poll(() => calls).toBe(1);
+  await page.clock.fastForward(31000);
+  await expect(page.getByRole('alert')).toContainText('请求等待超时');
+  await expect(page.getByRole('button', { name: '重试同一消息', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: '重试同一消息', exact: true }).click();
+  await expect(page.getByRole('log')).toContainText('网络悬挂恢复样本');
+  await expect.poll(() => calls).toBe(1);
+  expect(ids).toHaveLength(2);
+  expect(ids[0]).toBe(ids[1]);
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.messages).toHaveLength(2);
+  expect(data.transitions).toHaveLength(1);
+  await screenshot(page, 'participant-client-timeout-recovery');
+  await saveRecords(s, 'browser-client-timeout-recovery');
+});
+
+test('pending generation polling has a recovery deadline and can refresh durable state', async ({
+  page,
+}) => {
+  const s = await account('daily_v1');
+  await login(page, s);
+  await page.clock.install();
+  let polls = 0;
+  await page.route('**/api/experiment/current', async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({
+      json: { ...(await response.json()), status: 'generating', pending_turn_id: randomUUID() },
+    });
+  });
+  await page.route('**/api/conversation/turns/*', () => {
+    polls += 1;
+  });
+  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
+  await expect(page.getByText('回复生成中，请稍候。', { exact: true })).toBeVisible();
+  await page.clock.fastForward(241000);
+  await expect(page.getByRole('status').filter({ hasText: '等待回复已超时' })).toBeVisible();
+  const bounded = polls;
+  await page.clock.fastForward(60000);
+  expect(polls).toBe(bounded);
+  await page.unroute('**/api/experiment/current');
+  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
+  await expect(page.getByRole('button', { name: '发送', exact: true })).toBeDisabled();
+  await expect(page.getByLabel('发送消息', { exact: true })).toBeEnabled();
+  expect(calls).toBe(0);
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.messages).toHaveLength(0);
+  expect(data.transitions).toHaveLength(1);
+});
+
+test('mentor profile presents the same bounded rating card twice with an immutable belief', async ({
+  page,
+}) => {
+  const s = await account('cognitive_v1', true);
+  const auth = await services.participants.login({
+    experiment_id: s.experimentId,
+    participant_code: s.code,
+    password,
+  });
+  const actor = await services.participants.authenticate(auth.token);
+  const send = async (text: string) => {
+    const current = await services.participants.current(actor);
+    await services.conversations.send(actor, {
+      state_token: current.state_token,
+      request_id: randomUUID(),
+      text,
+    });
+  };
+  const submit = async (data: Record<string, string | number | boolean>) => {
+    const current = await services.participants.current(actor);
+    await services.participants.submit(actor, {
+      state_token: current.state_token,
+      request_id: randomUUID(),
+      data,
+    });
+  };
+  await send('媒体总说他们犯罪率高');
+  await submit({ response: '媒体总说他们犯罪率高', source: '媒体' });
+  await send('我确认这个印象');
+  await submit({ viewpoint: '媒体总说他们犯罪率高', confirmed: true });
+  await login(page, s);
+  await expect(page.getByRole('group', { name: '观点评分卡', exact: true })).toContainText(
+    '媒体总说他们犯罪率高',
+  );
+  await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('min', '0');
+  await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('max', '100');
+  await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('step', '1');
+  await page.getByLabel('当前评分', { exact: true }).fill('1.5');
+  await expect(page.getByRole('button', { name: '提交当前填写', exact: true })).toBeDisabled();
+  await send('准备评分');
+  await submit({ rating: 0 });
+  for (let i = 0; i < 4; i++) {
+    await send('我开始考虑其他因素');
+    await send('不同个体不应被一概而论');
+    await submit({ response: '当前阶段回答' });
+  }
+  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
+  await expect(page.getByRole('group', { name: '观点评分卡', exact: true })).toContainText(
+    '媒体总说他们犯罪率高',
+  );
+  await expect(page.getByRole('group', { name: '观点评分卡', exact: true })).toContainText(
+    '完全不相信该观点',
+  );
+  await screenshot(page, 'mentor-unified-rating-card');
 });

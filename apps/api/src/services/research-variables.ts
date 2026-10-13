@@ -1,7 +1,12 @@
+import type { ResearchConfig } from './research-profile.js';
 import type { TransitionResult, VariableChange } from '@research/experiment-core';
 
 /** Persist research names alongside unchanged v1 core variables, never from generated text. */
-export function researchVariables(result: TransitionResult, source?: string): VariableChange[] {
+export function researchVariables(
+  result: TransitionResult,
+  source?: string,
+  profile?: ResearchConfig,
+): VariableChange[] {
   if (!result.ok) return [];
   const aliases: Record<string, string> = {
     stereotype_text: 'raw_expression',
@@ -33,6 +38,19 @@ export function researchVariables(result: TransitionResult, source?: string): Va
       ].includes(v.key),
     );
     if (scene) values.push({ ...scene, key: 'scene_state' });
+  }
+  if (profile && result.newState.path === 'emotional') {
+    for (const value of values) {
+      if (value.key === 'scene_state')
+        value.value = profile.emotional.scenes[event.toStage]?.place ?? event.toStage;
+      if (value.key === 'character_profile')
+        value.value =
+          Object.entries(profile.emotional.characters)
+            .map(([name, identity]) => name + '：' + identity)
+            .join('；') +
+          '。参与者补充（仅外貌/兴趣/性格）：' +
+          String(value.value);
+    }
   }
   return values;
 }

@@ -145,16 +145,17 @@ afterAll(async () => {
   await admin?.end();
   if (started) execFileSync('docker', ['rm', '-f', container], { stdio: 'pipe' });
 });
-async function setup(path = 'daily_v1', code = 'P001') {
+async function setup(path = 'daily_v1', code = 'P001', profile = false) {
   const e = await services.experiments.create(actor, {
     name: '合成实验',
     instructions: '合成研究说明',
+    ...(profile ? { research_profile: 'mentor-test-v1' } : {}),
   });
   const c = await services.experiments.condition(actor, e.experimentId, {
     code: 'A',
     path_version: path,
     agent_name: '合成 Agent',
-    demo_policies: true,
+    ...(profile ? {} : { demo_policies: true }),
   });
   await services.experiments.publish(actor, e.experimentId);
   const p = await services.participants.create(actor, {
@@ -176,6 +177,234 @@ async function setup(path = 'daily_v1', code = 'P001') {
   return { ...e, ...c, ...p, ...a, token: auth.token, identity, state };
 }
 describe('real PostgreSQL business services and HTTP authorization', () => {
+  async function profileMessage(
+    s: Awaited<ReturnType<typeof setup>>,
+    value: string,
+    id = randomUUID(),
+  ) {
+    const current = await services.participants.current(s.identity);
+    return services.conversations.send(s.identity, {
+      state_token: current.state_token,
+      request_id: id,
+      text: value,
+    });
+  }
+  async function profileSubmit(
+    s: Awaited<ReturnType<typeof setup>>,
+    data: Record<string, string | number | boolean>,
+  ) {
+    const current = await services.participants.current(s.identity);
+    return services.participants.submit(s.identity, {
+      state_token: current.state_token,
+      request_id: randomUUID(),
+      data,
+    });
+  }
+  async function profileStage(s: Awaited<ReturnType<typeof setup>>) {
+    return (await services.admin.export(actor, s.experimentId)).states[0].stage;
+  }
+  async function confirmedProfile() {
+    const s = await setup('cognitive_v1', 'MENTOR', true);
+    await profileMessage(s, '媒体总说他们犯罪率高，我并不确定。');
+    await profileSubmit(s, { response: '媒体总说他们犯罪率高，我并不确定。', source: '媒体报道' });
+    await profileMessage(s, '我确认要评价的是媒体给我的这个印象。');
+    await profileSubmit(s, { viewpoint: '媒体总说他们犯罪率高，我并不确定。', confirmed: true });
+    return s;
+  }
+  it('freezes PDF profile in a new template without changing existing assignments or core definitions', async () => {
+    const legacy = await setup('cognitive_v1', 'LEGACY');
+    const s = await setup('cognitive_v1', 'MENTOR', true);
+    const data = await services.admin.export(actor, s.experimentId);
+    expect(data.assignments[0].research_config.rating).toMatchObject({ min: 0, max: 100, step: 1 });
+    expect(data.prompts.find((p) => p.stage === 'ACTION_INTENTION').policy.goal).toContain(
+      '美国黑人刻板印象',
+    );
+    expect(
+      (await services.admin.export(actor, legacy.experimentId)).assignments[0].research_config,
+    ).toBeNull();
+    await expect(
+      services.experiments.condition(actor, s.experimentId, {
+        code: 'B',
+        path_version: 'daily_v1',
+        agent_name: 'other',
+        demo_policies: true,
+      }),
+    ).rejects.toMatchObject({ code: 'FROZEN_POLICIES_REQUIRED' });
+  });
+  it('rejects missing rounds and out-of-range/fractional ratings; two cards retain one confirmed object', async () => {
+    const s = await setup('cognitive_v1', 'MENTOR', true);
+    await expect(profileSubmit(s, { response: '自由表达' })).rejects.toMatchObject({
+      code: 'MINIMUM_TURNS_REQUIRED',
+    });
+    await profileMessage(s, '他们教育水平比较低，是媒体给我的印象。');
+    await profileSubmit(s, { response: '他们教育水平比较低', source: '媒体' });
+    await expect(
+      profileSubmit(s, { viewpoint: '他们教育水平比较低', confirmed: true }),
+    ).rejects.toMatchObject({ code: 'MINIMUM_TURNS_REQUIRED' });
+    await profileMessage(s, '我想确认这个观点。');
+    await profileSubmit(s, { viewpoint: '他们教育水平比较低', confirmed: true });
+    const card = (await services.participants.current(s.identity)).rating_card!;
+    expect(card.belief).toBe('他们教育水平比较低');
+    await profileMessage(s, '准备评分');
+    for (const rating of [-1, 101, 1.5])
+      await expect(profileSubmit(s, { rating })).rejects.toMatchObject({ code: 'INVALID_RATING' });
+    expect(await profileStage(s)).toBe('INITIAL_RATING');
+    await profileSubmit(s, { rating: 0 });
+    for (const stage of [
+      'REFRAME_SOCIAL_STRUCTURE',
+      'REFRAME_MEDIA_ALGORITHM',
+      'REFRAME_COUNTER_FACT',
+      'REFRAME_INDIVIDUAL_DIFFERENCE',
+    ]) {
+      expect(await profileStage(s)).toBe(stage);
+      await profileMessage(s, '我想到了另一种解释。');
+      await expect(profileSubmit(s, { response: '阶段回答' })).rejects.toMatchObject({
+        code: 'MINIMUM_TURNS_REQUIRED',
+      });
+      await profileMessage(s, '媒体并不能代表所有个体。');
+      await profileSubmit(s, { response: '阶段回答' });
+    }
+    expect((await services.participants.current(s.identity)).rating_card).toEqual(card);
+    await profileMessage(s, '再次评分');
+    await profileSubmit(s, { rating: 100 });
+    await profileMessage(s, '我愿意核实相关内容。');
+    await profileMessage(s, '我会先了解美国黑人的不同经历。');
+    await profileSubmit(s, { response: '我会核实关于美国黑人的刻板印象内容。' });
+    expect(await profileStage(s)).toBe('COMPLETED');
+    await evidence('mentor-cognitive-profile', {
+      ...(await services.admin.export(actor, s.experimentId)),
+      semantic_review: 'pending_real_model_and_human_review',
+    });
+  });
+  it('caps scoring chat without auto-filling rating and does not count flow enquiries as effective turns', async () => {
+    const s = await confirmedProfile();
+    await profileMessage(s, '现在进行到哪里');
+    await expect(profileSubmit(s, { rating: 50 })).rejects.toMatchObject({
+      code: 'MINIMUM_TURNS_REQUIRED',
+    });
+    for (let i = 0; i < 3; i++)
+      expect((await profileMessage(s, `准备评分 ${i}`))!.status).toBe('ready');
+    expect(await profileStage(s)).toBe('INITIAL_RATING');
+    await expect(profileMessage(s, '继续评分聊天')).rejects.toMatchObject({
+      code: 'MAXIMUM_TURNS_REACHED',
+    });
+    await profileSubmit(s, { rating: 50 });
+    expect(await profileStage(s)).toBe('REFRAME_SOCIAL_STRUCTURE');
+  });
+  it('advances a reframe once at maximum and records neutral fallback as backend missing data, never a fabricated rating', async () => {
+    const s = await confirmedProfile();
+    await profileMessage(s, '准备评分');
+    await profileSubmit(s, { rating: 50 });
+    for (let i = 0; i < 3; i++) await profileMessage(s, `结构因素 ${i}`);
+    expect(await profileStage(s)).toBe('REFRAME_MEDIA_ALGORITHM');
+    await profileMessage(s, '不知道');
+    await profileMessage(s, '随便');
+    expect(await profileStage(s)).toBe('REFRAME_COUNTER_FACT');
+    const data = await services.admin.export(actor, s.experimentId);
+    expect(data.transitions.at(-1).actor_type).toBe('backend');
+    expect(data.transitions.at(-1).validated_payload.missing_data).toBe(true);
+    expect(data.variables.filter((v) => v.key === 'initial_rating')).toHaveLength(1);
+    await evidence('mentor-maximum-neutral-fallback', data);
+  });
+  it('runs frozen emotion scenes, protects progress questions, prefixes bridges and ends without a new invitation', async () => {
+    const s = await setup('emotion_v1', 'MENTOR', true);
+    const opening = await profileMessage(s, '我的角色喜欢读书');
+    expect(opening!.text).toContain('嗨，很开心认识你！');
+    await profileMessage(s, '我希望他性格温和');
+    await expect(profileSubmit(s, { response: '现在进行到哪里' })).rejects.toMatchObject({
+      code: 'NON_STORY_INPUT',
+    });
+    await profileSubmit(s, { response: '喜欢读书，性格温和' });
+    for (const [stage, count, place] of [
+      ['FIRST_CONTACT', 3, '图书馆'],
+      ['MISUNDERSTANDING', 2, '食堂'],
+      ['RESOLUTION', 2, '食堂'],
+      ['SHARED_EXPERIENCE', 2, '自习室'],
+      ['RELATIONSHIP', 2, '校园步道'],
+    ] as const) {
+      expect(await profileStage(s)).toBe(stage);
+      const query = await profileMessage(s, '现在进行到哪里');
+      expect(query!.text).toContain('不会作为故事内容');
+      for (let i = 0; i < count; i++) {
+        const reply = await profileMessage(s, `我想补充人物的感受和交流 ${i}`);
+        if (i === 0) expect(reply!.text).toContain(place);
+      }
+      await profileSubmit(s, { response: '人物通过交流逐渐理解彼此' });
+    }
+    const ending = await profileMessage(s, '这次故事让我觉得更理解对方');
+    expect(ending!.text).toBe(
+      '今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。',
+    );
+    expect(await profileStage(s)).toBe('COMPLETED');
+    await expect(profileMessage(s, '再写一个故事')).rejects.toMatchObject({
+      code: 'EXPERIMENT_FINISHED',
+    });
+    const data = await services.admin.export(actor, s.experimentId);
+    expect(data.turns.filter((t) => t.generation_context.input_kind === 'meta')).toHaveLength(5);
+    await evidence('mentor-emotion-profile', {
+      ...data,
+      semantic_review: 'pending_real_model_and_human_review',
+    });
+  });
+
+  it('exports beyond 1000 messages without truncation, with exact counts and study isolation', async () => {
+    const s = await setup();
+    const other = await setup('daily_v1', 'UNRELATED');
+    await services.conversations.send(other.identity, {
+      state_token: other.state.state_token,
+      request_id: 'unrelated',
+      text: '其他实验记录',
+    });
+    for (let i = 0; i < 505; i++) {
+      const reply = await services.conversations.send(s.identity, {
+        state_token: s.state.state_token,
+        request_id: `complete-export-${i}`,
+        text: `合成记录 ${i}`,
+      });
+      expect(reply!.status).toBe('ready');
+    }
+    const data = await services.admin.export(actor, s.experimentId);
+    const source = (
+      await pool.query(
+        'SELECT id,sequence,content FROM research.message WHERE session_id=$1 ORDER BY sequence',
+        [s.sessionId],
+      )
+    ).rows;
+    expect(data.complete).toBe(true);
+    expect(data.per_table_limit).toBeNull();
+    expect(data.messages).toHaveLength(1010);
+    expect(
+      data.messages.map((m) => ({ id: m.id, sequence: m.sequence, content: m.content })),
+    ).toEqual(source);
+    expect(data.record_counts.messages).toBe(1010);
+    expect(data.record_counts.runs).toBe(505);
+    expect(data.analysis_rows[0]!.conversation_history).toEqual(data.messages);
+    expect(data.messages.every((m) => m.session_id === s.sessionId)).toBe(true);
+    expect(data.data_quality.passed).toBe(true);
+    const diagnostics = await services.admin.development(actor, s.experimentId);
+    expect(diagnostics.complete).toBe(false);
+    if (process.env.RESEARCH_ACCEPTANCE_DIR)
+      await writeFile(
+        join(process.env.RESEARCH_ACCEPTANCE_DIR, 'complete-export-acceptance.json'),
+        JSON.stringify(
+          {
+            synthetic: true,
+            source_message_count: source.length,
+            exported_message_count: data.messages.length,
+            record_counts: data.record_counts,
+            complete: data.complete,
+            exact_source_identity: true,
+            study_isolation: true,
+            data_quality: data.data_quality,
+            state: data.states,
+            external_model_calls: 0,
+          },
+          null,
+          2,
+        ) + '\n',
+      );
+  }, 60000);
+
   it('creates, publishes, assigns and initializes a participant through the core start event', async () => {
     const s = await setup('cognitive_v1');
     expect(
@@ -362,7 +591,7 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     const identity = await fresh.participants.authenticate(s.token);
     expect(await fresh.participants.current(identity)).toEqual(s.state);
   });
-  it('denies participant export and returns a safe bounded admin snapshot', async () => {
+  it('denies participant export and returns a complete safe admin snapshot', async () => {
     const s = await setup();
     await request(app)
       .get(`/api/admin/export?experiment_id=${s.experimentId}`)
@@ -372,7 +601,7 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
       .get(`/api/admin/export?experiment_id=${s.experimentId}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .expect(200);
-    expect(r.body.complete).toBe(false);
+    expect(r.body.complete).toBe(true);
     expect(r.body.assignments).toHaveLength(1);
     expect(JSON.stringify(r.body)).not.toMatch(/password_hash|SYNTHETIC_PASSWORD_123|token_hash/);
   });
@@ -1193,7 +1422,7 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     const other = data.analysis_rows.find((r) => r.participant_id === second.participantId)!;
     expect(other.conversation_history).toHaveLength(0);
     expect(other.experiment_variables).toHaveLength(0);
-    expect(data.complete).toBe(false);
+    expect(data.complete).toBe(true);
     if (round13Acceptance)
       await writeFile(
         join(round13Acceptance, 'analysis-export.json'),

@@ -7,6 +7,8 @@ export interface RunContext {
   promptVersion: string;
   model: ModelSettings;
   stage: string;
+  input_kind?: string;
+  reply_source?: string;
 }
 export interface Turn {
   generation_context: RunContext;
@@ -92,6 +94,23 @@ export class ConversationRepository {
       );
     return rows.rows;
   }
+  async turnCounts(session: string, stages: string[]) {
+    const rows = (
+      await this.db.query<{ status: string; kind: string }>(
+        `SELECT status,COALESCE(generation_context->>'input_kind','answer') AS kind FROM research.conversation_turn WHERE session_id=$1 AND generation_context->>'stage'=ANY($2::text[]) ORDER BY chat_revision`,
+        [session, stages],
+      )
+    ).rows;
+    let invalidStreak = 0;
+    for (const row of rows)
+      if (row.status === 'ready' && row.kind === 'answer') invalidStreak = 0;
+      else if (row.status === 'ready' && row.kind === 'offtopic') invalidStreak += 1;
+    return {
+      attempts: rows.length,
+      effective: rows.filter((r) => r.status === 'ready' && r.kind === 'answer').length,
+      invalidStreak,
+    };
+  }
   async active(session: string) {
     return (
       await this.db.query<{ id: string }>(
@@ -108,6 +127,12 @@ export class ConversationRepository {
       )
     ).rows;
     return rows.reverse().map((r) => ({ ...r, stage }));
+  }
+  async replySource(id: string, source: string) {
+    await this.db.query(
+      "UPDATE research.conversation_turn SET generation_context=jsonb_set(generation_context,'{reply_source}',to_jsonb($2::text)) WHERE id=$1",
+      [id, source],
+    );
   }
   async finish(id: string, text: string | null, status: string) {
     await this.db.query('UPDATE research.conversation_turn SET status=$2 WHERE id=$1', [
@@ -193,7 +218,7 @@ export class ConversationRepository {
           after_state.current_state AS state_after,NULL::text AS event,
           t.accepted_core_version,r.id AS model_run_id,r.model_name,r.prompt_version,
           r.latency_ms AS response_latency,r.validator_result,r.fallback_count,
-          r.status AS model_status,r.error_code,r.created_at AS logged_at
+          r.status AS model_status,r.error_code,r.created_at AS logged_at,t.generation_context->>'input_kind' AS input_kind,t.generation_context->>'reply_source' AS reply_source
         FROM research.conversation_turn t
         JOIN research.experiment_session s ON s.id=t.session_id
         JOIN research.experiment_assignment a ON a.id=s.assignment_id
@@ -264,50 +289,79 @@ export class ConversationRepository {
       )
     ).rows as Record<string, unknown>[];
   }
-  async export(experiment: string) {
+  async export(experiment: string, complete = false) {
     const participants = (
       await this.db.query(
-        'SELECT id,participant_code,status,created_at FROM research.participant WHERE experiment_id=$1 ORDER BY id LIMIT 1000',
+        'SELECT id,participant_code,status,created_at FROM research.participant WHERE experiment_id=$1 ORDER BY id' +
+          (complete ? '' : ' LIMIT 1000'),
         [experiment],
       )
     ).rows;
     const assignments = (
       await this.db.query(
-        `SELECT a.id,a.participant_id,a.template_version_id,a.condition_id,a.created_at,c.code AS condition,sm.path_type,av.configuration AS agent_configuration,c.agent_version_id,c.state_machine_version_id,av.personality_version AS agent_version,sm.core_experiment_version AS state_machine_version,t.version AS template_version,t.configuration->'model' AS model_settings FROM research.experiment_assignment a JOIN research.condition c ON c.id=a.condition_id JOIN research.agent_version av ON av.id=c.agent_version_id JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id JOIN research.template_version t ON t.id=a.template_version_id WHERE a.experiment_id=$1 ORDER BY a.id LIMIT 1000`,
+        `SELECT a.id,a.participant_id,a.template_version_id,a.condition_id,a.created_at,c.code AS condition,sm.path_type,av.configuration AS agent_configuration,c.agent_version_id,c.state_machine_version_id,av.personality_version AS agent_version,sm.core_experiment_version AS state_machine_version,t.version AS template_version,t.configuration->'model' AS model_settings,t.configuration->'research_config' AS research_config,sm.definition AS state_machine_definition FROM research.experiment_assignment a JOIN research.condition c ON c.id=a.condition_id JOIN research.agent_version av ON av.id=c.agent_version_id JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id JOIN research.template_version t ON t.id=a.template_version_id WHERE a.experiment_id=$1 ORDER BY a.id ${complete ? '' : 'LIMIT 1000'}`,
         [experiment],
       )
     ).rows;
-    const messages = await this.adminMessages(experiment);
+    const messages = complete
+      ? (
+          await this.db.query(
+            `SELECT m.id,m.session_id,m.sequence,m.role,m.content,m.status,m.created_at FROM research.message m JOIN research.experiment_session s ON s.id=m.session_id WHERE s.experiment_id=$1 ORDER BY s.id,m.sequence`,
+            [experiment],
+          )
+        ).rows
+      : await this.adminMessages(experiment);
     const transitions = (
       await this.db.query(
-        'SELECT t.* FROM research.state_transition t JOIN research.experiment_session s ON s.id=t.session_id WHERE s.experiment_id=$1 ORDER BY t.session_id,t.to_version LIMIT 1000',
+        'SELECT t.* FROM research.state_transition t JOIN research.experiment_session s ON s.id=t.session_id WHERE s.experiment_id=$1 ORDER BY t.session_id,t.to_version ' +
+          (complete ? '' : 'LIMIT 1000'),
         [experiment],
       )
     ).rows;
     const variables = (
       await this.db.query(
-        'SELECT v.* FROM research.experiment_variable v JOIN research.experiment_session s ON s.id=v.session_id WHERE s.experiment_id=$1 ORDER BY v.session_id,v.key,v.revision LIMIT 1000',
+        'SELECT v.* FROM research.experiment_variable v JOIN research.experiment_session s ON s.id=v.session_id WHERE s.experiment_id=$1 ORDER BY v.session_id,v.key,v.revision ' +
+          (complete ? '' : 'LIMIT 1000'),
         [experiment],
       )
     ).rows;
     const runs = (
       await this.db.query(
-        'SELECT r.* FROM research.model_run_log r WHERE r.experiment_id=$1 ORDER BY r.created_at,r.id LIMIT 1000',
+        'SELECT r.* FROM research.model_run_log r WHERE r.experiment_id=$1 ORDER BY r.created_at,r.id ' +
+          (complete ? '' : 'LIMIT 1000'),
         [experiment],
       )
     ).rows;
     const states = (
       await this.db.query(
-        'SELECT s.id AS session_id,s.assignment_id,s.status,s.chat_revision,es.stage,es.core_version,es.snapshot FROM research.experiment_session s JOIN research.experiment_state es ON es.session_id=s.id WHERE s.experiment_id=$1 ORDER BY s.id LIMIT 1000',
+        'SELECT s.id AS session_id,s.assignment_id,s.status,s.chat_revision,es.stage,es.core_version,es.snapshot FROM research.experiment_session s JOIN research.experiment_state es ON es.session_id=s.id WHERE s.experiment_id=$1 ORDER BY s.id ' +
+          (complete ? '' : 'LIMIT 1000'),
         [experiment],
       )
     ).rows;
     const prompts = (
       await this.db.query(
-        'SELECT cp.condition_id,cp.stage,p.id AS prompt_version_id,p.version AS prompt_version,p.policy FROM research.condition_prompt cp JOIN research.condition c ON c.id=cp.condition_id JOIN research.prompt_version p ON p.id=cp.prompt_version_id WHERE c.experiment_id=$1 ORDER BY cp.condition_id,cp.stage LIMIT 1000',
+        'SELECT cp.condition_id,cp.stage,p.id AS prompt_version_id,p.version AS prompt_version,p.policy FROM research.condition_prompt cp JOIN research.condition c ON c.id=cp.condition_id JOIN research.prompt_version p ON p.id=cp.prompt_version_id WHERE c.experiment_id=$1 ORDER BY cp.condition_id,cp.stage ' +
+          (complete ? '' : 'LIMIT 1000'),
         [experiment],
       )
     ).rows;
-    return { participants, assignments, states, prompts, messages, transitions, variables, runs };
+    const turns = (
+      await this.db.query(
+        `SELECT ct.id,ct.session_id,ct.chat_revision,ct.accepted_core_version,ct.status,ct.generation_context FROM research.conversation_turn ct JOIN research.experiment_session s ON s.id=ct.session_id WHERE s.experiment_id=$1 ORDER BY ct.session_id,ct.chat_revision ${complete ? '' : 'LIMIT 1000'}`,
+        [experiment],
+      )
+    ).rows;
+    return {
+      participants,
+      assignments,
+      states,
+      prompts,
+      messages,
+      transitions,
+      variables,
+      runs,
+      turns,
+    };
   }
 }

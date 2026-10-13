@@ -141,7 +141,7 @@ export function inspectPathRecords(
       );
   }
   return {
-    scope: 'synthetic bounded acceptance export; structural checks only',
+    scope: 'synthetic complete-snapshot acceptance export; structural checks only',
     passed: Object.values(base).every(Boolean),
     checks: base,
     semantic_review: 'pending_researcher_review',
@@ -362,7 +362,7 @@ export async function runBusinessAcceptance(
       const uniqueBelief =
         !cognitive || data.variables.filter((v) => v.key === 'confirmed_belief').length === 1;
       const structural = inspectPathRecords(data, path, belief);
-      if (!completed || !uniqueBelief || !structural.passed || exported.complete !== false)
+      if (!completed || !uniqueBelief || !structural.passed || exported.complete !== true)
         failed = true;
       paths.push({
         path,
@@ -414,7 +414,9 @@ export async function runBusinessAcceptance(
     latency_threshold_exceeded: latencyExceeded,
     formal_ready: false,
     semantic_review: 'pending_researcher_review',
-    export_complete: false,
+    export_complete:
+      paths.length === 2 &&
+      paths.every((p) => (p.analysis_export as { complete: boolean }).complete === true),
     paths,
   };
 }

@@ -25,11 +25,11 @@ export class AdminService {
         experiment,
         actor.id,
         'DATA_EXPORTED',
-        'Authorized synchronous JSON export',
+        'Authorized complete snapshot JSON export',
       ),
     );
     return this.uow.transaction(async (r) => {
-      const data = await r.conversations.export(experiment);
+      const data = await r.conversations.export(experiment, true);
       const generatedAt = new Date().toISOString();
       const analysisRows = data.assignments.map((assignment) => {
         const state = data.states.find((s) => s.assignment_id === assignment.id);
@@ -65,6 +65,9 @@ export class AdminService {
             supplier_revision: null,
           },
           model_settings: model,
+          research_config: assignment.research_config,
+          state_machine_definition: assignment.state_machine_definition,
+          conversation_turns: session ? data.turns.filter((t) => t.session_id === session) : [],
           timestamp: { assigned_at: assignment.created_at, exported_at: generatedAt },
           current_state: state ?? null,
           state_transition: session ? data.transitions.filter((t) => t.session_id === session) : [],
@@ -83,9 +86,12 @@ export class AdminService {
         analysis_schema: 'participant-research-v1',
         experiment_id: experiment,
         generated_at: generatedAt,
-        per_table_limit: 1000,
-        complete: false,
-        note: 'Bounded engineering export; supplier model revision unavailable; production pagination and complete version bundle remain pending',
+        per_table_limit: null,
+        complete: true,
+        record_counts: Object.fromEntries(
+          Object.entries(data).map(([key, rows]) => [key, rows.length]),
+        ),
+        note: 'Complete experiment records at one repeatable-read snapshot; supplier revision unavailable and formal research materials are not approved by export',
         ...data,
         analysis_rows: analysisRows,
         data_quality: await r.conversations.integrity(experiment),
