@@ -65,3 +65,5 @@ node scripts/researcher-review-package.mjs /安全目录/完整导出.json /新�
 独立 PostgreSQL 使用专用 Docker volume；服务重启保留账号和记录。`.researcher-preview-private` 同时保存数据库连接凭据与账号凭据，应权限 700/600，并与数据库卷一起安全备份。不要删除该目录或 volume 来重做体验。工具不使用环境中的 DATABASE_URL。脚本崩溃留下 bootstrap.lock 时，先确认没有仍在运行的初始化进程，再只删除该锁文件并重试；不删除数据库。
 
 云环境进程和 Docker 卷不保证跨任务恢复；已保存启动指引也不代表公网部署或永久托管。本轮不会关闭正在使用的独立数据库或清空其记录。正式部署的备份恢复、访问权限与服务器容量仍需在目标服务器验收。
+
+源码 ZIP 不包含 .git，启动工具会从 deploy/researcher-preview-build.json 读取本轮实现提交，用于模型日志的代码追溯；Git checkout 则记录其实际 HEAD。
