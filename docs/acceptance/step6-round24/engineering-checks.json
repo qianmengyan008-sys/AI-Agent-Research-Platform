@@ -1,0 +1,56 @@
+{
+  "date_utc": "2026-10-13T08:14:28.752222+00:00",
+  "source_commit": "743d08e3d164ae451b73e7a9d6d1871a0b107d90",
+  "real_model_calls": 0,
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": ["npm", "run", "typecheck"],
+      "exit_code": 0,
+      "elapsed_seconds": 14.09,
+      "log": "typecheck.log"
+    },
+    {
+      "name": "lint",
+      "command": ["npm", "run", "lint"],
+      "exit_code": 0,
+      "elapsed_seconds": 2.26,
+      "log": "lint.log"
+    },
+    {
+      "name": "format",
+      "command": ["npm", "run", "format:check"],
+      "exit_code": 0,
+      "elapsed_seconds": 10.42,
+      "log": "format.log"
+    },
+    {
+      "name": "vitest",
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/round24-acceptance/test-results.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 29.92,
+      "log": "vitest.log"
+    },
+    {
+      "name": "build",
+      "command": ["npm", "run", "build"],
+      "exit_code": 0,
+      "elapsed_seconds": 1.11,
+      "log": "build.log"
+    },
+    {
+      "name": "browser",
+      "command": ["npm", "run", "test:browser"],
+      "exit_code": 0,
+      "elapsed_seconds": 24.81,
+      "log": "browser.log"
+    }
+  ]
+}

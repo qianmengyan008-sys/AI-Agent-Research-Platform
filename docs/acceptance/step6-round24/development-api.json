@@ -1,0 +1,233 @@
+{
+  "synthetic": true,
+  "read_only": true,
+  "per_table_limit": 1000,
+  "complete": false,
+  "states": [
+    {
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "assignment_id": "553e6ade-d942-40ef-90a0-8a8c57051558",
+      "status": "open",
+      "chat_revision": 1,
+      "stage": "VIEWPOINT_CONFIRMATION",
+      "core_version": 2,
+      "snapshot": {
+        "path": "cognitive",
+        "stage": "VIEWPOINT_CONFIRMATION",
+        "version": 2,
+        "receipts": [
+          {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 0
+          },
+          {
+            "id": "dev-submit",
+            "data": {
+              "response": "synthetic"
+            },
+            "type": "STEREOTYPE_SUBMITTED",
+            "experimentVersion": "cognitive_v1",
+            "expectedStateVersion": 1
+          }
+        ],
+        "lifecycle": "active",
+        "variables": {
+          "stereotype_text": "synthetic"
+        },
+        "experimentVersion": "cognitive_v1",
+        "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "2eac0290-7edd-4757-b220-5e53d971eaff",
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "core_event_id": "assignment-start",
+      "event": "EXPERIMENT_STARTED",
+      "previous_state": "INIT",
+      "current_state": "STEREOTYPE_CAPTURE",
+      "from_version": 0,
+      "to_version": 1,
+      "actor_type": "backend",
+      "actor_id": "synthetic-admin",
+      "validated_payload": {},
+      "receipt": {
+        "id": "assignment-start",
+        "data": {},
+        "type": "EXPERIMENT_STARTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 0
+      },
+      "created_at": "2026-10-13T08:13:47.643Z"
+    },
+    {
+      "id": "dbc3e201-00ce-4d30-940d-235aa72dd38c",
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "core_event_id": "dev-submit",
+      "event": "STEREOTYPE_SUBMITTED",
+      "previous_state": "STEREOTYPE_CAPTURE",
+      "current_state": "VIEWPOINT_CONFIRMATION",
+      "from_version": 1,
+      "to_version": 2,
+      "actor_type": "participant",
+      "actor_id": "c8e4053c-b7ce-4345-854e-297f27b44b5f",
+      "validated_payload": {
+        "source": "synthetic source",
+        "response": "synthetic"
+      },
+      "receipt": {
+        "id": "dev-submit",
+        "data": {
+          "response": "synthetic"
+        },
+        "type": "STEREOTYPE_SUBMITTED",
+        "experimentVersion": "cognitive_v1",
+        "expectedStateVersion": 1
+      },
+      "created_at": "2026-10-13T08:13:47.698Z"
+    }
+  ],
+  "variables": [
+    {
+      "id": "13a42085-70ef-4dfd-9bff-2a227330b0bc",
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "key": "raw_expression",
+      "value": "synthetic",
+      "revision": 1,
+      "source_transition_id": "dbc3e201-00ce-4d30-940d-235aa72dd38c",
+      "recorded_stage": "STEREOTYPE_CAPTURE",
+      "created_at": "2026-10-13T08:13:47.698Z"
+    },
+    {
+      "id": "bb3ed6ed-f848-4580-8cbe-75beecbf757f",
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "key": "source",
+      "value": "synthetic source",
+      "revision": 1,
+      "source_transition_id": "dbc3e201-00ce-4d30-940d-235aa72dd38c",
+      "recorded_stage": "STEREOTYPE_CAPTURE",
+      "created_at": "2026-10-13T08:13:47.698Z"
+    },
+    {
+      "id": "1fb6c4ab-81fd-4759-a578-5bd50ba749d0",
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "key": "stereotype_text",
+      "value": "synthetic",
+      "revision": 1,
+      "source_transition_id": "dbc3e201-00ce-4d30-940d-235aa72dd38c",
+      "recorded_stage": "STEREOTYPE_CAPTURE",
+      "created_at": "2026-10-13T08:13:47.698Z"
+    }
+  ],
+  "model_runs": [
+    {
+      "id": "4ed9ff43-f4c5-4c6c-b9e1-5089b0007c01",
+      "turn_id": "388a6f78-e4b0-4633-bf52-7f670e987420",
+      "session_id": "039ecc73-1c73-4010-9261-4f7afbf0be50",
+      "experiment_id": "3118f13f-bae9-4966-8560-218872a4ed8c",
+      "provider": "mock",
+      "model_name": "synthetic-service-model",
+      "prompt_version_id": "2a719d12-b916-4e3c-988e-c54daa4ed75c",
+      "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.31772000000091793",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-13T08:13:47.693Z"
+    }
+  ],
+  "debug_log": [
+    {
+      "turn_id": "388a6f78-e4b0-4633-bf52-7f670e987420",
+      "request_id": "dev-chat",
+      "participant_id": "c8e4053c-b7ce-4345-854e-297f27b44b5f",
+      "experiment_id": "3118f13f-bae9-4966-8560-218872a4ed8c",
+      "conversation_id": "251f1b7c-e369-4ff5-b9a3-8798d57fb2e9",
+      "turn_status": "ready",
+      "state_before": "STEREOTYPE_CAPTURE",
+      "state_after": "STEREOTYPE_CAPTURE",
+      "event": null,
+      "accepted_core_version": 1,
+      "model_run_id": "4ed9ff43-f4c5-4c6c-b9e1-5089b0007c01",
+      "model_name": "synthetic-service-model",
+      "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+      "response_latency": "0.31772000000091793",
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "fallback_count": 0,
+      "model_status": "generated",
+      "error_code": null,
+      "logged_at": "2026-10-13T08:13:47.693Z"
+    }
+  ],
+  "event_log": [
+    {
+      "transition_id": "2eac0290-7edd-4757-b220-5e53d971eaff",
+      "request_id": null,
+      "participant_id": "c8e4053c-b7ce-4345-854e-297f27b44b5f",
+      "experiment_id": "3118f13f-bae9-4966-8560-218872a4ed8c",
+      "conversation_id": "251f1b7c-e369-4ff5-b9a3-8798d57fb2e9",
+      "state_before": "INIT",
+      "state_after": "STEREOTYPE_CAPTURE",
+      "event": "EXPERIMENT_STARTED",
+      "from_version": 0,
+      "to_version": 1,
+      "model_name": null,
+      "prompt_version": null,
+      "response_latency": null,
+      "validator_result": null,
+      "fallback_count": null,
+      "logged_at": "2026-10-13T08:13:47.643Z"
+    },
+    {
+      "transition_id": "dbc3e201-00ce-4d30-940d-235aa72dd38c",
+      "request_id": "dev-submit",
+      "participant_id": "c8e4053c-b7ce-4345-854e-297f27b44b5f",
+      "experiment_id": "3118f13f-bae9-4966-8560-218872a4ed8c",
+      "conversation_id": "251f1b7c-e369-4ff5-b9a3-8798d57fb2e9",
+      "state_before": "STEREOTYPE_CAPTURE",
+      "state_after": "VIEWPOINT_CONFIRMATION",
+      "event": "STEREOTYPE_SUBMITTED",
+      "from_version": 1,
+      "to_version": 2,
+      "model_name": null,
+      "prompt_version": null,
+      "response_latency": null,
+      "validator_result": null,
+      "fallback_count": null,
+      "logged_at": "2026-10-13T08:13:47.698Z"
+    }
+  ],
+  "data_quality": {
+    "scope": "all experiment rows in this snapshot",
+    "passed": true,
+    "checks": {
+      "sessions_without_state": 0,
+      "messages_without_state": 0,
+      "state_event_mismatch": 0,
+      "transition_chain_gaps": 0,
+      "variables_without_valid_source": 0,
+      "turn_slot_mismatch": 0,
+      "ready_turn_without_reply": 0,
+      "ready_turn_without_model_log": 0
+    }
+  }
+}

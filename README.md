@@ -10,7 +10,7 @@ Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分�
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第23次交付，实验验收需求核查与导师门禁](docs/twenty-third-round-feedback.md) · [Word反馈](docs/twenty-third-round-feedback.docx) · [交付报告](docs/twenty-third-round-delivery-report.md) · [导师测试清单](docs/mentor-test-readiness-checklist.md)。完整ZIP包含 docs/acceptance/step6-round23/ 本轮文档验收及历史真实smoke证据。本次未改程序、未执行计划测试、未重新调用模型；修改范围仍待确认，导师测试尚未放行。
+[最新：第24次交付，导师前验收评估](docs/twenty-fourth-round-feedback.md) · [Word反馈](docs/twenty-fourth-round-feedback.docx) · [本轮验收报告](docs/twenty-fourth-round-delivery-report.md)。本轮不修改程序，已重跑435项Vitest与15项Playwright及工程检查，450项均通过；完整ZIP包含四项评估、Word、原始附件、本轮JSON证据与7张合成账号截图。真实模型调用0次、人工评分未执行，导师测试仍未放行，必要修改需确认。
 
 最近真实smoke已安全接入DeepSeek Secret，请求/响应模型均deepseek-flash，HTTP200，首可见token2260.68ms，总响应2277.17ms，请求1/重试0；这是技术连接验证，未完成正式实验语义审核。优化范围等待用户确认，pilot_ready=false。[测量证据](docs/acceptance/step6-round22/confirmed-deepseek-smoke.json)。
 

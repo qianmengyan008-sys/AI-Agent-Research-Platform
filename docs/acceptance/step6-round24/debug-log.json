@@ -1,0 +1,236 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "data": {
+    "read_only": true,
+    "per_table_limit": 1000,
+    "complete": false,
+    "states": [
+      {
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "assignment_id": "d33028c1-6551-4e23-ae2a-bbc64de713a9",
+        "status": "open",
+        "chat_revision": 1,
+        "stage": "VIEWPOINT_CONFIRMATION",
+        "core_version": 2,
+        "snapshot": {
+          "path": "cognitive",
+          "stage": "VIEWPOINT_CONFIRMATION",
+          "version": 2,
+          "receipts": [
+            {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 0
+            },
+            {
+              "id": "diagnostic-event",
+              "data": {
+                "response": "诊断来源表达"
+              },
+              "type": "STEREOTYPE_SUBMITTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 1
+            }
+          ],
+          "lifecycle": "active",
+          "variables": {
+            "stereotype_text": "诊断来源表达"
+          },
+          "experimentVersion": "cognitive_v1",
+          "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+        }
+      }
+    ],
+    "events": [
+      {
+        "id": "85a7a056-c408-4804-92a6-7951e435b5d9",
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "core_event_id": "assignment-start",
+        "event": "EXPERIMENT_STARTED",
+        "previous_state": "INIT",
+        "current_state": "STEREOTYPE_CAPTURE",
+        "from_version": 0,
+        "to_version": 1,
+        "actor_type": "backend",
+        "actor_id": "synthetic-admin",
+        "validated_payload": {},
+        "receipt": {
+          "id": "assignment-start",
+          "data": {},
+          "type": "EXPERIMENT_STARTED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 0
+        },
+        "created_at": "2026-10-13T08:13:53.741Z"
+      },
+      {
+        "id": "3e841747-5dff-4ecf-b7d0-0101870a311d",
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "core_event_id": "diagnostic-event",
+        "event": "STEREOTYPE_SUBMITTED",
+        "previous_state": "STEREOTYPE_CAPTURE",
+        "current_state": "VIEWPOINT_CONFIRMATION",
+        "from_version": 1,
+        "to_version": 2,
+        "actor_type": "participant",
+        "actor_id": "c1bc976e-dfba-4325-a8ee-e34beee8b3fc",
+        "validated_payload": {
+          "source": "诊断来源",
+          "response": "诊断来源表达"
+        },
+        "receipt": {
+          "id": "diagnostic-event",
+          "data": {
+            "response": "诊断来源表达"
+          },
+          "type": "STEREOTYPE_SUBMITTED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 1
+        },
+        "created_at": "2026-10-13T08:13:53.803Z"
+      }
+    ],
+    "variables": [
+      {
+        "id": "0031262f-27af-4dcd-b288-b15ee7935210",
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "key": "raw_expression",
+        "value": "诊断来源表达",
+        "revision": 1,
+        "source_transition_id": "3e841747-5dff-4ecf-b7d0-0101870a311d",
+        "recorded_stage": "STEREOTYPE_CAPTURE",
+        "created_at": "2026-10-13T08:13:53.803Z"
+      },
+      {
+        "id": "c0abe63a-de44-4f3c-a081-313fff15dc7f",
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "key": "source",
+        "value": "诊断来源",
+        "revision": 1,
+        "source_transition_id": "3e841747-5dff-4ecf-b7d0-0101870a311d",
+        "recorded_stage": "STEREOTYPE_CAPTURE",
+        "created_at": "2026-10-13T08:13:53.803Z"
+      },
+      {
+        "id": "8e0e9e4c-31d4-422e-92e6-7a0da9f128dd",
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "key": "stereotype_text",
+        "value": "诊断来源表达",
+        "revision": 1,
+        "source_transition_id": "3e841747-5dff-4ecf-b7d0-0101870a311d",
+        "recorded_stage": "STEREOTYPE_CAPTURE",
+        "created_at": "2026-10-13T08:13:53.803Z"
+      }
+    ],
+    "model_runs": [
+      {
+        "id": "4b56f79e-fbe8-401f-842a-ac81c9a409ec",
+        "turn_id": "353a18bd-c044-4913-afc9-b92866fa689d",
+        "session_id": "dc11e8a1-9bc7-47d9-b174-a6e7a3791cbd",
+        "experiment_id": "7c2cba98-2815-41cb-853d-f513e9a75b27",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "6783a245-cc52-44de-8a5c-ae920d2767f7",
+        "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.3188220000010915",
+        "retry_count": 0,
+        "fallback_count": 0,
+        "token_usage": null,
+        "validator_result": {
+          "status": "generated",
+          "violations": [],
+          "auditEvents": []
+        },
+        "error_code": null,
+        "status": "generated",
+        "created_at": "2026-10-13T08:13:53.795Z"
+      }
+    ],
+    "debug_log": [
+      {
+        "turn_id": "353a18bd-c044-4913-afc9-b92866fa689d",
+        "request_id": "diagnostic-round",
+        "participant_id": "c1bc976e-dfba-4325-a8ee-e34beee8b3fc",
+        "experiment_id": "7c2cba98-2815-41cb-853d-f513e9a75b27",
+        "conversation_id": "8edf8261-0894-4891-851a-eb8cb0728fa2",
+        "turn_status": "ready",
+        "state_before": "STEREOTYPE_CAPTURE",
+        "state_after": "STEREOTYPE_CAPTURE",
+        "event": null,
+        "accepted_core_version": 1,
+        "model_run_id": "4b56f79e-fbe8-401f-842a-ac81c9a409ec",
+        "model_name": "synthetic-service-model",
+        "prompt_version": "stage-language-v3-c213dfa0f7d70e04005b0c83d89e2956e3d55856597e251fd10f0b41737fa4cd",
+        "response_latency": "0.3188220000010915",
+        "validator_result": {
+          "status": "generated",
+          "violations": [],
+          "auditEvents": []
+        },
+        "fallback_count": 0,
+        "model_status": "generated",
+        "error_code": null,
+        "logged_at": "2026-10-13T08:13:53.795Z"
+      }
+    ],
+    "event_log": [
+      {
+        "transition_id": "85a7a056-c408-4804-92a6-7951e435b5d9",
+        "request_id": null,
+        "participant_id": "c1bc976e-dfba-4325-a8ee-e34beee8b3fc",
+        "experiment_id": "7c2cba98-2815-41cb-853d-f513e9a75b27",
+        "conversation_id": "8edf8261-0894-4891-851a-eb8cb0728fa2",
+        "state_before": "INIT",
+        "state_after": "STEREOTYPE_CAPTURE",
+        "event": "EXPERIMENT_STARTED",
+        "from_version": 0,
+        "to_version": 1,
+        "model_name": null,
+        "prompt_version": null,
+        "response_latency": null,
+        "validator_result": null,
+        "fallback_count": null,
+        "logged_at": "2026-10-13T08:13:53.741Z"
+      },
+      {
+        "transition_id": "3e841747-5dff-4ecf-b7d0-0101870a311d",
+        "request_id": "diagnostic-event",
+        "participant_id": "c1bc976e-dfba-4325-a8ee-e34beee8b3fc",
+        "experiment_id": "7c2cba98-2815-41cb-853d-f513e9a75b27",
+        "conversation_id": "8edf8261-0894-4891-851a-eb8cb0728fa2",
+        "state_before": "STEREOTYPE_CAPTURE",
+        "state_after": "VIEWPOINT_CONFIRMATION",
+        "event": "STEREOTYPE_SUBMITTED",
+        "from_version": 1,
+        "to_version": 2,
+        "model_name": null,
+        "prompt_version": null,
+        "response_latency": null,
+        "validator_result": null,
+        "fallback_count": null,
+        "logged_at": "2026-10-13T08:13:53.803Z"
+      }
+    ],
+    "data_quality": {
+      "scope": "all experiment rows in this snapshot",
+      "passed": true,
+      "checks": {
+        "sessions_without_state": 0,
+        "messages_without_state": 0,
+        "state_event_mismatch": 0,
+        "transition_chain_gaps": 0,
+        "variables_without_valid_source": 0,
+        "turn_slot_mismatch": 0,
+        "ready_turn_without_reply": 0,
+        "ready_turn_without_model_log": 0
+      }
+    }
+  }
+}
