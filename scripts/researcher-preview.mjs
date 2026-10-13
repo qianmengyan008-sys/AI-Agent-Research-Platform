@@ -253,6 +253,13 @@ try {
       res.setHeader('X-Content-Type-Options', 'nosniff');
       next();
     });
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api/admin') && !['GET', 'HEAD'].includes(req.method)) {
+        res.status(405).json({ error: 'RESEARCHER_PREVIEW_ADMIN_READ_ONLY' });
+        return;
+      }
+      next();
+    });
     // Use the original API router before static hosting. No experiment or frontend edits.
     app.use((req, res, next) =>
       req.path === '/api' || req.path.startsWith('/api/')

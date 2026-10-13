@@ -1,0 +1,18 @@
+[Unit]
+Description=Independent AI Researcher Preview (not production)
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=research
+WorkingDirectory=/srv/AI-Agent-Research-Platform
+EnvironmentFile=/etc/researcher-preview.env
+ExecStart=/usr/bin/node --use-env-proxy --import tsx scripts/researcher-preview.mjs start
+Restart=on-failure
+RestartSec=5
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
