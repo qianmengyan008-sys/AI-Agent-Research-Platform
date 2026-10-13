@@ -1,0 +1,69 @@
+{
+  "version": "mentor-test-v1",
+  "purpose": "mentor-test",
+  "rating": {
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "low_anchor": "完全不相信该观点 / 认为该印象完全不符合现实",
+    "high_anchor": "非常相信该观点 / 认为该印象非常符合现实",
+    "instruction": "请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+  },
+  "cognitive": {
+    "turns": {
+      "capture_confirmation": [2, 5],
+      "INITIAL_RATING": [1, 3],
+      "REFRAME_SOCIAL_STRUCTURE": [2, 3],
+      "REFRAME_MEDIA_ALGORITHM": [2, 3],
+      "REFRAME_COUNTER_FACT": [2, 3],
+      "REFRAME_INDIVIDUAL_DIFFERENCE": [2, 3],
+      "SECOND_RATING": [1, 3],
+      "ACTION_INTENTION": [2, 4]
+    },
+    "estimated_total_turns": [20, 25],
+    "target": "美国黑人刻板印象",
+    "correction": "我们先回到刚才关于美国黑人这一印象的讨论。",
+    "neutral_summary": "我们先保留已经明确表达的内容。尚未填写的信息需要由你确认后保存。"
+  },
+  "emotional": {
+    "characters": {
+      "Marcus": "一名刚来到中国留学的美国黑人青年",
+      "李阳": "一名中国大学生"
+    },
+    "editable_traits": ["外貌", "兴趣", "性格"],
+    "opening": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+    "persona_turns": 2,
+    "story_turns": [11, 14],
+    "ending": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+    "scenes": {
+      "FIRST_CONTACT": {
+        "place": "图书馆",
+        "goal": "Marcus刚来中国，李阳和Marcus初次接触，出现轻微误解。",
+        "bridge": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。"
+      },
+      "MISUNDERSTANDING": {
+        "place": "食堂",
+        "goal": "两人再次遇见，发生小误会。",
+        "bridge": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。"
+      },
+      "RESOLUTION": {
+        "place": "食堂",
+        "goal": "通过交流消除食堂中的误会。",
+        "bridge": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。"
+      },
+      "SHARED_EXPERIENCE": {
+        "place": "自习室",
+        "goal": "两人在学习中发现共同点，增加理解。",
+        "bridge": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。"
+      },
+      "RELATIONSHIP": {
+        "place": "校园散步",
+        "goal": "分享个人经历，接纳彼此并形成朋友关系。",
+        "bridge": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。"
+      }
+    }
+  },
+  "effective_turn": "A ready conversation turn with a non-meta, non-mistype, non-offtopic participant answer; failed, repeated request IDs and template-only corrections do not count.",
+  "approval_source": "User-provided mentor parameter PDF and explicit fallback-boundary reply",
+  "fallback_boundary": "Confirmed by researcher: ratings and viewpoint confirmation remain explicit and mandatory; other stages may advance by approved neutral fallback with backend actor and missing_data annotation."
+}

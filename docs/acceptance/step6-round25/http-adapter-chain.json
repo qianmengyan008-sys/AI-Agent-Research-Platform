@@ -1,0 +1,536 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "local_http_calls": 1,
+  "adapter": "OpenAICompatibleAdapter against loopback fixture",
+  "format": "research-json-v1",
+  "analysis_schema": "participant-research-v1",
+  "experiment_id": "db9d0498-b626-4d1f-9925-20161a814935",
+  "generated_at": "2026-10-13T09:23:25.007Z",
+  "per_table_limit": null,
+  "complete": true,
+  "record_counts": {
+    "participants": 1,
+    "assignments": 1,
+    "states": 1,
+    "prompts": 1,
+    "messages": 2,
+    "transitions": 2,
+    "variables": 0,
+    "runs": 1,
+    "turns": 1
+  },
+  "note": "Complete experiment records at one repeatable-read snapshot; supplier revision unavailable and formal research materials are not approved by export",
+  "participants": [
+    {
+      "id": "251c8ca1-407a-4c1a-8716-faf61e836a60",
+      "participant_code": "P001",
+      "status": "enabled",
+      "created_at": "2026-10-13T09:23:24.891Z"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "5044556e-0b64-4fa2-b707-6cb19a8e0bdf",
+      "participant_id": "251c8ca1-407a-4c1a-8716-faf61e836a60",
+      "template_version_id": "172ad776-82cb-48df-8bf4-1dfe784aeafc",
+      "condition_id": "77cdcc3c-2a30-4395-82f1-edbd8b72b773",
+      "created_at": "2026-10-13T09:23:24.893Z",
+      "condition": "A",
+      "path_type": "daily",
+      "agent_configuration": {
+        "name": "合成 Agent"
+      },
+      "agent_version_id": "33784a6d-42ee-4b34-920a-16c83c4bb34f",
+      "state_machine_version_id": "5b305be5-2713-4645-915f-878a7c0fc440",
+      "agent_version": "1",
+      "state_machine_version": "daily_v1",
+      "template_version": 1,
+      "model_settings": {
+        "base_url": "http://127.0.0.1:34497/v1",
+        "provider": "openai-compatible",
+        "max_tokens": 512,
+        "model_name": "local-protocol-fixture",
+        "timeout_ms": 1000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "research_config": null,
+      "state_machine_definition": {
+        "path": "daily",
+        "stages": [
+          {
+            "id": "INIT",
+            "on": "EXPERIMENT_STARTED",
+            "fields": []
+          },
+          {
+            "id": "NATURAL_CHAT",
+            "on": "CHAT_FINISHED",
+            "fields": []
+          },
+          {
+            "id": "COMPLETED",
+            "fields": []
+          }
+        ],
+        "experimentVersion": "daily_v1"
+      }
+    }
+  ],
+  "states": [
+    {
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "assignment_id": "5044556e-0b64-4fa2-b707-6cb19a8e0bdf",
+      "status": "completed",
+      "chat_revision": 1,
+      "stage": "COMPLETED",
+      "core_version": 2,
+      "snapshot": {
+        "path": "daily",
+        "stage": "COMPLETED",
+        "version": 2,
+        "receipts": [
+          {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 0
+          },
+          {
+            "id": "protocol-finish",
+            "data": {},
+            "type": "CHAT_FINISHED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 1
+          }
+        ],
+        "lifecycle": "completed",
+        "variables": {},
+        "experimentVersion": "daily_v1",
+        "definitionSignature": "{\"path\":\"daily\",\"experimentVersion\":\"daily_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"NATURAL_CHAT\",\"on\":\"CHAT_FINISHED\",\"fields\":[]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "condition_id": "77cdcc3c-2a30-4395-82f1-edbd8b72b773",
+      "stage": "NATURAL_CHAT",
+      "prompt_version_id": "10c789e4-1461-4f78-8a54-aa8375666899",
+      "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+      "policy": {
+        "goal": "进行中性日常聊天，不主动引入实验干预。",
+        "path": "daily",
+        "stage": "NATURAL_CHAT",
+        "variableKeys": [],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [],
+        "roleDescription": "遵守当前任务边界的对话伙伴",
+        "forbiddenContent": ["认知重构", "制造误解", "改变你的刻板印象"],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "daily_v1",
+        "requiresConfirmedBelief": false
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "76076ad0-36a5-4bc2-bc9a-c6b030fc1642",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "sequence": 1,
+      "role": "user",
+      "content": "合成输入",
+      "status": "ready",
+      "created_at": "2026-10-13T09:23:24.941Z"
+    },
+    {
+      "id": "5d4f9ed3-6bf2-4080-b24d-e5b54b2175f2",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "sequence": 2,
+      "role": "assistant",
+      "content": "协议联调的安全回复。",
+      "status": "ready",
+      "created_at": "2026-10-13T09:23:24.941Z"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "5449d719-bb92-40b9-9808-34665cb843f2",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "core_event_id": "assignment-start",
+      "event": "EXPERIMENT_STARTED",
+      "previous_state": "INIT",
+      "current_state": "NATURAL_CHAT",
+      "from_version": 0,
+      "to_version": 1,
+      "actor_type": "backend",
+      "actor_id": "synthetic-admin",
+      "validated_payload": {},
+      "receipt": {
+        "id": "assignment-start",
+        "data": {},
+        "type": "EXPERIMENT_STARTED",
+        "experimentVersion": "daily_v1",
+        "expectedStateVersion": 0
+      },
+      "created_at": "2026-10-13T09:23:24.893Z"
+    },
+    {
+      "id": "5b06d6dd-9a07-4c8b-bdda-0a103d7c3479",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "core_event_id": "protocol-finish",
+      "event": "CHAT_FINISHED",
+      "previous_state": "NATURAL_CHAT",
+      "current_state": "COMPLETED",
+      "from_version": 1,
+      "to_version": 2,
+      "actor_type": "participant",
+      "actor_id": "251c8ca1-407a-4c1a-8716-faf61e836a60",
+      "validated_payload": {},
+      "receipt": {
+        "id": "protocol-finish",
+        "data": {},
+        "type": "CHAT_FINISHED",
+        "experimentVersion": "daily_v1",
+        "expectedStateVersion": 1
+      },
+      "created_at": "2026-10-13T09:23:24.989Z"
+    }
+  ],
+  "variables": [],
+  "runs": [
+    {
+      "id": "d95039be-8d48-4edd-9f79-565e176be000",
+      "turn_id": "5f5deba9-2107-44b0-baf0-e1a18f58c9dd",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "experiment_id": "db9d0498-b626-4d1f-9925-20161a814935",
+      "provider": "openai-compatible",
+      "model_name": "local-protocol-fixture",
+      "prompt_version_id": "10c789e4-1461-4f78-8a54-aa8375666899",
+      "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "19.170022000002064",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-13T09:23:24.967Z"
+    }
+  ],
+  "turns": [
+    {
+      "id": "5f5deba9-2107-44b0-baf0-e1a18f58c9dd",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "chat_revision": 1,
+      "accepted_core_version": 1,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": "http://127.0.0.1:34497/v1",
+          "provider": "openai-compatible",
+          "max_tokens": 512,
+          "model_name": "local-protocol-fixture",
+          "timeout_ms": 1000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "NATURAL_CHAT",
+        "promptId": "10c789e4-1461-4f78-8a54-aa8375666899",
+        "experiment": "db9d0498-b626-4d1f-9925-20161a814935",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+      }
+    }
+  ],
+  "analysis_rows": [
+    {
+      "participant_id": "251c8ca1-407a-4c1a-8716-faf61e836a60",
+      "experiment_id": "db9d0498-b626-4d1f-9925-20161a814935",
+      "assignment_id": "5044556e-0b64-4fa2-b707-6cb19a8e0bdf",
+      "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+      "condition": "A",
+      "condition_id": "77cdcc3c-2a30-4395-82f1-edbd8b72b773",
+      "path_type": "daily",
+      "agent_version": {
+        "id": "33784a6d-42ee-4b34-920a-16c83c4bb34f",
+        "version": "1",
+        "configuration": {
+          "name": "合成 Agent"
+        }
+      },
+      "state_machine_version": {
+        "id": "5b305be5-2713-4645-915f-878a7c0fc440",
+        "version": "daily_v1"
+      },
+      "template_version_id": "172ad776-82cb-48df-8bf4-1dfe784aeafc",
+      "prompt_version": [
+        {
+          "stage": "NATURAL_CHAT",
+          "id": "10c789e4-1461-4f78-8a54-aa8375666899",
+          "version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+        }
+      ],
+      "model_version": {
+        "requested_model": "local-protocol-fixture",
+        "provider": "openai-compatible",
+        "supplier_revision": null
+      },
+      "model_settings": {
+        "base_url": "http://127.0.0.1:34497/v1",
+        "provider": "openai-compatible",
+        "max_tokens": 512,
+        "model_name": "local-protocol-fixture",
+        "timeout_ms": 1000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "research_config": null,
+      "state_machine_definition": {
+        "path": "daily",
+        "stages": [
+          {
+            "id": "INIT",
+            "on": "EXPERIMENT_STARTED",
+            "fields": []
+          },
+          {
+            "id": "NATURAL_CHAT",
+            "on": "CHAT_FINISHED",
+            "fields": []
+          },
+          {
+            "id": "COMPLETED",
+            "fields": []
+          }
+        ],
+        "experimentVersion": "daily_v1"
+      },
+      "conversation_turns": [
+        {
+          "id": "5f5deba9-2107-44b0-baf0-e1a18f58c9dd",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "chat_revision": 1,
+          "accepted_core_version": 1,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": "http://127.0.0.1:34497/v1",
+              "provider": "openai-compatible",
+              "max_tokens": 512,
+              "model_name": "local-protocol-fixture",
+              "timeout_ms": 1000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "NATURAL_CHAT",
+            "promptId": "10c789e4-1461-4f78-8a54-aa8375666899",
+            "experiment": "db9d0498-b626-4d1f-9925-20161a814935",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+          }
+        }
+      ],
+      "timestamp": {
+        "assigned_at": "2026-10-13T09:23:24.893Z",
+        "exported_at": "2026-10-13T09:23:25.007Z"
+      },
+      "current_state": {
+        "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+        "assignment_id": "5044556e-0b64-4fa2-b707-6cb19a8e0bdf",
+        "status": "completed",
+        "chat_revision": 1,
+        "stage": "COMPLETED",
+        "core_version": 2,
+        "snapshot": {
+          "path": "daily",
+          "stage": "COMPLETED",
+          "version": 2,
+          "receipts": [
+            {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "daily_v1",
+              "expectedStateVersion": 0
+            },
+            {
+              "id": "protocol-finish",
+              "data": {},
+              "type": "CHAT_FINISHED",
+              "experimentVersion": "daily_v1",
+              "expectedStateVersion": 1
+            }
+          ],
+          "lifecycle": "completed",
+          "variables": {},
+          "experimentVersion": "daily_v1",
+          "definitionSignature": "{\"path\":\"daily\",\"experimentVersion\":\"daily_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"NATURAL_CHAT\",\"on\":\"CHAT_FINISHED\",\"fields\":[]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+        }
+      },
+      "state_transition": [
+        {
+          "id": "5449d719-bb92-40b9-9808-34665cb843f2",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "NATURAL_CHAT",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "synthetic-admin",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-13T09:23:24.893Z"
+        },
+        {
+          "id": "5b06d6dd-9a07-4c8b-bdda-0a103d7c3479",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "core_event_id": "protocol-finish",
+          "event": "CHAT_FINISHED",
+          "previous_state": "NATURAL_CHAT",
+          "current_state": "COMPLETED",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "251c8ca1-407a-4c1a-8716-faf61e836a60",
+          "validated_payload": {},
+          "receipt": {
+            "id": "protocol-finish",
+            "data": {},
+            "type": "CHAT_FINISHED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-13T09:23:24.989Z"
+        }
+      ],
+      "conversation_history": [
+        {
+          "id": "76076ad0-36a5-4bc2-bc9a-c6b030fc1642",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "sequence": 1,
+          "role": "user",
+          "content": "合成输入",
+          "status": "ready",
+          "created_at": "2026-10-13T09:23:24.941Z"
+        },
+        {
+          "id": "5d4f9ed3-6bf2-4080-b24d-e5b54b2175f2",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "sequence": 2,
+          "role": "assistant",
+          "content": "协议联调的安全回复。",
+          "status": "ready",
+          "created_at": "2026-10-13T09:23:24.941Z"
+        }
+      ],
+      "experiment_variables": [],
+      "model_runs": [
+        {
+          "id": "d95039be-8d48-4edd-9f79-565e176be000",
+          "turn_id": "5f5deba9-2107-44b0-baf0-e1a18f58c9dd",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "experiment_id": "db9d0498-b626-4d1f-9925-20161a814935",
+          "provider": "openai-compatible",
+          "model_name": "local-protocol-fixture",
+          "prompt_version_id": "10c789e4-1461-4f78-8a54-aa8375666899",
+          "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "19.170022000002064",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-13T09:23:24.967Z"
+        }
+      ],
+      "model_run_log": [
+        {
+          "id": "d95039be-8d48-4edd-9f79-565e176be000",
+          "turn_id": "5f5deba9-2107-44b0-baf0-e1a18f58c9dd",
+          "session_id": "9d3b164d-686e-4371-a789-9335b21af99a",
+          "experiment_id": "db9d0498-b626-4d1f-9925-20161a814935",
+          "provider": "openai-compatible",
+          "model_name": "local-protocol-fixture",
+          "prompt_version_id": "10c789e4-1461-4f78-8a54-aa8375666899",
+          "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "19.170022000002064",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-13T09:23:24.967Z"
+        }
+      ]
+    }
+  ],
+  "data_quality": {
+    "scope": "all experiment rows in this snapshot",
+    "passed": true,
+    "checks": {
+      "sessions_without_state": 0,
+      "messages_without_state": 0,
+      "state_event_mismatch": 0,
+      "transition_chain_gaps": 0,
+      "variables_without_valid_source": 0,
+      "turn_slot_mismatch": 0,
+      "ready_turn_without_reply": 0,
+      "ready_turn_without_model_log": 0
+    }
+  }
+}

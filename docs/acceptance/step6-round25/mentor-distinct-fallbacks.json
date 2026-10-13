@@ -1,0 +1,2782 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "data": {
+    "format": "research-json-v1",
+    "analysis_schema": "participant-research-v1",
+    "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+    "generated_at": "2026-10-13T09:23:11.436Z",
+    "per_table_limit": null,
+    "complete": true,
+    "record_counts": {
+      "participants": 1,
+      "assignments": 1,
+      "states": 1,
+      "prompts": 9,
+      "messages": 12,
+      "transitions": 5,
+      "variables": 9,
+      "runs": 6,
+      "turns": 6
+    },
+    "note": "Complete experiment records at one repeatable-read snapshot; supplier revision unavailable and formal research materials are not approved by export",
+    "participants": [
+      {
+        "id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+        "participant_code": "MENTOR",
+        "status": "enabled",
+        "created_at": "2026-10-13T09:23:11.243Z"
+      }
+    ],
+    "assignments": [
+      {
+        "id": "e55b7cbc-f3cb-4ca1-a439-f71c4d186756",
+        "participant_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+        "template_version_id": "03be2e32-0095-4293-b594-826d7e381a41",
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "created_at": "2026-10-13T09:23:11.245Z",
+        "condition": "A",
+        "path_type": "cognitive",
+        "agent_configuration": {
+          "name": "合成 Agent"
+        },
+        "agent_version_id": "eb36fe1d-7b4f-4c02-907f-9bc817c83698",
+        "state_machine_version_id": "f9c979f2-c756-433c-8f54-15417396b503",
+        "agent_version": "1",
+        "state_machine_version": "cognitive_v1",
+        "template_version": 1,
+        "model_settings": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "synthetic-service-model",
+          "timeout_ms": 1000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "research_config": {
+          "rating": {
+            "max": 100,
+            "min": 0,
+            "step": 1,
+            "low_anchor": "完全不相信该观点 / 认为该印象完全不符合现实",
+            "high_anchor": "非常相信该观点 / 认为该印象非常符合现实",
+            "instruction": "请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+          },
+          "purpose": "mentor-test",
+          "version": "mentor-test-v1",
+          "cognitive": {
+            "turns": {
+              "SECOND_RATING": [1, 3],
+              "INITIAL_RATING": [1, 3],
+              "ACTION_INTENTION": [2, 4],
+              "REFRAME_COUNTER_FACT": [2, 3],
+              "capture_confirmation": [2, 5],
+              "REFRAME_MEDIA_ALGORITHM": [2, 3],
+              "REFRAME_SOCIAL_STRUCTURE": [2, 3],
+              "REFRAME_INDIVIDUAL_DIFFERENCE": [2, 3]
+            },
+            "target": "美国黑人刻板印象",
+            "correction": "我们先回到刚才关于美国黑人这一印象的讨论。",
+            "neutral_summary": "我们先保留已经明确表达的内容。尚未填写的信息需要由你确认后保存。",
+            "estimated_total_turns": [20, 25]
+          },
+          "emotional": {
+            "ending": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+            "scenes": {
+              "RESOLUTION": {
+                "goal": "通过交流消除食堂中的误会。",
+                "place": "食堂",
+                "bridge": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。"
+              },
+              "RELATIONSHIP": {
+                "goal": "分享个人经历，接纳彼此并形成朋友关系。",
+                "place": "校园散步",
+                "bridge": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。"
+              },
+              "FIRST_CONTACT": {
+                "goal": "Marcus刚来中国，李阳和Marcus初次接触，出现轻微误解。",
+                "place": "图书馆",
+                "bridge": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。"
+              },
+              "MISUNDERSTANDING": {
+                "goal": "两人再次遇见，发生小误会。",
+                "place": "食堂",
+                "bridge": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。"
+              },
+              "SHARED_EXPERIENCE": {
+                "goal": "两人在学习中发现共同点，增加理解。",
+                "place": "自习室",
+                "bridge": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。"
+              }
+            },
+            "opening": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+            "characters": {
+              "Marcus": "一名刚来到中国留学的美国黑人青年",
+              "李阳": "一名中国大学生"
+            },
+            "story_turns": [11, 14],
+            "persona_turns": 2,
+            "editable_traits": ["外貌", "兴趣", "性格"]
+          },
+          "effective_turn": "A ready conversation turn with a non-meta, non-mistype, non-offtopic participant answer; failed, repeated request IDs and template-only corrections do not count.",
+          "approval_source": "User-provided mentor parameter PDF and explicit fallback-boundary reply",
+          "fallback_boundary": "Confirmed by researcher: ratings and viewpoint confirmation remain explicit and mandatory; other stages may advance by approved neutral fallback with backend actor and missing_data annotation."
+        },
+        "state_machine_definition": {
+          "path": "cognitive",
+          "stages": [
+            {
+              "id": "INIT",
+              "on": "EXPERIMENT_STARTED",
+              "fields": []
+            },
+            {
+              "id": "STEREOTYPE_CAPTURE",
+              "on": "STEREOTYPE_SUBMITTED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "stereotype_text",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "VIEWPOINT_CONFIRMATION",
+              "on": "VIEWPOINT_CONFIRMED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "viewpoint",
+                  "variable": "confirmed_viewpoint",
+                  "maxLength": 10000
+                },
+                {
+                  "type": "confirmation",
+                  "field": "confirmed",
+                  "variable": "viewpoint_confirmed"
+                }
+              ]
+            },
+            {
+              "id": "INITIAL_RATING",
+              "on": "RATING_SUBMITTED",
+              "fields": [
+                {
+                  "type": "number",
+                  "field": "rating",
+                  "variable": "initial_rating"
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_SOCIAL_STRUCTURE",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_social_structure_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_MEDIA_ALGORITHM",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_media_algorithm_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_COUNTER_FACT",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_counter_fact_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_INDIVIDUAL_DIFFERENCE",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_individual_difference_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "SECOND_RATING",
+              "on": "RATING_SUBMITTED",
+              "fields": [
+                {
+                  "type": "number",
+                  "field": "rating",
+                  "variable": "second_rating"
+                }
+              ]
+            },
+            {
+              "id": "ACTION_INTENTION",
+              "on": "ACTION_INTENTION_SUBMITTED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "action_intention",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "COMPLETED",
+              "fields": []
+            }
+          ],
+          "experimentVersion": "cognitive_v1"
+        }
+      }
+    ],
+    "states": [
+      {
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "assignment_id": "e55b7cbc-f3cb-4ca1-a439-f71c4d186756",
+        "status": "open",
+        "chat_revision": 6,
+        "stage": "REFRAME_MEDIA_ALGORITHM",
+        "core_version": 5,
+        "snapshot": {
+          "path": "cognitive",
+          "stage": "REFRAME_MEDIA_ALGORITHM",
+          "version": 5,
+          "receipts": [
+            {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 0
+            },
+            {
+              "id": "2b4c2b83-3452-44c9-8e91-b0ab6103fd0d",
+              "data": {
+                "response": "媒体总说他们犯罪率高，我并不确定。"
+              },
+              "type": "STEREOTYPE_SUBMITTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 1
+            },
+            {
+              "id": "92f7ea7d-17db-47a9-9f9a-5d61466e8b4a",
+              "data": {
+                "confirmed": true,
+                "viewpoint": "媒体总说他们犯罪率高，我并不确定。"
+              },
+              "type": "VIEWPOINT_CONFIRMED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 2
+            },
+            {
+              "id": "c8257ff7-4c85-49b9-91fb-3b63c22a877d",
+              "data": {
+                "rating": 50
+              },
+              "type": "RATING_SUBMITTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 3
+            },
+            {
+              "id": "backend-turn-705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+              "data": {
+                "response": "我愿意讨论社会条件 2"
+              },
+              "type": "REFRAME_COMPLETED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 4
+            }
+          ],
+          "lifecycle": "active",
+          "variables": {
+            "initial_rating": 50,
+            "stereotype_text": "媒体总说他们犯罪率高，我并不确定。",
+            "confirmed_viewpoint": "媒体总说他们犯罪率高，我并不确定。",
+            "viewpoint_confirmed": true,
+            "reframe_social_structure_response": "我愿意讨论社会条件 2"
+          },
+          "experimentVersion": "cognitive_v1",
+          "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+        }
+      }
+    ],
+    "prompts": [
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "ACTION_INTENTION",
+        "prompt_version_id": "ac0fcd82-8c0f-4ba4-993e-6b6180291ea8",
+        "prompt_version": "stage-language-v3-9c41b49686e17c269115d96953f3311d8ee62a736120ce12ab3a471e7913afcd",
+        "policy": {
+          "goal": "询问用户面对美国黑人刻板印象相关内容时的行动意愿，不自行作答或结束流程。",
+          "path": "cognitive",
+          "stage": "ACTION_INTENTION",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，下次面对美国黑人刻板印象相关内容，你愿意怎样核实或回应？",
+            "你会从哪些来源核实美国黑人刻板印象相关内容？",
+            "遇到一概而论的说法时，你愿意如何回应？",
+            "在了解更多个体经历之后，你愿意采取什么具体行动？"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": [],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": false
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "INITIAL_RATING",
+        "prompt_version_id": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+        "prompt_version": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9",
+        "policy": {
+          "goal": "说明当前评分任务，不替用户打分。",
+          "path": "cognitive",
+          "stage": "INITIAL_RATING",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，请根据你目前对该观点的相信程度，在0到100之间输入一个数字。",
+            "想到“{{confirmed_belief}}”，请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": [],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": true
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "REFRAME_COUNTER_FACT",
+        "prompt_version_id": "cd1ac177-69e3-42e6-82d9-ab977688c550",
+        "prompt_version": "stage-language-v3-81837fb2b8e428b8b4542bd53c3f8a306a2a8deb026db5b3b8c0bb63618b0907",
+        "policy": {
+          "goal": "围绕唯一确认观点讨论反刻板事实与文化多样性，不替换评分对象。",
+          "path": "cognitive",
+          "stage": "REFRAME_COUNTER_FACT",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，你见过哪些反例或不同的文化经验？",
+            "对于“{{confirmed_belief}}”，哪些具体经历能帮助我们检验这个印象？",
+            "对于“{{confirmed_belief}}”，不同的文化经验会怎样丰富我们对这个群体的认识？"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": true
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+        "prompt_version_id": "39e4662b-471b-4ddc-912b-0149f72d1a94",
+        "prompt_version": "stage-language-v3-87e6deb6ef9a7147aef9d6a5d977bd58cbf74309af4c033f1d947b9ede29ca59",
+        "policy": {
+          "goal": "围绕唯一确认观点讨论美国黑人的个体差异。",
+          "path": "cognitive",
+          "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，具体个人经历与群体标签之间有哪些差异？",
+            "对于“{{confirmed_belief}}”，哪些个人信息能帮助你避免一概而论？",
+            "对于“{{confirmed_belief}}”，面对不同经历的美国黑人，你会怎样重新理解原先的印象？"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": true
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "REFRAME_MEDIA_ALGORITHM",
+        "prompt_version_id": "87589aba-cd41-4b70-b568-5924e526855b",
+        "prompt_version": "stage-language-v3-21785719714a25a908d10e21e7589287a96992a39713c01241029b303fd6a349",
+        "policy": {
+          "goal": "围绕确认观点讨论媒体呈现与算法因素。",
+          "path": "cognitive",
+          "stage": "REFRAME_MEDIA_ALGORITHM",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，新闻选取和推荐算法可能怎样影响我们看到的信息？",
+            "对于“{{confirmed_belief}}”，反复看到同类报道可能怎样影响你的判断？",
+            "对于“{{confirmed_belief}}”，了解不同信息来源可能带来哪些新的看法？"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": true
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "REFRAME_SOCIAL_STRUCTURE",
+        "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+        "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+        "policy": {
+          "goal": "围绕确认观点讨论社会结构因素，回应用户补充。",
+          "path": "cognitive",
+          "stage": "REFRAME_SOCIAL_STRUCTURE",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，教育、住房和社会资源的差异可能怎样影响个人处境？",
+            "对于“{{confirmed_belief}}”，机会与资源的差异可能怎样影响生活选择？",
+            "对于“{{confirmed_belief}}”，除了个人因素，还需要了解哪些社会条件？"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": ["现在进行第二次评分", "现在填写行动意愿"],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": true
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "SECOND_RATING",
+        "prompt_version_id": "b57ff6cc-57c5-465f-9f12-c664d496ae16",
+        "prompt_version": "stage-language-v3-7271670c578a59cdb13509f44a200845d14bbd689e63f0056afc0508fbe2c838",
+        "policy": {
+          "goal": "说明当前再次评分任务，不修改既有评分。",
+          "path": "cognitive",
+          "stage": "SECOND_RATING",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "对于“{{confirmed_belief}}”，请根据你目前对该观点的相信程度，在0到100之间输入一个数字。",
+            "想到“{{confirmed_belief}}”，请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": [],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": true
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "STEREOTYPE_CAPTURE",
+        "prompt_version_id": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+        "prompt_version": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591",
+        "policy": {
+          "goal": "邀请用户用自己的话表达一个关于美国黑人的负面刻板印象，并询问来源；不猜测、不替用户填写。",
+          "path": "cognitive",
+          "stage": "STEREOTYPE_CAPTURE",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "你愿意表达一个关于美国黑人的具体印象吗？",
+            "这个印象主要来自直接接触、媒体还是其他来源？",
+            "在刚才提到的内容里，你想先讨论哪个印象？",
+            "你能说明为什么这个印象让你特别在意吗？",
+            "你愿意用自己的话概括目前想讨论的一个印象吗？"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": [],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": false
+        }
+      },
+      {
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "stage": "VIEWPOINT_CONFIRMATION",
+        "prompt_version_id": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+        "prompt_version": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9",
+        "policy": {
+          "goal": "让用户明确确认自己表达的唯一观点；不要按关键词改写或替用户确认。",
+          "path": "cognitive",
+          "stage": "VIEWPOINT_CONFIRMATION",
+          "variableKeys": [],
+          "forbiddenJumps": [
+            "进入下一阶段",
+            "跳过这一阶段",
+            "回到初次接触",
+            "实验已结束",
+            "对话已经结束",
+            "不用再回答"
+          ],
+          "maxReplyLength": 2000,
+          "fallbackReplies": [
+            "你选择的这个观点是否准确表达了你的想法？",
+            "你希望保留哪一个观点作为讨论对象？",
+            "这句话是否需要由你自己补充或调整？",
+            "如果已经明确，你愿意确认这个观点吗？",
+            "你可以按自己的理解明确要讨论的观点。"
+          ],
+          "forbiddenScenes": [],
+          "roleDescription": "遵守当前任务边界的对话伙伴",
+          "forbiddenContent": [],
+          "forbiddenPurpose": [
+            "本实验旨在",
+            "实验目的是",
+            "你被分配到实验组",
+            "测量你的刻板印象变化"
+          ],
+          "experimentVersion": "cognitive_v1",
+          "requiresConfirmedBelief": false
+        }
+      }
+    ],
+    "messages": [
+      {
+        "id": "09e6c119-2efa-48bc-8345-eaa6001c371e",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 1,
+        "role": "user",
+        "content": "媒体总说他们犯罪率高，我并不确定。",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.293Z"
+      },
+      {
+        "id": "4d9fef07-6924-4e0a-bf05-0542386eae3c",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 2,
+        "role": "assistant",
+        "content": "你愿意多聊聊刚才的感受吗？（1）",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.293Z"
+      },
+      {
+        "id": "436c423b-f5a5-4074-9185-8d96eb26f839",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 3,
+        "role": "user",
+        "content": "我确认要评价的是媒体给我的这个印象。",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.330Z"
+      },
+      {
+        "id": "a7b45f96-56e3-4eaf-b102-51a1883a0233",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 4,
+        "role": "assistant",
+        "content": "你愿意多聊聊刚才的感受吗？（2）",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.330Z"
+      },
+      {
+        "id": "4f080376-37dc-413f-8db6-848ecbaa3174",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 5,
+        "role": "user",
+        "content": "准备评分",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.355Z"
+      },
+      {
+        "id": "7120a534-b923-4bcf-ae78-bdcb7cb2ec49",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 6,
+        "role": "assistant",
+        "content": "对于“媒体总说他们犯罪率高，我并不确定。”，请根据你目前对该观点的相信程度，在0到100之间输入一个数字。",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.355Z"
+      },
+      {
+        "id": "61478d75-9f32-44a6-a055-cc6668abdc8d",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 7,
+        "role": "user",
+        "content": "我愿意讨论社会条件 0",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.380Z"
+      },
+      {
+        "id": "cf985f56-ab84-48b2-bd39-b34fbc270f52",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 8,
+        "role": "assistant",
+        "content": "对于“媒体总说他们犯罪率高，我并不确定。”，教育、住房和社会资源的差异可能怎样影响个人处境？",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.380Z"
+      },
+      {
+        "id": "25f420d9-33b5-4a64-af31-002a52267bfb",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 9,
+        "role": "user",
+        "content": "我愿意讨论社会条件 1",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.394Z"
+      },
+      {
+        "id": "190004c5-e100-43bd-b7ac-3bc1216c0ecf",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 10,
+        "role": "assistant",
+        "content": "对于“媒体总说他们犯罪率高，我并不确定。”，机会与资源的差异可能怎样影响生活选择？",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.394Z"
+      },
+      {
+        "id": "a246311e-31b0-42a5-a21f-4a98814b777f",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 11,
+        "role": "user",
+        "content": "我愿意讨论社会条件 2",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.409Z"
+      },
+      {
+        "id": "3c7b98b3-b11d-4b77-90d4-c82669215385",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "sequence": 12,
+        "role": "assistant",
+        "content": "对于“媒体总说他们犯罪率高，我并不确定。”，除了个人因素，还需要了解哪些社会条件？",
+        "status": "ready",
+        "created_at": "2026-10-13T09:23:11.409Z"
+      }
+    ],
+    "transitions": [
+      {
+        "id": "f29cd047-d8c2-4b74-b274-d39ef4fe49ec",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "core_event_id": "assignment-start",
+        "event": "EXPERIMENT_STARTED",
+        "previous_state": "INIT",
+        "current_state": "STEREOTYPE_CAPTURE",
+        "from_version": 0,
+        "to_version": 1,
+        "actor_type": "backend",
+        "actor_id": "synthetic-admin",
+        "validated_payload": {},
+        "receipt": {
+          "id": "assignment-start",
+          "data": {},
+          "type": "EXPERIMENT_STARTED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 0
+        },
+        "created_at": "2026-10-13T09:23:11.245Z"
+      },
+      {
+        "id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "core_event_id": "2b4c2b83-3452-44c9-8e91-b0ab6103fd0d",
+        "event": "STEREOTYPE_SUBMITTED",
+        "previous_state": "STEREOTYPE_CAPTURE",
+        "current_state": "VIEWPOINT_CONFIRMATION",
+        "from_version": 1,
+        "to_version": 2,
+        "actor_type": "participant",
+        "actor_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+        "validated_payload": {
+          "source": "媒体报道",
+          "response": "媒体总说他们犯罪率高，我并不确定。"
+        },
+        "receipt": {
+          "id": "2b4c2b83-3452-44c9-8e91-b0ab6103fd0d",
+          "data": {
+            "response": "媒体总说他们犯罪率高，我并不确定。"
+          },
+          "type": "STEREOTYPE_SUBMITTED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 1
+        },
+        "created_at": "2026-10-13T09:23:11.314Z"
+      },
+      {
+        "id": "73365154-d990-4548-ae81-b7a777c712c8",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "core_event_id": "92f7ea7d-17db-47a9-9f9a-5d61466e8b4a",
+        "event": "VIEWPOINT_CONFIRMED",
+        "previous_state": "VIEWPOINT_CONFIRMATION",
+        "current_state": "INITIAL_RATING",
+        "from_version": 2,
+        "to_version": 3,
+        "actor_type": "participant",
+        "actor_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+        "validated_payload": {
+          "confirmed": true,
+          "viewpoint": "媒体总说他们犯罪率高，我并不确定。"
+        },
+        "receipt": {
+          "id": "92f7ea7d-17db-47a9-9f9a-5d61466e8b4a",
+          "data": {
+            "confirmed": true,
+            "viewpoint": "媒体总说他们犯罪率高，我并不确定。"
+          },
+          "type": "VIEWPOINT_CONFIRMED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 2
+        },
+        "created_at": "2026-10-13T09:23:11.345Z"
+      },
+      {
+        "id": "96ac6af4-08a5-4402-9c03-549aea0ffdca",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "core_event_id": "c8257ff7-4c85-49b9-91fb-3b63c22a877d",
+        "event": "RATING_SUBMITTED",
+        "previous_state": "INITIAL_RATING",
+        "current_state": "REFRAME_SOCIAL_STRUCTURE",
+        "from_version": 3,
+        "to_version": 4,
+        "actor_type": "participant",
+        "actor_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+        "validated_payload": {
+          "rating": 50
+        },
+        "receipt": {
+          "id": "c8257ff7-4c85-49b9-91fb-3b63c22a877d",
+          "data": {
+            "rating": 50
+          },
+          "type": "RATING_SUBMITTED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 3
+        },
+        "created_at": "2026-10-13T09:23:11.370Z"
+      },
+      {
+        "id": "53ffe523-6863-4196-9af9-7d621135197f",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "core_event_id": "backend-turn-705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+        "event": "REFRAME_COMPLETED",
+        "previous_state": "REFRAME_SOCIAL_STRUCTURE",
+        "current_state": "REFRAME_MEDIA_ALGORITHM",
+        "from_version": 4,
+        "to_version": 5,
+        "actor_type": "backend",
+        "actor_id": "research-profile",
+        "validated_payload": {
+          "reason": "maximum_turns_completed",
+          "response": "我愿意讨论社会条件 2",
+          "missing_data": false,
+          "source_turn_id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2"
+        },
+        "receipt": {
+          "id": "backend-turn-705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+          "data": {
+            "response": "我愿意讨论社会条件 2"
+          },
+          "type": "REFRAME_COMPLETED",
+          "experimentVersion": "cognitive_v1",
+          "expectedStateVersion": 4
+        },
+        "created_at": "2026-10-13T09:23:11.415Z"
+      }
+    ],
+    "variables": [
+      {
+        "id": "6ccc4122-45fc-42de-98a3-2a2a3e9daedd",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "confirmed_belief",
+        "value": "媒体总说他们犯罪率高，我并不确定。",
+        "revision": 1,
+        "source_transition_id": "73365154-d990-4548-ae81-b7a777c712c8",
+        "recorded_stage": "VIEWPOINT_CONFIRMATION",
+        "created_at": "2026-10-13T09:23:11.345Z"
+      },
+      {
+        "id": "42883a61-239c-474b-8c97-58b397454407",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "confirmed_viewpoint",
+        "value": "媒体总说他们犯罪率高，我并不确定。",
+        "revision": 1,
+        "source_transition_id": "73365154-d990-4548-ae81-b7a777c712c8",
+        "recorded_stage": "VIEWPOINT_CONFIRMATION",
+        "created_at": "2026-10-13T09:23:11.345Z"
+      },
+      {
+        "id": "e8e078bc-7175-4212-ad72-d63c8758e247",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "initial_rating",
+        "value": 50,
+        "revision": 1,
+        "source_transition_id": "96ac6af4-08a5-4402-9c03-549aea0ffdca",
+        "recorded_stage": "INITIAL_RATING",
+        "created_at": "2026-10-13T09:23:11.370Z"
+      },
+      {
+        "id": "af77bb16-84be-470d-8b2e-dd5ba88267a9",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "rating_1",
+        "value": 50,
+        "revision": 1,
+        "source_transition_id": "96ac6af4-08a5-4402-9c03-549aea0ffdca",
+        "recorded_stage": "INITIAL_RATING",
+        "created_at": "2026-10-13T09:23:11.370Z"
+      },
+      {
+        "id": "b25f5194-75d1-415f-89a5-984399c02863",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "raw_expression",
+        "value": "媒体总说他们犯罪率高，我并不确定。",
+        "revision": 1,
+        "source_transition_id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+        "recorded_stage": "STEREOTYPE_CAPTURE",
+        "created_at": "2026-10-13T09:23:11.314Z"
+      },
+      {
+        "id": "5d3b4fe5-e61e-46a5-8c81-68e925d690f4",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "reframe_social_structure_response",
+        "value": "我愿意讨论社会条件 2",
+        "revision": 1,
+        "source_transition_id": "53ffe523-6863-4196-9af9-7d621135197f",
+        "recorded_stage": "REFRAME_SOCIAL_STRUCTURE",
+        "created_at": "2026-10-13T09:23:11.415Z"
+      },
+      {
+        "id": "e1a228ae-0429-4c63-9f42-95ad28907f4d",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "source",
+        "value": "媒体报道",
+        "revision": 1,
+        "source_transition_id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+        "recorded_stage": "STEREOTYPE_CAPTURE",
+        "created_at": "2026-10-13T09:23:11.314Z"
+      },
+      {
+        "id": "0d59c1bf-e836-4728-adbc-57e1cfbffe28",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "stereotype_text",
+        "value": "媒体总说他们犯罪率高，我并不确定。",
+        "revision": 1,
+        "source_transition_id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+        "recorded_stage": "STEREOTYPE_CAPTURE",
+        "created_at": "2026-10-13T09:23:11.314Z"
+      },
+      {
+        "id": "c15a9031-3f1a-4d4a-b70e-95b0555ce924",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "key": "viewpoint_confirmed",
+        "value": true,
+        "revision": 1,
+        "source_transition_id": "73365154-d990-4548-ae81-b7a777c712c8",
+        "recorded_stage": "VIEWPOINT_CONFIRMATION",
+        "created_at": "2026-10-13T09:23:11.345Z"
+      }
+    ],
+    "runs": [
+      {
+        "id": "a8518047-e942-40a2-a95a-2c73ed885af4",
+        "turn_id": "170a16bd-889b-40b6-943a-7d9191b978bc",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+        "prompt_version": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.340462999999545",
+        "retry_count": 0,
+        "fallback_count": 0,
+        "token_usage": null,
+        "validator_result": {
+          "status": "generated",
+          "violations": [],
+          "auditEvents": []
+        },
+        "error_code": null,
+        "status": "generated",
+        "created_at": "2026-10-13T09:23:11.300Z"
+      },
+      {
+        "id": "2a8bf04a-a3ae-40e4-b9b9-859b89e30ddd",
+        "turn_id": "196721f2-c9b1-4508-9c6a-2902d3433fa8",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+        "prompt_version": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.3542840000000069",
+        "retry_count": 0,
+        "fallback_count": 0,
+        "token_usage": null,
+        "validator_result": {
+          "status": "generated",
+          "violations": [],
+          "auditEvents": []
+        },
+        "error_code": null,
+        "status": "generated",
+        "created_at": "2026-10-13T09:23:11.336Z"
+      },
+      {
+        "id": "153c2a5d-f15f-4a51-8ba3-fcefcc99c27a",
+        "turn_id": "9724acf9-bc0f-4453-bf45-fb0104fd839a",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+        "prompt_version": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.3718300000000454",
+        "retry_count": 0,
+        "fallback_count": 0,
+        "token_usage": null,
+        "validator_result": {
+          "status": "generated",
+          "violations": [],
+          "auditEvents": []
+        },
+        "error_code": null,
+        "status": "generated",
+        "created_at": "2026-10-13T09:23:11.362Z"
+      },
+      {
+        "id": "51d0bfca-029e-4fd9-a165-62672218d6fb",
+        "turn_id": "f26bd151-a050-4740-aeb3-7f86a5b6740e",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+        "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.6869550000001254",
+        "retry_count": 1,
+        "fallback_count": 1,
+        "token_usage": null,
+        "validator_result": {
+          "status": "fallback",
+          "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+          "auditEvents": [
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 1,
+              "outcome": "rejected",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 2,
+              "outcome": "rejected",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 2,
+              "outcome": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            }
+          ]
+        },
+        "error_code": null,
+        "status": "fallback",
+        "created_at": "2026-10-13T09:23:11.387Z"
+      },
+      {
+        "id": "ec7e55f3-90b0-4247-9804-259ff77953ce",
+        "turn_id": "b87ccc3e-36c5-4e4a-9f26-15bd34645a6e",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+        "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.5065280000007988",
+        "retry_count": 1,
+        "fallback_count": 1,
+        "token_usage": null,
+        "validator_result": {
+          "status": "fallback",
+          "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+          "auditEvents": [
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 1,
+              "outcome": "rejected",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 2,
+              "outcome": "rejected",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 2,
+              "outcome": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            }
+          ]
+        },
+        "error_code": null,
+        "status": "fallback",
+        "created_at": "2026-10-13T09:23:11.401Z"
+      },
+      {
+        "id": "337cf7a1-8816-4c7d-859a-ec1941e817f5",
+        "turn_id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "provider": "mock",
+        "model_name": "synthetic-service-model",
+        "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+        "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+        "validator_version": "stage-language-v3",
+        "code_commit": "development",
+        "temperature": "0.2",
+        "max_tokens": 512,
+        "latency_ms": "0.601198999999724",
+        "retry_count": 1,
+        "fallback_count": 1,
+        "token_usage": null,
+        "validator_result": {
+          "status": "fallback",
+          "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+          "auditEvents": [
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 1,
+              "outcome": "rejected",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 2,
+              "outcome": "rejected",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            },
+            {
+              "path": "cognitive",
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "attempt": 2,
+              "outcome": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "stateVersion": 4,
+              "experimentVersion": "cognitive_v1"
+            }
+          ]
+        },
+        "error_code": null,
+        "status": "fallback",
+        "created_at": "2026-10-13T09:23:11.415Z"
+      }
+    ],
+    "turns": [
+      {
+        "id": "170a16bd-889b-40b6-943a-7d9191b978bc",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "chat_revision": 1,
+        "accepted_core_version": 1,
+        "status": "ready",
+        "generation_context": {
+          "model": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "stage": "STEREOTYPE_CAPTURE",
+          "promptId": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+          "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+          "input_kind": "answer",
+          "reply_source": "model",
+          "promptVersion": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591"
+        }
+      },
+      {
+        "id": "196721f2-c9b1-4508-9c6a-2902d3433fa8",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "chat_revision": 2,
+        "accepted_core_version": 2,
+        "status": "ready",
+        "generation_context": {
+          "model": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "stage": "VIEWPOINT_CONFIRMATION",
+          "promptId": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+          "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+          "input_kind": "answer",
+          "reply_source": "model",
+          "promptVersion": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9"
+        }
+      },
+      {
+        "id": "9724acf9-bc0f-4453-bf45-fb0104fd839a",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "chat_revision": 3,
+        "accepted_core_version": 3,
+        "status": "ready",
+        "generation_context": {
+          "model": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "stage": "INITIAL_RATING",
+          "promptId": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+          "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+          "input_kind": "answer",
+          "reply_source": "template",
+          "promptVersion": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9"
+        }
+      },
+      {
+        "id": "f26bd151-a050-4740-aeb3-7f86a5b6740e",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "chat_revision": 4,
+        "accepted_core_version": 4,
+        "status": "ready",
+        "generation_context": {
+          "model": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "stage": "REFRAME_SOCIAL_STRUCTURE",
+          "promptId": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+          "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+          "input_kind": "answer",
+          "reply_source": "fallback",
+          "promptVersion": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+        }
+      },
+      {
+        "id": "b87ccc3e-36c5-4e4a-9f26-15bd34645a6e",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "chat_revision": 5,
+        "accepted_core_version": 4,
+        "status": "ready",
+        "generation_context": {
+          "model": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "stage": "REFRAME_SOCIAL_STRUCTURE",
+          "promptId": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+          "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+          "input_kind": "answer",
+          "reply_source": "fallback",
+          "promptVersion": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+        }
+      },
+      {
+        "id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "chat_revision": 6,
+        "accepted_core_version": 4,
+        "status": "ready",
+        "generation_context": {
+          "model": {
+            "base_url": null,
+            "provider": "mock",
+            "max_tokens": 512,
+            "model_name": "synthetic-service-model",
+            "timeout_ms": 1000,
+            "temperature": 0.2,
+            "max_attempts": 2
+          },
+          "stage": "REFRAME_SOCIAL_STRUCTURE",
+          "promptId": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+          "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+          "input_kind": "answer",
+          "reply_source": "fallback",
+          "promptVersion": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+        }
+      }
+    ],
+    "analysis_rows": [
+      {
+        "participant_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+        "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+        "assignment_id": "e55b7cbc-f3cb-4ca1-a439-f71c4d186756",
+        "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+        "condition": "A",
+        "condition_id": "6e80741a-fb27-45db-8cac-18aa65f94239",
+        "path_type": "cognitive",
+        "agent_version": {
+          "id": "eb36fe1d-7b4f-4c02-907f-9bc817c83698",
+          "version": "1",
+          "configuration": {
+            "name": "合成 Agent"
+          }
+        },
+        "state_machine_version": {
+          "id": "f9c979f2-c756-433c-8f54-15417396b503",
+          "version": "cognitive_v1"
+        },
+        "template_version_id": "03be2e32-0095-4293-b594-826d7e381a41",
+        "prompt_version": [
+          {
+            "stage": "ACTION_INTENTION",
+            "id": "ac0fcd82-8c0f-4ba4-993e-6b6180291ea8",
+            "version": "stage-language-v3-9c41b49686e17c269115d96953f3311d8ee62a736120ce12ab3a471e7913afcd"
+          },
+          {
+            "stage": "INITIAL_RATING",
+            "id": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+            "version": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9"
+          },
+          {
+            "stage": "REFRAME_COUNTER_FACT",
+            "id": "cd1ac177-69e3-42e6-82d9-ab977688c550",
+            "version": "stage-language-v3-81837fb2b8e428b8b4542bd53c3f8a306a2a8deb026db5b3b8c0bb63618b0907"
+          },
+          {
+            "stage": "REFRAME_INDIVIDUAL_DIFFERENCE",
+            "id": "39e4662b-471b-4ddc-912b-0149f72d1a94",
+            "version": "stage-language-v3-87e6deb6ef9a7147aef9d6a5d977bd58cbf74309af4c033f1d947b9ede29ca59"
+          },
+          {
+            "stage": "REFRAME_MEDIA_ALGORITHM",
+            "id": "87589aba-cd41-4b70-b568-5924e526855b",
+            "version": "stage-language-v3-21785719714a25a908d10e21e7589287a96992a39713c01241029b303fd6a349"
+          },
+          {
+            "stage": "REFRAME_SOCIAL_STRUCTURE",
+            "id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+          },
+          {
+            "stage": "SECOND_RATING",
+            "id": "b57ff6cc-57c5-465f-9f12-c664d496ae16",
+            "version": "stage-language-v3-7271670c578a59cdb13509f44a200845d14bbd689e63f0056afc0508fbe2c838"
+          },
+          {
+            "stage": "STEREOTYPE_CAPTURE",
+            "id": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+            "version": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591"
+          },
+          {
+            "stage": "VIEWPOINT_CONFIRMATION",
+            "id": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+            "version": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9"
+          }
+        ],
+        "model_version": {
+          "requested_model": "synthetic-service-model",
+          "provider": "mock",
+          "supplier_revision": null
+        },
+        "model_settings": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "synthetic-service-model",
+          "timeout_ms": 1000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "research_config": {
+          "rating": {
+            "max": 100,
+            "min": 0,
+            "step": 1,
+            "low_anchor": "完全不相信该观点 / 认为该印象完全不符合现实",
+            "high_anchor": "非常相信该观点 / 认为该印象非常符合现实",
+            "instruction": "请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+          },
+          "purpose": "mentor-test",
+          "version": "mentor-test-v1",
+          "cognitive": {
+            "turns": {
+              "SECOND_RATING": [1, 3],
+              "INITIAL_RATING": [1, 3],
+              "ACTION_INTENTION": [2, 4],
+              "REFRAME_COUNTER_FACT": [2, 3],
+              "capture_confirmation": [2, 5],
+              "REFRAME_MEDIA_ALGORITHM": [2, 3],
+              "REFRAME_SOCIAL_STRUCTURE": [2, 3],
+              "REFRAME_INDIVIDUAL_DIFFERENCE": [2, 3]
+            },
+            "target": "美国黑人刻板印象",
+            "correction": "我们先回到刚才关于美国黑人这一印象的讨论。",
+            "neutral_summary": "我们先保留已经明确表达的内容。尚未填写的信息需要由你确认后保存。",
+            "estimated_total_turns": [20, 25]
+          },
+          "emotional": {
+            "ending": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+            "scenes": {
+              "RESOLUTION": {
+                "goal": "通过交流消除食堂中的误会。",
+                "place": "食堂",
+                "bridge": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。"
+              },
+              "RELATIONSHIP": {
+                "goal": "分享个人经历，接纳彼此并形成朋友关系。",
+                "place": "校园散步",
+                "bridge": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。"
+              },
+              "FIRST_CONTACT": {
+                "goal": "Marcus刚来中国，李阳和Marcus初次接触，出现轻微误解。",
+                "place": "图书馆",
+                "bridge": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。"
+              },
+              "MISUNDERSTANDING": {
+                "goal": "两人再次遇见，发生小误会。",
+                "place": "食堂",
+                "bridge": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。"
+              },
+              "SHARED_EXPERIENCE": {
+                "goal": "两人在学习中发现共同点，增加理解。",
+                "place": "自习室",
+                "bridge": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。"
+              }
+            },
+            "opening": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+            "characters": {
+              "Marcus": "一名刚来到中国留学的美国黑人青年",
+              "李阳": "一名中国大学生"
+            },
+            "story_turns": [11, 14],
+            "persona_turns": 2,
+            "editable_traits": ["外貌", "兴趣", "性格"]
+          },
+          "effective_turn": "A ready conversation turn with a non-meta, non-mistype, non-offtopic participant answer; failed, repeated request IDs and template-only corrections do not count.",
+          "approval_source": "User-provided mentor parameter PDF and explicit fallback-boundary reply",
+          "fallback_boundary": "Confirmed by researcher: ratings and viewpoint confirmation remain explicit and mandatory; other stages may advance by approved neutral fallback with backend actor and missing_data annotation."
+        },
+        "state_machine_definition": {
+          "path": "cognitive",
+          "stages": [
+            {
+              "id": "INIT",
+              "on": "EXPERIMENT_STARTED",
+              "fields": []
+            },
+            {
+              "id": "STEREOTYPE_CAPTURE",
+              "on": "STEREOTYPE_SUBMITTED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "stereotype_text",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "VIEWPOINT_CONFIRMATION",
+              "on": "VIEWPOINT_CONFIRMED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "viewpoint",
+                  "variable": "confirmed_viewpoint",
+                  "maxLength": 10000
+                },
+                {
+                  "type": "confirmation",
+                  "field": "confirmed",
+                  "variable": "viewpoint_confirmed"
+                }
+              ]
+            },
+            {
+              "id": "INITIAL_RATING",
+              "on": "RATING_SUBMITTED",
+              "fields": [
+                {
+                  "type": "number",
+                  "field": "rating",
+                  "variable": "initial_rating"
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_SOCIAL_STRUCTURE",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_social_structure_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_MEDIA_ALGORITHM",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_media_algorithm_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_COUNTER_FACT",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_counter_fact_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "REFRAME_INDIVIDUAL_DIFFERENCE",
+              "on": "REFRAME_COMPLETED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "reframe_individual_difference_response",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "SECOND_RATING",
+              "on": "RATING_SUBMITTED",
+              "fields": [
+                {
+                  "type": "number",
+                  "field": "rating",
+                  "variable": "second_rating"
+                }
+              ]
+            },
+            {
+              "id": "ACTION_INTENTION",
+              "on": "ACTION_INTENTION_SUBMITTED",
+              "fields": [
+                {
+                  "type": "text",
+                  "field": "response",
+                  "variable": "action_intention",
+                  "maxLength": 10000
+                }
+              ]
+            },
+            {
+              "id": "COMPLETED",
+              "fields": []
+            }
+          ],
+          "experimentVersion": "cognitive_v1"
+        },
+        "conversation_turns": [
+          {
+            "id": "170a16bd-889b-40b6-943a-7d9191b978bc",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "chat_revision": 1,
+            "accepted_core_version": 1,
+            "status": "ready",
+            "generation_context": {
+              "model": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 1000,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "stage": "STEREOTYPE_CAPTURE",
+              "promptId": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+              "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+              "input_kind": "answer",
+              "reply_source": "model",
+              "promptVersion": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591"
+            }
+          },
+          {
+            "id": "196721f2-c9b1-4508-9c6a-2902d3433fa8",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "chat_revision": 2,
+            "accepted_core_version": 2,
+            "status": "ready",
+            "generation_context": {
+              "model": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 1000,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "stage": "VIEWPOINT_CONFIRMATION",
+              "promptId": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+              "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+              "input_kind": "answer",
+              "reply_source": "model",
+              "promptVersion": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9"
+            }
+          },
+          {
+            "id": "9724acf9-bc0f-4453-bf45-fb0104fd839a",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "chat_revision": 3,
+            "accepted_core_version": 3,
+            "status": "ready",
+            "generation_context": {
+              "model": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 1000,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "stage": "INITIAL_RATING",
+              "promptId": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+              "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+              "input_kind": "answer",
+              "reply_source": "template",
+              "promptVersion": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9"
+            }
+          },
+          {
+            "id": "f26bd151-a050-4740-aeb3-7f86a5b6740e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "chat_revision": 4,
+            "accepted_core_version": 4,
+            "status": "ready",
+            "generation_context": {
+              "model": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 1000,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "promptId": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+              "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+              "input_kind": "answer",
+              "reply_source": "fallback",
+              "promptVersion": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+            }
+          },
+          {
+            "id": "b87ccc3e-36c5-4e4a-9f26-15bd34645a6e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "chat_revision": 5,
+            "accepted_core_version": 4,
+            "status": "ready",
+            "generation_context": {
+              "model": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 1000,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "promptId": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+              "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+              "input_kind": "answer",
+              "reply_source": "fallback",
+              "promptVersion": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+            }
+          },
+          {
+            "id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "chat_revision": 6,
+            "accepted_core_version": 4,
+            "status": "ready",
+            "generation_context": {
+              "model": {
+                "base_url": null,
+                "provider": "mock",
+                "max_tokens": 512,
+                "model_name": "synthetic-service-model",
+                "timeout_ms": 1000,
+                "temperature": 0.2,
+                "max_attempts": 2
+              },
+              "stage": "REFRAME_SOCIAL_STRUCTURE",
+              "promptId": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+              "experiment": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+              "input_kind": "answer",
+              "reply_source": "fallback",
+              "promptVersion": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2"
+            }
+          }
+        ],
+        "timestamp": {
+          "assigned_at": "2026-10-13T09:23:11.245Z",
+          "exported_at": "2026-10-13T09:23:11.436Z"
+        },
+        "current_state": {
+          "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+          "assignment_id": "e55b7cbc-f3cb-4ca1-a439-f71c4d186756",
+          "status": "open",
+          "chat_revision": 6,
+          "stage": "REFRAME_MEDIA_ALGORITHM",
+          "core_version": 5,
+          "snapshot": {
+            "path": "cognitive",
+            "stage": "REFRAME_MEDIA_ALGORITHM",
+            "version": 5,
+            "receipts": [
+              {
+                "id": "assignment-start",
+                "data": {},
+                "type": "EXPERIMENT_STARTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 0
+              },
+              {
+                "id": "2b4c2b83-3452-44c9-8e91-b0ab6103fd0d",
+                "data": {
+                  "response": "媒体总说他们犯罪率高，我并不确定。"
+                },
+                "type": "STEREOTYPE_SUBMITTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 1
+              },
+              {
+                "id": "92f7ea7d-17db-47a9-9f9a-5d61466e8b4a",
+                "data": {
+                  "confirmed": true,
+                  "viewpoint": "媒体总说他们犯罪率高，我并不确定。"
+                },
+                "type": "VIEWPOINT_CONFIRMED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 2
+              },
+              {
+                "id": "c8257ff7-4c85-49b9-91fb-3b63c22a877d",
+                "data": {
+                  "rating": 50
+                },
+                "type": "RATING_SUBMITTED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 3
+              },
+              {
+                "id": "backend-turn-705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+                "data": {
+                  "response": "我愿意讨论社会条件 2"
+                },
+                "type": "REFRAME_COMPLETED",
+                "experimentVersion": "cognitive_v1",
+                "expectedStateVersion": 4
+              }
+            ],
+            "lifecycle": "active",
+            "variables": {
+              "initial_rating": 50,
+              "stereotype_text": "媒体总说他们犯罪率高，我并不确定。",
+              "confirmed_viewpoint": "媒体总说他们犯罪率高，我并不确定。",
+              "viewpoint_confirmed": true,
+              "reframe_social_structure_response": "我愿意讨论社会条件 2"
+            },
+            "experimentVersion": "cognitive_v1",
+            "definitionSignature": "{\"path\":\"cognitive\",\"experimentVersion\":\"cognitive_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"STEREOTYPE_CAPTURE\",\"on\":\"STEREOTYPE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"stereotype_text\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"VIEWPOINT_CONFIRMATION\",\"on\":\"VIEWPOINT_CONFIRMED\",\"fields\":[{\"field\":\"confirmed\",\"variable\":\"viewpoint_confirmed\",\"type\":\"confirmation\"},{\"field\":\"viewpoint\",\"variable\":\"confirmed_viewpoint\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"INITIAL_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"initial_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"REFRAME_SOCIAL_STRUCTURE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_social_structure_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_MEDIA_ALGORITHM\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_media_algorithm_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_COUNTER_FACT\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_counter_fact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"REFRAME_INDIVIDUAL_DIFFERENCE\",\"on\":\"REFRAME_COMPLETED\",\"fields\":[{\"field\":\"response\",\"variable\":\"reframe_individual_difference_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SECOND_RATING\",\"on\":\"RATING_SUBMITTED\",\"fields\":[{\"field\":\"rating\",\"variable\":\"second_rating\",\"type\":\"number\",\"min\":null,\"max\":null}]},{\"id\":\"ACTION_INTENTION\",\"on\":\"ACTION_INTENTION_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"action_intention\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+          }
+        },
+        "state_transition": [
+          {
+            "id": "f29cd047-d8c2-4b74-b274-d39ef4fe49ec",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "core_event_id": "assignment-start",
+            "event": "EXPERIMENT_STARTED",
+            "previous_state": "INIT",
+            "current_state": "STEREOTYPE_CAPTURE",
+            "from_version": 0,
+            "to_version": 1,
+            "actor_type": "backend",
+            "actor_id": "synthetic-admin",
+            "validated_payload": {},
+            "receipt": {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 0
+            },
+            "created_at": "2026-10-13T09:23:11.245Z"
+          },
+          {
+            "id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "core_event_id": "2b4c2b83-3452-44c9-8e91-b0ab6103fd0d",
+            "event": "STEREOTYPE_SUBMITTED",
+            "previous_state": "STEREOTYPE_CAPTURE",
+            "current_state": "VIEWPOINT_CONFIRMATION",
+            "from_version": 1,
+            "to_version": 2,
+            "actor_type": "participant",
+            "actor_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+            "validated_payload": {
+              "source": "媒体报道",
+              "response": "媒体总说他们犯罪率高，我并不确定。"
+            },
+            "receipt": {
+              "id": "2b4c2b83-3452-44c9-8e91-b0ab6103fd0d",
+              "data": {
+                "response": "媒体总说他们犯罪率高，我并不确定。"
+              },
+              "type": "STEREOTYPE_SUBMITTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 1
+            },
+            "created_at": "2026-10-13T09:23:11.314Z"
+          },
+          {
+            "id": "73365154-d990-4548-ae81-b7a777c712c8",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "core_event_id": "92f7ea7d-17db-47a9-9f9a-5d61466e8b4a",
+            "event": "VIEWPOINT_CONFIRMED",
+            "previous_state": "VIEWPOINT_CONFIRMATION",
+            "current_state": "INITIAL_RATING",
+            "from_version": 2,
+            "to_version": 3,
+            "actor_type": "participant",
+            "actor_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+            "validated_payload": {
+              "confirmed": true,
+              "viewpoint": "媒体总说他们犯罪率高，我并不确定。"
+            },
+            "receipt": {
+              "id": "92f7ea7d-17db-47a9-9f9a-5d61466e8b4a",
+              "data": {
+                "confirmed": true,
+                "viewpoint": "媒体总说他们犯罪率高，我并不确定。"
+              },
+              "type": "VIEWPOINT_CONFIRMED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 2
+            },
+            "created_at": "2026-10-13T09:23:11.345Z"
+          },
+          {
+            "id": "96ac6af4-08a5-4402-9c03-549aea0ffdca",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "core_event_id": "c8257ff7-4c85-49b9-91fb-3b63c22a877d",
+            "event": "RATING_SUBMITTED",
+            "previous_state": "INITIAL_RATING",
+            "current_state": "REFRAME_SOCIAL_STRUCTURE",
+            "from_version": 3,
+            "to_version": 4,
+            "actor_type": "participant",
+            "actor_id": "f4fab326-b107-48da-9c83-6e08dbc8ee72",
+            "validated_payload": {
+              "rating": 50
+            },
+            "receipt": {
+              "id": "c8257ff7-4c85-49b9-91fb-3b63c22a877d",
+              "data": {
+                "rating": 50
+              },
+              "type": "RATING_SUBMITTED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 3
+            },
+            "created_at": "2026-10-13T09:23:11.370Z"
+          },
+          {
+            "id": "53ffe523-6863-4196-9af9-7d621135197f",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "core_event_id": "backend-turn-705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+            "event": "REFRAME_COMPLETED",
+            "previous_state": "REFRAME_SOCIAL_STRUCTURE",
+            "current_state": "REFRAME_MEDIA_ALGORITHM",
+            "from_version": 4,
+            "to_version": 5,
+            "actor_type": "backend",
+            "actor_id": "research-profile",
+            "validated_payload": {
+              "reason": "maximum_turns_completed",
+              "response": "我愿意讨论社会条件 2",
+              "missing_data": false,
+              "source_turn_id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2"
+            },
+            "receipt": {
+              "id": "backend-turn-705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+              "data": {
+                "response": "我愿意讨论社会条件 2"
+              },
+              "type": "REFRAME_COMPLETED",
+              "experimentVersion": "cognitive_v1",
+              "expectedStateVersion": 4
+            },
+            "created_at": "2026-10-13T09:23:11.415Z"
+          }
+        ],
+        "conversation_history": [
+          {
+            "id": "09e6c119-2efa-48bc-8345-eaa6001c371e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 1,
+            "role": "user",
+            "content": "媒体总说他们犯罪率高，我并不确定。",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.293Z"
+          },
+          {
+            "id": "4d9fef07-6924-4e0a-bf05-0542386eae3c",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 2,
+            "role": "assistant",
+            "content": "你愿意多聊聊刚才的感受吗？（1）",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.293Z"
+          },
+          {
+            "id": "436c423b-f5a5-4074-9185-8d96eb26f839",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 3,
+            "role": "user",
+            "content": "我确认要评价的是媒体给我的这个印象。",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.330Z"
+          },
+          {
+            "id": "a7b45f96-56e3-4eaf-b102-51a1883a0233",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 4,
+            "role": "assistant",
+            "content": "你愿意多聊聊刚才的感受吗？（2）",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.330Z"
+          },
+          {
+            "id": "4f080376-37dc-413f-8db6-848ecbaa3174",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 5,
+            "role": "user",
+            "content": "准备评分",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.355Z"
+          },
+          {
+            "id": "7120a534-b923-4bcf-ae78-bdcb7cb2ec49",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 6,
+            "role": "assistant",
+            "content": "对于“媒体总说他们犯罪率高，我并不确定。”，请根据你目前对该观点的相信程度，在0到100之间输入一个数字。",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.355Z"
+          },
+          {
+            "id": "61478d75-9f32-44a6-a055-cc6668abdc8d",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 7,
+            "role": "user",
+            "content": "我愿意讨论社会条件 0",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.380Z"
+          },
+          {
+            "id": "cf985f56-ab84-48b2-bd39-b34fbc270f52",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 8,
+            "role": "assistant",
+            "content": "对于“媒体总说他们犯罪率高，我并不确定。”，教育、住房和社会资源的差异可能怎样影响个人处境？",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.380Z"
+          },
+          {
+            "id": "25f420d9-33b5-4a64-af31-002a52267bfb",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 9,
+            "role": "user",
+            "content": "我愿意讨论社会条件 1",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.394Z"
+          },
+          {
+            "id": "190004c5-e100-43bd-b7ac-3bc1216c0ecf",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 10,
+            "role": "assistant",
+            "content": "对于“媒体总说他们犯罪率高，我并不确定。”，机会与资源的差异可能怎样影响生活选择？",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.394Z"
+          },
+          {
+            "id": "a246311e-31b0-42a5-a21f-4a98814b777f",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 11,
+            "role": "user",
+            "content": "我愿意讨论社会条件 2",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.409Z"
+          },
+          {
+            "id": "3c7b98b3-b11d-4b77-90d4-c82669215385",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "sequence": 12,
+            "role": "assistant",
+            "content": "对于“媒体总说他们犯罪率高，我并不确定。”，除了个人因素，还需要了解哪些社会条件？",
+            "status": "ready",
+            "created_at": "2026-10-13T09:23:11.409Z"
+          }
+        ],
+        "experiment_variables": [
+          {
+            "id": "6ccc4122-45fc-42de-98a3-2a2a3e9daedd",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "confirmed_belief",
+            "value": "媒体总说他们犯罪率高，我并不确定。",
+            "revision": 1,
+            "source_transition_id": "73365154-d990-4548-ae81-b7a777c712c8",
+            "recorded_stage": "VIEWPOINT_CONFIRMATION",
+            "created_at": "2026-10-13T09:23:11.345Z"
+          },
+          {
+            "id": "42883a61-239c-474b-8c97-58b397454407",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "confirmed_viewpoint",
+            "value": "媒体总说他们犯罪率高，我并不确定。",
+            "revision": 1,
+            "source_transition_id": "73365154-d990-4548-ae81-b7a777c712c8",
+            "recorded_stage": "VIEWPOINT_CONFIRMATION",
+            "created_at": "2026-10-13T09:23:11.345Z"
+          },
+          {
+            "id": "e8e078bc-7175-4212-ad72-d63c8758e247",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "initial_rating",
+            "value": 50,
+            "revision": 1,
+            "source_transition_id": "96ac6af4-08a5-4402-9c03-549aea0ffdca",
+            "recorded_stage": "INITIAL_RATING",
+            "created_at": "2026-10-13T09:23:11.370Z"
+          },
+          {
+            "id": "af77bb16-84be-470d-8b2e-dd5ba88267a9",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "rating_1",
+            "value": 50,
+            "revision": 1,
+            "source_transition_id": "96ac6af4-08a5-4402-9c03-549aea0ffdca",
+            "recorded_stage": "INITIAL_RATING",
+            "created_at": "2026-10-13T09:23:11.370Z"
+          },
+          {
+            "id": "b25f5194-75d1-415f-89a5-984399c02863",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "raw_expression",
+            "value": "媒体总说他们犯罪率高，我并不确定。",
+            "revision": 1,
+            "source_transition_id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+            "recorded_stage": "STEREOTYPE_CAPTURE",
+            "created_at": "2026-10-13T09:23:11.314Z"
+          },
+          {
+            "id": "5d3b4fe5-e61e-46a5-8c81-68e925d690f4",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "reframe_social_structure_response",
+            "value": "我愿意讨论社会条件 2",
+            "revision": 1,
+            "source_transition_id": "53ffe523-6863-4196-9af9-7d621135197f",
+            "recorded_stage": "REFRAME_SOCIAL_STRUCTURE",
+            "created_at": "2026-10-13T09:23:11.415Z"
+          },
+          {
+            "id": "e1a228ae-0429-4c63-9f42-95ad28907f4d",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "source",
+            "value": "媒体报道",
+            "revision": 1,
+            "source_transition_id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+            "recorded_stage": "STEREOTYPE_CAPTURE",
+            "created_at": "2026-10-13T09:23:11.314Z"
+          },
+          {
+            "id": "0d59c1bf-e836-4728-adbc-57e1cfbffe28",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "stereotype_text",
+            "value": "媒体总说他们犯罪率高，我并不确定。",
+            "revision": 1,
+            "source_transition_id": "00b48821-2185-413c-a769-8e8fdc5d6914",
+            "recorded_stage": "STEREOTYPE_CAPTURE",
+            "created_at": "2026-10-13T09:23:11.314Z"
+          },
+          {
+            "id": "c15a9031-3f1a-4d4a-b70e-95b0555ce924",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "key": "viewpoint_confirmed",
+            "value": true,
+            "revision": 1,
+            "source_transition_id": "73365154-d990-4548-ae81-b7a777c712c8",
+            "recorded_stage": "VIEWPOINT_CONFIRMATION",
+            "created_at": "2026-10-13T09:23:11.345Z"
+          }
+        ],
+        "model_runs": [
+          {
+            "id": "a8518047-e942-40a2-a95a-2c73ed885af4",
+            "turn_id": "170a16bd-889b-40b6-943a-7d9191b978bc",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+            "prompt_version": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.340462999999545",
+            "retry_count": 0,
+            "fallback_count": 0,
+            "token_usage": null,
+            "validator_result": {
+              "status": "generated",
+              "violations": [],
+              "auditEvents": []
+            },
+            "error_code": null,
+            "status": "generated",
+            "created_at": "2026-10-13T09:23:11.300Z"
+          },
+          {
+            "id": "2a8bf04a-a3ae-40e4-b9b9-859b89e30ddd",
+            "turn_id": "196721f2-c9b1-4508-9c6a-2902d3433fa8",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+            "prompt_version": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.3542840000000069",
+            "retry_count": 0,
+            "fallback_count": 0,
+            "token_usage": null,
+            "validator_result": {
+              "status": "generated",
+              "violations": [],
+              "auditEvents": []
+            },
+            "error_code": null,
+            "status": "generated",
+            "created_at": "2026-10-13T09:23:11.336Z"
+          },
+          {
+            "id": "153c2a5d-f15f-4a51-8ba3-fcefcc99c27a",
+            "turn_id": "9724acf9-bc0f-4453-bf45-fb0104fd839a",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+            "prompt_version": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.3718300000000454",
+            "retry_count": 0,
+            "fallback_count": 0,
+            "token_usage": null,
+            "validator_result": {
+              "status": "generated",
+              "violations": [],
+              "auditEvents": []
+            },
+            "error_code": null,
+            "status": "generated",
+            "created_at": "2026-10-13T09:23:11.362Z"
+          },
+          {
+            "id": "51d0bfca-029e-4fd9-a165-62672218d6fb",
+            "turn_id": "f26bd151-a050-4740-aeb3-7f86a5b6740e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.6869550000001254",
+            "retry_count": 1,
+            "fallback_count": 1,
+            "token_usage": null,
+            "validator_result": {
+              "status": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "auditEvents": [
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 1,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "fallback",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                }
+              ]
+            },
+            "error_code": null,
+            "status": "fallback",
+            "created_at": "2026-10-13T09:23:11.387Z"
+          },
+          {
+            "id": "ec7e55f3-90b0-4247-9804-259ff77953ce",
+            "turn_id": "b87ccc3e-36c5-4e4a-9f26-15bd34645a6e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.5065280000007988",
+            "retry_count": 1,
+            "fallback_count": 1,
+            "token_usage": null,
+            "validator_result": {
+              "status": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "auditEvents": [
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 1,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "fallback",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                }
+              ]
+            },
+            "error_code": null,
+            "status": "fallback",
+            "created_at": "2026-10-13T09:23:11.401Z"
+          },
+          {
+            "id": "337cf7a1-8816-4c7d-859a-ec1941e817f5",
+            "turn_id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.601198999999724",
+            "retry_count": 1,
+            "fallback_count": 1,
+            "token_usage": null,
+            "validator_result": {
+              "status": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "auditEvents": [
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 1,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "fallback",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                }
+              ]
+            },
+            "error_code": null,
+            "status": "fallback",
+            "created_at": "2026-10-13T09:23:11.415Z"
+          }
+        ],
+        "model_run_log": [
+          {
+            "id": "a8518047-e942-40a2-a95a-2c73ed885af4",
+            "turn_id": "170a16bd-889b-40b6-943a-7d9191b978bc",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "0ba10fdd-46a5-4e21-90ac-ab3770d7b164",
+            "prompt_version": "stage-language-v3-13a2f570147b1593860f05c1933b25a64e84c335dfee7d6b478ea3de8beee591",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.340462999999545",
+            "retry_count": 0,
+            "fallback_count": 0,
+            "token_usage": null,
+            "validator_result": {
+              "status": "generated",
+              "violations": [],
+              "auditEvents": []
+            },
+            "error_code": null,
+            "status": "generated",
+            "created_at": "2026-10-13T09:23:11.300Z"
+          },
+          {
+            "id": "2a8bf04a-a3ae-40e4-b9b9-859b89e30ddd",
+            "turn_id": "196721f2-c9b1-4508-9c6a-2902d3433fa8",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "72e69903-eac3-4f8b-a37b-f19c9d29e992",
+            "prompt_version": "stage-language-v3-bf531746b780c091cc4eb05c9addd47b4ff8b89d2dafd74b0caec75f7855c0b9",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.3542840000000069",
+            "retry_count": 0,
+            "fallback_count": 0,
+            "token_usage": null,
+            "validator_result": {
+              "status": "generated",
+              "violations": [],
+              "auditEvents": []
+            },
+            "error_code": null,
+            "status": "generated",
+            "created_at": "2026-10-13T09:23:11.336Z"
+          },
+          {
+            "id": "153c2a5d-f15f-4a51-8ba3-fcefcc99c27a",
+            "turn_id": "9724acf9-bc0f-4453-bf45-fb0104fd839a",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "a43434c1-ccb1-4d0f-b494-256886dd30e5",
+            "prompt_version": "stage-language-v3-00267b7e882242f45e084560f9f8730da8e7cc98731742604b61b376ac9bf5b9",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.3718300000000454",
+            "retry_count": 0,
+            "fallback_count": 0,
+            "token_usage": null,
+            "validator_result": {
+              "status": "generated",
+              "violations": [],
+              "auditEvents": []
+            },
+            "error_code": null,
+            "status": "generated",
+            "created_at": "2026-10-13T09:23:11.362Z"
+          },
+          {
+            "id": "51d0bfca-029e-4fd9-a165-62672218d6fb",
+            "turn_id": "f26bd151-a050-4740-aeb3-7f86a5b6740e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.6869550000001254",
+            "retry_count": 1,
+            "fallback_count": 1,
+            "token_usage": null,
+            "validator_result": {
+              "status": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "auditEvents": [
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 1,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "fallback",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                }
+              ]
+            },
+            "error_code": null,
+            "status": "fallback",
+            "created_at": "2026-10-13T09:23:11.387Z"
+          },
+          {
+            "id": "ec7e55f3-90b0-4247-9804-259ff77953ce",
+            "turn_id": "b87ccc3e-36c5-4e4a-9f26-15bd34645a6e",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.5065280000007988",
+            "retry_count": 1,
+            "fallback_count": 1,
+            "token_usage": null,
+            "validator_result": {
+              "status": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "auditEvents": [
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 1,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "fallback",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                }
+              ]
+            },
+            "error_code": null,
+            "status": "fallback",
+            "created_at": "2026-10-13T09:23:11.401Z"
+          },
+          {
+            "id": "337cf7a1-8816-4c7d-859a-ec1941e817f5",
+            "turn_id": "705c8d4a-addb-41f4-9877-c9e78eaf3eb2",
+            "session_id": "e9fc83ad-9a33-4530-adf0-ec0e4bdeb4c2",
+            "experiment_id": "fe2cfa57-5b51-4b3b-b180-2cbbe6578743",
+            "provider": "mock",
+            "model_name": "synthetic-service-model",
+            "prompt_version_id": "93f7c337-95cb-4e2b-95ab-04b29bd81aaf",
+            "prompt_version": "stage-language-v3-23f3093e936f36be7607b5e85f5716509bee4243f33c65c323684e24e64758f2",
+            "validator_version": "stage-language-v3",
+            "code_commit": "development",
+            "temperature": "0.2",
+            "max_tokens": 512,
+            "latency_ms": "0.601198999999724",
+            "retry_count": 1,
+            "fallback_count": 1,
+            "token_usage": null,
+            "validator_result": {
+              "status": "fallback",
+              "violations": ["CONTROL_INSTRUCTION", "BACKEND_DISCLOSURE", "BELIEF_ANCHOR_MISSING"],
+              "auditEvents": [
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 1,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "rejected",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                },
+                {
+                  "path": "cognitive",
+                  "stage": "REFRAME_SOCIAL_STRUCTURE",
+                  "attempt": 2,
+                  "outcome": "fallback",
+                  "violations": [
+                    "CONTROL_INSTRUCTION",
+                    "BACKEND_DISCLOSURE",
+                    "BELIEF_ANCHOR_MISSING"
+                  ],
+                  "stateVersion": 4,
+                  "experimentVersion": "cognitive_v1"
+                }
+              ]
+            },
+            "error_code": null,
+            "status": "fallback",
+            "created_at": "2026-10-13T09:23:11.415Z"
+          }
+        ]
+      }
+    ],
+    "data_quality": {
+      "scope": "all experiment rows in this snapshot",
+      "passed": true,
+      "checks": {
+        "sessions_without_state": 0,
+        "messages_without_state": 0,
+        "state_event_mismatch": 0,
+        "transition_chain_gaps": 0,
+        "variables_without_valid_source": 0,
+        "turn_slot_mismatch": 0,
+        "ready_turn_without_reply": 0,
+        "ready_turn_without_model_log": 0
+      }
+    }
+  }
+}

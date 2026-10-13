@@ -4,15 +4,15 @@
 
 当前完成 Step 1 工程初始化、Step 2 独立状态机，以及AI 编排层和可替换 Model Adapter（含 OpenAI 兼容 HTTP 实现）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
 
-Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与限量 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／限量下载页面。DeepSeek Flash 单次真实smoke已通过（HTTP200）；正式Prompt下的完整实验与语义验收尚未完成，工程原型不代表正式实验就绪。
+Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与完整业务记录快照 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／完整记录下载页面。DeepSeek Flash 单次真实smoke已通过（HTTP200）；正式Prompt下的完整实验与语义验收尚未完成，工程原型不代表正式实验就绪。
 
 [Step 2 完整反馈、代码入口与迁移示例](docs/step2-feedback.md)
 
 [第三轮反馈文档的逐项复核与实际验收结果](docs/third-round-feedback.md)
 
-[最新：第24次交付，导师前验收评估](docs/twenty-fourth-round-feedback.md) · [Word反馈](docs/twenty-fourth-round-feedback.docx) · [本轮验收报告](docs/twenty-fourth-round-delivery-report.md)。本轮不修改程序，已重跑435项Vitest与15项Playwright及工程检查，450项均通过；完整ZIP包含四项评估、Word、原始附件、本轮JSON证据与7张合成账号截图。真实模型调用0次、人工评分未执行，导师测试仍未放行，必要修改需确认。
+[最新：第25次导师整改反馈](docs/twenty-fifth-round-feedback.md) · [PDF参数落实反馈](docs/mentor-parameters-freeze-feedback.md) · [逐项验收报告](docs/twenty-fifth-round-delivery-report.md)。已落实导师配置、统一0–100评分、轮次守卫、固定故事、超时恢复及完整导出。448项Vitest、18项Playwright通过；最终冻结代码真实认知20轮/情感14轮完成，37次请求全部HTTP200，认知7次重试/4次兜底。人工语言审核及非脚本体验待完成，导师测试未放行。ZIP包含三份Word、两原件、JSON及9张合成截图。
 
-最近真实smoke已安全接入DeepSeek Secret，请求/响应模型均deepseek-flash，HTTP200，首可见token2260.68ms，总响应2277.17ms，请求1/重试0；这是技术连接验证，未完成正式实验语义审核。优化范围等待用户确认，pilot_ready=false。[测量证据](docs/acceptance/step6-round22/confirmed-deepseek-smoke.json)。
+最近真实smoke已安全接入DeepSeek Secret，请求/响应模型均deepseek-flash，HTTP200，首可见token2260.68ms，总响应2277.17ms，请求1/重试0；这是技术连接验证，未完成正式实验语义审核。导师PDF参数已落实，人工语义/非脚本审核待完成，pilot_ready=false。[测量证据](docs/acceptance/step6-round22/confirmed-deepseek-smoke.json)。
 
 [第21次Flash专项历史反馈](docs/twenty-first-round-feedback.md)及其not_run报告代表当时未注入环境，不覆盖后续真实smoke成功。[模型配置](docs/round21-deepseek-flash-guide.md) · [语义审核工具](docs/round19-semantic-review-guide.md) · [历史双模型比较](docs/round20-model-comparison-guide.md)。
 
@@ -79,7 +79,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 435 项、Playwright 15 项全部通过，共 450 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
+该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 448 项、Playwright 18 项全部通过，共 466 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
 
 完整认知路径示例：
 
@@ -126,7 +126,7 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 
 ## Step 6.2 业务后端
 
-[服务、仓储、接口与数据流](docs/step6-2-business-api.md)。独立数据库安全配置 DATABASE_URL 后，显式迁移再启动 API；未配置则只启用原健康检查。管理员配置非秘密 ADMIN_ACCESS_TOKEN_HASH，参与者通过数据库会话认证。聊天不推进阶段，结构化提交由后端 core 处理。导出目前 complete=false、每表最多 1000 条；正式全量导出、多管理员权限与后台生成队列仍待开发。
+[服务、仓储、接口与数据流](docs/step6-2-business-api.md)。独立数据库安全配置 DATABASE_URL 后，显式迁移再启动 API；未配置则只启用原健康检查。管理员配置非秘密 ADMIN_ACCESS_TOKEN_HASH，参与者通过数据库会话认证。聊天不推进阶段，结构化提交由后端 core 处理。管理员导出当前为同一只读快照的完整业务记录，complete=true、per_table_limit=null并附record_counts；诊断展示仍每类最多1000条。正式材料/完整版本包及大规模归档容量仍待验收，多管理员权限与后台生成队列暂缓。
 
 [第十二轮完整业务联调与恢复](docs/step6-round12-integration.md)：原路径版本不变，研究命名变量与合法事件同事务保存；本地 HTTP Adapter fixture 和真实进程 SIGKILL／重启验收仍是合成模型测试。
 
@@ -136,8 +136,10 @@ Model Adapter 验收示例：`npm run build:packages` 后执行 `npm run example
 
 [第十四轮完整闭环与分析导出](docs/step6-round14-usability.md)：新增按参与者关联的 analysis_rows，以及默认关闭、管理员专用的只读开发模式（ADMIN_DEVELOPMENT_MODE=false）。正式全量导出和真实模型验收仍未完成。
 
-[第十五轮稳定性与正式实验准备](docs/step6-round15-stability.md) · [正式实验前检查清单](docs/pre-experiment-checklist.md)：管理员只读调试关联、8 类数据库质量检查、十类干扰、三路径各 30 轮与 6 人并发验收。真实模型、全量归档和正式部署仍待验收。
+[第十五轮稳定性与正式实验准备](docs/step6-round15-stability.md) · [正式实验前检查清单](docs/pre-experiment-checklist.md)：管理员只读调试关联、8 类数据库质量检查、十类干扰、三路径各 30 轮与 6 人并发验收。真实模型完整会话、正式版本包和正式部署仍待验收；完整业务记录导出已于第25次整改。
 
 [第十六轮真实业务验收入口](docs/step6-round16-acceptance.md) · [Experiment acceptance checklist](docs/experiment-acceptance-checklist.md)：手动执行 npm run live:business:e2e -- /tmp/round16-real-business.json。缺凭据报告 not_run，不启动数据库或模型；配置齐全后仅在合成临时数据库验证真实模型业务链路。正式语义、全量导出和部署仍未验收。
 
 [第十七轮 Acceptance Report](docs/seventeenth-round-acceptance-report.md)：增强固定路径、冻结观点／评分来源／场景事件的只读结构验收，并明确管理员 Pilot Mode。真实模型仍 not_run，正式全量归档、研究者语义及目标环境验收仍未完成。
+
+导师候选参数入口为 [research/mentor-test-v1.json](research/mentor-test-v1.json)。新建实验指定 research_profile=mentor-test-v1，条件不传demo_policies；原有分配保持旧版本。只需本地隔离验证可运行 `node --use-env-proxy --import tsx apps/api/acceptance/mentor-profile-e2e.ts --output /tmp/mentor-local.json`；加 `--real` 会真实调用DeepSeek，需现有Secret，输出不要上传真实参与者数据。具体放行边界见本轮报告。
