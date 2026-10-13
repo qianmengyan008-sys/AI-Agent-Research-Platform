@@ -1,0 +1,49 @@
+
+> ai-agent-research-platform@0.1.0 test:browser
+> npm run build:packages && playwright test
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+Running 18 tests using 1 worker
+
+(node:104634) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 apps/web/tests/browser.spec.ts:215:1 › participant browser login, chat and explicit source submission persist through page reload (1.4s)
+  ✓   2 apps/web/tests/browser.spec.ts:247:1 › browser completes the cognitive path with explicit submissions and persistent research variables (2.7s)
+  ✓   3 apps/web/tests/browser.spec.ts:294:1 › browser completes the emotion path while persisting all four research variable names (2.2s)
+  ✓   4 apps/web/tests/browser.spec.ts:326:1 › lost message response is replayed with the same key without another generation (820ms)
+  ✓   5 apps/web/tests/browser.spec.ts:350:1 › lost submission response is replayed once and does not create a second transition (736ms)
+  ✓   6 apps/web/tests/browser.spec.ts:371:1 › loading prevents explicit submission during generation and failure leaves the state unchanged (794ms)
+  ✓   7 apps/web/tests/browser.spec.ts:395:1 › read-only administrator views state and conversation and downloads authorized bounded JSON (872ms)
+  ✓   8 apps/web/tests/browser.spec.ts:426:1 › login errors are readable and a participant credential cannot open the administrator UI (669ms)
+  ✓   9 apps/web/tests/browser.spec.ts:449:1 › administrator explicitly opens read-only development data while participant views remain private (1.3s)
+  ✓  10 apps/web/tests/browser.spec.ts:486:1 › a definitive stale-state rejection releases message retry and refresh resumes the database state (863ms)
+  ✓  11 apps/web/tests/browser.spec.ts:518:1 › rapid duplicate clicks create one user and one assistant message in sequence (769ms)
+  ✓  12 apps/web/tests/browser.spec.ts:538:1 › model failure and browser reload preserve advanced state and previously saved source (1.3s)
+  ✓  13 apps/web/tests/browser.spec.ts:568:1 › administrator inspects experiment version, failed turn, latency, validator and data quality without changing research state (1.1s)
+  ✓  14 apps/web/tests/browser.spec.ts:607:1 › three page refreshes and new logins retain assignment, source, ordered messages and one explicit transition (1.7s)
+  ✓  15 apps/web/tests/browser.spec.ts:640:1 › Pilot Mode is administrator-only, opt-in and read-only, with no participant diagnostics after switching back (1.2s)
+  ✓  16 apps/web/tests/browser.spec.ts:679:1 › hung message requests time out and retry with the same operation ID exactly once (829ms)
+  ✓  17 apps/web/tests/browser.spec.ts:713:1 › pending generation polling has a recovery deadline and can refresh durable state (820ms)
+  ✓  18 apps/web/tests/browser.spec.ts:746:1 › mentor profile presents the same bounded rating card twice with an immutable belief (898ms)
+
+  18 passed (24.5s)
