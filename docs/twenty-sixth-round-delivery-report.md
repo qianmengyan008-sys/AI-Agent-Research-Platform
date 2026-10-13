@@ -51,3 +51,5 @@ npm run check 实际退出 0：448 Vitest、18 Playwright，通过类型、lint�
 整个项目 ZIP 由 GitHub 的不可变提交归档生成，包含此前项目和本轮源文件、输入、反馈、验收；不包含 node_modules、dist、.git、运行凭据或私有数据库。解压后 npm ci / npm run build。首次启动才生成该服务器的私有账号文件。
 
 云环境启动指引已保存为配置草稿，安装脚本、网络限制和既有 Secret 绑定保持不变；保存不代表应用或发布。若希望后续云任务采用更新指引，在环境设置中审核、保存，再发布环境。不会等待此操作来交付当前文件；也不会将其当作对外部署。
+
+源码 ZIP 已在独立临时目录实际解压，在不含 .git 的情况下完成 npm ci、npm run build、初始化三个固定账号并启动构建页面；health 与 HTML 验证通过，没有调用模型。证据见 archive-build-startup.json。此安装验证不代表目标服务器 HTTPS／systemd 部署已经执行。
