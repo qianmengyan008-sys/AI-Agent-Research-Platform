@@ -271,6 +271,13 @@ try {
                 ['ENDING_FEEDBACK', 1, '这个故事让我觉得多交流才能避免误会。', {}],
               ] as const);
         const observations: Record<string, unknown>[] = [];
+        const entry: Record<string, unknown> = {
+          path,
+          status: 'incomplete',
+          observations,
+          semantic_review: 'pending_researcher_review',
+        };
+        paths.push(entry);
         for (const [stage, count, utterance, data] of stages) {
           const before = await services.admin.export(admin, e.experimentId);
           if (before.states[0].stage !== stage) throw new Error('UNEXPECTED_STAGE');
@@ -306,6 +313,7 @@ try {
               replay_same: same,
               replay_no_extra_provider_calls: noExtraCalls,
             });
+            entry.analysis_export = await services.admin.export(admin, e.experimentId);
             if (!same || !noExtraCalls) throw new Error('REPLAY_INTEGRITY_FAILED');
             if (reply.status !== 'ready') throw new Error('GENERATION_NOT_READY');
           }
@@ -319,13 +327,7 @@ try {
             });
         }
         const data = await services.admin.export(admin, e.experimentId);
-        paths.push({
-          path,
-          status: data.states[0].status,
-          observations,
-          analysis_export: data,
-          semantic_review: 'pending_researcher_review',
-        });
+        Object.assign(entry, { status: data.states[0].status, analysis_export: data });
         if (data.states[0].status !== 'completed' || !data.complete || !data.data_quality.passed)
           throw new Error('RECORD_ACCEPTANCE_FAILED');
       }

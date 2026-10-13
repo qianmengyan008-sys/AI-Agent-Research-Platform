@@ -64,12 +64,59 @@ export function mentorPolicy(
       ACTION_INTENTION:
         '对于“{{confirmed_belief}}”，下次面对美国黑人刻板印象相关内容，你愿意怎样核实或回应？',
     };
+    const followups: Record<string, string[]> = {
+      REFRAME_SOCIAL_STRUCTURE: [
+        '机会与资源的差异可能怎样影响生活选择？',
+        '除了个人因素，还需要了解哪些社会条件？',
+      ],
+      REFRAME_MEDIA_ALGORITHM: [
+        '反复看到同类报道可能怎样影响你的判断？',
+        '了解不同信息来源可能带来哪些新的看法？',
+      ],
+      REFRAME_COUNTER_FACT: [
+        '哪些具体经历能帮助我们检验这个印象？',
+        '不同的文化经验会怎样丰富我们对这个群体的认识？',
+      ],
+      REFRAME_INDIVIDUAL_DIFFERENCE: [
+        '哪些个人信息能帮助你避免一概而论？',
+        '面对不同经历的美国黑人，你会怎样重新理解原先的印象？',
+      ],
+      ACTION_INTENTION: [
+        '你会从哪些来源核实美国黑人刻板印象相关内容？',
+        '遇到一概而论的说法时，你愿意如何回应？',
+        '在了解更多个体经历之后，你愿意采取什么具体行动？',
+      ],
+      STEREOTYPE_CAPTURE: [
+        '你愿意表达一个关于美国黑人的具体印象吗？',
+        '这个印象主要来自直接接触、媒体还是其他来源？',
+        '在刚才提到的内容里，你想先讨论哪个印象？',
+        '你能说明为什么这个印象让你特别在意吗？',
+        '你愿意用自己的话概括目前想讨论的一个印象吗？',
+      ],
+      VIEWPOINT_CONFIRMATION: [
+        '你选择的这个观点是否准确表达了你的想法？',
+        '你希望保留哪一个观点作为讨论对象？',
+        '这句话是否需要由你自己补充或调整？',
+        '如果已经明确，你愿意确认这个观点吗？',
+        '你可以按自己的理解明确要讨论的观点。',
+      ],
+    };
+    const alternatives = followups[stage]?.map((text) =>
+      base.requiresConfirmedBelief ? '对于“{{confirmed_belief}}”，' + text : text,
+    );
     return {
       ...base,
       goal: goals[stage] ?? base.goal,
       ...(fallback[stage]
-        ? { fallbackReplies: [fallback[stage]!, fallback[stage]!.replace('对于', '想到')] }
-        : {}),
+        ? {
+            fallbackReplies: [
+              fallback[stage]!,
+              ...(alternatives ?? [fallback[stage]!.replace('对于', '想到')]),
+            ],
+          }
+        : alternatives
+          ? { fallbackReplies: alternatives }
+          : {}),
     };
   }
   const scene = config.emotional.scenes[stage];

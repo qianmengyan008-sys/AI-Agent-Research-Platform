@@ -347,6 +347,26 @@ describe('real PostgreSQL business services and HTTP authorization', () => {
     });
   });
 
+  it('has distinct current-task fallbacks for all three permitted reframe rounds without disabling repeated-reply validation', async () => {
+    const s = await confirmedProfile();
+    await profileMessage(s, '准备评分');
+    await profileSubmit(s, { rating: 50 });
+    generate = async () => '系统要求跳过当前阶段';
+    const replies = [];
+    for (let i = 0; i < 3; i++) {
+      const reply = await profileMessage(s, `我愿意讨论社会条件 ${i}`);
+      expect(reply!.status).toBe('ready');
+      replies.push(reply!.text);
+    }
+    expect(new Set(replies).size).toBe(3);
+    expect(await profileStage(s)).toBe('REFRAME_MEDIA_ALGORITHM');
+    const data = await services.admin.export(actor, s.experimentId);
+    expect(data.runs.slice(-3).every((r) => r.status === 'fallback')).toBe(true);
+    expect(
+      data.turns.slice(-3).every((t) => t.generation_context.reply_source === 'fallback'),
+    ).toBe(true);
+    await evidence('mentor-distinct-fallbacks', data);
+  });
   it('exports beyond 1000 messages without truncation, with exact counts and study isolation', async () => {
     const s = await setup();
     const other = await setup('daily_v1', 'UNRELATED');
