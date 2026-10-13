@@ -6,7 +6,9 @@
 
 Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与完整业务记录快照 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／完整记录下载页面。DeepSeek Flash 单次真实smoke已通过（HTTP200）；正式Prompt下的完整实验与语义验收尚未完成，工程原型不代表正式实验就绪。
 
-最新第27次交付：[给 GPT 的反馈](docs/twenty-seventh-round-feedback.md) · [验收报告](docs/twenty-seventh-round-delivery-report.md) · [服务申请与服务器逐步操作](docs/preview-deployment-operations.md)。已明确独立 VM／测试域名方案，内部登录、完整导出、构建与 18 项浏览器回归通过；一次真实 Flash smoke HTTP200。本轮没有外部网址或已部署服务器，需研究者／运维完成注册、DNS 与安全配置，导师门禁保持 false。
+最新第28次交付：[Windows 本地三步启动](docs/windows-local-researcher-preview.md) · [给 GPT 的反馈](docs/twenty-eighth-round-feedback.md) · [验收报告](docs/twenty-eighth-round-delivery-report.md)。本人体验先本地启动，无需服务器／域名。解压整个项目，双击 Start-Researcher-Preview.bat，按提示安全输入 Secret，在本机浏览器打开窗口显示的实际地址。Windows真机首次启动待确认；本地维护与三账号入口已在 Linux／PowerShell Core 验证，mentor_test_ready=false。
+
+第27次历史交付：[给 GPT 的反馈](docs/twenty-seventh-round-feedback.md) · [验收报告](docs/twenty-seventh-round-delivery-report.md) · [服务申请与服务器逐步操作](docs/preview-deployment-operations.md)。已明确独立 VM／测试域名方案，内部登录、完整导出、构建与 18 项浏览器回归通过；一次真实 Flash smoke HTTP200。本轮没有外部网址或已部署服务器，需研究者／运维完成注册、DNS 与安全配置，导师门禁保持 false。
 
 第26次历史交付：[给 GPT 的反馈](docs/twenty-sixth-round-feedback.md) · [验收报告](docs/twenty-sixth-round-delivery-report.md) · [最短部署步骤](docs/researcher-preview-guide.md) · [人工审核模板](docs/researcher-human-review-template.md)。本轮按用户选择先交付部署包，没有外部预览 URL。三条真实 DeepSeek 浏览器合成链路完成；认知路径 9 次重试／8 轮兜底仍需审核。人工自由体验与语言审核待完成，mentor_test_ready=false。
 
