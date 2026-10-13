@@ -20,7 +20,7 @@ Start 安全检查与构建后通过现有 Preview 启动；自动选择空闲�
 
 ## 修改边界
 
-实现提交 390b4626e7d32a24c5fb4b8726287caafd79acfd。只增加本地生命周期封装、Windows入口、离线逐轮审核与两项有意义的回归，现有 researcher-preview.mjs 仅支持 port0 实际端口及本地 IPC 优雅关闭；现有审核工具的六维名称按附件统一。experiment-core、正式 StagePolicy／Prompt、mentor-test-v1、AI Orchestrator／Validator、Model Adapter、数据库迁移、前端源文件及依赖锁不变。
+实现提交 c9686a641d37d605032292d4ee5552a1f7e638fa。只增加本地生命周期封装、Windows入口、离线逐轮审核与两项有意义的回归，现有 researcher-preview.mjs 仅支持 port0 实际端口及本地 IPC 优雅关闭；现有审核工具的六维名称按附件统一。experiment-core、正式 StagePolicy／Prompt、mentor-test-v1、AI Orchestrator／Validator、Model Adapter、数据库迁移、前端源文件及依赖锁不变。
 
 ## 本轮验收及限制
 

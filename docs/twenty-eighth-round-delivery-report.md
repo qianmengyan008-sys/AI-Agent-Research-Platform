@@ -29,7 +29,7 @@ PowerShell7.4.6 Linux 已实际完成 Start／重复Start／Stop／Restart／New
 
 本轮启动入口自己管理子进程与本地受保护控制通道。Stop 不猜 PID 杀其他程序；Windows 子进程通过 IPC 正常关闭。manager意外退出时 helper可收到 disconnect关闭；已死亡的 manager锁识别后恢复，不清数据库。初始化中强制关闭造成的 bootstrap锁仍需按指南处理，不能把异常关闭恢复称为全断电／备份恢复验收。
 
-实现提交：390b4626e7d32a24c5fb4b8726287caafd79acfd。保护范围：apps/api/src、apps/web/src、experiment-core、AI Orchestrator／Validator、Model Adapter、contracts／database、research配置、数据库迁移、依赖与锁无修改。变化仅在本地封装、原 Preview启动兼容、审核名称、离线提取器、回归和文档。源ZIP不含 .git时使用更新的 build metadata 记录该实现提交。
+实现提交：c9686a641d37d605032292d4ee5552a1f7e638fa。保护范围：apps/api/src、apps/web/src、experiment-core、AI Orchestrator／Validator、Model Adapter、contracts／database、research配置、数据库迁移、依赖与锁无修改。变化仅在本地封装、原 Preview启动兼容、审核名称、离线提取器、回归和文档。源ZIP不含 .git时使用更新的 build metadata 记录该实现提交。
 
 ## 认知风险专项
 
@@ -63,3 +63,5 @@ PowerShell7.4.6 Linux 已实际完成 Start／重复Start／Stop／Restart／New
 整个项目 GitHub不可变提交 ZIP 包含上述全部材料、Windows入口、原代码、此前真实完整导出；排除运行私有目录、模型密钥、实际账号密码、admin_token、数据库凭据、node_modules和dist。先解压再双击Start，首次自动安装构建。真正本人体验的导出保存在本机私有目录，不自动提交公开仓库。
 
 云环境启动指引已更新草稿，说明本地优先、自动端口和保护历史；安装脚本、网络和Secret绑定不变。保存不代表发布，如需后续任务采用，环境设置审核、保存并发布。此配置审核不阻止当前下载或自己的电脑启动。
+
+源码 ZIP 在不含 .git、目录名含空格的独立临时目录实际 npm ci、PowerShell构建／启动／初始化并验证 HTML／health通过。最终PS前置检查和build metadata也已复验，未调用模型。证据见 source-zip-startup.json；该验证仍为 Linux PowerShell Core，不是 Windows真机。验证临时数据库已清理，不影响原体验历史。
