@@ -151,10 +151,20 @@ try {
   } finally {
     client.release();
   }
-  process.env.RESEARCH_CODE_COMMIT = execFileSync('git', ['rev-parse', 'HEAD'], {
-    cwd: root,
-    encoding: 'utf8',
-  }).trim();
+  try {
+    process.env.RESEARCH_CODE_COMMIT = execFileSync('git', ['rev-parse', 'HEAD'], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    }).trim();
+  } catch {
+    const build = JSON.parse(
+      await readFile(resolve(root, 'deploy/researcher-preview-build.json'), 'utf8'),
+    );
+    if (!/^[a-f0-9]{40}$/.test(build.code_commit))
+      throw new Error('INVALID_ARCHIVE_BUILD_METADATA');
+    process.env.RESEARCH_CODE_COMMIT = build.code_commit;
+  }
   const configured = createConfiguredGenerator(
     {
       ...process.env,
