@@ -6,7 +6,9 @@
 
 Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与完整业务记录快照 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／完整记录下载页面。DeepSeek Flash 单次真实smoke已通过（HTTP200）；正式Prompt下的完整实验与语义验收尚未完成，工程原型不代表正式实验就绪。
 
-最新第29次交付：[Render 托管部署六步](docs/render-hosted-deployment-guide.md) · [给 GPT 的反馈](docs/twenty-ninth-round-feedback.md) · [验收报告](docs/twenty-ninth-round-delivery-report.md) · [真实并发预算](docs/round29-real-concurrency-plan.md)。最终目标已改为公网托管网站，参与者只用浏览器；本机30与45人混合路径、Docker实际重启和452 Vitest／18 Playwright通过。公网URL尚未创建，需研究者完成Render仓库授权、Secret填写、账单确认与Blueprint部署；online self-test／导师／正式门禁均false。原Windows包仅作调试排障。
+最新第30次交付：[给GPT的反馈](docs/thirtieth-round-feedback.md) · [验收报告](docs/thirtieth-round-delivery-report.md) · [1—28轮简短进度汇报](docs/research-progress-brief.md) · [线上验收与用户操作清单](docs/round30-online-acceptance-checklist.md)。不改代码，复验452 Vitest＋18浏览器与30人多轮fixture通过；继续Render方案。线上URL尚未创建，需平台授权/Secret/费用确认；本人完整体验、语言审核及线上30人真实验证后再邀请老师，导师与正式门禁暂未放行。
+
+第29次历史交付：[Render 托管部署六步](docs/render-hosted-deployment-guide.md) · [给 GPT 的反馈](docs/twenty-ninth-round-feedback.md) · [验收报告](docs/twenty-ninth-round-delivery-report.md) · [真实并发预算](docs/round29-real-concurrency-plan.md)。最终目标已改为公网托管网站，参与者只用浏览器；本机30与45人混合路径、Docker实际重启和452 Vitest／18 Playwright通过。公网URL尚未创建，需研究者完成Render仓库授权、Secret填写、账单确认与Blueprint部署；online self-test／导师／正式门禁均false。原Windows包仅作调试排障。
 
 第28次历史交付：[Windows 本地三步启动](docs/windows-local-researcher-preview.md) · [给 GPT 的反馈](docs/twenty-eighth-round-feedback.md) · [验收报告](docs/twenty-eighth-round-delivery-report.md)。本人体验先本地启动，无需服务器／域名。解压整个项目，双击 Start-Researcher-Preview.bat，按提示安全输入 Secret，在本机浏览器打开窗口显示的实际地址。Windows真机首次启动待确认；本地维护与三账号入口已在 Linux／PowerShell Core 验证，mentor_test_ready=false。
 
