@@ -1,0 +1,68 @@
+{
+  "mode": "real-provider",
+  "status": "stopped_configuration_error",
+  "synthetic": true,
+  "suite_sha256": "0562d699a24d919201d857a24d75003e3b445ee8bf6d2ca803846eadb6736828",
+  "cases_per_provider": 32,
+  "total_cases": 64,
+  "paired_initial_prompts_equal": true,
+  "order": "alternating AB/BA",
+  "scope": "current-stage adapter/orchestrator comparison; not database or formal experiment acceptance",
+  "process_error_definition": "fraction of cases with any existing Validator process violation across attempts; guard proxy, not human semantic error rate",
+  "state_violation_definition": "any change to the exact backend snapshot, including variables, during generation",
+  "latency_definition": "whole orchestration elapsed milliseconds, including retries, validation and fallback",
+  "semantic_review": "not_run",
+  "pilot_ready": false,
+  "formal_ready": false,
+  "summary": [
+    {
+      "provider_label": "gpt",
+      "settings": {
+        "provider": "openai-compatible",
+        "model_name": "gpt-4.1",
+        "base_url": "https://api.openai.com/v1",
+        "temperature": 0.2,
+        "max_tokens": 512,
+        "timeout_ms": 10000,
+        "max_attempts": 2
+      },
+      "status": "blocked",
+      "external_model_calls": 1,
+      "latency_ms": null,
+      "process_error_rate": null,
+      "state_violations": null,
+      "human_language_quality_average": null,
+      "human_scored_cases": 0
+    },
+    {
+      "provider_label": "deepseek",
+      "settings": {
+        "provider": "deepseek",
+        "model_name": "deepseek-flash",
+        "base_url": "https://api.deepseek.com/v1",
+        "temperature": 0.2,
+        "max_tokens": 512,
+        "timeout_ms": 10000,
+        "max_attempts": 2
+      },
+      "status": "not_run",
+      "external_model_calls": 0,
+      "latency_ms": null,
+      "process_error_rate": null,
+      "state_violations": null,
+      "human_language_quality_average": null,
+      "human_scored_cases": 0
+    }
+  ],
+  "rows": [],
+  "comparison_valid": false,
+  "reason": "fatal_provider_http_status",
+  "fatal_stop": {
+    "provider_label": "gpt",
+    "http_status": 403,
+    "phase": "paired"
+  },
+  "completed_pairs": null,
+  "skipped_controller_rows": 64,
+  "skipped_rows_definition": "Controller fallback/skipped rows after an access failure are excluded, not counted as executed vendor cases or semantic errors."
+}

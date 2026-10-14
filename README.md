@@ -6,7 +6,9 @@
 
 Step 6.2 已连接 PostgreSQL 业务服务与 API：参与者登录、固定分配、当前表单、聊天持久化、显式状态提交、管理员配置与完整业务记录快照 JSON 导出。Step 6.3 已接入最小参与者登录／说明／对话／明确提交页面，以及只读管理员查询／完整记录下载页面。DeepSeek Flash 单次真实smoke已通过（HTTP200）；正式Prompt下的完整实验与语义验收尚未完成，工程原型不代表正式实验就绪。
 
-最新第31次交付：[给GPT反馈](docs/thirty-first-round-feedback.md) · [验收报告](docs/thirty-first-round-delivery-report.md) · [模型对比配置/预算/人评说明](docs/round31-model-comparison-guide.md)。保留GPT/DeepSeek可切换Adapter，补25轮连续诊断；32配对与连续fixture已验收，455 Vitest＋18浏览器通过。GPT密钥/模型名仍未注入，真实对比not_run；云环境要求已存草稿，需配置并发布。Render授权和公网URL仍待取得，导师与正式门禁false。
+最新第32次交付：[真实模型反馈](docs/thirty-second-round-feedback.md) · [验收报告](docs/thirty-second-round-delivery-report.md) · [模型发现/smoke/执行说明](docs/round32-real-model-execution-guide.md)。按账户实际列表自动选择gpt-4，返回gpt-4-0613，流式smoke HTTP200（首文本2801ms/总3091ms）。164真实案例/191请求已完成；连续诊断DeepSeek有1次502、6兜底，错误保留，人工六维评分待审。459 Vitest＋18浏览器通过，实验逻辑不变。无公网URL，导师与正式门禁false。
+
+第31次历史交付：[给GPT反馈](docs/thirty-first-round-feedback.md) · [验收报告](docs/thirty-first-round-delivery-report.md) · [模型对比配置/预算/人评说明](docs/round31-model-comparison-guide.md)。保留GPT/DeepSeek可切换Adapter，补25轮连续诊断；32配对与连续fixture已验收，455 Vitest＋18浏览器通过。GPT密钥/模型名仍未注入，真实对比not_run；云环境要求已存草稿，需配置并发布。Render授权和公网URL仍待取得，导师与正式门禁false。
 
 第30次历史交付：[给GPT的反馈](docs/thirtieth-round-feedback.md) · [验收报告](docs/thirtieth-round-delivery-report.md) · [1—28轮简短进度汇报](docs/research-progress-brief.md) · [线上验收与用户操作清单](docs/round30-online-acceptance-checklist.md)。不改代码，复验452 Vitest＋18浏览器与30人多轮fixture通过；继续Render方案。线上URL尚未创建，需平台授权/Secret/费用确认；本人完整体验、语言审核及线上30人真实验证后再邀请老师，导师与正式门禁暂未放行。
 
