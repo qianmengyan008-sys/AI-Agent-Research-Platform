@@ -1,0 +1,3879 @@
+{
+  "mode": "local-fixture",
+  "status": "completed",
+  "synthetic": true,
+  "scope": "25 turns per path at a fixed backend stage; adapter/orchestrator diagnostic, not full experiment or database acceptance",
+  "frozen_policy_version": "mentor-test-v1",
+  "paired_base_prompts_equal": true,
+  "full_prompts_identical": true,
+  "history_comparison": "Each model uses its own prior presented outputs. Base policy/state/input match; full prompts may diverge after the first reply. No competitor reply is fed to the other model.",
+  "suite_sha256": "7c618b84ba08a08a3fb5e2fe6c365b55738a27a303463451130f0643018d14a1",
+  "state_transitions": [],
+  "state_transition_scope": "No transitions by design; does not measure legal submissions, stage guards or full-path completion.",
+  "process_error_definition": "Existing Validator process-violation proxy across attempts, not a human semantic error rate",
+  "semantic_review": "pending_researcher_review",
+  "pilot_ready": false,
+  "formal_ready": false,
+  "summary": [
+    {
+      "provider_label": "gpt",
+      "settings": {
+        "provider": "mock",
+        "model_name": "local-mock",
+        "base_url": null,
+        "temperature": 0.2,
+        "max_tokens": 512,
+        "timeout_ms": 10000,
+        "max_attempts": 2
+      },
+      "turns": 50,
+      "adapter_attempts": 50,
+      "external_model_calls": 0,
+      "latency_ms": {
+        "p50": 0.2843499999999892,
+        "p95": 0.6074279999999987,
+        "max": 1.8436659999999847
+      },
+      "process_errors": 0,
+      "process_error_rate": 0,
+      "state_violations": 0,
+      "generation_failures": 0,
+      "fallback_count": 0,
+      "retry_count": 0,
+      "failed_attempts": 0,
+      "human_language_quality_average": null,
+      "human_scored_cases": 0
+    },
+    {
+      "provider_label": "deepseek",
+      "settings": {
+        "provider": "mock",
+        "model_name": "local-mock",
+        "base_url": null,
+        "temperature": 0.2,
+        "max_tokens": 512,
+        "timeout_ms": 10000,
+        "max_attempts": 2
+      },
+      "turns": 50,
+      "adapter_attempts": 50,
+      "external_model_calls": 0,
+      "latency_ms": {
+        "p50": 0.23296400000000972,
+        "p95": 0.503974999999997,
+        "max": 0.8048600000000192
+      },
+      "process_errors": 0,
+      "process_error_rate": 0,
+      "state_violations": 0,
+      "generation_failures": 0,
+      "fallback_count": 0,
+      "retry_count": 0,
+      "failed_attempts": 0,
+      "human_language_quality_average": null,
+      "human_scored_cases": 0
+    }
+  ],
+  "rows": [
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 1,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "stored_history_messages": 0,
+      "projected_history_messages": 0,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达9ad1bc65：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 1.8436659999999847,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达9ad1bc65：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 1,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "stored_history_messages": 0,
+      "projected_history_messages": 0,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达9ad1bc65：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.8048600000000192,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达9ad1bc65：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 2,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "f22ba5f19122752439c03b812e36fff4dd81957fafbeed14a674ab5a3898c78a",
+      "stored_history_messages": 2,
+      "projected_history_messages": 2,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达f22ba5f1：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3994600000000048,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达f22ba5f1：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 2,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "f22ba5f19122752439c03b812e36fff4dd81957fafbeed14a674ab5a3898c78a",
+      "stored_history_messages": 2,
+      "projected_history_messages": 2,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达f22ba5f1：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.41535500000000525,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达f22ba5f1：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 3,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "7736ecdd0f4c1913c3c1be061d1af423a9dce567e9bc785ffe7f84e44b8f5f53",
+      "stored_history_messages": 4,
+      "projected_history_messages": 4,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7736ecdd：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.6058260000000075,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7736ecdd：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 3,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "7736ecdd0f4c1913c3c1be061d1af423a9dce567e9bc785ffe7f84e44b8f5f53",
+      "stored_history_messages": 4,
+      "projected_history_messages": 4,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7736ecdd：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3153259999999989,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7736ecdd：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 4,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "d6cb9cf6a736830f335dec8f6343aed6e5414b4d5f866e18ec93495a86ea4d81",
+      "stored_history_messages": 6,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达d6cb9cf6：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.31724899999997547,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达d6cb9cf6：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 4,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "d6cb9cf6a736830f335dec8f6343aed6e5414b4d5f866e18ec93495a86ea4d81",
+      "stored_history_messages": 6,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达d6cb9cf6：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.5928260000000023,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达d6cb9cf6：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 5,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "e3d0ee1e604cdcb42acaa23cf60914818abf0a67be204a3002e9f287316a5787",
+      "stored_history_messages": 8,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e3d0ee1e：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.5965920000000153,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e3d0ee1e：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 5,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "e3d0ee1e604cdcb42acaa23cf60914818abf0a67be204a3002e9f287316a5787",
+      "stored_history_messages": 8,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e3d0ee1e：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.707525999999973,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e3d0ee1e：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 6,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "090babb2ea5b66aed74d53eb0f014bd13b8869fced8452decded038636310a25",
+      "stored_history_messages": 10,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达090babb2：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3994600000000048,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达090babb2：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 6,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "090babb2ea5b66aed74d53eb0f014bd13b8869fced8452decded038636310a25",
+      "stored_history_messages": 10,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达090babb2：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.4689730000000054,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达090babb2：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 7,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "3f8118f38c7d21c479235c3bd0755a3bc15ba99ee18c8d0eaca2d363142008ae",
+      "stored_history_messages": 12,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达3f8118f3：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.8839770000000158,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达3f8118f3：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 7,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "3f8118f38c7d21c479235c3bd0755a3bc15ba99ee18c8d0eaca2d363142008ae",
+      "stored_history_messages": 12,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达3f8118f3：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.33156999999999925,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达3f8118f3：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 8,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "2788864aa6f745bea432dd8d662ca13f23d1eef311cee835be86d8350818ac32",
+      "stored_history_messages": 14,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达2788864a：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2694789999999898,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达2788864a：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 8,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "2788864aa6f745bea432dd8d662ca13f23d1eef311cee835be86d8350818ac32",
+      "stored_history_messages": 14,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达2788864a：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3401630000000182,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达2788864a：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 9,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "1d1aa933b565b8342ea7f8ddbca935b7f3d601bb36994b1a3f49e1f702d59566",
+      "stored_history_messages": 16,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达1d1aa933：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2042019999999809,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达1d1aa933：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 9,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "1d1aa933b565b8342ea7f8ddbca935b7f3d601bb36994b1a3f49e1f702d59566",
+      "stored_history_messages": 16,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达1d1aa933：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2623480000000029,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达1d1aa933：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 10,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "bc3dc975ff0b92445ebfd283454e14cd43e7d7beb99bac677001e5b0d624f908",
+      "stored_history_messages": 18,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达bc3dc975：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.20261899999999855,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达bc3dc975：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 10,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "bc3dc975ff0b92445ebfd283454e14cd43e7d7beb99bac677001e5b0d624f908",
+      "stored_history_messages": 18,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达bc3dc975：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3242490000000089,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达bc3dc975：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 11,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "34bf713925ff2638de794013cf36bb27d0f88419cb7eccb462d1d79417a40635",
+      "stored_history_messages": 20,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达34bf7139：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.33695799999998144,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达34bf7139：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 11,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "34bf713925ff2638de794013cf36bb27d0f88419cb7eccb462d1d79417a40635",
+      "stored_history_messages": 20,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达34bf7139：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.25820199999998295,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达34bf7139：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 12,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "faa0f0eb54f7c04e61fbf7d5c494a28a0d1f7a26409f7b50a3d4eacdde88691f",
+      "stored_history_messages": 22,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达faa0f0eb：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.37127900000001546,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达faa0f0eb：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 12,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "faa0f0eb54f7c04e61fbf7d5c494a28a0d1f7a26409f7b50a3d4eacdde88691f",
+      "stored_history_messages": 22,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达faa0f0eb：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3747939999999801,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达faa0f0eb：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 13,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "900d1832e6b66e15b0274b3da55939cbd1fd5c00b0db4ea4b07ba7d37699151e",
+      "stored_history_messages": 24,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达900d1832：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.26211799999998675,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达900d1832：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 13,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "900d1832e6b66e15b0274b3da55939cbd1fd5c00b0db4ea4b07ba7d37699151e",
+      "stored_history_messages": 24,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达900d1832：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.41355100000001244,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达900d1832：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 14,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "277c2422786fbd567822d80353d7e41ac004225fefa890b80edf1fb1aeea2491",
+      "stored_history_messages": 26,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达277c2422：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3930909999999983,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达277c2422：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 14,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "277c2422786fbd567822d80353d7e41ac004225fefa890b80edf1fb1aeea2491",
+      "stored_history_messages": 26,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达277c2422：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.27622800000000325,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达277c2422：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 15,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "e8dee2f04b4bdbf4c3b6a3c558463b75f517db808ae3ea6483ea28885bd30a61",
+      "stored_history_messages": 28,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e8dee2f0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.19295600000000945,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e8dee2f0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 15,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "e8dee2f04b4bdbf4c3b6a3c558463b75f517db808ae3ea6483ea28885bd30a61",
+      "stored_history_messages": 28,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e8dee2f0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18568500000000654,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达e8dee2f0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 16,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "36f2b2486900657d64095932a10b828d434171f0ee683bec8b26ba322299935b",
+      "stored_history_messages": 30,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达36f2b248：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.188808999999992,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达36f2b248：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 16,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "36f2b2486900657d64095932a10b828d434171f0ee683bec8b26ba322299935b",
+      "stored_history_messages": 30,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达36f2b248：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.17724199999997836,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达36f2b248：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 17,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "53ad71360f55acf1be9e5f53193521320081f4c12389add0019d3ff4c70d28d2",
+      "stored_history_messages": 32,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达53ad7136：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.21985499999999547,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达53ad7136：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 17,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "53ad71360f55acf1be9e5f53193521320081f4c12389add0019d3ff4c70d28d2",
+      "stored_history_messages": 32,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达53ad7136：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18326100000001588,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达53ad7136：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 18,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "62067f4b6fa4f156c16438c4aca33a1d859b79f351d70fdc3c7644e3bf402bab",
+      "stored_history_messages": 34,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达62067f4b：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.4029350000000136,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达62067f4b：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 18,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "62067f4b6fa4f156c16438c4aca33a1d859b79f351d70fdc3c7644e3bf402bab",
+      "stored_history_messages": 34,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达62067f4b：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2373410000000149,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达62067f4b：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 19,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "fac063caa8d50f30d2bb2c3020ed1c3d5dda7c1b34a2210b00a635014b6e3c56",
+      "stored_history_messages": 36,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达fac063ca：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18461300000001302,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达fac063ca：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 19,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "fac063caa8d50f30d2bb2c3020ed1c3d5dda7c1b34a2210b00a635014b6e3c56",
+      "stored_history_messages": 36,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达fac063ca：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1783140000000003,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达fac063ca：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 20,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "7243c7e923d9f504742bea8e4c7c01ac97f4e1e043de98c4744afe047fff425e",
+      "stored_history_messages": 38,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7243c7e9：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18088799999998173,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7243c7e9：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 20,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "7243c7e923d9f504742bea8e4c7c01ac97f4e1e043de98c4744afe047fff425e",
+      "stored_history_messages": 38,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7243c7e9：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.17359600000000341,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7243c7e9：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 21,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "7adc3a154ff217faa5f5de78ec60c40a87c7663b2cb538b41e4dccbeb3198815",
+      "stored_history_messages": 40,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7adc3a15：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.27650900000000433,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7adc3a15：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 21,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "9ad1bc658319a2198487918abb81993b393699b11526d77cc105763081346044",
+      "actual_prompt_sha256": "7adc3a154ff217faa5f5de78ec60c40a87c7663b2cb538b41e4dccbeb3198815",
+      "stored_history_messages": 40,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7adc3a15：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.17892500000002087,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达7adc3a15：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 22,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "ee0da72e75dddb945e1ae88424d6a57f81b83b3963dae12ddd8f2954fa0116d8",
+      "stored_history_messages": 42,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达ee0da72e：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.24067600000000766,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达ee0da72e：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 22,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "42c5d2e1f67d8dfe9a309c66312c71a01b3ee881d8d032d7390bd955fe004153",
+      "actual_prompt_sha256": "ee0da72e75dddb945e1ae88424d6a57f81b83b3963dae12ddd8f2954fa0116d8",
+      "stored_history_messages": 42,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达ee0da72e：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2843499999999892,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达ee0da72e：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 23,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "988c339f83abd96446f6ef4fe0ff12d84cf04f9e0e375a8d76aaa411fe2aace3",
+      "stored_history_messages": 44,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达988c339f：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1932860000000005,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达988c339f：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 23,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "a3771b104e724024a518e2a1dedbaf6d6a0500f8be3666ed653fd6391ec39292",
+      "actual_prompt_sha256": "988c339f83abd96446f6ef4fe0ff12d84cf04f9e0e375a8d76aaa411fe2aace3",
+      "stored_history_messages": 44,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达988c339f：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18394200000000183,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达988c339f：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 24,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "aa039503ca329cc730369b96aca55a9e5a3b1862b6e09717d19ce5023be085f8",
+      "stored_history_messages": 46,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达aa039503：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.37086800000000153,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达aa039503：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 24,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "9307e55b3038035798196ea0195ed36dd538f40454265e60b5380decafb20b16",
+      "actual_prompt_sha256": "aa039503ca329cc730369b96aca55a9e5a3b1862b6e09717d19ce5023be085f8",
+      "stored_history_messages": 46,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达aa039503：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.34297699999999054,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达aa039503：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "cognitive",
+      "round": 25,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "b34eb3c94f154d71d09e55566b81777ea0761b9fc41c0d3380eae10fe99de205",
+      "stored_history_messages": 48,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达b34eb3c9：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18897899999998913,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达b34eb3c9：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "cognitive",
+      "round": 25,
+      "stage": "REFRAME_MEDIA_ALGORITHM",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "aa95725ecaffb8880c497a7d83fd5b03d9115f4b350f91ccfcc6797e31bd3385",
+      "actual_prompt_sha256": "b34eb3c94f154d71d09e55566b81777ea0761b9fc41c0d3380eae10fe99de205",
+      "stored_history_messages": 48,
+      "projected_history_messages": 6,
+      "output": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达b34eb3c9：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_after_sha256": "ac5d43cce6e1c3f6439d67faa9987922c7497e3ea21f8b71a398c60c8a8fe42f",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.22681499999998778,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "对于“我看到一些报道后觉得美国黑人犯罪率高，但还需要核实。”，我们可以继续核实信息。当前表达b34eb3c9：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 1,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "stored_history_messages": 0,
+      "projected_history_messages": 0,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达e5ea9843：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3603730000000098,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达e5ea9843：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 1,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "stored_history_messages": 0,
+      "projected_history_messages": 0,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达e5ea9843：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.30600200000000655,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达e5ea9843：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 2,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "40d8c697dddffc87da8e1b226e8903cd72b73e7f5bb23bd1a4339d5deebc301e",
+      "stored_history_messages": 2,
+      "projected_history_messages": 2,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达40d8c697：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18233000000000743,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达40d8c697：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 2,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "40d8c697dddffc87da8e1b226e8903cd72b73e7f5bb23bd1a4339d5deebc301e",
+      "stored_history_messages": 2,
+      "projected_history_messages": 2,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达40d8c697：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.30850699999999165,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达40d8c697：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 3,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "22a2c7f18a420445dcc0d87a1e068d8be22256de20f546adce666097b2c44fde",
+      "stored_history_messages": 4,
+      "projected_history_messages": 4,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达22a2c7f1：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.20610499999997955,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达22a2c7f1：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 3,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "22a2c7f18a420445dcc0d87a1e068d8be22256de20f546adce666097b2c44fde",
+      "stored_history_messages": 4,
+      "projected_history_messages": 4,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达22a2c7f1：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.24575300000000766,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达22a2c7f1：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 4,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "5607dfea9c0ce15dded18ddb6157c0925d16f7502d98328ed32fbe4e25885b68",
+      "stored_history_messages": 6,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达5607dfea：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18043699999998353,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达5607dfea：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 4,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "5607dfea9c0ce15dded18ddb6157c0925d16f7502d98328ed32fbe4e25885b68",
+      "stored_history_messages": 6,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达5607dfea：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.6074279999999987,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达5607dfea：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 5,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "9f0543b9430c040f95acd7078ab3491b4cf9f7dbd250b8a802615e34c085e8aa",
+      "stored_history_messages": 8,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达9f0543b9：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.4820919999999944,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达9f0543b9：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 5,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "9f0543b9430c040f95acd7078ab3491b4cf9f7dbd250b8a802615e34c085e8aa",
+      "stored_history_messages": 8,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达9f0543b9：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.40813300000002073,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达9f0543b9：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 6,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "d35ce7b0c05fad96f1bb1b6b25856b56d775719910dd0537fa6f2d4146dc8012",
+      "stored_history_messages": 10,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达d35ce7b0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1861250000000041,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达d35ce7b0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 6,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "d35ce7b0c05fad96f1bb1b6b25856b56d775719910dd0537fa6f2d4146dc8012",
+      "stored_history_messages": 10,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达d35ce7b0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.5497029999999938,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达d35ce7b0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 7,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "5266810fb297336482d92f884fc867f7b13f8c628a781a5afda67e51f721460c",
+      "stored_history_messages": 12,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达5266810f：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.23968500000000859,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达5266810f：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 7,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "5266810fb297336482d92f884fc867f7b13f8c628a781a5afda67e51f721460c",
+      "stored_history_messages": 12,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达5266810f：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.19373600000000124,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达5266810f：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 8,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "b00acdc8c11d834d6200eaf4370641d88cef5782ee158d075f5c0a4c52b6474b",
+      "stored_history_messages": 14,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达b00acdc8：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.19688099999999054,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达b00acdc8：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 8,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "b00acdc8c11d834d6200eaf4370641d88cef5782ee158d075f5c0a4c52b6474b",
+      "stored_history_messages": 14,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达b00acdc8：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.20877799999999525,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达b00acdc8：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 9,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "14356c47cc2448e3ee5fbd1bc19e42335c7532a0395297e4a1e72bda5f9460cd",
+      "stored_history_messages": 16,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达14356c47：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.4082329999999956,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达14356c47：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 9,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "14356c47cc2448e3ee5fbd1bc19e42335c7532a0395297e4a1e72bda5f9460cd",
+      "stored_history_messages": 16,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达14356c47：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.29791099999999915,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达14356c47：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 10,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "c4756f391913f743ec6035d2b88ab8755de2fd5578b0ad7d7d242e582a074d82",
+      "stored_history_messages": 18,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达c4756f39：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.311380000000014,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达c4756f39：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 10,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "c4756f391913f743ec6035d2b88ab8755de2fd5578b0ad7d7d242e582a074d82",
+      "stored_history_messages": 18,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达c4756f39：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3043300000000215,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达c4756f39：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 11,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "dcf4931504a85220c8bdc2f3815ae38b1edc6ec24af7306452a334da390d0938",
+      "stored_history_messages": 20,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达dcf49315：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.35497499999999604,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达dcf49315：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 11,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "dcf4931504a85220c8bdc2f3815ae38b1edc6ec24af7306452a334da390d0938",
+      "stored_history_messages": 20,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达dcf49315：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3156970000000001,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达dcf49315：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 12,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "d864b9e4755ba6c293182c19300749da5ac74c1168cc3dc4496e971abb46ad62",
+      "stored_history_messages": 22,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达d864b9e4：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18836899999999446,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达d864b9e4：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 12,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "d864b9e4755ba6c293182c19300749da5ac74c1168cc3dc4496e971abb46ad62",
+      "stored_history_messages": 22,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达d864b9e4：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.5226130000000069,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达d864b9e4：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 13,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "d8a6cbb0e3807f81279bd18cd57028e20f6a278941431b093e3689e4fc794ea1",
+      "stored_history_messages": 24,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达d8a6cbb0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.5728869999999802,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达d8a6cbb0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 13,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "d8a6cbb0e3807f81279bd18cd57028e20f6a278941431b093e3689e4fc794ea1",
+      "stored_history_messages": 24,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达d8a6cbb0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18060699999998064,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达d8a6cbb0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 14,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "32963852caac7173441fff2c39c4eb774f08b89bcf1b3319ca519cb22db819ab",
+      "stored_history_messages": 26,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达32963852：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.20048599999998373,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达32963852：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 14,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "32963852caac7173441fff2c39c4eb774f08b89bcf1b3319ca519cb22db819ab",
+      "stored_history_messages": 26,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达32963852：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2089290000000119,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达32963852：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 15,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "8da3bc0dd47563da5ad3e7c25c92ea986c56d4e1486993cc9017733b21fa69d5",
+      "stored_history_messages": 28,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达8da3bc0d：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3071740000000034,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达8da3bc0d：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 15,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "8da3bc0dd47563da5ad3e7c25c92ea986c56d4e1486993cc9017733b21fa69d5",
+      "stored_history_messages": 28,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达8da3bc0d：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18555399999999622,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达8da3bc0d：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 16,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "1b06aedc11d4e3f189dd635c500eaed4d36f1e8dc99c737ae39012ffb93daacc",
+      "stored_history_messages": 30,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达1b06aedc：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.23296400000000972,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达1b06aedc：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 16,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "1b06aedc11d4e3f189dd635c500eaed4d36f1e8dc99c737ae39012ffb93daacc",
+      "stored_history_messages": 30,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达1b06aedc：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.27517699999998513,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达1b06aedc：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 17,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "b5eeac4607282b81f0ec1993162efdd1257d93e9bd623efe55bec5f9706cd4bf",
+      "stored_history_messages": 32,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达b5eeac46：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1878579999999772,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达b5eeac46：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 17,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "b5eeac4607282b81f0ec1993162efdd1257d93e9bd623efe55bec5f9706cd4bf",
+      "stored_history_messages": 32,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达b5eeac46：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.22507199999998306,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达b5eeac46：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 18,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "567dd1cda6443ce41a5d630c1e454f915390eb40144de951e6eb9a969e06f7a2",
+      "stored_history_messages": 34,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达567dd1cd：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18365199999999504,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达567dd1cd：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 18,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "567dd1cda6443ce41a5d630c1e454f915390eb40144de951e6eb9a969e06f7a2",
+      "stored_history_messages": 34,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达567dd1cd：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3264430000000118,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达567dd1cd：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 19,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "11bd02fadfa5b3e46cbb200e04ca749c6c34357046d3277fdf04221945453955",
+      "stored_history_messages": 36,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达11bd02fa：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1882579999999905,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达11bd02fa：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 19,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "11bd02fadfa5b3e46cbb200e04ca749c6c34357046d3277fdf04221945453955",
+      "stored_history_messages": 36,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达11bd02fa：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.503974999999997,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达11bd02fa：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 20,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "2ad5e963153d5dd6723c9ec2bc37a2fb4a90cb589f9c306a60021dd1300636a0",
+      "stored_history_messages": 38,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达2ad5e963：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.18585399999997776,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达2ad5e963：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 20,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "2ad5e963153d5dd6723c9ec2bc37a2fb4a90cb589f9c306a60021dd1300636a0",
+      "stored_history_messages": 38,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达2ad5e963：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1994449999999972,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达2ad5e963：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 21,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "b30f49c05c3ae3d746b4896337ed6274581bd1743f7033724c9dec8ba855175f",
+      "stored_history_messages": 40,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达b30f49c0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.17553000000000907,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达b30f49c0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 21,
+      "stage": "RELATIONSHIP",
+      "input": "我好像明白一点了，但还说不清。",
+      "base_prompt_sha256": "e5ea984353578d98c33b4f37405cc6e9985653e006ef0274c035579ace98057d",
+      "actual_prompt_sha256": "b30f49c05c3ae3d746b4896337ed6274581bd1743f7033724c9dec8ba855175f",
+      "stored_history_messages": 40,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达b30f49c0：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1949780000000203,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达b30f49c0：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 22,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "897d5ba7d00558d6123cecc607205c85e7795bc4c62ed5b25bbddcf873d1aaab",
+      "stored_history_messages": 42,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达897d5ba7：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.3576490000000092,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达897d5ba7：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 22,
+      "stage": "RELATIONSHIP",
+      "input": "emm，不完全是这个意思。",
+      "base_prompt_sha256": "a1889ad3d446da993d0dd4bb145db64e3a94294527b2b58b941136c42cd0c1a8",
+      "actual_prompt_sha256": "897d5ba7d00558d6123cecc607205c85e7795bc4c62ed5b25bbddcf873d1aaab",
+      "stored_history_messages": 42,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达897d5ba7：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2150079999999832,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达897d5ba7：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 23,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "07d3529b530452cc0fdf9f67c2bf43e1740658f28dcd3bd1c485438a4a202a40",
+      "stored_history_messages": 44,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达07d3529b：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.17633100000000468,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达07d3529b：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 23,
+      "stage": "RELATIONSHIP",
+      "input": "刚才那个“他”是指谁？",
+      "base_prompt_sha256": "65e4f3f92b69d43bce8d30fa3014c1be6c6040c6e09f844a8ea5b9a15dfe24cb",
+      "actual_prompt_sha256": "07d3529b530452cc0fdf9f67c2bf43e1740658f28dcd3bd1c485438a4a202a40",
+      "stored_history_messages": 44,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达07d3529b：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.17351700000000392,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达07d3529b：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 24,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "56a6fafe7e8620a0654812971ddddb43aa3c06bd22625128504c15b351a72cd0",
+      "stored_history_messages": 46,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达56a6fafe：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1711129999999912,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达56a6fafe：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 24,
+      "stage": "RELATIONSHIP",
+      "input": "能用简单一点的中文说吗？",
+      "base_prompt_sha256": "f02f6a83ef9cb792e407b5ecc22713108996e125539ba457920e87833878c2bb",
+      "actual_prompt_sha256": "56a6fafe7e8620a0654812971ddddb43aa3c06bd22625128504c15b351a72cd0",
+      "stored_history_messages": 46,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达56a6fafe：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2930330000000083,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达56a6fafe：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "gpt",
+      "path": "emotional",
+      "round": 25,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "5a34e5a8bd808e655996e9db13d1cefccd1cd2d68cd7dc987e293fa1fd39d770",
+      "stored_history_messages": 48,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达5a34e5a8：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.1801759999999888,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达5a34e5a8：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    },
+    {
+      "provider_label": "deepseek",
+      "path": "emotional",
+      "round": 25,
+      "stage": "RELATIONSHIP",
+      "input": "我不想马上下结论，想再了解具体背景。",
+      "base_prompt_sha256": "34a188632239d779fa9721a3087bfcc7160348d2de119687c28b0bcc67ff4fc1",
+      "actual_prompt_sha256": "5a34e5a8bd808e655996e9db13d1cefccd1cd2d68cd7dc987e293fa1fd39d770",
+      "stored_history_messages": 48,
+      "projected_history_messages": 6,
+      "output": "Marcus和李阳在操场聊起各自的感受。当前表达5a34e5a8：你想进一步说明哪一点？",
+      "status": "generated",
+      "violations": [],
+      "state_before_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_after_sha256": "91679bc462f97425f09dbde11edc712b5ecf6ccd101de704f8e55aaff13450aa",
+      "state_violation": false,
+      "process_error": false,
+      "generation_failure": false,
+      "response_latency_ms": 0.2366400000000226,
+      "candidate_outputs": [
+        {
+          "attempt": 1,
+          "status": "returned",
+          "text": "Marcus和李阳在操场聊起各自的感受。当前表达5a34e5a8：你想进一步说明哪一点？"
+        }
+      ],
+      "human_quality_scores": {
+        "clarity": null,
+        "logic": null,
+        "reference": null,
+        "non_repetition": null,
+        "experiment_fidelity": null,
+        "nonstandard_understanding": null
+      },
+      "human_passed": null,
+      "reviewer": null,
+      "reviewed_at": null
+    }
+  ]
+}
