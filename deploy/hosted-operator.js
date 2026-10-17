@@ -14,18 +14,23 @@ form.addEventListener('submit', async (event) => {
     token.value = '';
     if (!response.ok) throw new Error('管理员验证失败，请检查私下取得的凭据。');
     const data = await response.json();
-    status.textContent = `实验编号：${data.experiment_id}。仅向每位测试者私下分发自己的账号和密码。`;
-    const table = document.createElement('table');
-    for (const account of data.accounts) {
-      const row = document.createElement('tr');
-      for (const value of [account.participant_code, account.path, account.password]) {
-        const cell = document.createElement('td');
-        cell.textContent = value;
-        row.append(cell);
+    status.textContent = '仅向每位测试者私下分发对应批次的实验编号、本人账号和密码。';
+    for (const batch of [data, ...(data.additional_batches ?? [])]) {
+      const heading = document.createElement('h2');
+      heading.textContent = `批次 ${batch.batch} · ${batch.model?.provider ?? ''} / ${batch.model?.requested_model ?? ''} · 实验编号 ${batch.experiment_id}`;
+      output.append(heading);
+      const table = document.createElement('table');
+      for (const account of batch.accounts) {
+        const row = document.createElement('tr');
+        for (const value of [account.participant_code, account.path, account.password]) {
+          const cell = document.createElement('td');
+          cell.textContent = value;
+          row.append(cell);
+        }
+        table.append(row);
       }
-      table.append(row);
+      output.append(table);
     }
-    output.append(table);
   } catch (error) {
     status.textContent = error.message;
   }

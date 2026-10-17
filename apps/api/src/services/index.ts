@@ -7,6 +7,7 @@ import { ParticipantService } from './participant-service.js';
 import { ConversationService } from './conversation-service.js';
 import { AdminService } from './admin-service.js';
 import { ModelRunService } from './model-run-service.js';
+import type { ModelProfile } from './model-run-service.js';
 import { safeTrace } from './trace.js';
 import type { TraceSink } from './trace.js';
 export function createServices(
@@ -14,10 +15,11 @@ export function createServices(
   generator: LanguageGenerator,
   settings: ModelSettings,
   sink?: TraceSink,
+  profiles?: readonly ModelProfile[],
 ) {
   const trace = safeTrace(sink);
   const uow = new UnitOfWork(pool);
-  const model = new ModelRunService(generator, settings, trace);
+  const model = new ModelRunService(generator, settings, trace, profiles);
   return {
     experiments: new ExperimentService(uow, settings, trace),
     participants: new ParticipantService(uow, trace),

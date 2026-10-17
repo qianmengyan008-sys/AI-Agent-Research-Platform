@@ -10,6 +10,7 @@ import { createApp } from '../apps/api/src/app.ts';
 import { createServices } from '../apps/api/src/services/index.ts';
 import { hash, verifyPassword } from '../apps/api/src/services/common.ts';
 import { mentorConfig } from '../apps/api/src/services/research-profile.ts';
+import { auditedModelTransport } from '../apps/api/src/services/model-transport-audit.ts';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const actor = { role: 'admin', id: 'hosted-staging-bootstrap' };
 const paths = [
@@ -31,6 +32,7 @@ export async function createHostedPlatform({
   env = process.env,
   generatorOverride,
   poolOverride,
+  modelTransportOverride,
 } = {}) {
   if (env.RESEARCH_DATABASE_SCOPE !== 'isolated-staging')
     throw new Error('ISOLATED_STAGING_DATABASE_REQUIRED');
@@ -39,11 +41,28 @@ export async function createHostedPlatform({
   const batch = env.RESEARCH_BOOTSTRAP_BATCH ?? 'B001';
   if (!/^B\d{3,6}$/.test(batch)) throw new Error('INVALID_BOOTSTRAP_BATCH');
   const count = integer(env.RESEARCH_BOOTSTRAP_COUNT, 45, 3, 100);
-  const configured = createConfiguredGenerator({
+  const modelEnv = {
     ...env,
     MODEL_PROVIDER: env.MODEL_PROVIDER ?? 'deepseek',
     DEEPSEEK_MODEL_NAME: env.DEEPSEEK_MODEL_NAME ?? 'deepseek-flash',
-  });
+    GPT_MODEL_NAME: env.GPT_MODEL_NAME ?? 'gpt-4',
+  };
+  if (!['deepseek', 'gpt'].includes(modelEnv.MODEL_PROVIDER))
+    throw new Error('HOSTED_PROVIDER_REQUIRED');
+  const transport = auditedModelTransport(modelTransportOverride);
+  const configured = createConfiguredGenerator(modelEnv, transport);
+  // Only server-configured profiles may serve previously pinned batches. No participant switch.
+  const profiles = generatorOverride
+    ? []
+    : ['deepseek', 'gpt']
+        .filter(
+          (label) =>
+            label !== modelEnv.MODEL_PROVIDER &&
+            modelEnv[label === 'gpt' ? 'GPT_API_KEY' : 'DEEPSEEK_API_KEY']?.trim(),
+        )
+        .map((label) =>
+          createConfiguredGenerator({ ...modelEnv, MODEL_PROVIDER: label }, transport),
+        );
   const pool =
     poolOverride ??
     new pg.Pool({
@@ -56,8 +75,11 @@ export async function createHostedPlatform({
     pool,
     generatorOverride ?? configured.generator,
     configured.settings,
+    undefined,
+    profiles,
   );
   let seed;
+  const previewBatches = [];
   try {
     // Refuse unrelated public/research tables before migrating. This is only a new dedicated staging DB.
     const unrelated = await pool.query(
@@ -158,7 +180,16 @@ export async function createHostedPlatform({
           });
         accounts.push({ participant_id: id, participant_code: code, path, password });
       }
-      seed = { experiment_id: experimentId, batch, profile: mentorConfig.version, accounts };
+      seed = {
+        experiment_id: experimentId,
+        batch,
+        profile: mentorConfig.version,
+        model: {
+          provider: configured.settings.provider,
+          requested_model: configured.settings.model_name,
+        },
+        accounts,
+      };
     } finally {
       await lock.query('SELECT pg_advisory_unlock(186452029)');
       lock.release();
@@ -199,7 +230,7 @@ export async function createHostedPlatform({
       res.status(401).json({ error: 'UNAUTHORIZED' });
       return;
     }
-    res.json(seed);
+    res.json({ ...seed, additional_batches: previewBatches });
   });
   app.use((req, res, next) => {
     if (req.path.startsWith('/api/admin') && !['GET', 'HEAD'].includes(req.method)) {
@@ -216,5 +247,33 @@ export async function createHostedPlatform({
     void _next;
     res.status(404).json({ error: 'NOT_FOUND' });
   });
-  return { app, pool, services, seed, settings: configured.settings };
+  return { app, pool, services, seed, settings: configured.settings, previewBatches };
+}
+
+/** Optional A/B initialization: one app/DB, two immutable experiments, no model calls. */
+export async function createHostedDeployment(options = {}) {
+  const env = options.env ?? process.env;
+  if (env.RESEARCH_AB_PREVIEW !== 'true') return createHostedPlatform(options);
+  required(env, 'GPT_API_KEY');
+  required(env, 'DEEPSEEK_API_KEY');
+  if ((env.RESEARCH_AB_BATCH ?? 'B002') === (env.RESEARCH_BOOTSTRAP_BATCH ?? 'B001'))
+    throw new Error('HOSTED_AB_BATCH_MUST_DIFFER');
+  const main = await createHostedPlatform(options);
+  try {
+    const other = await createHostedPlatform({
+      ...options,
+      poolOverride: main.pool,
+      env: {
+        ...env,
+        MODEL_PROVIDER: (env.MODEL_PROVIDER ?? 'deepseek') === 'gpt' ? 'deepseek' : 'gpt',
+        RESEARCH_BOOTSTRAP_BATCH: env.RESEARCH_AB_BATCH ?? 'B002',
+        RESEARCH_BOOTSTRAP_COUNT: env.RESEARCH_AB_COUNT ?? '6',
+      },
+    });
+    main.previewBatches.push(other.seed);
+    return main;
+  } catch (error) {
+    if (!options.poolOverride) await main.pool.end();
+    throw error;
+  }
 }

@@ -193,6 +193,9 @@ export class ConversationRepository {
                 status: result.status,
                 violations: result.violations,
                 auditEvents: result.auditEvents,
+                ...('model_transport_attempts' in result
+                  ? { model_transport_attempts: result.model_transport_attempts }
+                  : {}),
               }
             : {},
         ),

@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { createHostedPlatform } from './hosted-platform.mjs';
+import { createHostedDeployment } from './hosted-platform.mjs';
 let runtime, server;
 try {
   const meta = JSON.parse(
@@ -8,7 +8,7 @@ try {
   process.env.RESEARCH_CODE_COMMIT = process.env.RENDER_GIT_COMMIT ?? meta.code_commit;
   if (!/^[a-f0-9]{40}$/.test(process.env.RESEARCH_CODE_COMMIT))
     throw new Error('INVALID_CODE_COMMIT');
-  runtime = await createHostedPlatform();
+  runtime = await createHostedDeployment();
   const port = Number(process.env.PORT ?? 10000);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('INVALID_HOSTED_PORT');
   server = runtime.app.listen(port, '0.0.0.0');
