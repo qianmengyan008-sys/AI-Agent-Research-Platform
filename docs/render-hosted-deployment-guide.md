@@ -1,5 +1,7 @@
 # Render 托管体验版：从 GitHub 到浏览器网址
 
+> 2026-10-17第34次交付更新：当前内部体验使用免费Web和免费PostgreSQL，请改读[免费部署操作清单](round34-render-free-one-page.md)。原付费配置另存deploy/render-paid.yaml；下文仅保留历史记录，不作为本轮付费要求。
+
 > 2026-10-17更新：本轮双模型部署优先使用[一页操作清单](round33-render-one-page.md)，选择work分支并提供两项模型Secret。下文保留第29次单模型流程作为历史说明，旧main尚不包含本轮交付，B002现已预留给GPT；不要照旧复用B002或更改已运行批次。
 
 交付29，2026-10-14。源附件标题为“第27次反馈”，按仓库历史继续编号，不覆盖既有第27次材料。本轮唯一首选 Render。目标是一个长期开启的 Web Service 加独立托管 PostgreSQL，研究者不管理 Linux／SSH／Caddy，参与者只用浏览器。当前部署包可用，但还没有实际创建 Render 资源，不能给出已上线网址。

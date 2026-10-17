@@ -1,0 +1,65 @@
+services:
+  - type: web
+    name: ai-agent-research-staging
+    runtime: docker
+    plan: standard
+    region: singapore
+    numInstances: 1
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/ready
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RESEARCH_DATABASE_SCOPE
+        value: isolated-staging
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ai-agent-research-staging-db
+          property: connectionString
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: GPT_API_KEY
+        sync: false
+      - key: GPT_MODEL_NAME
+        value: gpt-4
+      - key: GPT_API_BASE_URL
+        value: https://api.openai.com/v1
+      - key: ADMIN_ACCESS_TOKEN
+        generateValue: true
+      - key: RESEARCH_BOOTSTRAP_SECRET
+        generateValue: true
+      - key: RESEARCH_BOOTSTRAP_BATCH
+        value: B001
+      - key: RESEARCH_BOOTSTRAP_COUNT
+        value: '45'
+      - key: RESEARCH_AB_PREVIEW
+        value: 'true'
+      - key: RESEARCH_AB_BATCH
+        value: B002
+      - key: RESEARCH_AB_COUNT
+        value: '6'
+      - key: DB_POOL_SIZE
+        value: '10'
+      - key: ADMIN_DEVELOPMENT_MODE
+        value: 'true'
+      - key: MODEL_PROVIDER
+        value: deepseek
+      - key: DEEPSEEK_MODEL_NAME
+        value: deepseek-flash
+      - key: MODEL_TEMPERATURE
+        value: '0.2'
+      - key: MODEL_MAX_TOKENS
+        value: '512'
+      - key: MODEL_TIMEOUT_MS
+        value: '10000'
+      - key: MODEL_MAX_ATTEMPTS
+        value: '2'
+
+databases:
+  - name: ai-agent-research-staging-db
+    plan: basic-1gb
+    region: singapore
+    databaseName: ai_agent_research
+    user: research_admin
+    ipAllowList: []

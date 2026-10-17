@@ -1,5 +1,7 @@
 # 双模型研究者体验版：Render 一页操作清单
 
+> 2026-10-17第34次交付更新：当前内部体验使用免费Web和免费PostgreSQL，请改读[免费部署操作清单](round34-render-free-one-page.md)。原付费配置另存deploy/render-paid.yaml；下文仅保留历史记录，不作为本轮付费要求。
+
 2026-10-17（UTC+8）。本轮交付在 GitHub 的 work 分支，固定归档标签为 round33-delivery。公网地址尚未创建；不要把 GitHub 项目页当实验入口。
 
 ## 你现在需要做什么
