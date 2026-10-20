@@ -1,0 +1,16 @@
+{
+  "review_only": true,
+  "requires_researcher_retention_approval": true,
+  "schedule": "0 18 * * *",
+  "schedule_timezone": "UTC",
+  "run_command": "node --use-env-proxy scripts/production-backup-job.mjs",
+  "requires_installed_tools": ["Node.js 24", "PostgreSQL 17 pg_dump/pg_restore", "AWS CLI v2"],
+  "daily_prefix": "research-production/daily/",
+  "daily_retention_days": 30,
+  "monthly_prefix": "research-production/monthly/",
+  "monthly_retention": "pending ethics/data-management approval, up to 24 months if approved",
+  "versioned_bucket_noncurrent_retention": "must be explicitly bounded in approved storage lifecycle",
+  "quarterly_restore_drill_required": true,
+  "offsite_provider_verification": "NOT RUN",
+  "automatic_schedule_installed": false
+}

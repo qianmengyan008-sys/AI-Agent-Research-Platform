@@ -1,0 +1,68 @@
+
+> ai-agent-research-platform@0.1.0 check
+> npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser
+
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> ai-agent-research-platform@0.1.0 lint
+> eslint .
+
+
+> ai-agent-research-platform@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+[warn] docs/acceptance/step6-round35/concurrency-30-local.json
+[warn] scripts/production-backup-job.d.mts
+[warn] Code style issues found in 2 files. Run Prettier with --write to fix.

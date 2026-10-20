@@ -1,0 +1,46 @@
+{
+  "review_only": true,
+  "apply_or_create_resources": false,
+  "provider": "S3 reference; provider-specific API compatibility must be tested",
+  "bucket": null,
+  "bucket_region": null,
+  "primary_database_region": null,
+  "public_access_block": {
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+  },
+  "bucket_policy_requirements": [
+    "explicit deny for insecure transport",
+    "no public principals",
+    "approved backup and recovery identities only"
+  ],
+  "versioning": "Enabled",
+  "server_side_encryption": "AES256 or approved KMS; current uploader requests AES256",
+  "client_side_encryption": "AIAGBK01 AES-256-GCM mandatory",
+  "writer_bucket_permissions": [
+    "s3:GetBucketPublicAccessBlock",
+    "s3:GetBucketPolicyStatus",
+    "s3:GetBucketVersioning",
+    "s3:GetBucketLocation"
+  ],
+  "writer_object_permissions": ["s3:PutObject", "s3:GetObject"],
+  "writer_object_scope": "approved-bucket/research-production/* only; GetObject required for HeadObject",
+  "restore_permissions": [
+    "s3:GetObject",
+    "s3:GetObjectVersion",
+    "prefix-constrained s3:ListBucket"
+  ],
+  "writer_must_not_have": ["DeleteObject", "PutBucketPolicy", "PutBucketAcl", "database deletion"],
+  "daily_expiration_days": 30,
+  "monthly_expiration_days": null,
+  "noncurrent_version_expiration_days": null,
+  "retention_approved": false,
+  "monitoring": [
+    "nonzero job outcome",
+    "independent missed-backup heartbeat",
+    "quarterly restoration drill"
+  ],
+  "deployed": false
+}
