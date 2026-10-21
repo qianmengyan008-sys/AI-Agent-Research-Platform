@@ -104,6 +104,27 @@ describe('OpenAI compatible HTTP adapter', () => {
       retryable: false,
     });
   });
+  it.each(['length', 'content_filter', 'tool_calls'])(
+    'rejects incomplete termination %s without returning partial content',
+    async (reason) => {
+      const adapter = new OpenAICompatibleAdapter(
+        config,
+        async () =>
+          new Response(
+            JSON.stringify({
+              choices: [{ finish_reason: reason, message: { content: '这是一条尚未完成的' } }],
+            }),
+          ),
+      );
+      await expect(adapter.generate(prompt())).rejects.toMatchObject({
+        code: reason === 'length' ? 'OUTPUT_TRUNCATED' : 'INVALID_RESPONSE',
+        retryable: reason === 'length',
+      });
+      const result = await adapter.generateWithMetadata(prompt());
+      expect(result.status).toBe('failed');
+      expect(result.text).toBeNull();
+    },
+  );
   it('bounds response body size', async () => {
     const adapter = new OpenAICompatibleAdapter(
       config,
@@ -273,4 +294,34 @@ describe('live runner prerequisite reporting', () => {
       expect(report.missing_variables).toEqual(['MODEL_API_KEY', 'MODEL_NAME']);
     }
   });
+});
+
+it('length exhaustion regenerates within the existing two-attempt token budget and never returns the partial reply', async () => {
+  let attempts = 0;
+  const req = request();
+  const belief = String(req.state.variables.confirmed_viewpoint);
+  const adapter = new OpenAICompatibleAdapter(config, async (_url, options) => {
+    expect(JSON.parse(String(options?.body)).max_tokens).toBe(512);
+    attempts++;
+    return new Response(
+      JSON.stringify({
+        choices: [
+          {
+            finish_reason: attempts === 1 ? 'length' : 'stop',
+            message: {
+              content:
+                attempts === 1
+                  ? '尚未完成的半句话'
+                  : `对于“${belief}”，不同的教育机会可能影响个人处境。`,
+            },
+          },
+        ],
+      }),
+    );
+  });
+  const result = await orchestrate(req, adapter, { maxAttempts: 2 });
+  expect(result.status).toBe('generated');
+  expect(attempts).toBe(2);
+  expect(result.text).not.toContain('半句话');
+  expect(result.text).toContain('个人处境。');
 });

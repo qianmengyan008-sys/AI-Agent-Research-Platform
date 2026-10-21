@@ -1,3 +1,4 @@
+import { advanceChat, stageNotice } from './chat-flow.js';
 import { createContext, validateResponse } from '@research/ai-orchestrator';
 import { transition } from '@research/experiment-core';
 import { inputKind, limits, turnStages, storyStages } from './research-profile.js';
@@ -26,7 +27,8 @@ export class ConversationService {
     private readonly trace: TraceSink = () => {},
   ) {}
   async send(actor: ParticipantIdentity, input: unknown) {
-    const v = object(input, ['text', 'request_id', 'state_token']);
+    const v = object(input, ['text', 'request_id', 'state_token', 'interaction']);
+    if (v.interaction !== undefined && v.interaction !== 'chat') fail(400, 'INVALID_INPUT');
     const content = text(v.text, 4000),
       request = text(v.request_id, 128),
       token = uuid(v.state_token);
@@ -48,13 +50,21 @@ export class ConversationService {
       if (b!.status !== 'open') fail(409, 'EXPERIMENT_FINISHED');
       if (b!.state_token !== token) fail(409, 'STATE_CONFLICT');
       if (await r.states.pending(b!.session_id)) fail(409, 'GENERATION_PENDING');
+      const chat = v.interaction === 'chat';
+      if (chat && !(await r.conversations.chatStarted(b!.session_id)))
+        fail(409, 'CHAT_NOT_STARTED');
       const research = b!.configuration.research_config;
       let fixedReply: string | null = null;
       let kind: ReturnType<typeof inputKind> = 'answer';
       let autoAdvance = false;
       let sceneBridge: string | null = null;
       if (research && b!.snapshot.path !== 'daily') {
-        kind = inputKind(content);
+        kind =
+          chat &&
+          ['STEREOTYPE_CAPTURE', 'PERSONA_SETUP'].includes(b!.snapshot.stage) &&
+          /^(?:可以|方便|好|好的|准备好了|可以开始|嗯可以)[。！!\s]*$/u.test(content)
+            ? 'meta'
+            : inputKind(content);
         if (
           b!.snapshot.path === 'emotional' &&
           kind === 'answer' &&
@@ -126,13 +136,26 @@ export class ConversationService {
           fixedReply =
             '对于“' + String(b!.snapshot.variables.confirmed_viewpoint) + '”，' + fixedReply;
       }
+      if (chat) {
+        sceneBridge = null; // the persisted stage-entry notice already contains the approved bridge
+        if (b!.snapshot.stage === 'PERSONA_SETUP' && kind === 'answer') fixedReply = null;
+        if (b!.snapshot.stage === 'ENDING_FEEDBACK') fixedReply = '谢谢你的反馈。';
+        if (kind === 'meta')
+          fixedReply =
+            b!.snapshot.path === 'emotional'
+              ? (research?.emotional.opening ?? b!.configuration.instructions)
+              : (b!.policies[b!.snapshot.stage]?.fallbackReplies[0]?.replaceAll(
+                  '{{confirmed_belief}}',
+                  String(b!.snapshot.variables.confirmed_viewpoint ?? ''),
+                ) ?? '请在对话中表达你的看法。');
+      }
       const policy = b!.policies[b!.snapshot.stage];
       const promptId = b!.prompt_ids[b!.snapshot.stage];
       if (!policy || !promptId) fail(409, 'MISSING_STAGE_POLICY');
       const context = {
         experiment: b!.experiment_id,
         promptId: promptId!,
-        promptVersion: `stage-language-v3-${hash(policy)}`,
+        promptVersion: `stage-language-v3-${hash(policy)}${chat ? '-complete-sentences-v1' : ''}`,
         model: b!.configuration.model,
         stage: b!.snapshot.stage,
         input_kind: kind,
@@ -161,7 +184,8 @@ export class ConversationService {
         recent,
         context,
         fixedReply,
-        autoAdvance,
+        autoAdvance: chat ? false : autoAdvance,
+        chat,
         kind,
         sceneBridge,
       };
@@ -174,8 +198,18 @@ export class ConversationService {
       });
       return prepared.existing;
     }
-    const { bundle, turn, policy, recent, context, fixedReply, autoAdvance, kind, sceneBridge } =
-      prepared;
+    const {
+      bundle,
+      turn,
+      policy,
+      recent,
+      context,
+      fixedReply,
+      autoAdvance,
+      chat,
+      kind,
+      sceneBridge,
+    } = prepared;
     this.trace({
       step: 'user_message_committed',
       participantId: actor.participantId,
@@ -199,6 +233,7 @@ export class ConversationService {
         },
         context.model,
         { participantId: actor.participantId, sessionId: bundle.session_id, turnId: turn.id },
+        chat,
       );
     } catch {
       error = 'MODEL_GENERATION_FAILED';
@@ -307,6 +342,10 @@ export class ConversationService {
           researchVariables(moved, undefined, current.configuration.research_config),
         );
       }
+      if (status === 'ready' && chat && current && kind === 'answer') {
+        await advanceChat(r, current, turn.id, actor.participantId, content);
+        await stageNotice(r, (await r.states.load(actor.participantId))!);
+      }
       return publicTurn(r, {
         ...turn,
         status: stale && saved?.status !== 'generating' ? (saved?.status ?? 'stale') : status,
@@ -334,6 +373,6 @@ export class ConversationService {
     });
   }
   async messages(actor: ParticipantIdentity) {
-    return this.uow.read((r) => r.conversations.messages(actor.participantId));
+    return this.uow.read((r) => r.conversations.timeline(actor.participantId));
   }
 }

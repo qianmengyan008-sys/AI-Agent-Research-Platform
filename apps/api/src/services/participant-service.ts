@@ -1,3 +1,4 @@
+import { stageNotice, chatProjection, completedCard, advanceChat } from './chat-flow.js';
 import { enforceRating, inputKind, limits, turnStages } from './research-profile.js';
 import type { TraceSink } from './trace.js';
 import { randomBytes } from 'node:crypto';
@@ -127,12 +128,37 @@ export class ParticipantService {
             : {}),
         },
         ...projection(b!),
+        ...((await r.conversations.chatStarted(b!.session_id)) ? chatProjection(b!) : {}),
         ...(pending ? { status: 'generating', pending_turn_id: pending.id } : {}),
       };
     });
   }
+  async start(actor: ParticipantIdentity) {
+    await this.uow.transaction(async (r) => {
+      const b = await r.states.load(actor.participantId, true);
+      if (!b) fail(404, 'NOT_ASSIGNED');
+      if (!(await r.conversations.chatStarted(b!.session_id))) {
+        const history = await r.conversations.messages(actor.participantId);
+        const opening =
+          '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？';
+        await r.conversations.notice(
+          b!.session_id,
+          'opening-v1',
+          history.length ? '继续上次保存的对话。' : opening,
+          1,
+        );
+      }
+      if (b!.status === 'open' && !(await r.states.pending(b!.session_id))) {
+        const answer = await r.conversations.lastAnswer(b!.session_id, b!.snapshot.stage);
+        if (answer) await advanceChat(r, b!, answer.turn_id, actor.participantId, answer.content);
+      }
+      await stageNotice(r, (await r.states.load(actor.participantId))!);
+    });
+    return this.current(actor);
+  }
   async submit(actor: ParticipantIdentity, input: unknown) {
-    const v = object(input, ['state_token', 'request_id', 'data']);
+    const v = object(input, ['state_token', 'request_id', 'data', 'interaction']);
+    if (v.interaction !== undefined && v.interaction !== 'chat') fail(400, 'INVALID_INPUT');
     const token = uuid(v.state_token),
       id = text(v.request_id, 128);
     if (!v.data || typeof v.data !== 'object' || Array.isArray(v.data)) fail(400, 'INVALID_INPUT');
@@ -173,11 +199,21 @@ export class ParticipantService {
         inputKind(data.response) !== 'answer'
       )
         fail(400, 'NON_STORY_INPUT');
+      const chat = v.interaction === 'chat' && (await r.conversations.chatStarted(b!.session_id));
+      if (v.interaction === 'chat' && !chat) fail(409, 'CHAT_NOT_STARTED');
+      if (
+        chat &&
+        b!.snapshot.stage === 'VIEWPOINT_CONFIRMATION' &&
+        data.viewpoint !== b!.snapshot.variables.stereotype_text
+      )
+        fail(400, 'INVALID_SUBMISSION');
       enforceRating(b!, data);
       if (b!.configuration.research_config && b!.snapshot.path !== 'daily') {
         const count = await r.conversations.turnCounts(b!.session_id, turnStages(b!));
         const minimum = limits(b!).min;
-        if (count.effective < minimum) fail(409, 'MINIMUM_TURNS_REQUIRED');
+        const cardTurn =
+          chat && ['INITIAL_RATING', 'SECOND_RATING'].includes(b!.snapshot.stage) ? 1 : 0;
+        if (count.effective + cardTurn < minimum) fail(409, 'MINIMUM_TURNS_REQUIRED');
         if (
           b!.snapshot.path === 'emotional' &&
           b!.snapshot.stage !== 'RELATIONSHIP' &&
@@ -215,8 +251,10 @@ export class ParticipantService {
         'participant',
         researchVariables(result, source, b!.configuration.research_config),
       );
+      if (chat) await completedCard(r, b!, id, submitted);
       const updated = await r.states.load(actor.participantId);
-      const response = projection(updated!);
+      if (chat) await stageNotice(r, updated!);
+      const response = { ...projection(updated!), ...(chat ? chatProjection(updated!) : {}) };
       await r.states.storeReceipt(b!.session_id, id, checksum, response);
       return response;
     });

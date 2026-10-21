@@ -89,6 +89,18 @@ export function businessRoutes(
   router.get('/admin/conversations', async (req, res) => {
     res.json(await services.admin.conversations(actor, String(req.query.experiment_id ?? '')));
   });
+  router.get('/admin/history', async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json(
+      await services.admin.history(
+        actor,
+        String(req.query.experiment_id ?? ''),
+        String(req.query.participant_id ?? ''),
+        req.query.session_id ? String(req.query.session_id) : undefined,
+        req.query.path ? String(req.query.path) : undefined,
+      ),
+    );
+  });
   router.get('/admin/export', async (req, res) => {
     res.json(await services.admin.export(actor, String(req.query.experiment_id ?? '')));
   });
@@ -97,6 +109,7 @@ export function businessRoutes(
       ![
         '/auth/logout',
         '/experiment/current',
+        '/conversation/start',
         '/experiment/state',
         '/experiment/submissions',
         '/conversation/message',
@@ -125,6 +138,9 @@ export function businessRoutes(
   });
   router.post('/experiment/submissions', async (req, res) => {
     res.json(await services.participants.submit(participant(req), req.body));
+  });
+  router.post('/conversation/start', async (req, res) => {
+    res.json(await services.participants.start(participant(req)));
   });
   router.post('/conversation/message', async (req, res) => {
     res.json(await services.conversations.send(participant(req), req.body));

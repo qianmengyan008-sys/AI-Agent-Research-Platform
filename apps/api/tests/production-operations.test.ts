@@ -198,6 +198,11 @@ test('encrypted PostgreSQL dump restores exact experiment records, valid exports
           password: a.password,
         })
         .expect(200);
+      await request(original.app)
+        .post('/api/conversation/start')
+        .auth(login.body.token, { type: 'bearer' })
+        .send({})
+        .expect(200);
       const state = await request(original.app)
         .get('/api/experiment/current')
         .auth(login.body.token, { type: 'bearer' })
@@ -324,6 +329,7 @@ test('encrypted PostgreSQL dump restores exact experiment records, valid exports
     const after = await restored.services.admin.export(actor, restored.seed.experiment_id);
     const snapshot = (x: typeof before) =>
       JSON.stringify({
+        notices: x.notices,
         states: x.states,
         messages: x.messages,
         variables: x.variables,
@@ -331,6 +337,7 @@ test('encrypted PostgreSQL dump restores exact experiment records, valid exports
         turns: x.turns,
         transitions: x.transitions,
       });
+    expect(before.notices.length).toBeGreaterThanOrEqual(6);
     expect(snapshot(after)).toBe(snapshot(before));
     expect(after.complete).toBe(true);
     expect(after.data_quality.passed).toBe(true);
@@ -350,7 +357,10 @@ test('encrypted PostgreSQL dump restores exact experiment records, valid exports
       .auth(login.body.token, { type: 'bearer' })
       .expect(200);
     expect(JSON.stringify(history.body)).not.toContain(b.participant_id);
-    expect(history.body).toHaveLength(2);
+    expect(history.body).toHaveLength(4); // 2 durable messages plus greeting and approved task notice
+    expect(history.body[0].text).toBe(
+      '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？',
+    );
     await request(restored.app)
       .get('/api/admin/export?experiment_id=' + restored.seed.experiment_id)
       .auth(login.body.token, { type: 'bearer' })

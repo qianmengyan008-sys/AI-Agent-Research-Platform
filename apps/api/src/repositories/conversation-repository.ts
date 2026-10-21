@@ -23,6 +23,62 @@ export interface Turn {
 }
 export class ConversationRepository {
   constructor(private readonly db: PoolClient) {}
+  async notice(session: string, key: string, content: string, order: number, record?: unknown) {
+    await this.db.query(
+      `INSERT INTO research.chat_notice(session_id,notice_key,after_sequence,notice_order,content,card_record)
+       VALUES($1,$2,(SELECT COALESCE(MAX(sequence),0) FROM research.message WHERE session_id=$1),$3,$4,$5)
+       ON CONFLICT(session_id,notice_key) DO NOTHING`,
+      [session, key, order, content, record ? JSON.stringify(record) : null],
+    );
+  }
+  async chatStarted(session: string) {
+    return (
+      (
+        await this.db.query(
+          "SELECT 1 FROM research.chat_notice WHERE session_id=$1 AND notice_key='opening-v1'",
+          [session],
+        )
+      ).rowCount !== 0
+    );
+  }
+  async lastAnswer(session: string, stage: string) {
+    return (
+      await this.db.query<{ turn_id: string; content: string }>(
+        `SELECT m.turn_id,m.content FROM research.message m
+      JOIN research.conversation_turn t ON t.id=m.turn_id WHERE m.session_id=$1 AND m.role='user'
+      AND t.status='ready' AND t.generation_context->>'stage'=$2
+      AND COALESCE(t.generation_context->>'input_kind','answer')='answer' ORDER BY m.sequence DESC LIMIT 1`,
+        [session, stage],
+      )
+    ).rows[0];
+  }
+  async stageAnswers(session: string, stage: string) {
+    return (
+      await this.db.query<{ content: string }>(
+        `SELECT m.content FROM research.message m
+      JOIN research.conversation_turn t ON t.id=m.turn_id WHERE m.session_id=$1 AND m.role='user'
+      AND t.status='ready' AND t.generation_context->>'stage'=$2
+      AND COALESCE(t.generation_context->>'input_kind','answer')='answer' ORDER BY m.sequence`,
+        [session, stage],
+      )
+    ).rows.map((r) => r.content);
+  }
+  async timeline(participant: string) {
+    return (
+      await this.db.query(
+        `SELECT * FROM (
+      SELECT m.id,m.role,m.content AS text,m.created_at,m.sequence AS anchor,0 AS ordering,NULL::jsonb AS card_record,m.turn_id
+      FROM research.message m JOIN research.experiment_session s ON s.id=m.session_id
+      JOIN research.experiment_assignment a ON a.id=s.assignment_id WHERE a.participant_id=$1 AND m.status='ready'
+      UNION ALL
+      SELECT n.id,'assistant' AS role,n.content AS text,n.created_at,n.after_sequence AS anchor,n.notice_order AS ordering,n.card_record,NULL::uuid AS turn_id
+      FROM research.chat_notice n JOIN research.experiment_session s ON s.id=n.session_id
+      JOIN research.experiment_assignment a ON a.id=s.assignment_id WHERE a.participant_id=$1
+    ) items ORDER BY anchor,ordering,created_at,id`,
+        [participant],
+      )
+    ).rows;
+  }
   async find(session: string, request: string) {
     return (
       await this.db.query<Turn>(
@@ -204,6 +260,62 @@ export class ConversationRepository {
       ],
     );
   }
+  async history(experiment: string, participant: string, session?: string, path?: string) {
+    const sessions = (
+      await this.db.query(
+        `SELECT s.id AS session_id,c.id AS conversation_id,p.participant_code,
+      p.id AS participant_id,sm.path_type,s.status,s.created_at AS started_at,
+      (SELECT max(st.created_at) FROM research.state_transition st WHERE st.session_id=s.id AND st.current_state='COMPLETED') AS ended_at,
+      s.withdrawn_reason
+      FROM research.experiment_session s JOIN research.experiment_assignment a ON a.id=s.assignment_id
+      JOIN research.participant p ON p.id=a.participant_id JOIN research.condition co ON co.id=a.condition_id
+      JOIN research.state_machine_version sm ON sm.id=co.state_machine_version_id
+      JOIN research.conversation c ON c.session_id=s.id
+      WHERE s.experiment_id=$1 AND p.id=$2 AND ($3::uuid IS NULL OR s.id=$3)
+      AND ($4::text IS NULL OR sm.path_type=$4) ORDER BY s.created_at,s.id`,
+        [experiment, participant, session ?? null, path ?? null],
+      )
+    ).rows;
+    const ids = sessions.map((s) => s.session_id);
+    const messages = (
+      await this.db.query(
+        `SELECT id,session_id,turn_id,sequence,role,content,status,created_at
+      FROM research.message WHERE session_id=ANY($1::uuid[]) ORDER BY session_id,sequence`,
+        [ids],
+      )
+    ).rows;
+    const notices = (
+      await this.db.query(
+        `SELECT * FROM research.chat_notice WHERE session_id=ANY($1::uuid[]) ORDER BY session_id,after_sequence,notice_order,created_at,id`,
+        [ids],
+      )
+    ).rows;
+    const events = (
+      await this.db.query(
+        `SELECT id,session_id,event,previous_state,current_state,from_version,to_version,
+      actor_type,actor_id,validated_payload,created_at FROM research.state_transition
+      WHERE session_id=ANY($1::uuid[]) ORDER BY session_id,to_version`,
+        [ids],
+      )
+    ).rows;
+    const interruptions = (
+      await this.db.query(
+        `SELECT id AS turn_id,session_id,status,created_at,lease_until
+      FROM research.conversation_turn WHERE session_id=ANY($1::uuid[]) AND status IN ('failed','stale','cancelled','generating','pending')
+      ORDER BY session_id,chat_revision`,
+        [ids],
+      )
+    ).rows;
+    return {
+      sessions,
+      messages,
+      notices,
+      events,
+      interruptions,
+      complete: true,
+      note: 'open means not completed; absence or browser closure alone is not evidence of an abnormal interruption',
+    };
+  }
   async adminMessages(experiment: string) {
     return (
       await this.db.query(
@@ -355,7 +467,14 @@ export class ConversationRepository {
         [experiment],
       )
     ).rows;
+    const notices = (
+      await this.db.query(
+        `SELECT n.* FROM research.chat_notice n JOIN research.experiment_session s ON s.id=n.session_id WHERE s.experiment_id=$1 ORDER BY n.session_id,n.after_sequence,n.notice_order,n.created_at,n.id ${complete ? '' : 'LIMIT 1000'}`,
+        [experiment],
+      )
+    ).rows;
     return {
+      notices,
       participants,
       assignments,
       states,

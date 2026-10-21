@@ -8,6 +8,7 @@ export type ProviderErrorCode =
   | 'PROVIDER_UNAVAILABLE'
   | 'INVALID_REQUEST'
   | 'INVALID_RESPONSE'
+  | 'OUTPUT_TRUNCATED'
   | 'NETWORK_ERROR';
 export class ModelAdapterError extends GenerationFailureError {
   constructor(
@@ -207,6 +208,10 @@ export class OpenAICompatibleAdapter implements LanguageGenerator {
             !('choices' in payload) ||
             !Array.isArray(payload.choices)
           )
+            throw new ModelAdapterError('INVALID_RESPONSE', false);
+          if (payload.choices[0]?.finish_reason === 'length')
+            throw new ModelAdapterError('OUTPUT_TRUNCATED', true);
+          if (payload.choices[0]?.finish_reason && payload.choices[0]?.finish_reason !== 'stop')
             throw new ModelAdapterError('INVALID_RESPONSE', false);
           const message: unknown = payload.choices[0]?.message;
           if (

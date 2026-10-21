@@ -1,5 +1,5 @@
 import { UnitOfWork } from '../repositories/context.js';
-import { admin, uuid } from './common.js';
+import { admin, uuid, fail } from './common.js';
 import type { AdminIdentity } from './common.js';
 export class AdminService {
   constructor(private readonly uow: UnitOfWork) {}
@@ -16,6 +16,23 @@ export class AdminService {
     admin(actor);
     uuid(experiment);
     return this.uow.read((r) => r.conversations.adminMessages(experiment));
+  }
+  async history(
+    actor: AdminIdentity,
+    experiment: string,
+    participant: string,
+    session?: string,
+    path?: string,
+  ) {
+    admin(actor);
+    uuid(experiment);
+    uuid(participant);
+    if (session) uuid(session);
+    if (path && !['cognitive', 'emotional', 'daily'].includes(path)) fail(400, 'INVALID_INPUT');
+    return this.uow.transaction(
+      (r) => r.conversations.history(experiment, participant, session, path),
+      true,
+    );
   }
   async export(actor: AdminIdentity, experiment: string) {
     admin(actor);
@@ -71,6 +88,7 @@ export class AdminService {
           timestamp: { assigned_at: assignment.created_at, exported_at: generatedAt },
           current_state: state ?? null,
           state_transition: session ? data.transitions.filter((t) => t.session_id === session) : [],
+          chat_notices: session ? data.notices.filter((n) => n.session_id === session) : [],
           conversation_history: session
             ? data.messages.filter((m) => m.session_id === session)
             : [],

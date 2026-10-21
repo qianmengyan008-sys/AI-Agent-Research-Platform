@@ -1,5 +1,4 @@
 import { UnitOfWork } from '../../api/src/repositories/context.js';
-import { limits, turnStages } from '../../api/src/services/research-profile.js';
 import { execFileSync } from 'node:child_process';
 import { randomUUID, createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -120,8 +119,8 @@ test.beforeAll(async () => {
         .join('\n')
         .match(/唯一确认观点：(.*)/u)?.[1];
       return belief
-        ? `你提到“${JSON.parse(belief)}”。你愿意聊聊相关经历吗？`
-        : '谢谢分享，你愿意继续聊聊吗？';
+        ? `你提到“${JSON.parse(belief)}”。我们可以结合实际经历理解。合成回复${calls}。`
+        : `谢谢分享，我们可以继续交流。合成回复${calls}。`;
     }),
     settings,
     (entry) => traces.push(entry),
@@ -200,6 +199,7 @@ async function login(page: Page, s: Awaited<ReturnType<typeof account>>) {
   await page.getByRole('button', { name: '登录实验', exact: true }).click();
   await expect(page.getByRole('heading', { name: '实验说明', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '开始／继续对话', exact: true }).click();
+  await expect(page.getByRole('heading', { name: /^与 .* 对话$/ })).toBeVisible();
 }
 async function screenshot(page: Page, name: string) {
   if (artifacts) await page.screenshot({ path: join(artifacts, `${name}.png`), fullPage: true });
@@ -221,124 +221,10 @@ async function saveRecords(s: Awaited<ReturnType<typeof account>>, name: string)
     );
 }
 
-test('participant browser login, chat and explicit source submission persist through page reload', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  await page.getByLabel('发送消息', { exact: true }).fill('浏览器参与者输入');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  const before = await services.admin.export(actor, s.experimentId);
-  expect(before.states[0].core_version).toBe(1);
-  expect(before.transitions).toHaveLength(1);
-  expect(before.variables).toHaveLength(0);
-  await page.getByLabel('确认内容', { exact: true }).fill('浏览器明确提交的表达');
-  await page
-    .getByLabel('你是从哪里了解到的？（选填）', { exact: true })
-    .fill('浏览器明确填写的来源');
-  await screenshot(page, 'participant-chat');
-  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  await page.reload();
-  await login(page, s);
-  await expect(page.getByRole('log')).toContainText('浏览器参与者输入');
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  const data = await services.admin.export(actor, s.experimentId);
-  expect(data.states[0].core_version).toBe(2);
-  expect(data.variables.find((v) => v.key === 'source').value).toBe('浏览器明确填写的来源');
-  await saveRecords(s, 'browser-participant-records');
-  if (artifacts)
-    await writeFile(
-      join(artifacts, 'browser-business-trace.json'),
-      JSON.stringify({ synthetic: true, traces }, null, 2) + '\n',
-    );
-});
-
-test('browser completes the cognitive path with explicit submissions and persistent research variables', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  for (let n = 0; n < 9; n++) {
-    await page.getByLabel('发送消息', { exact: true }).fill(`认知路径合成消息 ${n}`);
-    const chat = page.waitForResponse(
-      (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
-    );
-    await page.getByRole('button', { name: '发送', exact: true }).click();
-    expect((await chat).status()).toBe(200);
-    await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
-    if (n === 1) {
-      await page.getByLabel('确认后的观点', { exact: true }).fill('我不赞同这种概括');
-      await page.getByLabel('我确认上述观点', { exact: true }).check();
-    } else if (n === 2 || n === 7)
-      await page.getByLabel('当前评分', { exact: true }).fill(n === 2 ? '6' : '4');
-    else {
-      await page.getByLabel('确认内容', { exact: true }).fill(`明确填写 ${n}`);
-      if (n === 0)
-        await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('合成来源');
-    }
-    const post = page.waitForResponse(
-      (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
-    );
-    await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-    expect((await post).status()).toBe(200);
-    if (n < 8) await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
-  }
-  await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
-  const data = await services.admin.export(actor, s.experimentId);
-  for (const key of [
-    'raw_expression',
-    'confirmed_belief',
-    'source',
-    'rating_1',
-    'rating_2',
-    'action_intention',
-  ])
-    expect(data.variables.some((v) => v.key === key)).toBe(true);
-  expect(data.transitions).toHaveLength(10);
-  expect(data.messages).toHaveLength(18);
-  expect(data.runs).toHaveLength(9);
-  expect(calls).toBe(9);
-  await saveRecords(s, 'browser-cognitive-complete');
-});
-
-test('browser completes the emotion path while persisting all four research variable names', async ({
-  page,
-}) => {
-  const s = await account('emotion_v1');
-  await login(page, s);
-  for (let n = 0; n < 7; n++) {
-    await page.getByLabel('发送消息', { exact: true }).fill(`情感路径合成消息 ${n}`);
-    const chat = page.waitForResponse(
-      (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
-    );
-    await page.getByRole('button', { name: '发送', exact: true }).click();
-    expect((await chat).status()).toBe(200);
-    await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
-    await page.getByLabel('确认内容', { exact: true }).fill(`情感阶段明确填写 ${n}`);
-    const post = page.waitForResponse(
-      (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
-    );
-    await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-    expect((await post).status()).toBe(200);
-    if (n < 6) await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
-  }
-  await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
-  const data = await services.admin.export(actor, s.experimentId);
-  for (const key of ['character_profile', 'scene_state', 'scene_phase', 'relationship_state'])
-    expect(data.variables.some((v) => v.key === key)).toBe(true);
-  expect(data.transitions).toHaveLength(8);
-  expect(data.messages).toHaveLength(14);
-  expect(data.runs).toHaveLength(7);
-  expect(calls).toBe(7);
-  await saveRecords(s, 'browser-emotion-complete');
-});
-
 test('lost message response is replayed with the same key without another generation', async ({
   page,
 }) => {
-  const s = await account();
+  const s = await account('daily_v1');
   await login(page, s);
   let dropped = false;
   await page.route('**/api/conversation/message', async (route) => {
@@ -359,88 +245,10 @@ test('lost message response is replayed with the same key without another genera
   expect(data.transitions).toHaveLength(1);
 });
 
-test('lost submission response is replayed once and does not create a second transition', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  let dropped = false;
-  await page.route('**/api/experiment/submissions', async (route) => {
-    const response = await route.fetch();
-    if (!dropped) {
-      dropped = true;
-      await route.abort('failed');
-    } else await route.fulfill({ response });
-  });
-  await page.getByLabel('确认内容', { exact: true }).fill('网络明确提交');
-  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('网络连接中断');
-  await page.getByRole('button', { name: '重试同一提交', exact: true }).click();
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  expect((await services.admin.export(actor, s.experimentId)).transitions).toHaveLength(2);
-});
-
-test('loading prevents explicit submission during generation and failure leaves the state unchanged', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  releaseModel = () => {};
-  await page.getByLabel('确认内容', { exact: true }).fill('生成中禁止提交');
-  await page.getByLabel('发送消息', { exact: true }).fill('等待回复');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(
-    page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }),
-  ).toBeDisabled();
-  for (let n = 0; n < 100 && calls === 0; n++) await new Promise((r) => setTimeout(r, 10));
-  releaseModel!();
-  releaseModel = undefined;
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  failModel = true;
-  await page.getByLabel('发送消息', { exact: true }).fill('失败输入');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(
-    page.getByText('回复未能生成，请重新发送或联系研究人员。', { exact: true }),
-  ).toBeVisible();
-  expect((await services.admin.export(actor, s.experimentId)).transitions).toHaveLength(1);
-  failModel = false;
-});
-
-test('read-only administrator views state and conversation and downloads authorized bounded JSON', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  await page.getByLabel('发送消息', { exact: true }).fill('管理员可查看的合成对话');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
-  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
-  await page.getByRole('button', { name: '进入后台', exact: true }).click();
-  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
-  await expect(page.getByRole('cell', { name: s.code, exact: true })).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'STEREOTYPE_CAPTURE', exact: true })).toBeVisible();
-  await expect(page.getByLabel('管理员对话记录', { exact: true })).toContainText('管理员可查看');
-  expect(await page.getByRole('button', { name: /修改|干预/ }).count()).toBe(0);
-  await screenshot(page, 'admin-read-only');
-  const download = page.waitForEvent('download');
-  await page.getByRole('button', { name: '下载完整 JSON', exact: true }).click();
-  const file = await download;
-  expect(await file.failure()).toBeNull();
-  const path = await file.path();
-  if (!path) throw new Error('No download');
-  const { readFile } = await import('node:fs/promises');
-  const body = JSON.parse(await readFile(path, 'utf8'));
-  expect(body.complete).toBe(true);
-  expect(body.assignments[0].participant_id).toBe(s.participantId);
-  expect(JSON.stringify(body)).not.toMatch(/password_hash|token_hash|SYNTHETIC_BROWSER_PASSWORD/);
-  await saveRecords(s, 'browser-admin-export');
-});
-
 test('login errors are readable and a participant credential cannot open the administrator UI', async ({
   page,
 }) => {
-  const s = await account();
+  const s = await account('daily_v1');
   await page.goto(base);
   await screenshot(page, 'participant-login');
   await page.getByLabel('实验编号', { exact: true }).fill(s.experimentId);
@@ -460,84 +268,10 @@ test('login errors are readable and a participant credential cannot open the adm
   expect(await page.getByLabel('选择实验', { exact: true }).count()).toBe(0);
 });
 
-test('administrator explicitly opens read-only development data while participant views remain private', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  await page.getByLabel('发送消息', { exact: true }).fill('开发模式合成消息');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  await page.getByLabel('确认内容', { exact: true }).fill('开发模式明确表达');
-  await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('开发模式明确来源');
-  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
-  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
-  await page.getByRole('button', { name: '进入后台', exact: true }).click();
-  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
-  await expect(page.getByLabel('开发模式（仅管理员）', { exact: true })).not.toBeChecked();
-  expect(await page.getByLabel('管理员开发数据', { exact: true }).count()).toBe(0);
-  await page.getByLabel('开发模式（仅管理员）', { exact: true }).check();
-  await expect(page.getByLabel('管理员开发数据', { exact: true })).toContainText(
-    'STEREOTYPE_SUBMITTED',
-  );
-  await expect(page.getByLabel('管理员开发数据', { exact: true })).toContainText('model_name');
-  await expect(page.getByLabel('管理员开发数据', { exact: true })).toContainText(
-    '开发模式明确来源',
-  );
-  await screenshot(page, 'admin-development');
-  await page.getByRole('button', { name: '参与者入口', exact: true }).click();
-  await login(page, s);
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  expect(await page.getByLabel('管理员开发数据', { exact: true }).count()).toBe(0);
-  expect(await page.locator('body').innerText()).not.toMatch(
-    /VIEWPOINT_CONFIRMATION|STEREOTYPE_SUBMITTED|validator|prompt_version|model_name/,
-  );
-  await saveRecords(s, 'browser-development-records');
-});
-
-test('a definitive stale-state rejection releases message retry and refresh resumes the database state', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  const auth = await services.participants.login({
-    experiment_id: s.experimentId,
-    participant_code: s.code,
-    password,
-  });
-  const identity = await services.participants.authenticate(auth.token);
-  const state = await services.participants.current(identity);
-  await services.participants.submit(identity, {
-    request_id: 'other-tab-submit',
-    state_token: state.state_token,
-    data: { response: '另一标签页明确提交', source: '已保存来源' },
-  });
-  await page.getByLabel('发送消息', { exact: true }).fill('旧状态消息');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('冲突');
-  expect(await page.getByRole('button', { name: '重试同一消息', exact: true }).count()).toBe(0);
-  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  await page.getByLabel('发送消息', { exact: true }).fill('刷新后新消息');
-  const delivered = page.waitForResponse(
-    (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
-  );
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  expect((await delivered).status()).toBe(200);
-  await expect(page.locator('.pending-message')).toHaveCount(0);
-  await expect(page.getByRole('log')).toContainText('刷新后新消息');
-  const data = await services.admin.export(actor, s.experimentId);
-  expect(data.states[0].core_version).toBe(2);
-  expect(data.messages).toHaveLength(2);
-  expect(data.variables.find((v) => v.key === 'source').value).toBe('已保存来源');
-});
-
 test('rapid duplicate clicks create one user and one assistant message in sequence', async ({
   page,
 }) => {
-  const s = await account();
+  const s = await account('daily_v1');
   await login(page, s);
   releaseModel = () => {};
   await page.getByLabel('发送消息', { exact: true }).fill('双击消息');
@@ -554,112 +288,10 @@ test('rapid duplicate clicks create one user and one assistant message in sequen
   expect(data.transitions).toHaveLength(1);
 });
 
-test('model failure and browser reload preserve advanced state and previously saved source', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  await page.getByLabel('确认内容', { exact: true }).fill('恢复用明确表达');
-  await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('恢复用来源');
-  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  failModel = true;
-  await page.getByLabel('发送消息', { exact: true }).fill('恢复用失败消息');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(
-    page.getByText('回复未能生成，请重新发送或联系研究人员。', { exact: true }),
-  ).toBeVisible();
-  await page.reload();
-  await login(page, s);
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  await expect(page.getByRole('log')).toContainText('恢复用失败消息');
-  failModel = false;
-  await page.getByLabel('发送消息', { exact: true }).fill('恢复后消息');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  const data = await services.admin.export(actor, s.experimentId);
-  expect(data.states[0].core_version).toBe(2);
-  expect(data.variables.find((v) => v.key === 'source').value).toBe('恢复用来源');
-  expect(data.transitions).toHaveLength(2);
-  await saveRecords(s, 'browser-recovery-records');
-});
-
-test('administrator inspects experiment version, failed turn, latency, validator and data quality without changing research state', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  failModel = true;
-  await page.getByLabel('发送消息', { exact: true }).fill('异常记录测试');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(
-    page.getByText('回复未能生成，请重新发送或联系研究人员。', { exact: true }),
-  ).toBeVisible();
-  failModel = false;
-  await page.getByLabel('发送消息', { exact: true }).fill('异常后恢复对话');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  const before = await services.admin.export(actor, s.experimentId);
-  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
-  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
-  await page.getByRole('button', { name: '进入后台', exact: true }).click();
-  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
-  await expect(
-    page.getByLabel('选择实验', { exact: true }).locator('option:checked'),
-  ).toContainText('v1');
-  await expect(page.getByLabel('管理员对话记录', { exact: true })).toContainText('failed');
-  await page.getByLabel('开发模式（仅管理员）', { exact: true }).check();
-  const debug = page.getByLabel('管理员开发数据', { exact: true });
-  await expect(debug).toContainText('response_latency');
-  await expect(debug).toContainText('validator_result');
-  await expect(debug).toContainText('MODEL_GENERATION_FAILED');
-  await expect(debug).toContainText('"passed": true');
-  await expect(debug.getByRole('heading', { name: '异常记录', exact: true })).toBeVisible();
-  const after = await services.admin.export(actor, s.experimentId);
-  expect(after.states).toEqual(before.states);
-  expect(after.variables).toEqual(before.variables);
-  expect(after.messages).toEqual(before.messages);
-  await screenshot(page, 'admin-stability');
-  await saveRecords(s, 'browser-admin-stability-records');
-});
-
-test('three page refreshes and new logins retain assignment, source, ordered messages and one explicit transition', async ({
-  page,
-}) => {
-  const s = await account();
-  await login(page, s);
-  await page.getByLabel('发送消息', { exact: true }).fill('多次刷新前消息');
-  await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('log')).toContainText('谢谢分享');
-  await page.getByLabel('确认内容', { exact: true }).fill('多次刷新明确表达');
-  await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('多次刷新固定来源');
-  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-  await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-  const before = await services.admin.export(actor, s.experimentId);
-  for (let n = 0; n < 3; n++) {
-    await page.reload();
-    await login(page, s);
-    await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
-    await expect(page.getByRole('log')).toContainText('多次刷新前消息');
-    const after = await services.admin.export(actor, s.experimentId);
-    expect(after.states).toEqual(before.states);
-    expect(after.assignments).toEqual(before.assignments);
-    expect(after.variables).toEqual(before.variables);
-    expect(after.transitions).toEqual(before.transitions);
-    expect(after.messages).toEqual(before.messages);
-    expect(after.data_quality.passed).toBe(true);
-  }
-  expect(await page.locator('body').innerText()).not.toMatch(
-    /VIEWPOINT_CONFIRMATION|STEREOTYPE_SUBMITTED|validator|prompt_version|model_name/,
-  );
-  await screenshot(page, 'participant-refresh-recovery');
-  await saveRecords(s, 'browser-multiple-refresh-records');
-});
-
 test('Pilot Mode is administrator-only, opt-in and read-only, with no participant diagnostics after switching back', async ({
   page,
 }) => {
-  const s = await account();
+  const s = await account('daily_v1');
   await login(page, s);
   await page.getByLabel('发送消息', { exact: true }).fill('内部试运行合成消息');
   await page.getByRole('button', { name: '发送', exact: true }).click();
@@ -762,95 +394,6 @@ test('pending generation polling has a recovery deadline and can refresh durable
   expect(data.transitions).toHaveLength(1);
 });
 
-test('mentor profile presents the same bounded rating card twice with an immutable belief', async ({
-  page,
-}) => {
-  const s = await account('cognitive_v1', true);
-  const auth = await services.participants.login({
-    experiment_id: s.experimentId,
-    participant_code: s.code,
-    password,
-  });
-  const actor = await services.participants.authenticate(auth.token);
-  const send = async (text: string) => {
-    const current = await services.participants.current(actor);
-    await services.conversations.send(actor, {
-      state_token: current.state_token,
-      request_id: randomUUID(),
-      text,
-    });
-  };
-  const submit = async (data: Record<string, string | number | boolean>) => {
-    const current = await services.participants.current(actor);
-    await services.participants.submit(actor, {
-      state_token: current.state_token,
-      request_id: randomUUID(),
-      data,
-    });
-  };
-  await send('媒体总说他们犯罪率高');
-  await submit({ response: '媒体总说他们犯罪率高', source: '媒体' });
-  await send('我确认这个印象');
-  await submit({ viewpoint: '媒体总说他们犯罪率高', confirmed: true });
-  await login(page, s);
-  await expect(page.getByRole('group', { name: '观点评分卡', exact: true })).toContainText(
-    '媒体总说他们犯罪率高',
-  );
-  await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('min', '0');
-  await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('max', '100');
-  await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('step', '1');
-  await page.getByLabel('当前评分', { exact: true }).fill('1.5');
-  await expect(
-    page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }),
-  ).toBeDisabled();
-  await send('准备评分');
-  await submit({ rating: 0 });
-  for (let i = 0; i < 4; i++) {
-    await send('我开始考虑其他因素');
-    await send('不同个体不应被一概而论');
-    await submit({ response: '当前阶段回答' });
-  }
-  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
-  await expect(page.getByRole('group', { name: '观点评分卡', exact: true })).toContainText(
-    '媒体总说他们犯罪率高',
-  );
-  await expect(page.getByRole('group', { name: '观点评分卡', exact: true })).toContainText(
-    '完全不相信该观点',
-  );
-  await screenshot(page, 'mentor-unified-rating-card');
-});
-
-for (const paragraphs of ['A\nB\nC', 'A\n\nB\nC\n\nD'])
-  test(`assistant bubbles survive reload without content loss: ${JSON.stringify(paragraphs)}`, async ({
-    page,
-  }) => {
-    const s = await account('daily_v1');
-    bubbleReply = paragraphs;
-    await login(page, s);
-    const response = page.waitForResponse(
-      (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
-    );
-    await page.getByLabel('发送消息', { exact: true }).fill('检查多段阅读体验');
-    await page.getByRole('button', { name: '发送', exact: true }).click();
-    expect((await response).status()).toBe(200);
-    await expect(page.locator('.message.assistant .bubble')).toHaveCount(3);
-    const expected = paragraphs.includes('D') ? ['A', 'B', 'C\nD'] : ['A', 'B', 'C'];
-    expect(await page.locator('.message.assistant .bubble').allTextContents()).toEqual(expected);
-    const userBox = await page.locator('.message.user .bubble').boundingBox(),
-      aiBox = await page.locator('.message.assistant .bubble').first().boundingBox();
-    expect(userBox!.x).toBeGreaterThan(aiBox!.x);
-    await screenshot(
-      page,
-      paragraphs.includes('D') ? 'four-paragraphs-three-bubbles' : 'three-paragraphs-three-bubbles',
-    );
-    await page.reload();
-    await login(page, s);
-    expect(await page.locator('.message.assistant .bubble').allTextContents()).toEqual(expected);
-    await expect(page.getByText('当前填写', { exact: true })).toHaveCount(0);
-    await page.getByRole('button', { name: '结束本次对话', exact: true }).click();
-    await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
-  });
-
 test('optimistic user bubble appears immediately while generation waits and becomes one durable message', async ({
   page,
 }) => {
@@ -868,105 +411,6 @@ test('optimistic user bubble appears immediately while generation waits and beco
   await expect(page.locator('.message.user')).toHaveCount(1);
   await expect(page.getByLabel('发送消息', { exact: true })).toHaveValue('');
 });
-
-for (const path of ['cognitive_v1', 'emotion_v1'])
-  test(`complete frozen mentor path through chat cards: ${path}`, async ({ page }) => {
-    test.setTimeout(90000);
-    const s = await account(path, true);
-    variedStoryReplies = path === 'emotion_v1';
-    await login(page, s);
-    const uow = new UnitOfWork(pool);
-    let iterations = 0;
-    while (iterations++ < 15) {
-      let bundle = await uow.read((r) => r.states.load(s.participantId));
-      if (bundle!.status === 'completed') break;
-      const stage = bundle!.snapshot.stage;
-      const count = await uow.read((r) =>
-        r.conversations.turnCounts(bundle!.session_id, turnStages(bundle!)),
-      );
-      const local = await uow.read((r) => r.conversations.turnCounts(bundle!.session_id, [stage]));
-      const needed = Math.max(limits(bundle!).min - count.effective, local.effective === 0 ? 1 : 0);
-      for (let i = 0; i < needed; i++) {
-        const input =
-          path === 'cognitive_v1'
-            ? `媒体让我觉得美国黑人犯罪率高，我想了解个体和环境差异。合成补充${iterations}-${i}`
-            : `Marcus喜欢音乐，李阳慢热，他们继续交流眼前的经历和感受。合成补充${iterations}-${i}`;
-        const completed = page.waitForResponse(
-          (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
-        );
-        await page.getByLabel('发送消息', { exact: true }).fill(input);
-        await page.getByRole('button', { name: '发送', exact: true }).click();
-        expect((await completed).status()).toBe(200);
-        await expect(page.locator('.pending-message')).toHaveCount(0);
-      }
-      bundle = await uow.read((r) => r.states.load(s.participantId));
-      if (bundle!.snapshot.stage !== stage) {
-        await page.getByRole('button', { name: '刷新实验', exact: true }).click();
-        continue;
-      }
-      await expect(page.getByText('当前填写', { exact: true })).toHaveCount(0);
-      await expect(page.locator('.agent-avatar')).toHaveCount(0);
-      await expect(page.locator('.agent-identity')).toHaveCount(0);
-      const fields = bundle!.definition.stages.find((x) => x.id === stage)!.fields;
-      for (const f of fields) {
-        if (f.type === 'number')
-          await page
-            .getByLabel('当前评分', { exact: true })
-            .fill(stage === 'SECOND_RATING' ? '35' : '70');
-        else if (f.type === 'confirmation')
-          await page.getByLabel('我确认上述观点', { exact: true }).check();
-        else
-          await page
-            .getByLabel(f.field === 'viewpoint' ? '确认后的观点' : '确认内容', { exact: true })
-            .fill(
-              path === 'cognitive_v1'
-                ? '媒体让我觉得美国黑人犯罪率高'
-                : 'Marcus和李阳通过音乐与学习经历逐渐加深理解。',
-            );
-      }
-      if (stage === 'INITIAL_RATING') await screenshot(page, 'cognitive-rating-inline');
-      if (stage === 'RELATIONSHIP') await screenshot(page, 'emotional-story-inline');
-      if (stage === 'SECOND_RATING') {
-        const before = await page.locator('.message.assistant .bubble').allTextContents();
-        await page.reload();
-        await login(page, s);
-        expect(await page.locator('.message.assistant .bubble').allTextContents()).toEqual(before);
-        await page.getByLabel('当前评分', { exact: true }).fill('35');
-      }
-      for (const message of await page.locator('.message.assistant').all())
-        expect(await message.locator('.bubble').count()).toBeLessThanOrEqual(3);
-      const submitted = page.waitForResponse(
-        (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
-      );
-      await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
-      const submissionResponse = await submitted;
-      expect(
-        submissionResponse.status(),
-        stage +
-          ' ' +
-          (await submissionResponse.text()) +
-          ' counts=' +
-          JSON.stringify(
-            await uow.read((r) =>
-              r.conversations.turnCounts(bundle!.session_id, turnStages(bundle!)),
-            ),
-          ),
-      ).toBe(200);
-    }
-    await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
-    const output = await services.admin.export(actor, s.experimentId);
-    expect(output.complete).toBe(true);
-    expect(output.states[0].status).toBe('completed');
-    if (path === 'cognitive_v1') {
-      expect(output.variables.some((v) => v.key === 'rating_1' && v.value === 70)).toBe(true);
-      expect(output.variables.some((v) => v.key === 'rating_2' && v.value === 35)).toBe(true);
-    }
-    await screenshot(page, path === 'cognitive_v1' ? 'cognitive-complete' : 'emotional-complete');
-    await saveRecords(
-      s,
-      path === 'cognitive_v1' ? 'mentor-cognitive-complete' : 'mentor-emotional-complete',
-    );
-  });
 
 test('two daily identity groups follow frozen assignment after relogin, finish independently, and fit a mobile screen', async ({
   page,
@@ -1122,4 +566,355 @@ test('administrator creates 30 synthetic login accounts and downloads real XLSX;
     await expect(pages[i]!.getByRole('log')).not.toContainText(rows[1 - i]!.participant_code!);
     await pages[i]!.close();
   }
+});
+async function sayUI(page: Page, text: string) {
+  const response = page.waitForResponse(
+    (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
+  );
+  await page.getByLabel('发送消息', { exact: true }).fill(text);
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  expect((await response).status()).toBe(200);
+  await expect(page.locator('.pending-message')).toHaveCount(0);
+}
+async function submitUI(page: Page, rating?: number) {
+  if (rating !== undefined) await page.getByLabel('当前评分', { exact: true }).fill(String(rating));
+  else await page.getByLabel('我确认上述观点', { exact: true }).check();
+  const response = page.waitForResponse(
+    (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
+  );
+  await page
+    .getByRole('button', { name: rating === undefined ? '确认并继续' : '提交评分', exact: true })
+    .click();
+  expect((await response).status()).toBe(200);
+  await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
+}
+for (const path of ['cognitive_v1', 'emotion_v1', 'daily_v1'])
+  test(`automatic first greeting and path-specific material without user input: ${path}`, async ({
+    page,
+  }) => {
+    const s = await account(path, true);
+    await login(page, s);
+    const bubbles = page.locator('.message.assistant');
+    await expect(bubbles.first()).toContainText('嗨，很高兴认识你！');
+    expect((await bubbles.first().locator('.bubble').allTextContents()).join('')).toBe(
+      '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？',
+    );
+    expect(calls).toBe(0);
+    await expect(page.locator('.message.user')).toHaveCount(0);
+    await expect(page.getByLabel('确认内容', { exact: true })).toHaveCount(0);
+    await expect(page.getByLabel('你是从哪里了解到的？（选填）', { exact: true })).toHaveCount(0);
+    if (path === 'emotion_v1') await expect(bubbles.nth(1)).toContainText('《打破心墙》');
+    if (path === 'cognitive_v1') await expect(bubbles.nth(1)).toContainText('美国黑人');
+    const texts = await bubbles.allTextContents();
+    await page.reload();
+    await login(page, s);
+    expect(await bubbles.allTextContents()).toEqual(texts);
+    await screenshot(page, 'automatic-opening-' + path);
+  });
+for (const text of [
+  'A\nB\nC',
+  'A\n\nB\nC\nD',
+  '完整第一句。完整第二句！完整第三句？不能丢失的第四句。',
+])
+  test(`at most three complete bubbles, preserved full text and side alignment: ${JSON.stringify(text)}`, async ({
+    page,
+  }) => {
+    const s = await account('daily_v1');
+    await login(page, s);
+    bubbleReply = text;
+    await sayUI(page, '气泡布局验收');
+    const group = page.locator('.message.assistant').last();
+    expect(await group.locator('.bubble').count()).toBe(3);
+    const rendered = await group.locator('.bubble').allTextContents();
+    expect(rendered.join('').replaceAll('\n', '')).toBe(text.replaceAll('\n', ''));
+    const user = await page.locator('.message.user .bubble').last().boundingBox(),
+      ai = await group.locator('.bubble').first().boundingBox();
+    expect(user!.x).toBeGreaterThan(ai!.x);
+    const before = await page.locator('.message').allTextContents();
+    await page.reload();
+    await login(page, s);
+    expect(await page.locator('.message').allTextContents()).toEqual(before);
+    await screenshot(
+      page,
+      'three-bubbles-' +
+        (text.startsWith('A\n\n') ? 'four' : text.startsWith('A') ? 'three' : 'sentences'),
+    );
+  });
+test('full frozen cognitive browser flow uses only chat input plus current confirmation/rating cards; cards become durable read-only history', async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  const s = await account('cognitive_v1', true);
+  await login(page, s);
+  const uow = new UnitOfWork(pool),
+    stages: string[] = [];
+  const belief = '我原先认为美国黑人都不重视学习。';
+  for (let i = 0; i < 30; i++) {
+    const b = (await uow.read((r) => r.states.load(s.participantId)))!;
+    const stage = b.snapshot.stage;
+    if (stages.at(-1) !== stage) stages.push(stage);
+    if (stage === 'COMPLETED') break;
+    await expect(page.getByLabel('确认内容', { exact: true })).toHaveCount(0);
+    expect(await page.locator('textarea').count()).toBe(1);
+    if (stage === 'VIEWPOINT_CONFIRMATION') {
+      await expect(page.getByLabel('本段确认卡')).toContainText(belief);
+      await screenshot(page, 'cognitive-viewpoint-card');
+      await submitUI(page);
+    } else if (stage === 'INITIAL_RATING' || stage === 'SECOND_RATING') {
+      await expect(page.getByLabel('观点评分卡')).toContainText(belief);
+      await expect(page.getByRole('button', { name: '提交评分', exact: true })).toBeInViewport({
+        ratio: 1,
+      });
+      if (stage === 'SECOND_RATING') {
+        const h = await page.locator('.message').allTextContents();
+        await page.reload();
+        await login(page, s);
+        expect(await page.locator('.message').allTextContents()).toEqual(h);
+      }
+      await screenshot(
+        page,
+        stage === 'INITIAL_RATING' ? 'cognitive-initial-rating' : 'cognitive-second-rating',
+      );
+      await submitUI(page, stage === 'INITIAL_RATING' ? 70 : 35);
+    } else {
+      await expect(page.getByRole('button', { name: '确认并继续', exact: true })).toHaveCount(0);
+      if (stage === 'REFRAME_MEDIA_ALGORITHM') await screenshot(page, 'cognitive-one-composer');
+      await sayUI(
+        page,
+        stage === 'STEREOTYPE_CAPTURE'
+          ? i === 0
+            ? belief
+            : '这个印象来自以前刷到的短视频。'
+          : `我愿意结合具体经历核实这个看法，并减少传播未经证实的信息。合成回答${i}。`,
+      );
+    }
+    for (const group of await page.locator('.message.assistant').all())
+      expect(await group.locator('.bubble').count()).toBeLessThanOrEqual(3);
+  }
+  expect(stages).toEqual([
+    'STEREOTYPE_CAPTURE',
+    'VIEWPOINT_CONFIRMATION',
+    'INITIAL_RATING',
+    'REFRAME_SOCIAL_STRUCTURE',
+    'REFRAME_MEDIA_ALGORITHM',
+    'REFRAME_COUNTER_FACT',
+    'REFRAME_INDIVIDUAL_DIFFERENCE',
+    'SECOND_RATING',
+    'ACTION_INTENTION',
+    'COMPLETED',
+  ]);
+  await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+  await expect(page.locator('.completed-card')).toHaveCount(3);
+  await screenshot(page, 'cognitive-complete');
+  await saveRecords(s, 'browser-cognitive-complete');
+  // Admin history is independent of the development-mode checkbox.
+  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
+  await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  await page.getByLabel('选择实验', { exact: true }).selectOption(s.experimentId);
+  await page.getByLabel('查询参与者', { exact: true }).selectOption(s.participantId);
+  await page.getByLabel('查询实验路径', { exact: true }).selectOption('cognitive');
+  await page.getByRole('button', { name: '查询完整记录', exact: true }).click();
+  const history = page.getByLabel('完整记录结果', { exact: true });
+  await expect(history).toContainText('RATING_SUBMITTED');
+  await expect(history).toContainText('"rating":70');
+  await expect(history).toContainText('"rating":35');
+  await expect(history).toContainText('VIEWPOINT_CONFIRMED');
+  await expect(history.locator('time').first()).toBeVisible();
+  await expect(history).toContainText(belief);
+  await screenshot(page, 'admin-complete-history');
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: '下载完整 JSON', exact: true }).click();
+  const file = await download;
+  const data = JSON.parse(await readFile((await file.path())!, 'utf8'));
+  expect(data.complete).toBe(true);
+  expect(data.notices.length).toBeGreaterThan(3);
+  expect(JSON.stringify(data)).not.toContain(password);
+});
+test('full emotional browser flow retains Marcus, 李阳, ordered scenes, exact ending and restored history', async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  const s = await account('emotion_v1', true);
+  variedStoryReplies = true;
+  await login(page, s);
+  const uow = new UnitOfWork(pool),
+    stages: string[] = [];
+  for (let i = 0; i < 25; i++) {
+    const b = (await uow.read((r) => r.states.load(s.participantId)))!;
+    const stage = b.snapshot.stage;
+    if (stages.at(-1) !== stage) stages.push(stage);
+    if (stage === 'COMPLETED') break;
+    await expect(page.getByRole('button', { name: '确认并继续', exact: true })).toHaveCount(0);
+    await expect(page.getByLabel('确认内容', { exact: true })).toHaveCount(0);
+    if (stage === 'SHARED_EXPERIENCE') {
+      await screenshot(page, 'emotional-shared-experience');
+      const h = await page.locator('.message').allTextContents();
+      await page.reload();
+      await login(page, s);
+      expect(await page.locator('.message').allTextContents()).toEqual(h);
+    }
+    await sayUI(page, `Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应${i}。`);
+  }
+  expect(stages).toEqual([
+    'PERSONA_SETUP',
+    'FIRST_CONTACT',
+    'MISUNDERSTANDING',
+    'RESOLUTION',
+    'SHARED_EXPERIENCE',
+    'RELATIONSHIP',
+    'ENDING_FEEDBACK',
+    'COMPLETED',
+  ]);
+  await expect(
+    page.getByText('今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。', {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(page.locator('.agent-avatar')).toHaveCount(0);
+  await screenshot(page, 'emotional-complete');
+  await saveRecords(s, 'browser-emotional-complete');
+});
+test('lost viewpoint confirmation response replays same event and leaves a single read-only record', async ({
+  page,
+}) => {
+  const s = await account('cognitive_v1', true);
+  await login(page, s);
+  await sayUI(page, '我原先认为美国黑人都不重视学习。');
+  await sayUI(page, '这个印象来自短视频。');
+  let dropped = false;
+  await page.route('**/api/experiment/submissions', async (route) => {
+    const response = await route.fetch();
+    if (!dropped) {
+      dropped = true;
+      await route.abort('failed');
+    } else await route.fulfill({ response });
+  });
+  await page.getByLabel('我确认上述观点', { exact: true }).check();
+  await page.getByRole('button', { name: '确认并继续', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('网络连接中断');
+  await page.getByRole('button', { name: '重试同一提交', exact: true }).click();
+  await expect(page.getByRole('button', { name: '提交评分', exact: true })).toBeVisible();
+  await expect(page.locator('.completed-card')).toHaveCount(1);
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.transitions.filter((t) => t.event === 'VIEWPOINT_CONFIRMED')).toHaveLength(1);
+});
+test('failed model request leaves phase and records intact and ordinary retry has no extra confirmation window', async ({
+  page,
+}) => {
+  const s = await account('cognitive_v1', true);
+  await login(page, s);
+  failModel = true;
+  await sayUI(page, '我原先的印象来自新闻。');
+  await expect(
+    page.getByText('回复未能生成，请重新发送或联系研究人员。', { exact: true }),
+  ).toBeVisible();
+  const before = await services.admin.export(actor, s.experimentId);
+  expect(before.transitions).toHaveLength(1);
+  failModel = false;
+  await sayUI(page, '我原先认为美国黑人都不重视学习。');
+  await expect(page.getByLabel('确认内容', { exact: true })).toHaveCount(0);
+  await page.reload();
+  await login(page, s);
+  await expect(page.getByRole('log')).toContainText('我原先的印象来自新闻。');
+});
+test('stale chat state is rejected and refresh restores the same confirmed belief without a repeat window', async ({
+  page,
+}) => {
+  const s = await account('cognitive_v1', true);
+  await login(page, s);
+  await sayUI(page, '我原先认为美国黑人都不重视学习。');
+  await sayUI(page, '这个印象来自短视频。');
+  const auth = await services.participants.login({
+    experiment_id: s.experimentId,
+    participant_code: s.code,
+    password,
+  });
+  const actor = await services.participants.authenticate(auth.token),
+    state = await services.participants.current(actor);
+  await services.participants.submit(actor, {
+    interaction: 'chat',
+    state_token: state.state_token,
+    request_id: randomUUID(),
+    data: { viewpoint: state.confirmation_card!.belief, confirmed: true },
+  });
+  const rejected = page.waitForResponse((r) => r.url().endsWith('/api/conversation/message'));
+  await page.getByLabel('发送消息', { exact: true }).fill('旧状态发送');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  expect((await rejected).status()).toBe(409);
+  await expect(page.getByRole('alert')).toContainText('冲突');
+  await expect(page.getByRole('button', { name: '重试同一消息', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: '刷新实验', exact: true }).click();
+  await expect(page.getByLabel('观点评分卡')).toContainText('我原先认为美国黑人都不重视学习。');
+});
+test('long accepted reply has its complete final sentence and no CSS clipping on mobile', async ({
+  page,
+}) => {
+  const s = await account('daily_v1');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await login(page, s);
+  const reply = '完整研究信息' + '需要保留原文'.repeat(180) + '，这是完整结束句。';
+  bubbleReply = reply;
+  await sayUI(page, '长正文显示验收');
+  const bubble = page.locator('.message.assistant').last().locator('.bubble');
+  await expect(bubble).toHaveText(reply);
+  expect(await bubble.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await screenshot(page, 'long-complete-reply-mobile');
+});
+test('mobile cognitive path completes with valid 0 and 100 ratings and an accessible submit button', async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const s = await account('cognitive_v1', true);
+  await login(page, s);
+  const uow = new UnitOfWork(pool);
+  for (let i = 0; i < 30; i++) {
+    const stage = (await uow.read((r) => r.states.load(s.participantId)))!.snapshot.stage;
+    if (stage === 'COMPLETED') break;
+    if (stage === 'VIEWPOINT_CONFIRMATION') await submitUI(page);
+    else if (stage === 'INITIAL_RATING' || stage === 'SECOND_RATING') {
+      const button = page.getByRole('button', { name: '提交评分', exact: true });
+      await expect(button).toBeInViewport({ ratio: 1 });
+      await expect(button).toBeDisabled();
+      await page.getByLabel('当前评分', { exact: true }).fill('101');
+      await expect(button).toBeDisabled();
+      await screenshot(page, 'mobile-' + stage.toLowerCase());
+      await submitUI(page, stage === 'INITIAL_RATING' ? 0 : 100);
+    } else
+      await sayUI(
+        page,
+        i === 0
+          ? '我原先认为美国黑人都不重视学习。'
+          : i === 1
+            ? '这个印象来自短视频。'
+            : `我愿意结合具体经历核实信息，减少传播一概而论的说法。手机合成回应${i}。`,
+      );
+  }
+  await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+  const data = await services.admin.export(actor, s.experimentId);
+  expect(data.variables.find((v) => v.key === 'rating_1')!.value).toBe(0);
+  expect(data.variables.find((v) => v.key === 'rating_2')!.value).toBe(100);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await screenshot(page, 'mobile-cognitive-complete');
+});
+test('a generated reply and following task guide use one visual AI round with at most three bubbles', async ({
+  page,
+}) => {
+  const s = await account('cognitive_v1', true);
+  await login(page, s);
+  bubbleReply = 'A\nB\nC';
+  await sayUI(page, '我原先认为美国黑人都不重视学习。');
+  const last = page.locator('.message.assistant').last();
+  await expect(last.locator('.bubble')).toHaveCount(3);
+  await expect(last).toContainText('这个印象主要来自直接接触、媒体还是其他来源？');
+  const history = await page.locator('.message').allTextContents();
+  await page.reload();
+  await login(page, s);
+  expect(await page.locator('.message').allTextContents()).toEqual(history);
 });

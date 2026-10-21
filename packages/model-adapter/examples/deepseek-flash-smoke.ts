@@ -73,6 +73,7 @@ export async function runDeepSeekFlashSmoke(env: ModelEnvironment, transport?: F
       RATE_LIMIT: 'rate_limit',
       PROVIDER_UNAVAILABLE: 'provider_unavailable',
       INVALID_REQUEST: 'model_or_endpoint_or_parameter_not_determined',
+      OUTPUT_TRUNCATED: 'model-output',
       INVALID_RESPONSE: 'protocol_or_response_format',
       NETWORK_ERROR: 'network',
       TIMEOUT: 'timeout',

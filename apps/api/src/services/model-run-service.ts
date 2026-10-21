@@ -20,6 +20,7 @@ export class ModelRunService {
     request: OrchestrationRequest,
     pinned: ModelSettings,
     context: Pick<BusinessTrace, 'participantId' | 'sessionId' | 'turnId'> = {},
+    completeSentences = false,
   ) {
     const generator =
       hash(pinned) === hash(this.settings)
@@ -34,7 +35,20 @@ export class ModelRunService {
         {
           generate: (prompt, options) => {
             this.trace({ ...context, step: 'model_adapter_called' });
-            return generator.generate(prompt, options);
+            const formatted = completeSentences
+              ? {
+                  ...prompt,
+                  messages: [
+                    ...prompt.messages,
+                    {
+                      role: 'system' as const,
+                      content:
+                        '请用一至三个简短自然段完整回应当前任务，保留必要信息，使用完整句子并自然结束。优先精炼措辞，不机械截断，不引入其他任务。',
+                    },
+                  ],
+                }
+              : prompt;
+            return generator.generate(formatted, options);
           },
         },
         {

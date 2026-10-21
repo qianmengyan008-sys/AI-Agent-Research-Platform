@@ -186,11 +186,11 @@ afterAll(async () => {
   if (started) execFileSync('docker', ['rm', '-f', container], { stdio: 'pipe' });
 });
 describe('PostgreSQL 17 migration and storage integration', () => {
-  it('creates all 21 configuration and runtime tables on an empty database', async () => {
+  it('creates all 22 configuration and runtime tables on an empty database', async () => {
     const rows = await client.query(
       "SELECT table_name FROM information_schema.tables WHERE table_schema='research' AND table_type='BASE TABLE'",
     );
-    expect(rows.rows).toHaveLength(21);
+    expect(rows.rows).toHaveLength(22);
     expect((await client.query('SHOW server_version')).rows[0].server_version).toMatch(/^17\.7/);
   });
   it('repeated up is idempotent and retains checksummed ledger entries', async () => {
@@ -206,7 +206,7 @@ describe('PostgreSQL 17 migration and storage integration', () => {
     expect(output).toContain('"applied":[]');
     expect((await migrate(client, migrations)).applied).toEqual([]);
     expect((await client.query('SELECT * FROM research_meta.schema_migration')).rows).toHaveLength(
-      3,
+      migrations.length,
     );
   });
   it('rejects tampered migration history', async () => {
@@ -218,7 +218,7 @@ describe('PostgreSQL 17 migration and storage integration', () => {
   });
   it('rolls back a failed migration DDL and ledger entry atomically', async () => {
     const broken = {
-      id: '004_failure',
+      id: '005_failure',
       up: 'CREATE TABLE research.should_rollback(id int); SELECT nonexistent_column;',
       down: 'DROP TABLE research.should_rollback;',
       checksum: 'synthetic',
@@ -229,14 +229,15 @@ describe('PostgreSQL 17 migration and storage integration', () => {
         .relation,
     ).toBeNull();
     expect((await client.query('SELECT * FROM research_meta.schema_migration')).rows).toHaveLength(
-      3,
+      migrations.length,
     );
   });
   it('supports reverse rollback and clean reapplication', async () => {
+    expect((await migrate(client, migrations, 'down')).applied).toEqual(['004_chat_timeline']);
     expect((await migrate(client, migrations, 'down')).applied).toEqual(['003_application']);
     expect((await migrate(client, migrations, 'down')).applied).toEqual(['002_runtime']);
     expect((await migrate(client, migrations, 'down')).applied).toEqual(['001_configuration']);
-    expect((await migrate(client, migrations)).applied).toHaveLength(3);
+    expect((await migrate(client, migrations)).applied).toHaveLength(migrations.length);
   });
   it('does not allow assignments to draft configurations', async () => {
     const s = await seed(false);
@@ -446,7 +447,7 @@ describe('PostgreSQL 17 migration and storage integration', () => {
       expect(results.every((r) => r.applied.length === 0)).toBe(true);
       expect(
         (await client.query('SELECT * FROM research_meta.schema_migration')).rows,
-      ).toHaveLength(3);
+      ).toHaveLength(migrations.length);
     } finally {
       await other.end();
     }
@@ -473,6 +474,7 @@ describe('PostgreSQL 17 migration and storage integration', () => {
     ).rejects.toMatchObject({ code: '23503' });
   });
   it('upgrades legacy unleased turns without changing core state', async () => {
+    await migrate(client, migrations, 'down');
     await migrate(client, migrations, 'down');
     const s = await runtime();
     const t = await turn(s.session);

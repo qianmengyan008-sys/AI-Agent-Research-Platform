@@ -18,6 +18,8 @@ export interface ParticipantFormField {
   step?: number;
 }
 export interface ParticipantCurrent {
+  interaction?: 'chat';
+  confirmation_card?: { belief: string };
   instructions: string;
   agent: { name: string; avatar?: string; identity?: string };
   state_token: string;
@@ -27,6 +29,8 @@ export interface ParticipantCurrent {
   rating_card?: { instruction: string; low_anchor: string; high_anchor: string; belief: string };
 }
 export interface ParticipantMessage {
+  turn_id?: string | null;
+  card_record?: { label: string; value: string | number | boolean; belief?: string } | null;
   id: string;
   role: 'user' | 'assistant';
   text: string;

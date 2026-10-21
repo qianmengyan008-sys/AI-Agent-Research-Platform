@@ -1,3 +1,4 @@
+import { ConversationHistory } from './ConversationHistory';
 import { AccountManager } from './AccountManager';
 import { useRef, useState } from 'react';
 import type {
@@ -138,7 +139,7 @@ export function Admin() {
                 刷新查询
               </button>
               <AccountManager
-                key={experiment}
+                key={`accounts-${experiment}`}
                 token={token}
                 experiment={experiment}
                 participants={participants}
@@ -169,13 +170,19 @@ export function Admin() {
                   </tbody>
                 </table>
               </div>
+              <ConversationHistory
+                key={`history-${experiment}`}
+                token={token}
+                experiment={experiment}
+                participants={participants}
+              />
               <h3>实验对话</h3>
               <div aria-label="管理员对话记录">
                 {messages.length === 0 && <p>暂无对话。</p>}
                 {messages.map((m) => (
                   <p key={m.id} className="preserve">
                     <strong>
-                      {m.session_id} · {m.sequence} · {m.role} · {m.status}
+                      {m.session_id} · {m.sequence} · {m.role} · {m.status} · {m.created_at}
                     </strong>
                     <br />
                     {m.content ?? '尚无可用回复'}
