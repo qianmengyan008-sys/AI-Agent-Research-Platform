@@ -25,4 +25,20 @@ jobs:
       - run: npm ci
       - run: docker pull postgres:17.7-alpine@sha256:bb377b7239d2774ac8cc76f481596ce96c5a6b5e9d141f6d0a0ee371a6e7c0f2
       - run: npx playwright install --with-deps chromium
-      - run: npm run check
+      - name: Full regression (keep failures)
+        shell: bash
+        env:
+          BROWSER_REPORT_PATH: ${{ github.workspace }}/browser-results.json
+        run: |
+          set -o pipefail
+          npm run check 2>&1 | tee engineering-check.log
+      - name: Preserve regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-check-${{ github.sha }}
+          path: |
+            engineering-check.log
+            browser-results.json
+          if-no-files-found: warn
+          retention-days: 14
