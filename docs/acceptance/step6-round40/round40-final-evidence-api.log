@@ -1,0 +1,33 @@
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+ ❯ apps/api/tests/path-presentation.test.ts (2 tests | 1 failed) 25ms
+   × emotional semantic bubbles never clip quotes, preserve fixed guide, and require one last attributed question 20ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/tests/path-presentation.test.ts > emotional semantic bubbles never clip quotes, preserve fixed guide, and require one last attributed question
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ apps/api/tests/path-presentation.test.ts:23:64
+     21|   expect(validGeneratedReply('Marcus说：“这里真新鲜。”李阳会怎么回应？', 'emotional'))…
+     22|   expect(validGeneratedReply('他觉得很好。你怎么看？', 'emotional')).toBe(false);
+     23|   expect(validGeneratedReply('Marcus怎么想？李阳点点头。', 'emotional')).toBe(fa…
+       |                                                                ^
+     24|   expect(validGeneratedReply('Marcus怎么想？李阳怎么想？', 'emotional')).toBe(fa…
+     25|   expect(boundedBubbles('Marcus说：“' + '字'.repeat(40) + '。”', 'emotiona…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 12 passed (13)
+   Start at  10:26:26
+   Duration  10.80s (transform 496ms, setup 0ms, import 987ms, tests 17.11s, environment 0ms)
+

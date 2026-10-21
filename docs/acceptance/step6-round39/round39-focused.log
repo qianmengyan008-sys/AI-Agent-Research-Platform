@@ -1,0 +1,117 @@
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+ ❯ apps/api/tests/chat-flow.test.ts (4 tests | 2 failed) 5681ms
+   × full frozen cognitive path progresses deterministically with two explicit ratings and immutable initial belief 156ms
+   × full frozen emotion path keeps identities, five scenes, story budget and exact ending 165ms
+ ❯ packages/database/tests/migrations.test.ts (21 tests | 4 failed) 6183ms
+     × creates all 21 configuration and runtime tables on an empty database 183ms
+     × repeated up is idempotent and retains checksummed ledger entries 969ms
+     × serializes concurrent migration processes with the advisory lock 129ms
+     × upgrades legacy unleased turns without changing core state 147ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/tests/chat-flow.test.ts > full frozen cognitive path progresses deterministically with two explicit ratings and immutable initial belief
+TypeError: (intermediate value).expect is not a function
+ ❯ apps/api/tests/chat-flow.test.ts:206:30
+    204|   await start(s);
+    205|   const belief = '我原先认为美国黑人都不重视学习。';
+    206|   await (await say(s, '方便')).expect(200);
+       |                              ^
+    207|   expect((await bundle(s))!.snapshot.stage).toBe('STEREOTYPE_CAPTURE');
+    208|   await (await say(s, belief)).expect(200);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  apps/api/tests/chat-flow.test.ts > full frozen emotion path keeps identities, five scenes, story budget and exact ending
+TypeError: (intermediate value).expect is not a function
+ ❯ apps/api/tests/chat-flow.test.ts:300:7
+    298|     await (
+    299|       await say(s, `Marcus喜欢音乐，李阳愿意继续倾听当前经历。合成参与内容${i}。`)
+    300|     ).expect(200);
+       |       ^
+    301|   }
+    302|   expect((await bundle(s))!.snapshot.stage).toBe('COMPLETED');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/database/tests/migrations.test.ts > PostgreSQL 17 migration and storage integration > creates all 21 configuration and runtime tables on an empty database
+AssertionError: expected [ { table_name: 'experiment' }, …(21) ] to have a length of 21 but got 22
+
+- Expected
++ Received
+
+- 21
++ 22
+
+ ❯ packages/database/tests/migrations.test.ts:193:23
+    191|       "SELECT table_name FROM information_schema.tables WHERE table_sc…
+    192|     );
+    193|     expect(rows.rows).toHaveLength(21);
+       |                       ^
+    194|     expect((await client.query('SHOW server_version')).rows[0].server_…
+    195|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/database/tests/migrations.test.ts > PostgreSQL 17 migration and storage integration > repeated up is idempotent and retains checksummed ledger entries
+AssertionError: expected [ …(4) ] to have a length of 3 but got 4
+
+- Expected
++ Received
+
+- 3
++ 4
+
+ ❯ packages/database/tests/migrations.test.ts:208:87
+    206|     expect(output).toContain('"applied":[]');
+    207|     expect((await migrate(client, migrations)).applied).toEqual([]);
+    208|     expect((await client.query('SELECT * FROM research_meta.schema_mig…
+       |                                                                                       ^
+    209|       3,
+    210|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  packages/database/tests/migrations.test.ts > PostgreSQL 17 migration and storage integration > serializes concurrent migration processes with the advisory lock
+AssertionError: expected [ …(4) ] to have a length of 3 but got 4
+
+- Expected
++ Received
+
+- 3
++ 4
+
+ ❯ packages/database/tests/migrations.test.ts:450:9
+    448|       expect(
+    449|         (await client.query('SELECT * FROM research_meta.schema_migrat…
+    450|       ).toHaveLength(3);
+       |         ^
+    451|     } finally {
+    452|       await other.end();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  packages/database/tests/migrations.test.ts > PostgreSQL 17 migration and storage integration > upgrades legacy unleased turns without changing core state
+AssertionError: expected 'generating' to be 'failed' // Object.is equality
+
+Expected: "failed"
+Received: "generating"
+
+ ❯ packages/database/tests/migrations.test.ts:490:7
+    488|     expect(
+    489|       (await client.query('SELECT status FROM research.conversation_tu…
+    490|     ).toBe('failed');
+       |       ^
+    491|     expect((await client.query('SELECT status FROM research.message'))…
+    492|       'failed',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 19 passed (25)
+   Start at  07:57:18
+   Duration  6.47s (transform 377ms, setup 0ms, import 636ms, tests 11.86s, environment 0ms)
+

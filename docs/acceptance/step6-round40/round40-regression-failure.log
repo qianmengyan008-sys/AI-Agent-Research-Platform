@@ -1,0 +1,166 @@
+
+> ai-agent-research-platform@0.1.0 check
+> npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser
+
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> ai-agent-research-platform@0.1.0 lint
+> eslint .
+
+
+> ai-agent-research-platform@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> ai-agent-research-platform@0.1.0 test
+> npm run build:packages && vitest run
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+ ❯ apps/api/tests/chat-flow.test.ts (8 tests | 1 failed) 10235ms
+   × full frozen emotion path keeps identities, five scenes, story budget and exact ending 636ms
+ ❯ apps/api/tests/hosted-platform.test.ts (2 tests | 1 failed) 21864ms
+   × hosted facade handles 45 separate users across six concurrent waves, replay and restart 9123ms
+ ❯ apps/api/tests/message-bubbles.test.ts (14 tests | 1 failed) 34ms
+   × a wrapped Chinese sentence is never cut into incomplete bubbles 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/tests/chat-flow.test.ts > full frozen emotion path keeps identities, five scenes, story budget and exact ending
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/api/tests/chat-flow.test.ts:365:7
+    363|           data.turns.some((t) => t.id === m.turn_id && t.generation_co…
+    364|       ),
+    365|     ).toBe(true);
+       |       ^
+    366|   expect(await history(s)).toEqual(h);
+    367|   await save('emotional-complete', { synthetic: true, ...data });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/api/tests/hosted-platform.test.ts > hosted facade handles 45 separate users across six concurrent waves, replay and restart
+Error: UNEXPECTED_HTTP_500
+ ❯ http scripts/hosted-concurrency-fixture.mjs:177:47
+    175|         status = response.status;
+    176|         const data = await response.json();
+    177|         if (!expected.includes(status)) throw new Error(`UNEXPECTED_HT…
+       |                                               ^
+    178|         return data;
+    179|       } catch (error) {
+ ❯ scripts/hosted-concurrency-fixture.mjs:199:11
+ ❯ runHostedConcurrency scripts/hosted-concurrency-fixture.mjs:195:19
+ ❯ apps/api/tests/hosted-platform.test.ts:7:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/api/tests/message-bubbles.test.ts > a wrapped Chinese sentence is never cut into incomplete bubbles
+AssertionError: expected [ '教育与住房\n', '资源差异会影响个人处境。', '你怎么看？' ] to deeply equal [ '教育与住房\n资源差异会影响个人处境。', '你怎么看？' ]
+
+- Expected
++ Received
+
+  [
+    "教育与住房
+- 资源差异会影响个人处境。",
++ ",
++   "资源差异会影响个人处境。",
+    "你怎么看？",
+  ]
+
+ ❯ apps/api/tests/message-bubbles.test.ts:38:18
+     36| test('a wrapped Chinese sentence is never cut into incomplete bubbles'…
+     37|   const result = assistantBubbles('教育与住房\n资源差异会影响个人处境。\n你怎么看？');
+     38|   expect(result).toEqual(['教育与住房\n资源差异会影响个人处境。', '你怎么看？']);
+       |                  ^
+     39| });
+     40|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed | 29 passed (32)
+      Tests  3 failed | 492 passed (495)
+   Start at  10:35:50
+   Duration  52.74s (transform 1.31s, setup 0ms, import 3.70s, tests 119.55s, environment 3ms)
+

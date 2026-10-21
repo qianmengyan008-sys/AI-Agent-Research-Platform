@@ -1,0 +1,4468 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "model": "MockAdapter",
+  "format": "research-json-v1",
+  "analysis_schema": "participant-research-v1",
+  "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+  "generated_at": "2026-10-21T10:42:40.657Z",
+  "per_table_limit": null,
+  "complete": true,
+  "record_counts": {
+    "notices": 2,
+    "participants": 1,
+    "assignments": 1,
+    "states": 1,
+    "prompts": 7,
+    "messages": 30,
+    "transitions": 8,
+    "variables": 21,
+    "runs": 15,
+    "turns": 15
+  },
+  "note": "Complete experiment records at one repeatable-read snapshot; supplier revision unavailable and formal research materials are not approved by export",
+  "notices": [
+    {
+      "id": "38cd9514-9ccb-445c-881f-834644b67c4d",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "notice_key": "opening-v1",
+      "after_sequence": 0,
+      "notice_order": 1,
+      "content": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+      "card_record": null,
+      "created_at": "2026-10-21T10:42:38.269Z"
+    },
+    {
+      "id": "b9692a25-e260-484b-911f-ca717f80ede8",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "notice_key": "task-8",
+      "after_sequence": 30,
+      "notice_order": 180,
+      "content": "本次实验已完成，谢谢参与。",
+      "card_record": null,
+      "created_at": "2026-10-21T10:42:40.508Z"
+    }
+  ],
+  "participants": [
+    {
+      "id": "68410d49-a251-4169-9367-726919d969e5",
+      "participant_code": "P-5df84c63",
+      "status": "enabled",
+      "created_at": "2026-10-21T10:42:37.802Z"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "8d520d2b-ba5e-40f0-9e9b-afc820dac22b",
+      "participant_id": "68410d49-a251-4169-9367-726919d969e5",
+      "template_version_id": "60d8d675-9e74-493a-9746-e881e5614df9",
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "created_at": "2026-10-21T10:42:37.806Z",
+      "condition": "A",
+      "path_type": "emotional",
+      "agent_configuration": {
+        "name": "研究对话助手"
+      },
+      "agent_version_id": "f7be5273-3a85-4b78-9a08-481271140f9e",
+      "state_machine_version_id": "f5a8a246-0dcb-4dec-80ba-e884bb9f2406",
+      "agent_version": "1",
+      "state_machine_version": "emotion_v1",
+      "template_version": 1,
+      "model_settings": {
+        "base_url": null,
+        "provider": "mock",
+        "max_tokens": 512,
+        "model_name": "browser-synthetic-model",
+        "timeout_ms": 2000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "research_config": {
+        "rating": {
+          "max": 100,
+          "min": 0,
+          "step": 1,
+          "low_anchor": "完全不相信该观点 / 认为该印象完全不符合现实",
+          "high_anchor": "非常相信该观点 / 认为该印象非常符合现实",
+          "instruction": "请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+        },
+        "purpose": "mentor-test",
+        "version": "mentor-test-v1",
+        "cognitive": {
+          "turns": {
+            "SECOND_RATING": [1, 3],
+            "INITIAL_RATING": [1, 3],
+            "ACTION_INTENTION": [2, 4],
+            "REFRAME_COUNTER_FACT": [2, 3],
+            "capture_confirmation": [2, 5],
+            "REFRAME_MEDIA_ALGORITHM": [2, 3],
+            "REFRAME_SOCIAL_STRUCTURE": [2, 3],
+            "REFRAME_INDIVIDUAL_DIFFERENCE": [2, 3]
+          },
+          "target": "美国黑人刻板印象",
+          "correction": "我们先回到刚才关于美国黑人这一印象的讨论。",
+          "neutral_summary": "我们先保留已经明确表达的内容。尚未填写的信息需要由你确认后保存。",
+          "estimated_total_turns": [20, 25]
+        },
+        "emotional": {
+          "ending": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+          "scenes": {
+            "RESOLUTION": {
+              "goal": "通过交流消除食堂中的误会。",
+              "place": "食堂",
+              "bridge": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。"
+            },
+            "RELATIONSHIP": {
+              "goal": "分享个人经历，接纳彼此并形成朋友关系。",
+              "place": "校园散步",
+              "bridge": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。"
+            },
+            "FIRST_CONTACT": {
+              "goal": "Marcus刚来中国，李阳和Marcus初次接触，出现轻微误解。",
+              "place": "图书馆",
+              "bridge": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。"
+            },
+            "MISUNDERSTANDING": {
+              "goal": "两人再次遇见，发生小误会。",
+              "place": "食堂",
+              "bridge": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。"
+            },
+            "SHARED_EXPERIENCE": {
+              "goal": "两人在学习中发现共同点，增加理解。",
+              "place": "自习室",
+              "bridge": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。"
+            }
+          },
+          "opening": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+          "characters": {
+            "Marcus": "一名刚来到中国留学的美国黑人青年",
+            "李阳": "一名中国大学生"
+          },
+          "story_turns": [11, 14],
+          "persona_turns": 2,
+          "editable_traits": ["外貌", "兴趣", "性格"]
+        },
+        "effective_turn": "A ready conversation turn with a non-meta, non-mistype, non-offtopic participant answer; failed, repeated request IDs and template-only corrections do not count.",
+        "approval_source": "User-provided mentor parameter PDF and explicit fallback-boundary reply",
+        "fallback_boundary": "Confirmed by researcher: ratings and viewpoint confirmation remain explicit and mandatory; other stages may advance by approved neutral fallback with backend actor and missing_data annotation."
+      },
+      "state_machine_definition": {
+        "path": "emotional",
+        "stages": [
+          {
+            "id": "INIT",
+            "on": "EXPERIMENT_STARTED",
+            "fields": []
+          },
+          {
+            "id": "PERSONA_SETUP",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "persona_snapshot",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "FIRST_CONTACT",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "first_contact_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "MISUNDERSTANDING",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "misunderstanding_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "RESOLUTION",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "resolution_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "SHARED_EXPERIENCE",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "shared_experience_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "RELATIONSHIP",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "relationship_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "ENDING_FEEDBACK",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "ending_feedback",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "COMPLETED",
+            "fields": []
+          }
+        ],
+        "experimentVersion": "emotion_v1"
+      }
+    }
+  ],
+  "states": [
+    {
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "assignment_id": "8d520d2b-ba5e-40f0-9e9b-afc820dac22b",
+      "status": "completed",
+      "chat_revision": 15,
+      "stage": "COMPLETED",
+      "core_version": 8,
+      "snapshot": {
+        "path": "emotional",
+        "stage": "COMPLETED",
+        "version": 8,
+        "receipts": [
+          {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 0
+          },
+          {
+            "id": "chat-turn-30076a06-4157-4a25-a1da-5288b4d5cb76",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 1
+          },
+          {
+            "id": "chat-turn-2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 2
+          },
+          {
+            "id": "chat-turn-961058c0-705a-43eb-80d4-497fdf9e71f4",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 3
+          },
+          {
+            "id": "chat-turn-3acfbda5-4952-4391-be84-274b753d3553",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 4
+          },
+          {
+            "id": "chat-turn-15b0d298-b3f0-443c-9a28-871b5a33808f",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 5
+          },
+          {
+            "id": "chat-turn-8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 6
+          },
+          {
+            "id": "chat-turn-0bb32248-a4e3-44bf-b770-5dbea01239e6",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 7
+          }
+        ],
+        "lifecycle": "completed",
+        "variables": {
+          "ending_feedback": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+          "persona_snapshot": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+          "resolution_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+          "relationship_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+          "first_contact_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+          "misunderstanding_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+          "shared_experience_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。"
+        },
+        "experimentVersion": "emotion_v1",
+        "definitionSignature": "{\"path\":\"emotional\",\"experimentVersion\":\"emotion_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"PERSONA_SETUP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"persona_snapshot\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"FIRST_CONTACT\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"first_contact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"MISUNDERSTANDING\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"misunderstanding_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RESOLUTION\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"resolution_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SHARED_EXPERIENCE\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"shared_experience_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RELATIONSHIP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"relationship_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"ENDING_FEEDBACK\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"ending_feedback\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "ENDING_FEEDBACK",
+      "prompt_version_id": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+      "prompt_version": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3",
+      "policy": {
+        "goal": "完成情感总结并告别，不再提问或邀请新创作。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-ENDING_FEEDBACK",
+          "description": "故事收尾",
+          "scene_phase": "ENDING_FEEDBACK",
+          "scene_state": "ENDING_FEEDBACK",
+          "allowed_actions": ["回应当前任务"],
+          "fixedTransition": "保持当前任务，不切换场景。"
+        },
+        "stage": "ENDING_FEEDBACK",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面",
+          "回到食堂",
+          "返回食堂",
+          "回到校园散步",
+          "返回校园散步",
+          "回到图书馆",
+          "返回图书馆",
+          "回到食堂",
+          "返回食堂"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    },
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "FIRST_CONTACT",
+      "prompt_version_id": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+      "prompt_version": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6",
+      "policy": {
+        "goal": "Marcus刚来中国，李阳和Marcus初次接触，出现轻微误解。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-FIRST_CONTACT",
+          "description": "图书馆",
+          "scene_phase": "FIRST_CONTACT",
+          "scene_state": "图书馆",
+          "allowed_actions": ["回应当前固定场景内的用户补充", "保持当前人物关系"],
+          "fixedTransition": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。"
+        },
+        "stage": "FIRST_CONTACT",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面",
+          "回到食堂",
+          "返回食堂",
+          "回到校园散步",
+          "返回校园散步"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    },
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "MISUNDERSTANDING",
+      "prompt_version_id": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+      "prompt_version": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d",
+      "policy": {
+        "goal": "两人再次遇见，发生小误会。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-MISUNDERSTANDING",
+          "description": "食堂",
+          "scene_phase": "MISUNDERSTANDING",
+          "scene_state": "食堂",
+          "allowed_actions": ["回应当前固定场景内的用户补充", "保持当前人物关系"],
+          "fixedTransition": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。"
+        },
+        "stage": "MISUNDERSTANDING",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面",
+          "回到校园散步",
+          "返回校园散步",
+          "回到图书馆",
+          "返回图书馆"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    },
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "PERSONA_SETUP",
+      "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+      "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900",
+      "policy": {
+        "goal": "介绍Marcus和李阳，邀请用户补充外貌、兴趣和性格。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-PERSONA_SETUP",
+          "description": "人物建立",
+          "scene_phase": "PERSONA_SETUP",
+          "scene_state": "PERSONA_SETUP",
+          "allowed_actions": ["回应当前任务"],
+          "fixedTransition": "保持当前任务，不切换场景。"
+        },
+        "stage": "PERSONA_SETUP",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面",
+          "回到食堂",
+          "返回食堂",
+          "回到校园散步",
+          "返回校园散步",
+          "回到图书馆",
+          "返回图书馆",
+          "回到食堂",
+          "返回食堂"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    },
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "RELATIONSHIP",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c",
+      "policy": {
+        "goal": "分享个人经历，接纳彼此并形成朋友关系。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-RELATIONSHIP",
+          "description": "校园散步",
+          "scene_phase": "RELATIONSHIP",
+          "scene_state": "校园散步",
+          "allowed_actions": ["回应当前固定场景内的用户补充", "保持当前人物关系"],
+          "fixedTransition": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。"
+        },
+        "stage": "RELATIONSHIP",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面",
+          "回到食堂",
+          "返回食堂"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    },
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "RESOLUTION",
+      "prompt_version_id": "4d5f6baf-6a4d-4290-9064-97473625524c",
+      "prompt_version": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e",
+      "policy": {
+        "goal": "通过交流消除食堂中的误会。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-RESOLUTION",
+          "description": "食堂",
+          "scene_phase": "RESOLUTION",
+          "scene_state": "食堂",
+          "allowed_actions": ["回应当前固定场景内的用户补充", "保持当前人物关系"],
+          "fixedTransition": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。"
+        },
+        "stage": "RESOLUTION",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    },
+    {
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "stage": "SHARED_EXPERIENCE",
+      "prompt_version_id": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+      "prompt_version": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80",
+      "policy": {
+        "goal": "两人在学习中发现共同点，增加理解。",
+        "path": "emotional",
+        "scene": {
+          "id": "mentor-test-v1-SHARED_EXPERIENCE",
+          "description": "自习室",
+          "scene_phase": "SHARED_EXPERIENCE",
+          "scene_state": "自习室",
+          "allowed_actions": ["回应当前固定场景内的用户补充", "保持当前人物关系"],
+          "fixedTransition": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。"
+        },
+        "stage": "SHARED_EXPERIENCE",
+        "variableKeys": ["persona_snapshot"],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [
+          "回到咖啡馆",
+          "来到海滩",
+          "重新初次见面",
+          "回到已经结束的场景",
+          "重新初次见面",
+          "回到食堂",
+          "返回食堂",
+          "回到校园散步",
+          "返回校园散步",
+          "回到图书馆",
+          "返回图书馆",
+          "回到食堂",
+          "返回食堂"
+        ],
+        "roleDescription": "故事《打破心墙》的对话伙伴。固定人物：Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。用户仅可补充外貌、兴趣、性格，不能改变种族身份或核心关系发展。自然克制，不提前透露未发生的内容。",
+        "forbiddenContent": [],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "emotion_v1",
+        "requiresConfirmedBelief": false
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "0f3bf08f-ad1d-49e1-99d4-9bbb07f8ecae",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+      "sequence": 1,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应0。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.434Z"
+    },
+    {
+      "id": "422f364d-00fd-4143-b9d0-8f67c002a084",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+      "sequence": 2,
+      "role": "assistant",
+      "content": "Marcus是一名刚来到中国留学的美国黑人青年。你可以补充他的外貌、兴趣和性格。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.434Z"
+    },
+    {
+      "id": "3f142721-f41f-4662-a7ed-3359eea33d26",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+      "sequence": 3,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.550Z"
+    },
+    {
+      "id": "e08fc91d-698e-480a-a11f-bb1e422e600f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+      "sequence": 4,
+      "role": "assistant",
+      "content": "Marcus说：“第1个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.550Z"
+    },
+    {
+      "id": "35f65b21-2976-429b-b817-7c01283533c4",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+      "sequence": 5,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.665Z"
+    },
+    {
+      "id": "45c6c9ba-7548-49d6-ae00-9d9880898ec8",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+      "sequence": 6,
+      "role": "assistant",
+      "content": "Marcus说：“第2个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.665Z"
+    },
+    {
+      "id": "4df32640-6ce1-43d4-81bb-747db4b436e8",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+      "sequence": 7,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.765Z"
+    },
+    {
+      "id": "e5b26b44-9b1c-4112-9969-d09b1f2129d0",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+      "sequence": 8,
+      "role": "assistant",
+      "content": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。\nMarcus说：“第3个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.765Z"
+    },
+    {
+      "id": "bd90a1b0-f6ab-4984-b86b-4bf9f39519f9",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+      "sequence": 9,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.886Z"
+    },
+    {
+      "id": "270c4a03-be5f-47df-82e8-5e53b6aecf56",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+      "sequence": 10,
+      "role": "assistant",
+      "content": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。\nMarcus说：“第4个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:38.886Z"
+    },
+    {
+      "id": "5b0b6530-e5b7-4ee6-8839-f84960c08992",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+      "sequence": 11,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.005Z"
+    },
+    {
+      "id": "e59435f1-43aa-49bd-bc41-9daf521cd580",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+      "sequence": 12,
+      "role": "assistant",
+      "content": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。\nMarcus说：“第5个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.005Z"
+    },
+    {
+      "id": "31cfb3bd-3da0-4da2-8983-7f42c9cf74fb",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+      "sequence": 13,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.549Z"
+    },
+    {
+      "id": "303b1ebb-e5c0-4c7c-97bb-3541e5089f87",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+      "sequence": 14,
+      "role": "assistant",
+      "content": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。\nMarcus说：“第6个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.549Z"
+    },
+    {
+      "id": "40c7eb42-39aa-4b05-a7e6-5d8e4fad3f6a",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+      "sequence": 15,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.683Z"
+    },
+    {
+      "id": "cc16a987-bfb5-4861-829a-fa581fe7706f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+      "sequence": 16,
+      "role": "assistant",
+      "content": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。\nMarcus说：“第7个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.683Z"
+    },
+    {
+      "id": "9e9ce927-f4ae-44f9-a644-342cc77997d4",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+      "sequence": 17,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.798Z"
+    },
+    {
+      "id": "16e47019-bfd3-4540-a67c-f8892c604a08",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+      "sequence": 18,
+      "role": "assistant",
+      "content": "Marcus说：“第8个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.798Z"
+    },
+    {
+      "id": "e229825a-f5de-4a23-b67c-8dd75e0d0853",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+      "sequence": 19,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.898Z"
+    },
+    {
+      "id": "95b0e671-40e4-48ae-af37-60b8e7252b10",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+      "sequence": 20,
+      "role": "assistant",
+      "content": "Marcus说：“第9个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:39.898Z"
+    },
+    {
+      "id": "7875947f-9caa-47eb-ab22-645b339e6510",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+      "sequence": 21,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.015Z"
+    },
+    {
+      "id": "2da909cd-a5b9-4d99-91cf-5c4ca79675bd",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+      "sequence": 22,
+      "role": "assistant",
+      "content": "Marcus说：“第10个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.015Z"
+    },
+    {
+      "id": "06448d6c-737f-478a-aafc-93eabc1c296c",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+      "sequence": 23,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.133Z"
+    },
+    {
+      "id": "5d114130-6eed-4619-a902-a9c0f3d03783",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+      "sequence": 24,
+      "role": "assistant",
+      "content": "Marcus说：“第11个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.133Z"
+    },
+    {
+      "id": "3c67bfa7-3437-4df8-9f9b-0924a4193589",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+      "sequence": 25,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.249Z"
+    },
+    {
+      "id": "89791bfe-0cc8-4978-b2b4-5aac13de36f4",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+      "sequence": 26,
+      "role": "assistant",
+      "content": "Marcus说：“第12个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.249Z"
+    },
+    {
+      "id": "d4ed3f0a-6352-48fa-8bc9-4057a38ecd15",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+      "sequence": 27,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.370Z"
+    },
+    {
+      "id": "041e92a7-df89-4cb4-a89f-d419e4d90abf",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+      "sequence": 28,
+      "role": "assistant",
+      "content": "Marcus说：“第13个想法很有趣。”李阳会如何回应？",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.370Z"
+    },
+    {
+      "id": "83a7bd9f-aac2-4b68-9ac4-0de11c2fe028",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+      "sequence": 29,
+      "role": "user",
+      "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.499Z"
+    },
+    {
+      "id": "f65b6d83-7e18-411d-876f-8ebb5343c42d",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+      "sequence": 30,
+      "role": "assistant",
+      "content": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+      "status": "ready",
+      "created_at": "2026-10-21T10:42:40.499Z"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "057e7ecd-304c-40b6-8013-1ab3d03d5251",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "assignment-start",
+      "event": "EXPERIMENT_STARTED",
+      "previous_state": "INIT",
+      "current_state": "PERSONA_SETUP",
+      "from_version": 0,
+      "to_version": 1,
+      "actor_type": "backend",
+      "actor_id": "browser-fixture",
+      "validated_payload": {},
+      "receipt": {
+        "id": "assignment-start",
+        "data": {},
+        "type": "EXPERIMENT_STARTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 0
+      },
+      "created_at": "2026-10-21T10:42:37.806Z"
+    },
+    {
+      "id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-30076a06-4157-4a25-a1da-5288b4d5cb76",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "PERSONA_SETUP",
+      "current_state": "FIRST_CONTACT",
+      "from_version": 1,
+      "to_version": 2,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+        "source_turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76"
+      },
+      "receipt": {
+        "id": "chat-turn-30076a06-4157-4a25-a1da-5288b4d5cb76",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 1
+      },
+      "created_at": "2026-10-21T10:42:38.673Z"
+    },
+    {
+      "id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "FIRST_CONTACT",
+      "current_state": "MISUNDERSTANDING",
+      "from_version": 2,
+      "to_version": 3,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+        "source_turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de"
+      },
+      "receipt": {
+        "id": "chat-turn-2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 2
+      },
+      "created_at": "2026-10-21T10:42:38.779Z"
+    },
+    {
+      "id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-961058c0-705a-43eb-80d4-497fdf9e71f4",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "MISUNDERSTANDING",
+      "current_state": "RESOLUTION",
+      "from_version": 3,
+      "to_version": 4,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+        "source_turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4"
+      },
+      "receipt": {
+        "id": "chat-turn-961058c0-705a-43eb-80d4-497fdf9e71f4",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 3
+      },
+      "created_at": "2026-10-21T10:42:38.900Z"
+    },
+    {
+      "id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-3acfbda5-4952-4391-be84-274b753d3553",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "RESOLUTION",
+      "current_state": "SHARED_EXPERIENCE",
+      "from_version": 4,
+      "to_version": 5,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+        "source_turn_id": "3acfbda5-4952-4391-be84-274b753d3553"
+      },
+      "receipt": {
+        "id": "chat-turn-3acfbda5-4952-4391-be84-274b753d3553",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 4
+      },
+      "created_at": "2026-10-21T10:42:39.017Z"
+    },
+    {
+      "id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-15b0d298-b3f0-443c-9a28-871b5a33808f",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "SHARED_EXPERIENCE",
+      "current_state": "RELATIONSHIP",
+      "from_version": 5,
+      "to_version": 6,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。",
+        "source_turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f"
+      },
+      "receipt": {
+        "id": "chat-turn-15b0d298-b3f0-443c-9a28-871b5a33808f",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 5
+      },
+      "created_at": "2026-10-21T10:42:39.567Z"
+    },
+    {
+      "id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "RELATIONSHIP",
+      "current_state": "ENDING_FEEDBACK",
+      "from_version": 6,
+      "to_version": 7,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+        "source_turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a"
+      },
+      "receipt": {
+        "id": "chat-turn-8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 6
+      },
+      "created_at": "2026-10-21T10:42:40.384Z"
+    },
+    {
+      "id": "6586b7d5-2e8d-4ac6-96f8-17cb59b7bc0a",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "core_event_id": "chat-turn-0bb32248-a4e3-44bf-b770-5dbea01239e6",
+      "event": "STAGE_RESPONSE_SUBMITTED",
+      "previous_state": "ENDING_FEEDBACK",
+      "current_state": "COMPLETED",
+      "from_version": 7,
+      "to_version": 8,
+      "actor_type": "participant",
+      "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+      "validated_payload": {
+        "reason": "participant_chat_task_completed",
+        "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+        "source_turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6"
+      },
+      "receipt": {
+        "id": "chat-turn-0bb32248-a4e3-44bf-b770-5dbea01239e6",
+        "data": {
+          "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。"
+        },
+        "type": "STAGE_RESPONSE_SUBMITTED",
+        "experimentVersion": "emotion_v1",
+        "expectedStateVersion": 7
+      },
+      "created_at": "2026-10-21T10:42:40.508Z"
+    }
+  ],
+  "variables": [
+    {
+      "id": "44d28bb6-2f29-4f50-b041-7854dcbc4254",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "character_profile",
+      "value": "Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。参与者补充（仅外貌/兴趣/性格）：Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+      "revision": 1,
+      "source_transition_id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+      "recorded_stage": "PERSONA_SETUP",
+      "created_at": "2026-10-21T10:42:38.673Z"
+    },
+    {
+      "id": "2a8f594b-a872-4ff1-be51-09ef7d953057",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "ending_feedback",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+      "revision": 1,
+      "source_transition_id": "6586b7d5-2e8d-4ac6-96f8-17cb59b7bc0a",
+      "recorded_stage": "ENDING_FEEDBACK",
+      "created_at": "2026-10-21T10:42:40.508Z"
+    },
+    {
+      "id": "cef7e61a-4642-4ba9-8363-73134a18b0f6",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "first_contact_response",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+      "revision": 1,
+      "source_transition_id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+      "recorded_stage": "FIRST_CONTACT",
+      "created_at": "2026-10-21T10:42:38.779Z"
+    },
+    {
+      "id": "893bed85-3195-419c-b986-75c5637add52",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "misunderstanding_response",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+      "revision": 1,
+      "source_transition_id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+      "recorded_stage": "MISUNDERSTANDING",
+      "created_at": "2026-10-21T10:42:38.900Z"
+    },
+    {
+      "id": "ef41ac8b-f9eb-4324-bcee-8c248c6c152f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "persona_snapshot",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+      "revision": 1,
+      "source_transition_id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+      "recorded_stage": "PERSONA_SETUP",
+      "created_at": "2026-10-21T10:42:38.673Z"
+    },
+    {
+      "id": "53f90de9-b118-4f70-b9e5-4dec19bc9d38",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "relationship_response",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+      "revision": 1,
+      "source_transition_id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+      "recorded_stage": "RELATIONSHIP",
+      "created_at": "2026-10-21T10:42:40.384Z"
+    },
+    {
+      "id": "862c6d2a-7fca-4d77-9fa3-ff08c1cf2539",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "relationship_state",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+      "revision": 1,
+      "source_transition_id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+      "recorded_stage": "RELATIONSHIP",
+      "created_at": "2026-10-21T10:42:40.384Z"
+    },
+    {
+      "id": "388a4f79-96af-4863-8f77-2f1389d17556",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "resolution_response",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+      "revision": 1,
+      "source_transition_id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+      "recorded_stage": "RESOLUTION",
+      "created_at": "2026-10-21T10:42:39.017Z"
+    },
+    {
+      "id": "ae405a7e-17db-4cc1-a156-0ffa0ea2176e",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "PERSONA_SETUP",
+      "revision": 1,
+      "source_transition_id": "057e7ecd-304c-40b6-8013-1ab3d03d5251",
+      "recorded_stage": "INIT",
+      "created_at": "2026-10-21T10:42:37.806Z"
+    },
+    {
+      "id": "fca3a4b5-bffb-466c-9147-16cafe0c0aaa",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "FIRST_CONTACT",
+      "revision": 2,
+      "source_transition_id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+      "recorded_stage": "PERSONA_SETUP",
+      "created_at": "2026-10-21T10:42:38.673Z"
+    },
+    {
+      "id": "19a6c55f-0447-44d3-8b39-76233d1736a5",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "MISUNDERSTANDING",
+      "revision": 3,
+      "source_transition_id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+      "recorded_stage": "FIRST_CONTACT",
+      "created_at": "2026-10-21T10:42:38.779Z"
+    },
+    {
+      "id": "d385a4a8-d1f4-4913-b263-76d23b41d6c9",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "RESOLUTION",
+      "revision": 4,
+      "source_transition_id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+      "recorded_stage": "MISUNDERSTANDING",
+      "created_at": "2026-10-21T10:42:38.900Z"
+    },
+    {
+      "id": "85957d8b-8605-428d-a951-20ab97708495",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "SHARED_EXPERIENCE",
+      "revision": 5,
+      "source_transition_id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+      "recorded_stage": "RESOLUTION",
+      "created_at": "2026-10-21T10:42:39.017Z"
+    },
+    {
+      "id": "bf3648bc-2f11-40ba-83d3-835db02301b8",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "RELATIONSHIP",
+      "revision": 6,
+      "source_transition_id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+      "recorded_stage": "SHARED_EXPERIENCE",
+      "created_at": "2026-10-21T10:42:39.567Z"
+    },
+    {
+      "id": "70341fc2-f7c8-440c-8573-8fb9139e115b",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "ENDING_FEEDBACK",
+      "revision": 7,
+      "source_transition_id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+      "recorded_stage": "RELATIONSHIP",
+      "created_at": "2026-10-21T10:42:40.384Z"
+    },
+    {
+      "id": "f60e1fe1-4aa5-448d-870b-60959924b7da",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_phase",
+      "value": "COMPLETED",
+      "revision": 8,
+      "source_transition_id": "6586b7d5-2e8d-4ac6-96f8-17cb59b7bc0a",
+      "recorded_stage": "ENDING_FEEDBACK",
+      "created_at": "2026-10-21T10:42:40.508Z"
+    },
+    {
+      "id": "85e129da-0636-4ee3-a409-5ad27164e6a4",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_state",
+      "value": "食堂",
+      "revision": 1,
+      "source_transition_id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+      "recorded_stage": "FIRST_CONTACT",
+      "created_at": "2026-10-21T10:42:38.779Z"
+    },
+    {
+      "id": "549afacb-4b98-4628-b707-9150afc6385a",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_state",
+      "value": "食堂",
+      "revision": 2,
+      "source_transition_id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+      "recorded_stage": "MISUNDERSTANDING",
+      "created_at": "2026-10-21T10:42:38.900Z"
+    },
+    {
+      "id": "807c26f8-a7bf-4ed6-857d-80e42e6b701b",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_state",
+      "value": "自习室",
+      "revision": 3,
+      "source_transition_id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+      "recorded_stage": "RESOLUTION",
+      "created_at": "2026-10-21T10:42:39.017Z"
+    },
+    {
+      "id": "222a5e7a-85e3-475e-9251-ce89dacaa13e",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "scene_state",
+      "value": "校园散步",
+      "revision": 4,
+      "source_transition_id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+      "recorded_stage": "SHARED_EXPERIENCE",
+      "created_at": "2026-10-21T10:42:39.567Z"
+    },
+    {
+      "id": "28d70329-9d93-4e0d-b90e-89b58350c8ab",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "key": "shared_experience_response",
+      "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。",
+      "revision": 1,
+      "source_transition_id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+      "recorded_stage": "SHARED_EXPERIENCE",
+      "created_at": "2026-10-21T10:42:39.567Z"
+    }
+  ],
+  "runs": [
+    {
+      "id": "87bd8d61-365e-48b8-8346-769c9fd5db1c",
+      "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+      "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "1.6380879999996978",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:38.447Z"
+    },
+    {
+      "id": "5ed5ec8d-59fa-46c9-84a8-0781cf9ea5a3",
+      "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+      "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "1.4246450000009645",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:38.567Z"
+    },
+    {
+      "id": "e8b60e4e-1230-4a74-a676-5931fad68958",
+      "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+      "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.5585150000006252",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:38.673Z"
+    },
+    {
+      "id": "c8d4e28f-2265-40c0-bf90-25efaa1a13cb",
+      "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+      "prompt_version": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.8468210000010004",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:38.779Z"
+    },
+    {
+      "id": "ff3c4b40-ef1a-432d-bf8f-9e7516d799ac",
+      "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+      "prompt_version": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.9094060000006721",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:38.900Z"
+    },
+    {
+      "id": "5e54cbe8-d4c7-4bca-9a81-26e70ee4c8a8",
+      "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "4d5f6baf-6a4d-4290-9064-97473625524c",
+      "prompt_version": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.739478000001327",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:39.017Z"
+    },
+    {
+      "id": "1af2b624-3a0e-4bbb-95a5-eac85dcfa87c",
+      "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+      "prompt_version": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.8211019999998825",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:39.567Z"
+    },
+    {
+      "id": "62cbcaba-a6ca-401c-ac0d-9849c71ac429",
+      "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.768261999999595",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:39.695Z"
+    },
+    {
+      "id": "b6070ccf-b7f0-421a-963e-53f347a0a1dd",
+      "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.5823110000001179",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:39.809Z"
+    },
+    {
+      "id": "ed71842b-efb6-4d41-8daa-18669eeff900",
+      "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.5423609999998007",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:39.908Z"
+    },
+    {
+      "id": "979a8302-406e-4035-ad61-40d332f54559",
+      "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.8020529999994324",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:40.026Z"
+    },
+    {
+      "id": "81eb8d3f-d58c-4642-ae7a-61a82d22dd37",
+      "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.5413989999997284",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:40.143Z"
+    },
+    {
+      "id": "69926653-ad37-48c5-9a0c-062c8c690b3b",
+      "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.5487799999991694",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:40.261Z"
+    },
+    {
+      "id": "d05cba7e-d4c4-451e-9988-e68eadb5dc05",
+      "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+      "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.6489719999990484",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:40.384Z"
+    },
+    {
+      "id": "94479451-ddeb-49d5-a961-624f8a4cd44b",
+      "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+      "prompt_version": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3-path-presentation-v2",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.707459999999628",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T10:42:40.508Z"
+    }
+  ],
+  "turns": [
+    {
+      "id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 1,
+      "accepted_core_version": 1,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "PERSONA_SETUP",
+        "promptId": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+        "entry_kind": "emotion-guide-v1",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "meta",
+        "reply_source": "template",
+        "promptVersion": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2"
+      }
+    },
+    {
+      "id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 2,
+      "accepted_core_version": 1,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "PERSONA_SETUP",
+        "promptId": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2"
+      }
+    },
+    {
+      "id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 3,
+      "accepted_core_version": 1,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "PERSONA_SETUP",
+        "promptId": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2"
+      }
+    },
+    {
+      "id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 4,
+      "accepted_core_version": 2,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "FIRST_CONTACT",
+        "promptId": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6-path-presentation-v2"
+      }
+    },
+    {
+      "id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 5,
+      "accepted_core_version": 3,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "MISUNDERSTANDING",
+        "promptId": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d-path-presentation-v2"
+      }
+    },
+    {
+      "id": "3acfbda5-4952-4391-be84-274b753d3553",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 6,
+      "accepted_core_version": 4,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RESOLUTION",
+        "promptId": "4d5f6baf-6a4d-4290-9064-97473625524c",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e-path-presentation-v2"
+      }
+    },
+    {
+      "id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 7,
+      "accepted_core_version": 5,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "SHARED_EXPERIENCE",
+        "promptId": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80-path-presentation-v2"
+      }
+    },
+    {
+      "id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 8,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 9,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 10,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 11,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "8535d382-dfd1-424a-8062-824bbf692989",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 12,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 13,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 14,
+      "accepted_core_version": 6,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "RELATIONSHIP",
+        "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+      }
+    },
+    {
+      "id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "chat_revision": 15,
+      "accepted_core_version": 7,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "ENDING_FEEDBACK",
+        "promptId": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+        "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+        "input_kind": "answer",
+        "reply_source": "template",
+        "promptVersion": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3-path-presentation-v2"
+      }
+    }
+  ],
+  "analysis_rows": [
+    {
+      "participant_id": "68410d49-a251-4169-9367-726919d969e5",
+      "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+      "assignment_id": "8d520d2b-ba5e-40f0-9e9b-afc820dac22b",
+      "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+      "condition": "A",
+      "condition_id": "403f60df-6647-4e29-9a91-6258aed58bbc",
+      "path_type": "emotional",
+      "agent_version": {
+        "id": "f7be5273-3a85-4b78-9a08-481271140f9e",
+        "version": "1",
+        "configuration": {
+          "name": "研究对话助手"
+        }
+      },
+      "state_machine_version": {
+        "id": "f5a8a246-0dcb-4dec-80ba-e884bb9f2406",
+        "version": "emotion_v1"
+      },
+      "template_version_id": "60d8d675-9e74-493a-9746-e881e5614df9",
+      "prompt_version": [
+        {
+          "stage": "ENDING_FEEDBACK",
+          "id": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+          "version": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3"
+        },
+        {
+          "stage": "FIRST_CONTACT",
+          "id": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+          "version": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6"
+        },
+        {
+          "stage": "MISUNDERSTANDING",
+          "id": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+          "version": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d"
+        },
+        {
+          "stage": "PERSONA_SETUP",
+          "id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900"
+        },
+        {
+          "stage": "RELATIONSHIP",
+          "id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c"
+        },
+        {
+          "stage": "RESOLUTION",
+          "id": "4d5f6baf-6a4d-4290-9064-97473625524c",
+          "version": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e"
+        },
+        {
+          "stage": "SHARED_EXPERIENCE",
+          "id": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+          "version": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80"
+        }
+      ],
+      "model_version": {
+        "requested_model": "browser-synthetic-model",
+        "provider": "mock",
+        "supplier_revision": null
+      },
+      "model_settings": {
+        "base_url": null,
+        "provider": "mock",
+        "max_tokens": 512,
+        "model_name": "browser-synthetic-model",
+        "timeout_ms": 2000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "research_config": {
+        "rating": {
+          "max": 100,
+          "min": 0,
+          "step": 1,
+          "low_anchor": "完全不相信该观点 / 认为该印象完全不符合现实",
+          "high_anchor": "非常相信该观点 / 认为该印象非常符合现实",
+          "instruction": "请根据你目前对该观点的相信程度，在0到100之间输入一个数字。"
+        },
+        "purpose": "mentor-test",
+        "version": "mentor-test-v1",
+        "cognitive": {
+          "turns": {
+            "SECOND_RATING": [1, 3],
+            "INITIAL_RATING": [1, 3],
+            "ACTION_INTENTION": [2, 4],
+            "REFRAME_COUNTER_FACT": [2, 3],
+            "capture_confirmation": [2, 5],
+            "REFRAME_MEDIA_ALGORITHM": [2, 3],
+            "REFRAME_SOCIAL_STRUCTURE": [2, 3],
+            "REFRAME_INDIVIDUAL_DIFFERENCE": [2, 3]
+          },
+          "target": "美国黑人刻板印象",
+          "correction": "我们先回到刚才关于美国黑人这一印象的讨论。",
+          "neutral_summary": "我们先保留已经明确表达的内容。尚未填写的信息需要由你确认后保存。",
+          "estimated_total_turns": [20, 25]
+        },
+        "emotional": {
+          "ending": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+          "scenes": {
+            "RESOLUTION": {
+              "goal": "通过交流消除食堂中的误会。",
+              "place": "食堂",
+              "bridge": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。"
+            },
+            "RELATIONSHIP": {
+              "goal": "分享个人经历，接纳彼此并形成朋友关系。",
+              "place": "校园散步",
+              "bridge": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。"
+            },
+            "FIRST_CONTACT": {
+              "goal": "Marcus刚来中国，李阳和Marcus初次接触，出现轻微误解。",
+              "place": "图书馆",
+              "bridge": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。"
+            },
+            "MISUNDERSTANDING": {
+              "goal": "两人再次遇见，发生小误会。",
+              "place": "食堂",
+              "bridge": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。"
+            },
+            "SHARED_EXPERIENCE": {
+              "goal": "两人在学习中发现共同点，增加理解。",
+              "place": "自习室",
+              "bridge": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。"
+            }
+          },
+          "opening": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+          "characters": {
+            "Marcus": "一名刚来到中国留学的美国黑人青年",
+            "李阳": "一名中国大学生"
+          },
+          "story_turns": [11, 14],
+          "persona_turns": 2,
+          "editable_traits": ["外貌", "兴趣", "性格"]
+        },
+        "effective_turn": "A ready conversation turn with a non-meta, non-mistype, non-offtopic participant answer; failed, repeated request IDs and template-only corrections do not count.",
+        "approval_source": "User-provided mentor parameter PDF and explicit fallback-boundary reply",
+        "fallback_boundary": "Confirmed by researcher: ratings and viewpoint confirmation remain explicit and mandatory; other stages may advance by approved neutral fallback with backend actor and missing_data annotation."
+      },
+      "state_machine_definition": {
+        "path": "emotional",
+        "stages": [
+          {
+            "id": "INIT",
+            "on": "EXPERIMENT_STARTED",
+            "fields": []
+          },
+          {
+            "id": "PERSONA_SETUP",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "persona_snapshot",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "FIRST_CONTACT",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "first_contact_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "MISUNDERSTANDING",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "misunderstanding_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "RESOLUTION",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "resolution_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "SHARED_EXPERIENCE",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "shared_experience_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "RELATIONSHIP",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "relationship_response",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "ENDING_FEEDBACK",
+            "on": "STAGE_RESPONSE_SUBMITTED",
+            "fields": [
+              {
+                "type": "text",
+                "field": "response",
+                "variable": "ending_feedback",
+                "maxLength": 10000
+              }
+            ]
+          },
+          {
+            "id": "COMPLETED",
+            "fields": []
+          }
+        ],
+        "experimentVersion": "emotion_v1"
+      },
+      "conversation_turns": [
+        {
+          "id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 1,
+          "accepted_core_version": 1,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "PERSONA_SETUP",
+            "promptId": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+            "entry_kind": "emotion-guide-v1",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "meta",
+            "reply_source": "template",
+            "promptVersion": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2"
+          }
+        },
+        {
+          "id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 2,
+          "accepted_core_version": 1,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "PERSONA_SETUP",
+            "promptId": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2"
+          }
+        },
+        {
+          "id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 3,
+          "accepted_core_version": 1,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "PERSONA_SETUP",
+            "promptId": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2"
+          }
+        },
+        {
+          "id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 4,
+          "accepted_core_version": 2,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "FIRST_CONTACT",
+            "promptId": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6-path-presentation-v2"
+          }
+        },
+        {
+          "id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 5,
+          "accepted_core_version": 3,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "MISUNDERSTANDING",
+            "promptId": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d-path-presentation-v2"
+          }
+        },
+        {
+          "id": "3acfbda5-4952-4391-be84-274b753d3553",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 6,
+          "accepted_core_version": 4,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RESOLUTION",
+            "promptId": "4d5f6baf-6a4d-4290-9064-97473625524c",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e-path-presentation-v2"
+          }
+        },
+        {
+          "id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 7,
+          "accepted_core_version": 5,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "SHARED_EXPERIENCE",
+            "promptId": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80-path-presentation-v2"
+          }
+        },
+        {
+          "id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 8,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 9,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 10,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 11,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "8535d382-dfd1-424a-8062-824bbf692989",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 12,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 13,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 14,
+          "accepted_core_version": 6,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "RELATIONSHIP",
+            "promptId": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2"
+          }
+        },
+        {
+          "id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "chat_revision": 15,
+          "accepted_core_version": 7,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "ENDING_FEEDBACK",
+            "promptId": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+            "experiment": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+            "input_kind": "answer",
+            "reply_source": "template",
+            "promptVersion": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3-path-presentation-v2"
+          }
+        }
+      ],
+      "timestamp": {
+        "assigned_at": "2026-10-21T10:42:37.806Z",
+        "exported_at": "2026-10-21T10:42:40.657Z"
+      },
+      "current_state": {
+        "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+        "assignment_id": "8d520d2b-ba5e-40f0-9e9b-afc820dac22b",
+        "status": "completed",
+        "chat_revision": 15,
+        "stage": "COMPLETED",
+        "core_version": 8,
+        "snapshot": {
+          "path": "emotional",
+          "stage": "COMPLETED",
+          "version": 8,
+          "receipts": [
+            {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 0
+            },
+            {
+              "id": "chat-turn-30076a06-4157-4a25-a1da-5288b4d5cb76",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 1
+            },
+            {
+              "id": "chat-turn-2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 2
+            },
+            {
+              "id": "chat-turn-961058c0-705a-43eb-80d4-497fdf9e71f4",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 3
+            },
+            {
+              "id": "chat-turn-3acfbda5-4952-4391-be84-274b753d3553",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 4
+            },
+            {
+              "id": "chat-turn-15b0d298-b3f0-443c-9a28-871b5a33808f",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 5
+            },
+            {
+              "id": "chat-turn-8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 6
+            },
+            {
+              "id": "chat-turn-0bb32248-a4e3-44bf-b770-5dbea01239e6",
+              "data": {
+                "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。"
+              },
+              "type": "STAGE_RESPONSE_SUBMITTED",
+              "experimentVersion": "emotion_v1",
+              "expectedStateVersion": 7
+            }
+          ],
+          "lifecycle": "completed",
+          "variables": {
+            "ending_feedback": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+            "persona_snapshot": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+            "resolution_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+            "relationship_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+            "first_contact_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+            "misunderstanding_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+            "shared_experience_response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。"
+          },
+          "experimentVersion": "emotion_v1",
+          "definitionSignature": "{\"path\":\"emotional\",\"experimentVersion\":\"emotion_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"PERSONA_SETUP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"persona_snapshot\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"FIRST_CONTACT\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"first_contact_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"MISUNDERSTANDING\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"misunderstanding_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RESOLUTION\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"resolution_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"SHARED_EXPERIENCE\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"shared_experience_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"RELATIONSHIP\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"relationship_response\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"ENDING_FEEDBACK\",\"on\":\"STAGE_RESPONSE_SUBMITTED\",\"fields\":[{\"field\":\"response\",\"variable\":\"ending_feedback\",\"type\":\"text\",\"maxLength\":10000}]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+        }
+      },
+      "state_transition": [
+        {
+          "id": "057e7ecd-304c-40b6-8013-1ab3d03d5251",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "PERSONA_SETUP",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "browser-fixture",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-21T10:42:37.806Z"
+        },
+        {
+          "id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-30076a06-4157-4a25-a1da-5288b4d5cb76",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "PERSONA_SETUP",
+          "current_state": "FIRST_CONTACT",
+          "from_version": 1,
+          "to_version": 2,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+            "source_turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76"
+          },
+          "receipt": {
+            "id": "chat-turn-30076a06-4157-4a25-a1da-5288b4d5cb76",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 1
+          },
+          "created_at": "2026-10-21T10:42:38.673Z"
+        },
+        {
+          "id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "FIRST_CONTACT",
+          "current_state": "MISUNDERSTANDING",
+          "from_version": 2,
+          "to_version": 3,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+            "source_turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de"
+          },
+          "receipt": {
+            "id": "chat-turn-2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 2
+          },
+          "created_at": "2026-10-21T10:42:38.779Z"
+        },
+        {
+          "id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-961058c0-705a-43eb-80d4-497fdf9e71f4",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "MISUNDERSTANDING",
+          "current_state": "RESOLUTION",
+          "from_version": 3,
+          "to_version": 4,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+            "source_turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4"
+          },
+          "receipt": {
+            "id": "chat-turn-961058c0-705a-43eb-80d4-497fdf9e71f4",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 3
+          },
+          "created_at": "2026-10-21T10:42:38.900Z"
+        },
+        {
+          "id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-3acfbda5-4952-4391-be84-274b753d3553",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "RESOLUTION",
+          "current_state": "SHARED_EXPERIENCE",
+          "from_version": 4,
+          "to_version": 5,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+            "source_turn_id": "3acfbda5-4952-4391-be84-274b753d3553"
+          },
+          "receipt": {
+            "id": "chat-turn-3acfbda5-4952-4391-be84-274b753d3553",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 4
+          },
+          "created_at": "2026-10-21T10:42:39.017Z"
+        },
+        {
+          "id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-15b0d298-b3f0-443c-9a28-871b5a33808f",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "SHARED_EXPERIENCE",
+          "current_state": "RELATIONSHIP",
+          "from_version": 5,
+          "to_version": 6,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。",
+            "source_turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f"
+          },
+          "receipt": {
+            "id": "chat-turn-15b0d298-b3f0-443c-9a28-871b5a33808f",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 5
+          },
+          "created_at": "2026-10-21T10:42:39.567Z"
+        },
+        {
+          "id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "RELATIONSHIP",
+          "current_state": "ENDING_FEEDBACK",
+          "from_version": 6,
+          "to_version": 7,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+            "source_turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a"
+          },
+          "receipt": {
+            "id": "chat-turn-8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 6
+          },
+          "created_at": "2026-10-21T10:42:40.384Z"
+        },
+        {
+          "id": "6586b7d5-2e8d-4ac6-96f8-17cb59b7bc0a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "core_event_id": "chat-turn-0bb32248-a4e3-44bf-b770-5dbea01239e6",
+          "event": "STAGE_RESPONSE_SUBMITTED",
+          "previous_state": "ENDING_FEEDBACK",
+          "current_state": "COMPLETED",
+          "from_version": 7,
+          "to_version": 8,
+          "actor_type": "participant",
+          "actor_id": "68410d49-a251-4169-9367-726919d969e5",
+          "validated_payload": {
+            "reason": "participant_chat_task_completed",
+            "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+            "source_turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6"
+          },
+          "receipt": {
+            "id": "chat-turn-0bb32248-a4e3-44bf-b770-5dbea01239e6",
+            "data": {
+              "response": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。"
+            },
+            "type": "STAGE_RESPONSE_SUBMITTED",
+            "experimentVersion": "emotion_v1",
+            "expectedStateVersion": 7
+          },
+          "created_at": "2026-10-21T10:42:40.508Z"
+        }
+      ],
+      "chat_notices": [
+        {
+          "id": "38cd9514-9ccb-445c-881f-834644b67c4d",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "notice_key": "opening-v1",
+          "after_sequence": 0,
+          "notice_order": 1,
+          "content": "嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。",
+          "card_record": null,
+          "created_at": "2026-10-21T10:42:38.269Z"
+        },
+        {
+          "id": "b9692a25-e260-484b-911f-ca717f80ede8",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "notice_key": "task-8",
+          "after_sequence": 30,
+          "notice_order": 180,
+          "content": "本次实验已完成，谢谢参与。",
+          "card_record": null,
+          "created_at": "2026-10-21T10:42:40.508Z"
+        }
+      ],
+      "conversation_history": [
+        {
+          "id": "0f3bf08f-ad1d-49e1-99d4-9bbb07f8ecae",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+          "sequence": 1,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应0。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.434Z"
+        },
+        {
+          "id": "422f364d-00fd-4143-b9d0-8f67c002a084",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+          "sequence": 2,
+          "role": "assistant",
+          "content": "Marcus是一名刚来到中国留学的美国黑人青年。你可以补充他的外貌、兴趣和性格。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.434Z"
+        },
+        {
+          "id": "3f142721-f41f-4662-a7ed-3359eea33d26",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+          "sequence": 3,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.550Z"
+        },
+        {
+          "id": "e08fc91d-698e-480a-a11f-bb1e422e600f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+          "sequence": 4,
+          "role": "assistant",
+          "content": "Marcus说：“第1个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.550Z"
+        },
+        {
+          "id": "35f65b21-2976-429b-b817-7c01283533c4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+          "sequence": 5,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.665Z"
+        },
+        {
+          "id": "45c6c9ba-7548-49d6-ae00-9d9880898ec8",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+          "sequence": 6,
+          "role": "assistant",
+          "content": "Marcus说：“第2个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.665Z"
+        },
+        {
+          "id": "4df32640-6ce1-43d4-81bb-747db4b436e8",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+          "sequence": 7,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.765Z"
+        },
+        {
+          "id": "e5b26b44-9b1c-4112-9969-d09b1f2129d0",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+          "sequence": 8,
+          "role": "assistant",
+          "content": "一个午后，在校园图书馆，李阳走近正在找书的Marcus，两人开始交流。\nMarcus说：“第3个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.765Z"
+        },
+        {
+          "id": "bd90a1b0-f6ab-4984-b86b-4bf9f39519f9",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+          "sequence": 9,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.886Z"
+        },
+        {
+          "id": "270c4a03-be5f-47df-82e8-5e53b6aecf56",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+          "sequence": 10,
+          "role": "assistant",
+          "content": "第二天中午，在校园食堂，李阳端着餐盘再次遇见Marcus，两人开始交谈。\nMarcus说：“第4个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:38.886Z"
+        },
+        {
+          "id": "5b0b6530-e5b7-4ee6-8839-f84960c08992",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+          "sequence": 11,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.005Z"
+        },
+        {
+          "id": "e59435f1-43aa-49bd-bc41-9daf521cd580",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+          "sequence": 12,
+          "role": "assistant",
+          "content": "几分钟后，在同一食堂座位旁，两人停下来解释刚才的误会。\nMarcus说：“第5个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.005Z"
+        },
+        {
+          "id": "31cfb3bd-3da0-4da2-8983-7f42c9cf74fb",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+          "sequence": 13,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.549Z"
+        },
+        {
+          "id": "303b1ebb-e5c0-4c7c-97bb-3541e5089f87",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+          "sequence": 14,
+          "role": "assistant",
+          "content": "几天后的傍晚，在自习室，李阳和Marcus一起整理学习资料，发现共同兴趣。\nMarcus说：“第6个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.549Z"
+        },
+        {
+          "id": "40c7eb42-39aa-4b05-a7e6-5d8e4fad3f6a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+          "sequence": 15,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.683Z"
+        },
+        {
+          "id": "cc16a987-bfb5-4861-829a-fa581fe7706f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+          "sequence": 16,
+          "role": "assistant",
+          "content": "自习结束后，在校园步道，李阳和Marcus并肩散步，分享各自的经历。\nMarcus说：“第7个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.683Z"
+        },
+        {
+          "id": "9e9ce927-f4ae-44f9-a644-342cc77997d4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+          "sequence": 17,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.798Z"
+        },
+        {
+          "id": "16e47019-bfd3-4540-a67c-f8892c604a08",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+          "sequence": 18,
+          "role": "assistant",
+          "content": "Marcus说：“第8个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.798Z"
+        },
+        {
+          "id": "e229825a-f5de-4a23-b67c-8dd75e0d0853",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+          "sequence": 19,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.898Z"
+        },
+        {
+          "id": "95b0e671-40e4-48ae-af37-60b8e7252b10",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+          "sequence": 20,
+          "role": "assistant",
+          "content": "Marcus说：“第9个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:39.898Z"
+        },
+        {
+          "id": "7875947f-9caa-47eb-ab22-645b339e6510",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+          "sequence": 21,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.015Z"
+        },
+        {
+          "id": "2da909cd-a5b9-4d99-91cf-5c4ca79675bd",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+          "sequence": 22,
+          "role": "assistant",
+          "content": "Marcus说：“第10个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.015Z"
+        },
+        {
+          "id": "06448d6c-737f-478a-aafc-93eabc1c296c",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+          "sequence": 23,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.133Z"
+        },
+        {
+          "id": "5d114130-6eed-4619-a902-a9c0f3d03783",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+          "sequence": 24,
+          "role": "assistant",
+          "content": "Marcus说：“第11个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.133Z"
+        },
+        {
+          "id": "3c67bfa7-3437-4df8-9f9b-0924a4193589",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+          "sequence": 25,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.249Z"
+        },
+        {
+          "id": "89791bfe-0cc8-4978-b2b4-5aac13de36f4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+          "sequence": 26,
+          "role": "assistant",
+          "content": "Marcus说：“第12个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.249Z"
+        },
+        {
+          "id": "d4ed3f0a-6352-48fa-8bc9-4057a38ecd15",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+          "sequence": 27,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.370Z"
+        },
+        {
+          "id": "041e92a7-df89-4cb4-a89f-d419e4d90abf",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+          "sequence": 28,
+          "role": "assistant",
+          "content": "Marcus说：“第13个想法很有趣。”李阳会如何回应？",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.370Z"
+        },
+        {
+          "id": "83a7bd9f-aac2-4b68-9ac4-0de11c2fe028",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+          "sequence": 29,
+          "role": "user",
+          "content": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.499Z"
+        },
+        {
+          "id": "f65b6d83-7e18-411d-876f-8ebb5343c42d",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+          "sequence": 30,
+          "role": "assistant",
+          "content": "今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。",
+          "status": "ready",
+          "created_at": "2026-10-21T10:42:40.499Z"
+        }
+      ],
+      "experiment_variables": [
+        {
+          "id": "44d28bb6-2f29-4f50-b041-7854dcbc4254",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "character_profile",
+          "value": "Marcus：一名刚来到中国留学的美国黑人青年；李阳：一名中国大学生。参与者补充（仅外貌/兴趣/性格）：Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+          "revision": 1,
+          "source_transition_id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-21T10:42:38.673Z"
+        },
+        {
+          "id": "2a8f594b-a872-4ff1-be51-09ef7d953057",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "ending_feedback",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应14。",
+          "revision": 1,
+          "source_transition_id": "6586b7d5-2e8d-4ac6-96f8-17cb59b7bc0a",
+          "recorded_stage": "ENDING_FEEDBACK",
+          "created_at": "2026-10-21T10:42:40.508Z"
+        },
+        {
+          "id": "cef7e61a-4642-4ba9-8363-73134a18b0f6",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "first_contact_response",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应3。",
+          "revision": 1,
+          "source_transition_id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-21T10:42:38.779Z"
+        },
+        {
+          "id": "893bed85-3195-419c-b986-75c5637add52",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "misunderstanding_response",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应4。",
+          "revision": 1,
+          "source_transition_id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+          "recorded_stage": "MISUNDERSTANDING",
+          "created_at": "2026-10-21T10:42:38.900Z"
+        },
+        {
+          "id": "ef41ac8b-f9eb-4324-bcee-8c248c6c152f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "persona_snapshot",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应1。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应2。",
+          "revision": 1,
+          "source_transition_id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-21T10:42:38.673Z"
+        },
+        {
+          "id": "53f90de9-b118-4f70-b9e5-4dec19bc9d38",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "relationship_response",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+          "revision": 1,
+          "source_transition_id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+          "recorded_stage": "RELATIONSHIP",
+          "created_at": "2026-10-21T10:42:40.384Z"
+        },
+        {
+          "id": "862c6d2a-7fca-4d77-9fa3-ff08c1cf2539",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "relationship_state",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应7。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应8。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应9。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应10。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应11。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应12。\nMarcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应13。",
+          "revision": 1,
+          "source_transition_id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+          "recorded_stage": "RELATIONSHIP",
+          "created_at": "2026-10-21T10:42:40.384Z"
+        },
+        {
+          "id": "388a4f79-96af-4863-8f77-2f1389d17556",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "resolution_response",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应5。",
+          "revision": 1,
+          "source_transition_id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+          "recorded_stage": "RESOLUTION",
+          "created_at": "2026-10-21T10:42:39.017Z"
+        },
+        {
+          "id": "ae405a7e-17db-4cc1-a156-0ffa0ea2176e",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "PERSONA_SETUP",
+          "revision": 1,
+          "source_transition_id": "057e7ecd-304c-40b6-8013-1ab3d03d5251",
+          "recorded_stage": "INIT",
+          "created_at": "2026-10-21T10:42:37.806Z"
+        },
+        {
+          "id": "fca3a4b5-bffb-466c-9147-16cafe0c0aaa",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "FIRST_CONTACT",
+          "revision": 2,
+          "source_transition_id": "7469db05-b5b4-45b8-a5f7-51d50ae79deb",
+          "recorded_stage": "PERSONA_SETUP",
+          "created_at": "2026-10-21T10:42:38.673Z"
+        },
+        {
+          "id": "19a6c55f-0447-44d3-8b39-76233d1736a5",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "MISUNDERSTANDING",
+          "revision": 3,
+          "source_transition_id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-21T10:42:38.779Z"
+        },
+        {
+          "id": "d385a4a8-d1f4-4913-b263-76d23b41d6c9",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "RESOLUTION",
+          "revision": 4,
+          "source_transition_id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+          "recorded_stage": "MISUNDERSTANDING",
+          "created_at": "2026-10-21T10:42:38.900Z"
+        },
+        {
+          "id": "85957d8b-8605-428d-a951-20ab97708495",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "SHARED_EXPERIENCE",
+          "revision": 5,
+          "source_transition_id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+          "recorded_stage": "RESOLUTION",
+          "created_at": "2026-10-21T10:42:39.017Z"
+        },
+        {
+          "id": "bf3648bc-2f11-40ba-83d3-835db02301b8",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "RELATIONSHIP",
+          "revision": 6,
+          "source_transition_id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+          "recorded_stage": "SHARED_EXPERIENCE",
+          "created_at": "2026-10-21T10:42:39.567Z"
+        },
+        {
+          "id": "70341fc2-f7c8-440c-8573-8fb9139e115b",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "ENDING_FEEDBACK",
+          "revision": 7,
+          "source_transition_id": "516b2a3b-3d80-4b7b-a9e8-832138326dd1",
+          "recorded_stage": "RELATIONSHIP",
+          "created_at": "2026-10-21T10:42:40.384Z"
+        },
+        {
+          "id": "f60e1fe1-4aa5-448d-870b-60959924b7da",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_phase",
+          "value": "COMPLETED",
+          "revision": 8,
+          "source_transition_id": "6586b7d5-2e8d-4ac6-96f8-17cb59b7bc0a",
+          "recorded_stage": "ENDING_FEEDBACK",
+          "created_at": "2026-10-21T10:42:40.508Z"
+        },
+        {
+          "id": "85e129da-0636-4ee3-a409-5ad27164e6a4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_state",
+          "value": "食堂",
+          "revision": 1,
+          "source_transition_id": "58d21e49-a6fc-4b10-b27c-b9ac941560fc",
+          "recorded_stage": "FIRST_CONTACT",
+          "created_at": "2026-10-21T10:42:38.779Z"
+        },
+        {
+          "id": "549afacb-4b98-4628-b707-9150afc6385a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_state",
+          "value": "食堂",
+          "revision": 2,
+          "source_transition_id": "b0471247-b6a5-4303-845e-d73d42d9556d",
+          "recorded_stage": "MISUNDERSTANDING",
+          "created_at": "2026-10-21T10:42:38.900Z"
+        },
+        {
+          "id": "807c26f8-a7bf-4ed6-857d-80e42e6b701b",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_state",
+          "value": "自习室",
+          "revision": 3,
+          "source_transition_id": "ab331ba9-d32e-4a5d-9a88-b39af62fe861",
+          "recorded_stage": "RESOLUTION",
+          "created_at": "2026-10-21T10:42:39.017Z"
+        },
+        {
+          "id": "222a5e7a-85e3-475e-9251-ce89dacaa13e",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "scene_state",
+          "value": "校园散步",
+          "revision": 4,
+          "source_transition_id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+          "recorded_stage": "SHARED_EXPERIENCE",
+          "created_at": "2026-10-21T10:42:39.567Z"
+        },
+        {
+          "id": "28d70329-9d93-4e0d-b90e-89b58350c8ab",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "key": "shared_experience_response",
+          "value": "Marcus喜欢音乐，李阳愿意分享当前经历，逐渐理解彼此。合成回应6。",
+          "revision": 1,
+          "source_transition_id": "0ecc6bf4-80e3-4f8c-b83f-b0ec5a65bb8a",
+          "recorded_stage": "SHARED_EXPERIENCE",
+          "created_at": "2026-10-21T10:42:39.567Z"
+        }
+      ],
+      "model_runs": [
+        {
+          "id": "87bd8d61-365e-48b8-8346-769c9fd5db1c",
+          "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "1.6380879999996978",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.447Z"
+        },
+        {
+          "id": "5ed5ec8d-59fa-46c9-84a8-0781cf9ea5a3",
+          "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "1.4246450000009645",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.567Z"
+        },
+        {
+          "id": "e8b60e4e-1230-4a74-a676-5931fad68958",
+          "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5585150000006252",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.673Z"
+        },
+        {
+          "id": "c8d4e28f-2265-40c0-bf90-25efaa1a13cb",
+          "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+          "prompt_version": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.8468210000010004",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.779Z"
+        },
+        {
+          "id": "ff3c4b40-ef1a-432d-bf8f-9e7516d799ac",
+          "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+          "prompt_version": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.9094060000006721",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.900Z"
+        },
+        {
+          "id": "5e54cbe8-d4c7-4bca-9a81-26e70ee4c8a8",
+          "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "4d5f6baf-6a4d-4290-9064-97473625524c",
+          "prompt_version": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.739478000001327",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.017Z"
+        },
+        {
+          "id": "1af2b624-3a0e-4bbb-95a5-eac85dcfa87c",
+          "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+          "prompt_version": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.8211019999998825",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.567Z"
+        },
+        {
+          "id": "62cbcaba-a6ca-401c-ac0d-9849c71ac429",
+          "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.768261999999595",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.695Z"
+        },
+        {
+          "id": "b6070ccf-b7f0-421a-963e-53f347a0a1dd",
+          "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5823110000001179",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.809Z"
+        },
+        {
+          "id": "ed71842b-efb6-4d41-8daa-18669eeff900",
+          "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5423609999998007",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.908Z"
+        },
+        {
+          "id": "979a8302-406e-4035-ad61-40d332f54559",
+          "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.8020529999994324",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.026Z"
+        },
+        {
+          "id": "81eb8d3f-d58c-4642-ae7a-61a82d22dd37",
+          "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5413989999997284",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.143Z"
+        },
+        {
+          "id": "69926653-ad37-48c5-9a0c-062c8c690b3b",
+          "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5487799999991694",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.261Z"
+        },
+        {
+          "id": "d05cba7e-d4c4-451e-9988-e68eadb5dc05",
+          "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.6489719999990484",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.384Z"
+        },
+        {
+          "id": "94479451-ddeb-49d5-a961-624f8a4cd44b",
+          "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+          "prompt_version": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.707459999999628",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.508Z"
+        }
+      ],
+      "model_run_log": [
+        {
+          "id": "87bd8d61-365e-48b8-8346-769c9fd5db1c",
+          "turn_id": "35623c0b-c4da-4501-a82a-e1330131cc52",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "1.6380879999996978",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.447Z"
+        },
+        {
+          "id": "5ed5ec8d-59fa-46c9-84a8-0781cf9ea5a3",
+          "turn_id": "efac2910-df1f-4eb3-bae2-fa10773c5623",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "1.4246450000009645",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.567Z"
+        },
+        {
+          "id": "e8b60e4e-1230-4a74-a676-5931fad68958",
+          "turn_id": "30076a06-4157-4a25-a1da-5288b4d5cb76",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "833c19a7-0059-40c4-9ca1-880dd22503c4",
+          "prompt_version": "stage-language-v3-c5622698496f7a557bb9c0d17116b794cd236eabcbc8a362ca46da507180f900-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5585150000006252",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.673Z"
+        },
+        {
+          "id": "c8d4e28f-2265-40c0-bf90-25efaa1a13cb",
+          "turn_id": "2ec8cf8e-c67b-43a1-9597-a6ddc6dbb5de",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "260a0ca9-06f2-4589-8d9c-4b2b9170d799",
+          "prompt_version": "stage-language-v3-4fa582b00bbf1122abd709894253b0043750805c13c383351bdd5b9ee343ded6-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.8468210000010004",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.779Z"
+        },
+        {
+          "id": "ff3c4b40-ef1a-432d-bf8f-9e7516d799ac",
+          "turn_id": "961058c0-705a-43eb-80d4-497fdf9e71f4",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "6bb4a8e0-6fa7-4e0c-bda8-9e16689a109b",
+          "prompt_version": "stage-language-v3-65ec771c7443d509c496d472058483563745657465cc9c79287ac1017fe4a49d-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.9094060000006721",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:38.900Z"
+        },
+        {
+          "id": "5e54cbe8-d4c7-4bca-9a81-26e70ee4c8a8",
+          "turn_id": "3acfbda5-4952-4391-be84-274b753d3553",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "4d5f6baf-6a4d-4290-9064-97473625524c",
+          "prompt_version": "stage-language-v3-2e833961f35b4df59a9a2df48de8eda967eec812c470b1747cbf07685a5e7c6e-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.739478000001327",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.017Z"
+        },
+        {
+          "id": "1af2b624-3a0e-4bbb-95a5-eac85dcfa87c",
+          "turn_id": "15b0d298-b3f0-443c-9a28-871b5a33808f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "0713e40b-5a8c-44aa-90e3-3278f6841aad",
+          "prompt_version": "stage-language-v3-b84bc9922482a6d05b56baf274ec0d5a2a583a14afb824e14e4048594b303a80-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.8211019999998825",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.567Z"
+        },
+        {
+          "id": "62cbcaba-a6ca-401c-ac0d-9849c71ac429",
+          "turn_id": "f203a936-5093-4c66-b1d6-40ec5a7de227",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.768261999999595",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.695Z"
+        },
+        {
+          "id": "b6070ccf-b7f0-421a-963e-53f347a0a1dd",
+          "turn_id": "cddfcbd6-42af-45bd-8ca8-2121eea2b47c",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5823110000001179",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.809Z"
+        },
+        {
+          "id": "ed71842b-efb6-4d41-8daa-18669eeff900",
+          "turn_id": "4d7c5bc4-f11b-493f-aadb-280203dc52ec",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5423609999998007",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:39.908Z"
+        },
+        {
+          "id": "979a8302-406e-4035-ad61-40d332f54559",
+          "turn_id": "640edbda-7fab-46bc-a3ff-7b79c695693e",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.8020529999994324",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.026Z"
+        },
+        {
+          "id": "81eb8d3f-d58c-4642-ae7a-61a82d22dd37",
+          "turn_id": "8535d382-dfd1-424a-8062-824bbf692989",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5413989999997284",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.143Z"
+        },
+        {
+          "id": "69926653-ad37-48c5-9a0c-062c8c690b3b",
+          "turn_id": "be2e12d8-c3a3-4029-b478-4174421e9f0f",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.5487799999991694",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.261Z"
+        },
+        {
+          "id": "d05cba7e-d4c4-451e-9988-e68eadb5dc05",
+          "turn_id": "8ecb4e9f-eac0-41b7-a37d-926618c8d20a",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "c4e5151f-828d-48e8-9902-9f38c847dab4",
+          "prompt_version": "stage-language-v3-de31438dd67a77ec928f0ac465e28331ce9e9733c1b56ba6e81875efbbfedb1c-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.6489719999990484",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.384Z"
+        },
+        {
+          "id": "94479451-ddeb-49d5-a961-624f8a4cd44b",
+          "turn_id": "0bb32248-a4e3-44bf-b770-5dbea01239e6",
+          "session_id": "bf821f7b-4a83-4301-ad85-d6f214ed03c8",
+          "experiment_id": "d5db1dfd-baf5-43f5-a054-2283e8306816",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "e098f50a-0bc6-4e9c-bce2-e9b573c74967",
+          "prompt_version": "stage-language-v3-ae8d2f52c9fa50c542eca5bcd8c893c8231c9ba131da156456a5fabfaeeba2a3-path-presentation-v2",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.707459999999628",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T10:42:40.508Z"
+        }
+      ]
+    }
+  ],
+  "data_quality": {
+    "scope": "all experiment rows in this snapshot",
+    "passed": true,
+    "checks": {
+      "sessions_without_state": 0,
+      "messages_without_state": 0,
+      "state_event_mismatch": 0,
+      "transition_chain_gaps": 0,
+      "variables_without_valid_source": 0,
+      "turn_slot_mismatch": 0,
+      "ready_turn_without_reply": 0,
+      "ready_turn_without_model_log": 0
+    }
+  }
+}

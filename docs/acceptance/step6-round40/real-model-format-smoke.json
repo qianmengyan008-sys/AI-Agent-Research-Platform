@@ -1,0 +1,62 @@
+{
+  "synthetic_inputs": true,
+  "real_provider": true,
+  "scope": "two bounded format smoke cases; not full real-model paths or a Render test",
+  "settings": {
+    "provider": "deepseek",
+    "model_name": "deepseek-flash",
+    "base_url": "https://api.deepseek.com/v1",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "timeout_ms": 10000,
+    "max_attempts": 2
+  },
+  "cases": [
+    {
+      "path": "daily",
+      "status": "generated",
+      "format_pass": true,
+      "text": "学习忙的时候听点音乐挺解压。我更偏爱节奏感强的，你呢？",
+      "bubbles": ["学习忙的时候听点音乐挺解压。我更偏爱节奏感强的，你呢？"],
+      "attempts": 1,
+      "latency_ms": 1943,
+      "transport": [
+        {
+          "attempt": 1,
+          "provider": "deepseek",
+          "requested_model": "deepseek-flash",
+          "response_model": "deepseek-flash",
+          "http_status": 200,
+          "network_failed": false
+        }
+      ],
+      "violations": []
+    },
+    {
+      "path": "emotional",
+      "status": "generated",
+      "format_pass": true,
+      "text": "Marcus：我刚来中国留学，喜欢音乐，有点害羞。  \n李阳：我是中国大学生李阳，想认识你。  \n李阳：你想先补充谁的外貌、兴趣或性格？",
+      "bubbles": [
+        "Marcus：我刚来中国留学，喜欢音乐，有点害羞。  \n",
+        "李阳：我是中国大学生李阳，想认识你。  \n",
+        "李阳：你想先补充谁的外貌、兴趣或性格？"
+      ],
+      "attempts": 1,
+      "latency_ms": 2478,
+      "transport": [
+        {
+          "attempt": 1,
+          "provider": "deepseek",
+          "requested_model": "deepseek-flash",
+          "response_model": "deepseek-flash",
+          "http_status": 200,
+          "network_failed": false
+        }
+      ],
+      "violations": []
+    }
+  ],
+  "code_commit": "c21f9036e13eb507e01cdaf14c22319735c8cbfc",
+  "presentation_version": "path-presentation-v2"
+}

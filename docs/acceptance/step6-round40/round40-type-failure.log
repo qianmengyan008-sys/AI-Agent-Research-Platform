@@ -1,0 +1,96 @@
+
+> ai-agent-research-platform@0.1.0 check
+> npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser
+
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+tests/chat-flow.test.ts(356,86): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+tests/chat-flow.test.ts(625,19): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(626,28): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(627,29): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(633,27): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(634,31): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(638,27): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(640,36): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(642,28): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(646,19): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(650,39): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(655,28): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(662,68): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(671,21): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(672,30): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+tests/chat-flow.test.ts(673,31): error TS2345: Argument of type '{ experimentId: any; participantId: string; code: string; token: string; }' is not assignable to parameter of type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+  Property 'templateId' is missing in type '{ experimentId: any; participantId: string; code: string; token: string; }' but required in type '{ code: string; token: string; participantId: string; experimentId: string; templateId: string; }'.
+npm error Lifecycle script `typecheck` failed with error:
+npm error code 2
+npm error path /workspace/AI-Agent-Research-Platform/apps/api
+npm error workspace @research/api@0.1.0
+npm error location /workspace/AI-Agent-Research-Platform/apps/api
+npm error command failed
+npm error command sh -c tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+

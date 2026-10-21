@@ -1,0 +1,68 @@
+
+Running 2 tests using 1 worker
+
+(node:249680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 apps/web/tests/browser.spec.ts:652:1 › full frozen cognitive browser flow uses only chat input plus current confirmation/rating cards; cards become durable read-only history (9.1s)
+(node:250020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 apps/web/tests/browser.spec.ts:875:1 › mobile cognitive path completes with valid 0 and 100 ratings and an accessible submit button (8.2s)
+
+
+  1) apps/web/tests/browser.spec.ts:652:1 › full frozen cognitive browser flow uses only chat input plus current confirmation/rating cards; cards become durable read-only history
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('本次实验已完成，谢谢参与。', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('本次实验已完成，谢谢参与。', { exact: true }) with timeout 5000ms
+      - waiting for getByText('本次实验已完成，谢谢参与。', { exact: true })
+
+
+      713 |     'COMPLETED',
+      714 |   ]);
+    > 715 |   await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+          |                                                                  ^
+      716 |   await expect(page.locator('.completed-card')).toHaveCount(3);
+      717 |   await screenshot(page, 'cognitive-complete');
+      718 |   await saveRecords(s, 'browser-cognitive-complete');
+        at /workspace/AI-Agent-Research-Platform/apps/web/tests/browser.spec.ts:715:66
+
+    Error Context: ../../tmp/research-browser-results/browser-full-frozen-cognit-df504-e-durable-read-only-history/error-context.md
+
+    Error Context: ../../tmp/research-browser-results/browser-full-frozen-cognit-df504-e-durable-read-only-history/error-context.md
+
+  2) apps/web/tests/browser.spec.ts:875:1 › mobile cognitive path completes with valid 0 and 100 ratings and an accessible submit button
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('本次实验已完成，谢谢参与。', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('本次实验已完成，谢谢参与。', { exact: true }) with timeout 5000ms
+      - waiting for getByText('本次实验已完成，谢谢参与。', { exact: true })
+
+
+      903 |       );
+      904 |   }
+    > 905 |   await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+          |                                                                  ^
+      906 |   const data = await services.admin.export(actor, s.experimentId);
+      907 |   expect(data.variables.find((v) => v.key === 'rating_1')!.value).toBe(0);
+      908 |   expect(data.variables.find((v) => v.key === 'rating_2')!.value).toBe(100);
+        at /workspace/AI-Agent-Research-Platform/apps/web/tests/browser.spec.ts:905:66
+
+    Error Context: ../../tmp/research-browser-results/browser-mobile-cognitive-p-ca4be-an-accessible-submit-button/error-context.md
+
+    Error Context: ../../tmp/research-browser-results/browser-mobile-cognitive-p-ca4be-an-accessible-submit-button/error-context.md
+
+  2 failed
+    apps/web/tests/browser.spec.ts:652:1 › full frozen cognitive browser flow uses only chat input plus current confirmation/rating cards; cards become durable read-only history
+    apps/web/tests/browser.spec.ts:875:1 › mobile cognitive path completes with valid 0 and 100 ratings and an accessible submit button
