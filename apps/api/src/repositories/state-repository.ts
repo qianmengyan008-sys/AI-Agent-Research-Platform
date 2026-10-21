@@ -18,7 +18,7 @@ export interface Bundle {
   snapshot: ExperimentStateSnapshot;
   state_token: string;
   definition: ExperimentDefinition;
-  agent: { name: string };
+  agent: { name: string; participant_display?: { identity: string; avatar?: string } };
   configuration: Configuration;
   policies: Record<string, StagePolicy>;
   prompt_ids: Record<string, string>;

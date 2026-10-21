@@ -1,3 +1,4 @@
+import { AccountManager } from './AccountManager';
 import { useRef, useState } from 'react';
 import type {
   AdminDevelopment,
@@ -136,6 +137,13 @@ export function Admin() {
               >
                 刷新查询
               </button>
+              <AccountManager
+                key={experiment}
+                token={token}
+                experiment={experiment}
+                participants={participants}
+                onChanged={() => load(experiment)}
+              />
               <h3>参与者与当前状态</h3>
               <div className="table-scroll">
                 <table>

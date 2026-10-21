@@ -59,6 +59,33 @@ export function businessRoutes(
   router.get('/admin/participants', async (req, res) => {
     res.json(await services.admin.participants(actor, String(req.query.experiment_id ?? '')));
   });
+  router.get('/admin/account-options', async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json(await services.accounts.options(actor, String(req.query.experiment_id ?? '')));
+  });
+  router.post('/admin/account-batches', async (req, res) => {
+    const result = await services.accounts.batch(actor, req.body);
+    res
+      .status(201)
+      .set({
+        'Cache-Control': 'no-store',
+        Pragma: 'no-cache',
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition': `attachment; filename="login-accounts-${result.batch_id}.xlsx"`,
+      })
+      .send(result.workbook);
+  });
+  router.post('/admin/participants/:id/reset-login', async (req, res) => {
+    const workbook = await services.accounts.reset(actor, String(req.params.id));
+    res
+      .set({
+        'Cache-Control': 'no-store',
+        Pragma: 'no-cache',
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Content-Disposition': 'attachment; filename="reset-login-account.xlsx"',
+      })
+      .send(workbook);
+  });
   router.get('/admin/conversations', async (req, res) => {
     res.json(await services.admin.conversations(actor, String(req.query.experiment_id ?? '')));
   });

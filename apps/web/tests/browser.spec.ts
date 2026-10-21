@@ -1,7 +1,9 @@
+import { UnitOfWork } from '../../api/src/repositories/context.js';
+import { limits, turnStages } from '../../api/src/services/research-profile.js';
 import { execFileSync } from 'node:child_process';
 import { randomUUID, createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import pg from 'pg';
 import { createServer } from 'vite';
@@ -38,6 +40,8 @@ let pool: pg.Pool,
   base = '',
   created = false,
   calls = 0;
+let bubbleReply: string | undefined;
+let variedStoryReplies = false;
 let failModel = false,
   releaseModel: (() => void) | undefined;
 const traces: BusinessTrace[] = [];
@@ -108,6 +112,9 @@ test.beforeAll(async () => {
           releaseModel = resolve;
         });
       if (failModel) throw new Error('SYNTHETIC_MODEL_FAILURE');
+      if (bubbleReply !== undefined) return bubbleReply;
+      if (variedStoryReplies)
+        return `Marcus和李阳分享音乐与学习的经历，逐渐加深对彼此的理解。合成叙述${calls}`;
       const belief = prompt.messages
         .map((m) => m.content)
         .join('\n')
@@ -154,6 +161,8 @@ test.afterAll(async () => {
 });
 test.beforeEach(() => {
   failModel = false;
+  bubbleReply = undefined;
+  variedStoryReplies = false;
   releaseModel = undefined;
   calls = 0;
   traces.length = 0;
@@ -224,10 +233,12 @@ test('participant browser login, chat and explicit source submission persist thr
   expect(before.states[0].core_version).toBe(1);
   expect(before.transitions).toHaveLength(1);
   expect(before.variables).toHaveLength(0);
-  await page.getByLabel('当前回答', { exact: true }).fill('浏览器明确提交的表达');
-  await page.getByLabel('表达来源（选填）', { exact: true }).fill('浏览器明确填写的来源');
+  await page.getByLabel('确认内容', { exact: true }).fill('浏览器明确提交的表达');
+  await page
+    .getByLabel('你是从哪里了解到的？（选填）', { exact: true })
+    .fill('浏览器明确填写的来源');
   await screenshot(page, 'participant-chat');
-  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
   await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
   await page.reload();
   await login(page, s);
@@ -263,13 +274,14 @@ test('browser completes the cognitive path with explicit submissions and persist
     } else if (n === 2 || n === 7)
       await page.getByLabel('当前评分', { exact: true }).fill(n === 2 ? '6' : '4');
     else {
-      await page.getByLabel('当前回答', { exact: true }).fill(`明确填写 ${n}`);
-      if (n === 0) await page.getByLabel('表达来源（选填）', { exact: true }).fill('合成来源');
+      await page.getByLabel('确认内容', { exact: true }).fill(`明确填写 ${n}`);
+      if (n === 0)
+        await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('合成来源');
     }
     const post = page.waitForResponse(
       (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
     );
-    await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+    await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
     expect((await post).status()).toBe(200);
     if (n < 8) await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
   }
@@ -304,11 +316,11 @@ test('browser completes the emotion path while persisting all four research vari
     await page.getByRole('button', { name: '发送', exact: true }).click();
     expect((await chat).status()).toBe(200);
     await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
-    await page.getByLabel('当前回答', { exact: true }).fill(`情感阶段明确填写 ${n}`);
+    await page.getByLabel('确认内容', { exact: true }).fill(`情感阶段明确填写 ${n}`);
     const post = page.waitForResponse(
       (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
     );
-    await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+    await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
     expect((await post).status()).toBe(200);
     if (n < 6) await expect(page.getByRole('button', { name: '发送', exact: true })).toBeVisible();
   }
@@ -360,8 +372,8 @@ test('lost submission response is replayed once and does not create a second tra
       await route.abort('failed');
     } else await route.fulfill({ response });
   });
-  await page.getByLabel('当前回答', { exact: true }).fill('网络明确提交');
-  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await page.getByLabel('确认内容', { exact: true }).fill('网络明确提交');
+  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('网络连接中断');
   await page.getByRole('button', { name: '重试同一提交', exact: true }).click();
   await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
@@ -374,10 +386,12 @@ test('loading prevents explicit submission during generation and failure leaves 
   const s = await account();
   await login(page, s);
   releaseModel = () => {};
-  await page.getByLabel('当前回答', { exact: true }).fill('生成中禁止提交');
+  await page.getByLabel('确认内容', { exact: true }).fill('生成中禁止提交');
   await page.getByLabel('发送消息', { exact: true }).fill('等待回复');
   await page.getByRole('button', { name: '发送', exact: true }).click();
-  await expect(page.getByRole('button', { name: '提交当前填写', exact: true })).toBeDisabled();
+  await expect(
+    page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }),
+  ).toBeDisabled();
   for (let n = 0; n < 100 && calls === 0; n++) await new Promise((r) => setTimeout(r, 10));
   releaseModel!();
   releaseModel = undefined;
@@ -454,9 +468,9 @@ test('administrator explicitly opens read-only development data while participan
   await page.getByLabel('发送消息', { exact: true }).fill('开发模式合成消息');
   await page.getByRole('button', { name: '发送', exact: true }).click();
   await expect(page.getByRole('log')).toContainText('谢谢分享');
-  await page.getByLabel('当前回答', { exact: true }).fill('开发模式明确表达');
-  await page.getByLabel('表达来源（选填）', { exact: true }).fill('开发模式明确来源');
-  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await page.getByLabel('确认内容', { exact: true }).fill('开发模式明确表达');
+  await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('开发模式明确来源');
+  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
   await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '管理员入口', exact: true }).click();
   await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
@@ -507,7 +521,12 @@ test('a definitive stale-state rejection releases message retry and refresh resu
   await page.getByRole('button', { name: '刷新实验', exact: true }).click();
   await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
   await page.getByLabel('发送消息', { exact: true }).fill('刷新后新消息');
+  const delivered = page.waitForResponse(
+    (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
+  );
   await page.getByRole('button', { name: '发送', exact: true }).click();
+  expect((await delivered).status()).toBe(200);
+  await expect(page.locator('.pending-message')).toHaveCount(0);
   await expect(page.getByRole('log')).toContainText('刷新后新消息');
   const data = await services.admin.export(actor, s.experimentId);
   expect(data.states[0].core_version).toBe(2);
@@ -540,9 +559,9 @@ test('model failure and browser reload preserve advanced state and previously sa
 }) => {
   const s = await account();
   await login(page, s);
-  await page.getByLabel('当前回答', { exact: true }).fill('恢复用明确表达');
-  await page.getByLabel('表达来源（选填）', { exact: true }).fill('恢复用来源');
-  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await page.getByLabel('确认内容', { exact: true }).fill('恢复用明确表达');
+  await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('恢复用来源');
+  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
   await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
   failModel = true;
   await page.getByLabel('发送消息', { exact: true }).fill('恢复用失败消息');
@@ -612,9 +631,9 @@ test('three page refreshes and new logins retain assignment, source, ordered mes
   await page.getByLabel('发送消息', { exact: true }).fill('多次刷新前消息');
   await page.getByRole('button', { name: '发送', exact: true }).click();
   await expect(page.getByRole('log')).toContainText('谢谢分享');
-  await page.getByLabel('当前回答', { exact: true }).fill('多次刷新明确表达');
-  await page.getByLabel('表达来源（选填）', { exact: true }).fill('多次刷新固定来源');
-  await page.getByRole('button', { name: '提交当前填写', exact: true }).click();
+  await page.getByLabel('确认内容', { exact: true }).fill('多次刷新明确表达');
+  await page.getByLabel('你是从哪里了解到的？（选填）', { exact: true }).fill('多次刷新固定来源');
+  await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
   await expect(page.getByLabel('确认后的观点', { exact: true })).toBeVisible();
   const before = await services.admin.export(actor, s.experimentId);
   for (let n = 0; n < 3; n++) {
@@ -781,7 +800,9 @@ test('mentor profile presents the same bounded rating card twice with an immutab
   await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('max', '100');
   await expect(page.getByLabel('当前评分', { exact: true })).toHaveAttribute('step', '1');
   await page.getByLabel('当前评分', { exact: true }).fill('1.5');
-  await expect(page.getByRole('button', { name: '提交当前填写', exact: true })).toBeDisabled();
+  await expect(
+    page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }),
+  ).toBeDisabled();
   await send('准备评分');
   await submit({ rating: 0 });
   for (let i = 0; i < 4; i++) {
@@ -797,4 +818,308 @@ test('mentor profile presents the same bounded rating card twice with an immutab
     '完全不相信该观点',
   );
   await screenshot(page, 'mentor-unified-rating-card');
+});
+
+for (const paragraphs of ['A\nB\nC', 'A\n\nB\nC\n\nD'])
+  test(`assistant bubbles survive reload without content loss: ${JSON.stringify(paragraphs)}`, async ({
+    page,
+  }) => {
+    const s = await account('daily_v1');
+    bubbleReply = paragraphs;
+    await login(page, s);
+    const response = page.waitForResponse(
+      (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
+    );
+    await page.getByLabel('发送消息', { exact: true }).fill('检查多段阅读体验');
+    await page.getByRole('button', { name: '发送', exact: true }).click();
+    expect((await response).status()).toBe(200);
+    await expect(page.locator('.message.assistant .bubble')).toHaveCount(3);
+    const expected = paragraphs.includes('D') ? ['A', 'B', 'C\nD'] : ['A', 'B', 'C'];
+    expect(await page.locator('.message.assistant .bubble').allTextContents()).toEqual(expected);
+    const userBox = await page.locator('.message.user .bubble').boundingBox(),
+      aiBox = await page.locator('.message.assistant .bubble').first().boundingBox();
+    expect(userBox!.x).toBeGreaterThan(aiBox!.x);
+    await screenshot(
+      page,
+      paragraphs.includes('D') ? 'four-paragraphs-three-bubbles' : 'three-paragraphs-three-bubbles',
+    );
+    await page.reload();
+    await login(page, s);
+    expect(await page.locator('.message.assistant .bubble').allTextContents()).toEqual(expected);
+    await expect(page.getByText('当前填写', { exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: '结束本次对话', exact: true }).click();
+    await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+  });
+
+test('optimistic user bubble appears immediately while generation waits and becomes one durable message', async ({
+  page,
+}) => {
+  const s = await account('daily_v1');
+  await login(page, s);
+  releaseModel = () => {};
+  await page.getByLabel('发送消息', { exact: true }).fill('这条消息应立即出现在右侧');
+  await page.getByRole('button', { name: '发送', exact: true }).click();
+  await expect(page.locator('.pending-message .bubble')).toHaveText('这条消息应立即出现在右侧');
+  await expect(page.getByRole('button', { name: '处理中…', exact: true })).toBeDisabled();
+  await expect.poll(() => calls).toBe(1);
+  releaseModel?.();
+  releaseModel = undefined;
+  await expect(page.locator('.pending-message')).toHaveCount(0);
+  await expect(page.locator('.message.user')).toHaveCount(1);
+  await expect(page.getByLabel('发送消息', { exact: true })).toHaveValue('');
+});
+
+for (const path of ['cognitive_v1', 'emotion_v1'])
+  test(`complete frozen mentor path through chat cards: ${path}`, async ({ page }) => {
+    test.setTimeout(90000);
+    const s = await account(path, true);
+    variedStoryReplies = path === 'emotion_v1';
+    await login(page, s);
+    const uow = new UnitOfWork(pool);
+    let iterations = 0;
+    while (iterations++ < 15) {
+      let bundle = await uow.read((r) => r.states.load(s.participantId));
+      if (bundle!.status === 'completed') break;
+      const stage = bundle!.snapshot.stage;
+      const count = await uow.read((r) =>
+        r.conversations.turnCounts(bundle!.session_id, turnStages(bundle!)),
+      );
+      const local = await uow.read((r) => r.conversations.turnCounts(bundle!.session_id, [stage]));
+      const needed = Math.max(limits(bundle!).min - count.effective, local.effective === 0 ? 1 : 0);
+      for (let i = 0; i < needed; i++) {
+        const input =
+          path === 'cognitive_v1'
+            ? `媒体让我觉得美国黑人犯罪率高，我想了解个体和环境差异。合成补充${iterations}-${i}`
+            : `Marcus喜欢音乐，李阳慢热，他们继续交流眼前的经历和感受。合成补充${iterations}-${i}`;
+        const completed = page.waitForResponse(
+          (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
+        );
+        await page.getByLabel('发送消息', { exact: true }).fill(input);
+        await page.getByRole('button', { name: '发送', exact: true }).click();
+        expect((await completed).status()).toBe(200);
+        await expect(page.locator('.pending-message')).toHaveCount(0);
+      }
+      bundle = await uow.read((r) => r.states.load(s.participantId));
+      if (bundle!.snapshot.stage !== stage) {
+        await page.getByRole('button', { name: '刷新实验', exact: true }).click();
+        continue;
+      }
+      await expect(page.getByText('当前填写', { exact: true })).toHaveCount(0);
+      await expect(page.locator('.agent-avatar')).toHaveCount(0);
+      await expect(page.locator('.agent-identity')).toHaveCount(0);
+      const fields = bundle!.definition.stages.find((x) => x.id === stage)!.fields;
+      for (const f of fields) {
+        if (f.type === 'number')
+          await page
+            .getByLabel('当前评分', { exact: true })
+            .fill(stage === 'SECOND_RATING' ? '35' : '70');
+        else if (f.type === 'confirmation')
+          await page.getByLabel('我确认上述观点', { exact: true }).check();
+        else
+          await page
+            .getByLabel(f.field === 'viewpoint' ? '确认后的观点' : '确认内容', { exact: true })
+            .fill(
+              path === 'cognitive_v1'
+                ? '媒体让我觉得美国黑人犯罪率高'
+                : 'Marcus和李阳通过音乐与学习经历逐渐加深理解。',
+            );
+      }
+      if (stage === 'INITIAL_RATING') await screenshot(page, 'cognitive-rating-inline');
+      if (stage === 'RELATIONSHIP') await screenshot(page, 'emotional-story-inline');
+      if (stage === 'SECOND_RATING') {
+        const before = await page.locator('.message.assistant .bubble').allTextContents();
+        await page.reload();
+        await login(page, s);
+        expect(await page.locator('.message.assistant .bubble').allTextContents()).toEqual(before);
+        await page.getByLabel('当前评分', { exact: true }).fill('35');
+      }
+      for (const message of await page.locator('.message.assistant').all())
+        expect(await message.locator('.bubble').count()).toBeLessThanOrEqual(3);
+      const submitted = page.waitForResponse(
+        (r) => r.url().endsWith('/api/experiment/submissions') && r.request().method() === 'POST',
+      );
+      await page.getByRole('button', { name: /确认并继续|提交评分/, exact: true }).click();
+      const submissionResponse = await submitted;
+      expect(
+        submissionResponse.status(),
+        stage +
+          ' ' +
+          (await submissionResponse.text()) +
+          ' counts=' +
+          JSON.stringify(
+            await uow.read((r) =>
+              r.conversations.turnCounts(bundle!.session_id, turnStages(bundle!)),
+            ),
+          ),
+      ).toBe(200);
+    }
+    await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+    const output = await services.admin.export(actor, s.experimentId);
+    expect(output.complete).toBe(true);
+    expect(output.states[0].status).toBe('completed');
+    if (path === 'cognitive_v1') {
+      expect(output.variables.some((v) => v.key === 'rating_1' && v.value === 70)).toBe(true);
+      expect(output.variables.some((v) => v.key === 'rating_2' && v.value === 35)).toBe(true);
+    }
+    await screenshot(page, path === 'cognitive_v1' ? 'cognitive-complete' : 'emotional-complete');
+    await saveRecords(
+      s,
+      path === 'cognitive_v1' ? 'mentor-cognitive-complete' : 'mentor-emotional-complete',
+    );
+  });
+
+test('two daily identity groups follow frozen assignment after relogin, finish independently, and fit a mobile screen', async ({
+  page,
+}) => {
+  const e = await services.experiments.create(actor, {
+    name: '日常身份分配合成实验',
+    instructions: '两个合成身份用于界面和隔离验证，不是正式人物材料。',
+  });
+  const configs = [
+    {
+      code: 'A',
+      name: '合成智能体甲',
+      identity: '合成身份甲 · 仅用于界面分配验收',
+      avatar: '/agent-avatars/synthetic-a.svg',
+    },
+    {
+      code: 'B',
+      name: '合成智能体乙',
+      identity: '合成身份乙 · 仅用于界面分配验收',
+      avatar: '/agent-avatars/synthetic-b.svg',
+    },
+  ];
+  const conditions = [];
+  for (const c of configs)
+    conditions.push(
+      await services.experiments.condition(actor, e.experimentId, {
+        code: c.code,
+        path_version: 'daily_v1',
+        agent_name: c.name,
+        participant_display: { identity: c.identity, avatar: c.avatar },
+        demo_policies: true,
+      }),
+    );
+  await services.experiments.publish(actor, e.experimentId);
+  for (let i = 0; i < configs.length; i++) {
+    const c = configs[i]!,
+      code = 'DAILY-' + randomUUID().slice(0, 8),
+      p = await services.participants.create(actor, {
+        experiment_id: e.experimentId,
+        participant_code: code,
+        password,
+      });
+    await services.experiments.assign(actor, {
+      participant_id: p.participantId,
+      condition_id: conditions[i]!.conditionId,
+    });
+    const s = { ...e, ...p, code };
+    if (i === 1) await page.setViewportSize({ width: 390, height: 844 });
+    await login(page, s);
+    await expect(
+      page.getByRole('heading', { name: `与 ${c.name} 对话`, exact: true }),
+    ).toBeVisible();
+    await expect(page.locator('.agent-identity')).toHaveText(c.identity);
+    await expect(page.locator('.agent-avatar')).toHaveAttribute('src', c.avatar);
+    const response = page.waitForResponse(
+      (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
+    );
+    await page.getByLabel('发送消息', { exact: true }).fill('今天我想聊聊音乐和阅读。');
+    await page.getByRole('button', { name: '发送', exact: true }).click();
+    expect((await response).status()).toBe(200);
+    await expect(page.locator('.pending-message')).toHaveCount(0);
+    await screenshot(page, i === 0 ? 'daily-identity-a-desktop' : 'daily-identity-b-mobile');
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.reload();
+    await login(page, s);
+    await expect(page.locator('.agent-identity')).toHaveText(c.identity);
+    await expect(page.locator('.agent-avatar')).toHaveAttribute('src', c.avatar);
+    await expect(page.getByRole('log')).toContainText('今天我想聊聊音乐和阅读。');
+    await page.getByRole('button', { name: '结束本次对话', exact: true }).click();
+    await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+    await saveRecords(s, `daily-identity-${c.code}-complete`);
+  }
+});
+
+test('administrator creates 30 synthetic login accounts and downloads real XLSX; two downloaded accounts login in separate tabs', async ({
+  page,
+  context,
+}) => {
+  test.setTimeout(60000);
+  const e = await services.experiments.create(actor, {
+    name: '批量30个浏览器合成账号',
+    instructions: '合成账号下载验收，不属于正式数据。',
+  });
+  const c = await services.experiments.condition(actor, e.experimentId, {
+    code: 'UI-GROUP',
+    path_version: 'daily_v1',
+    agent_name: '合成日常助手',
+    demo_policies: true,
+  });
+  await services.experiments.publish(actor, e.experimentId);
+  await page.goto(base);
+  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
+  await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  const optionsResponse = page.waitForResponse((r) =>
+    r.url().includes('/api/admin/account-options?'),
+  );
+  await page.getByLabel('选择实验', { exact: true }).selectOption(e.experimentId);
+  const opts = await optionsResponse;
+  expect(opts.status(), await opts.text()).toBe(200);
+  expect((await opts.json()).some((o: { path: string }) => o.path === 'daily')).toBe(true);
+  await page.getByLabel('实验路径', { exact: true }).selectOption('daily');
+  await page.getByLabel('实验条件与组别', { exact: true }).selectOption(c.conditionId);
+  await page.getByLabel('账号数量', { exact: true }).fill('30');
+  await page.getByLabel('编号前缀', { exact: true }).fill('BROWSER');
+  const created = page.waitForResponse(
+    (r) => r.url().endsWith('/api/admin/account-batches') && r.request().method() === 'POST',
+  );
+  await page.getByRole('button', { name: '批量创建实验账号', exact: true }).click();
+  expect((await created).status()).toBe(201);
+  await expect(page.getByRole('button', { name: '下载登录账号 Excel', exact: true })).toBeVisible();
+  await screenshot(page, 'admin-account-management');
+  const downloaded = page.waitForEvent('download');
+  await page.getByRole('button', { name: '下载登录账号 Excel', exact: true }).click();
+  const file = await downloaded;
+  const location = await file.path();
+  expect(location).toBeTruthy();
+  const bytes = await readFile(location!);
+  const matrix = JSON.parse(
+    execFileSync(
+      'python',
+      [
+        '-c',
+        'import io,sys,json,openpyxl;w=openpyxl.load_workbook(io.BytesIO(sys.stdin.buffer.read()),read_only=True);print(json.dumps(list(w.active.values),ensure_ascii=False))',
+      ],
+      { input: bytes, encoding: 'utf8' },
+    ),
+  ) as string[][];
+  expect(matrix.length).toBe(31);
+  const rows = matrix.slice(1).map((v) => Object.fromEntries(matrix[0]!.map((k, i) => [k, v[i]!])));
+  const pages = [await context.newPage(), await context.newPage()];
+  for (let i = 0; i < 2; i++) {
+    const p = pages[i]!,
+      r = rows[i]!;
+    await p.goto(base);
+    await p.getByLabel('实验编号', { exact: true }).fill(r.experiment_id!);
+    await p.getByLabel('参与者编号', { exact: true }).fill(r.participant_code!);
+    await p.getByLabel('密码', { exact: true }).fill(r.initial_password!);
+    await p.getByRole('button', { name: '登录实验', exact: true }).click();
+    await p.getByRole('button', { name: '开始／继续对话', exact: true }).click();
+    const reply = p.waitForResponse(
+      (x) => x.url().endsWith('/api/conversation/message') && x.request().method() === 'POST',
+    );
+    await p.getByLabel('发送消息', { exact: true }).fill('下载账号独立消息 ' + r.participant_code);
+    await p.getByRole('button', { name: '发送', exact: true }).click();
+    expect((await reply).status()).toBe(200);
+    await expect(p.locator('.pending-message')).toHaveCount(0);
+  }
+  for (let i = 0; i < 2; i++) {
+    await expect(pages[i]!.getByRole('log')).toContainText(rows[i]!.participant_code!);
+    await expect(pages[i]!.getByRole('log')).not.toContainText(rows[1 - i]!.participant_code!);
+    await pages[i]!.close();
+  }
 });

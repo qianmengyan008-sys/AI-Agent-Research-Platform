@@ -120,7 +120,12 @@ export class ParticipantService {
       const pending = await r.conversations.active(b!.session_id);
       return {
         instructions: b!.configuration.instructions,
-        agent: { name: b!.agent.name },
+        agent: {
+          name: b!.agent.name,
+          ...(b!.snapshot.path === 'daily' && b!.agent.participant_display
+            ? b!.agent.participant_display
+            : {}),
+        },
         ...projection(b!),
         ...(pending ? { status: 'generating', pending_turn_id: pending.id } : {}),
       };

@@ -44,6 +44,7 @@ export class ExperimentRepository {
     name: string,
     policies: readonly StagePolicy[],
     checksum: (x: unknown) => string,
+    display?: { identity: string; avatar?: string },
   ) {
     const a = (
       await this.db.query<{ id: string }>(
@@ -54,7 +55,12 @@ export class ExperimentRepository {
     const av = (
       await this.db.query<{ id: string }>(
         "INSERT INTO research.agent_version(experiment_id,agent_id,personality_version,configuration,content_hash) VALUES($1,$2,'1',$3,$4) RETURNING id",
-        [experiment, a.id, JSON.stringify({ name }), checksum({ name })],
+        [
+          experiment,
+          a.id,
+          JSON.stringify({ name, ...(display ? { participant_display: display } : {}) }),
+          checksum({ name, ...(display ? { participant_display: display } : {}) }),
+        ],
       )
     ).rows[0]!;
     await this.db.query(

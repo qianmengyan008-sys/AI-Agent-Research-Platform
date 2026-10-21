@@ -129,3 +129,184 @@ pre {
   border: 1px solid #d7e0e9;
   padding: 12px;
 }
+
+/* Participant chat; cards remain separate interactive components. */
+main:has(.chat-active) {
+  max-width: 1000px;
+  margin: 16px auto;
+}
+main:has(.chat-active) > h1 {
+  font-size: 1.25rem;
+  margin: 8px 0;
+}
+main:has(.chat-active) > .eyebrow {
+  display: none;
+}
+.chat-active {
+  padding: 16px;
+  margin-top: 16px;
+}
+.chat-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.chat-heading h3 {
+  margin: 8px 0;
+}
+.agent-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.agent-identity {
+  margin: 0;
+  color: #516578;
+}
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  height: 72dvh;
+  min-height: 420px;
+}
+.chat-layout .messages {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  background: #f5f7f8;
+  border-radius: 10px 10px 0 0;
+}
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 12px 0;
+  padding: 0;
+  background: transparent;
+}
+.message.user {
+  align-items: flex-end;
+  background: transparent;
+}
+.speaker {
+  font-size: 0.8rem;
+  color: #516578;
+}
+.bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  background: white;
+  color: #18324b;
+  border: 1px solid #d7e0e9;
+  border-radius: 3px 14px 14px;
+  box-sizing: border-box;
+}
+.message.user .bubble {
+  background: #d8eecd;
+  border-color: #bad8aa;
+  border-radius: 14px 3px 14px 14px;
+}
+.pending-message {
+  opacity: 0.75;
+}
+.composer {
+  position: sticky;
+  bottom: 0;
+  padding: 12px;
+  border: 1px solid #d7e0e9;
+  background: white;
+  border-radius: 0 0 10px 10px;
+}
+.composer form {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.composer label {
+  width: 100%;
+  margin: 0;
+  font-size: 0.9rem;
+}
+.composer textarea {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+  min-height: 52px;
+  max-height: 150px;
+  resize: vertical;
+}
+.composer button {
+  flex-shrink: 0;
+}
+.inline-card {
+  max-width: 640px;
+  background: white;
+  border: 1px solid #bacbd9;
+  border-radius: 12px;
+  margin: 16px 0;
+  padding: 14px;
+}
+.inline-card h3 {
+  margin: 0;
+}
+.inline-card input {
+  max-width: none;
+}
+.inline-card fieldset {
+  border: 1px solid #d7e0e9;
+  border-radius: 8px;
+}
+@media (max-width: 600px) {
+  main {
+    margin: 20px auto;
+    padding: 0 10px;
+  }
+  section {
+    padding: 16px;
+  }
+  .chat-active {
+    padding: 10px;
+  }
+  .chat-layout {
+    height: 70dvh;
+    min-height: 300px;
+  }
+  .bubble {
+    max-width: 92%;
+  }
+  .composer {
+    padding: 8px;
+  }
+  .composer button {
+    padding: 10px 12px;
+  }
+}
+.account-manager {
+  margin: 24px 0;
+  padding: 16px;
+  border: 1px solid #b7c9d9;
+  border-radius: 12px;
+}
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px 16px;
+}
+.account-grid label {
+  margin: 6px 0;
+}
+.account-grid input,
+.account-grid select {
+  max-width: none;
+}
+.login-download {
+  margin: 16px 0;
+  background: #286448;
+}
+.reset-account {
+  border-top: 1px solid #d7e0e9;
+  margin-top: 24px;
+}

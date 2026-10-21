@@ -56,4 +56,66 @@ export class ParticipantRepository {
       )
     ).rows as Record<string, unknown>[];
   }
+  async reserveLoginBatch(batch: string) {
+    await this.db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [
+      'login-batch:' + batch,
+    ]);
+    const prior = await this.db.query(
+      "SELECT 1 FROM research.admin_event WHERE event='LOGIN_ACCOUNTS_CREATED' AND reason=$1",
+      [batch],
+    );
+    if (prior.rowCount) {
+      const e = Object.assign(new Error('CONFLICT'), { code: '23505' });
+      throw e;
+    }
+  }
+  async accountOptions(experiment: string) {
+    return (
+      await this.db.query<{
+        id: string;
+        code: string;
+        path: string;
+        agent: string;
+        model_batch: string;
+      }>(
+        `
+      SELECT c.id,c.code,sm.path_type AS path,av.configuration->>'name' AS agent,
+      (t.configuration->'model'->>'provider') || ' / ' || (t.configuration->'model'->>'model_name') AS model_batch
+      FROM research.condition c JOIN research.template_version t ON t.id=c.template_version_id
+      JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id
+      JOIN research.agent_version av ON av.id=c.agent_version_id
+      WHERE c.experiment_id=$1 AND t.status='published' ORDER BY c.code`,
+        [experiment],
+      )
+    ).rows;
+  }
+  async loginAccount(participant: string) {
+    return (
+      await this.db.query<{
+        experiment_id: string;
+        participant_code: string;
+        study_path: string;
+        condition: string;
+        agent: string;
+        model_batch: string;
+        created_at: string;
+      }>(
+        `
+      SELECT p.experiment_id,p.participant_code,sm.path_type AS study_path,c.code AS condition,
+      av.configuration->>'name' AS agent,(t.configuration->'model'->>'provider') || ' / ' || (t.configuration->'model'->>'model_name') AS model_batch,p.created_at::text
+      FROM research.participant p JOIN research.experiment_assignment a ON a.participant_id=p.id
+      JOIN research.condition c ON c.id=a.condition_id JOIN research.template_version t ON t.id=a.template_version_id
+      JOIN research.state_machine_version sm ON sm.id=c.state_machine_version_id JOIN research.agent_version av ON av.id=c.agent_version_id
+      WHERE p.id=$1 FOR UPDATE OF p`,
+        [participant],
+      )
+    ).rows[0];
+  }
+  async resetPassword(participant: string, encoded: string) {
+    await this.db.query('UPDATE research.participant SET password_hash=$2 WHERE id=$1', [
+      participant,
+      encoded,
+    ]);
+    await this.db.query('DELETE FROM research.auth_session WHERE participant_id=$1', [participant]);
+  }
 }

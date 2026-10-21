@@ -77,6 +77,10 @@ export function errorText(error: unknown) {
     if (error.code === 'NON_STORY_INPUT')
       return '流程询问或误输入不能作为故事填写，请补充人物或故事内容。';
     if (error.code === 'INVALID_RATING') return '评分须为0到100之间的整数。';
+    if (error.code === 'FIXED_BOOTSTRAP_ACCOUNT')
+      return '此固定账号请从内部账号领取页获取密码；不会更改其初始化种子。';
+    if (error.code === 'ASSIGNMENT_OPTIONS_MISMATCH')
+      return '请选择当前实验中已经发布的路径和组别。';
     if (error.status === 409) return '当前操作发生冲突，请刷新实验后继续。';
     if (error.code === 'NOT_ASSIGNED') return '账号尚未分配实验，请联系研究人员。';
     if (error.status === 400) return '填写内容不符合当前要求，请检查后重试。';

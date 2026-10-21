@@ -5,6 +5,7 @@ import { UnitOfWork } from '../repositories/context.js';
 import { ExperimentService } from './experiment-service.js';
 import { ParticipantService } from './participant-service.js';
 import { ConversationService } from './conversation-service.js';
+import { AccountService } from './account-service.js';
 import { AdminService } from './admin-service.js';
 import { ModelRunService } from './model-run-service.js';
 import type { ModelProfile } from './model-run-service.js';
@@ -25,6 +26,7 @@ export function createServices(
     participants: new ParticipantService(uow, trace),
     conversations: new ConversationService(uow, model, trace),
     admin: new AdminService(uow),
+    accounts: new AccountService(uow),
   };
 }
 export type Services = ReturnType<typeof createServices>;

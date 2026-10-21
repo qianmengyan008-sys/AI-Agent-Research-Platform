@@ -19,7 +19,7 @@ export interface ParticipantFormField {
 }
 export interface ParticipantCurrent {
   instructions: string;
-  agent: { name: string };
+  agent: { name: string; avatar?: string; identity?: string };
   state_token: string;
   status: 'awaiting_input' | 'generating' | 'finished';
   form: { id: string; fields: ParticipantFormField[] } | null;

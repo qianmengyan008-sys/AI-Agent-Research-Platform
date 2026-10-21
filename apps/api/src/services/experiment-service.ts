@@ -5,6 +5,7 @@ import type { ExperimentDefinition, Scalar } from '@research/experiment-core';
 import { createContext, demoPolicy } from '@research/ai-orchestrator';
 import type { StagePolicy } from '@research/ai-orchestrator';
 import type { ModelSettings } from '@research/model-adapter';
+import type { Repositories } from '../repositories/context.js';
 import { UnitOfWork } from '../repositories/context.js';
 import { admin, fail, hash, object, text, uuid } from './common.js';
 import type { AdminIdentity } from './common.js';
@@ -85,10 +86,28 @@ export class ExperimentService {
   async condition(actor: AdminIdentity, experiment: string, input: unknown) {
     admin(actor);
     uuid(experiment);
-    const v = object(input, ['code', 'path_version', 'agent_name', 'policies', 'demo_policies']);
+    const v = object(input, [
+      'code',
+      'path_version',
+      'agent_name',
+      'policies',
+      'demo_policies',
+      'participant_display',
+    ]);
     const key = text(v.path_version, 128);
     const definition = experimentDefinitions[key as keyof typeof experimentDefinitions];
     if (!definition) fail(400, 'UNKNOWN_PATH_VERSION');
+    let display: { identity: string; avatar?: string } | undefined;
+    if (v.participant_display !== undefined) {
+      if (definition.path !== 'daily') fail(400, 'DISPLAY_ONLY_FOR_DAILY');
+      const d = object(v.participant_display, ['identity', 'avatar']);
+      display = { identity: text(d.identity, 300) };
+      if (d.avatar !== undefined) {
+        const avatar = text(d.avatar, 120);
+        if (!/^\/agent-avatars\/[a-z0-9-]+\.svg$/.test(avatar)) fail(400, 'INVALID_AVATAR');
+        display.avatar = avatar;
+      }
+    }
     const template = await this.uow.read((r) => r.experiments.template(experiment));
     const research = template?.configuration.research_config;
     let policies: readonly StagePolicy[];
@@ -117,6 +136,7 @@ export class ExperimentService {
         text(v.agent_name, 128),
         policies!,
         hash,
+        display,
       );
       await r.experiments.audit(
         experiment,
@@ -155,43 +175,54 @@ export class ExperimentService {
     const participant = uuid(v.participant_id),
       condition = uuid(v.condition_id);
     return this.uow.transaction(async (r) => {
-      const c = await r.experiments.assignmentConfiguration(condition);
-      if (!c) fail(404, 'NOT_FOUND');
-      if (c!.status !== 'published') fail(409, 'CONFIGURATION_NOT_PUBLISHED');
-      const a = await r.participants.assign(
-        c!.experiment_id,
-        participant,
-        c!.template_version_id,
-        condition,
-        actor.id,
-      );
-      const initial = createInitialState(c!.definition);
-      const session = await r.states.initialize(a.id, c!.experiment_id, initial);
-      const start = transition(
-        initial,
-        {
-          id: 'assignment-start',
-          type: c!.definition.stages[0]!.on!,
-          experimentVersion: c!.definition.experimentVersion,
-          expectedStateVersion: 0,
-        },
-        {},
-        c!.definition,
-      );
-      if (!start.ok) fail(400, 'INVALID_DEFINITION');
-      await r.states.save(session, start, actor.id, {}, 'backend', researchVariables(start));
-      await r.experiments.audit(
-        c!.experiment_id,
-        actor.id,
-        'PARTICIPANT_ASSIGNED',
-        'Initialize via backend start event',
-      );
-      this.trace({
-        step: 'assignment_initialized',
-        participantId: participant,
-        sessionId: session,
-      });
-      return { sessionId: session };
+      return assignParticipant(r, actor, participant, condition, this.trace);
     });
   }
+}
+
+/** Shared existing assignment initialization; callers supply the transaction. */
+export async function assignParticipant(
+  r: Repositories,
+  actor: AdminIdentity,
+  participant: string,
+  condition: string,
+  trace: TraceSink = () => {},
+) {
+  const c = await r.experiments.assignmentConfiguration(condition);
+  if (!c) fail(404, 'NOT_FOUND');
+  if (c!.status !== 'published') fail(409, 'CONFIGURATION_NOT_PUBLISHED');
+  const a = await r.participants.assign(
+    c!.experiment_id,
+    participant,
+    c!.template_version_id,
+    condition,
+    actor.id,
+  );
+  const initial = createInitialState(c!.definition);
+  const session = await r.states.initialize(a.id, c!.experiment_id, initial);
+  const start = transition(
+    initial,
+    {
+      id: 'assignment-start',
+      type: c!.definition.stages[0]!.on!,
+      experimentVersion: c!.definition.experimentVersion,
+      expectedStateVersion: 0,
+    },
+    {},
+    c!.definition,
+  );
+  if (!start.ok) fail(400, 'INVALID_DEFINITION');
+  await r.states.save(session, start, actor.id, {}, 'backend', researchVariables(start));
+  await r.experiments.audit(
+    c!.experiment_id,
+    actor.id,
+    'PARTICIPANT_ASSIGNED',
+    'Initialize via backend start event',
+  );
+  trace({
+    step: 'assignment_initialized',
+    participantId: participant,
+    sessionId: session,
+  });
+  return { sessionId: session };
 }

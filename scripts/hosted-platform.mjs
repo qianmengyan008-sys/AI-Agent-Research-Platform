@@ -233,7 +233,15 @@ export async function createHostedPlatform({
     res.json({ ...seed, additional_batches: previewBatches });
   });
   app.use((req, res, next) => {
-    if (req.path.startsWith('/api/admin') && !['GET', 'HEAD'].includes(req.method)) {
+    if (
+      req.path.startsWith('/api/admin') &&
+      !['GET', 'HEAD'].includes(req.method) &&
+      !(
+        req.method === 'POST' &&
+        (req.path === '/api/admin/account-batches' ||
+          /^\/api\/admin\/participants\/[a-f0-9-]{36}\/reset-login$/.test(req.path))
+      )
+    ) {
       res.status(405).json({ error: 'HOSTED_STAGING_ADMIN_READ_ONLY' });
       return;
     }

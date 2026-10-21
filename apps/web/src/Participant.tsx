@@ -1,13 +1,14 @@
+import { assistantBubbles } from './message-bubbles';
 import { RatingCard } from './RatingCard';
 import { useEffect, useRef, useState } from 'react';
 import type { ParticipantCurrent, ParticipantMessage, ParticipantTurn } from '@research/contracts';
 import { api, ApiError, errorText } from './api';
 const labels: Record<string, string> = {
-  response: '当前回答',
+  response: '确认内容',
   viewpoint: '确认后的观点',
   confirmed: '我确认上述观点',
   rating: '当前评分',
-  source: '表达来源（选填）',
+  source: '你是从哪里了解到的？（选填）',
 };
 interface MessageRequest {
   text: string;
@@ -24,6 +25,11 @@ export function Participant() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [draft, setDraft] = useState('');
+  const [optimistic, setOptimistic] = useState<MessageRequest | null>(null);
+  const historyEnd = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    historyEnd.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+  }, [messages, optimistic, current?.state_token]);
   const [values, setValues] = useState<Record<string, string | boolean>>({});
   const [retry, setRetry] = useState<MessageRequest | null>(null);
   const submission = useRef<{
@@ -36,6 +42,7 @@ export function Participant() {
     setError(errorText(e));
     if (e instanceof ApiError && e.status === 401) {
       setToken('');
+      setOptimistic(null);
       setCurrent(null);
       setMessages([]);
       setRetry(null);
@@ -50,6 +57,7 @@ export function Participant() {
     ]);
     setCurrent(state);
     setMessages(history);
+    setOptimistic(null);
     return state;
   }
   async function work(fn: () => Promise<void>) {
@@ -126,13 +134,17 @@ export function Participant() {
     };
   }, [token, current?.status, current?.pending_turn_id]);
   async function send(request: MessageRequest) {
+    setOptimistic(request);
     setRetry(request);
     let result: ParticipantTurn;
     try {
       result = await api<ParticipantTurn>('/conversation/message', token, request);
     } catch (e) {
       // A definitive rejection was never accepted; only ambiguous network/5xx outcomes retain the key.
-      if (e instanceof ApiError && e.status > 0 && e.status < 500) setRetry(null);
+      if (e instanceof ApiError && e.status > 0 && e.status < 500) {
+        setRetry(null);
+        setOptimistic(null);
+      }
       throw e;
     }
     setRetry(null);
@@ -142,7 +154,9 @@ export function Participant() {
         ? '回复未能生成，请重新发送或联系研究人员。'
         : '',
     );
-    await refresh();
+    const refreshed = await refresh();
+    if (refreshed.state_token === request.state_token)
+      setValues((v) => ({ ...v, response: request.text }));
   }
   const generating = current?.status === 'generating';
   const disabled = busy || generating;
@@ -199,7 +213,10 @@ export function Participant() {
       </section>
     );
   return (
-    <section aria-labelledby="participant-title">
+    <section
+      aria-labelledby="participant-title"
+      className={screen === 'chat' ? 'participant chat-active' : 'participant'}
+    >
       <div className="toolbar">
         <h2 id="participant-title">我的实验</h2>
         <button
@@ -208,6 +225,7 @@ export function Participant() {
             void work(async () => {
               await api('/auth/logout', token, {});
               setToken('');
+              setOptimistic(null);
               setCurrent(null);
               setMessages([]);
               setRetry(null);
@@ -226,7 +244,7 @@ export function Participant() {
             ? '实验已完成'
             : busy || generating
               ? '正在处理，请稍候。'
-              : '可以继续对话或明确提交当前填写。'}
+              : '可以继续对话。准备好后，请在卡片中确认并继续。'}
         </p>
       )}
       {!current ? (
@@ -253,144 +271,185 @@ export function Participant() {
             </>
           ) : (
             <>
-              <h3>与 {current.agent.name} 对话</h3>
-              <div className="messages" aria-label="对话记录" role="log">
-                {messages.length === 0 && <p>尚无消息，可以开始对话。</p>}
-                {messages.map((m) => (
-                  <p key={m.id} className={`message ${m.role}`}>
-                    <strong>{m.role === 'user' ? '我' : current.agent.name}：</strong>
-                    <span className="preserve">{m.text}</span>
-                  </p>
-                ))}
-              </div>
-              {current.status === 'finished' ? (
-                <p role="status">本次实验已完成，谢谢参与。</p>
-              ) : (
-                <>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (draft.trim())
-                        void work(async () => {
-                          await send({
-                            text: draft.trim(),
-                            state_token: current.state_token,
-                            request_id: crypto.randomUUID(),
-                          });
-                        });
-                    }}
-                  >
-                    <label htmlFor="participant-message">发送消息</label>
-                    <textarea
-                      id="participant-message"
-                      maxLength={4000}
-                      value={draft}
-                      disabled={disabled || !!retry}
-                      onChange={(e) => setDraft(e.target.value)}
-                      required
-                    />
-                    <button disabled={disabled || !draft.trim() || !!retry}>
-                      {disabled ? '处理中…' : '发送'}
-                    </button>
-                  </form>
-                  {retry && (
-                    <button
-                      disabled={disabled}
-                      onClick={() =>
-                        void work(async () => {
-                          await send(retry);
-                        })
-                      }
-                    >
-                      重试同一消息
-                    </button>
+              <header className="chat-heading">
+                {current.agent.avatar && (
+                  <img className="agent-avatar" src={current.agent.avatar} alt="" />
+                )}
+                <div>
+                  <h3>与 {current.agent.name} 对话</h3>
+                  {current.agent.identity && (
+                    <p className="agent-identity">{current.agent.identity}</p>
+                  )}
+                </div>
+              </header>
+              <div className="chat-layout">
+                <div className="messages" aria-label="对话记录" role="log" aria-live="polite">
+                  {messages.length === 0 && !optimistic && <p>可以从这里开始对话。</p>}
+                  {messages.map((m) => (
+                    <div key={m.id} className={`message ${m.role}`} data-message-id={m.id}>
+                      <span className="speaker">
+                        {m.role === 'user' ? '我' : current.agent.name}
+                      </span>
+                      {(m.role === 'assistant' ? assistantBubbles(m.text) : [m.text]).map(
+                        (text, index) => (
+                          <div key={index} className="bubble preserve">
+                            {text}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  ))}
+                  {optimistic && (
+                    <div className="message user pending-message">
+                      <span className="speaker">我 · {error ? '发送结果待确认' : '发送中'}</span>
+                      <div className="bubble preserve">{optimistic.text}</div>
+                    </div>
                   )}
                   {generating && <p role="status">回复生成中，请稍候。</p>}
-                  <h3>当前填写</h3>
-                  <p>发送聊天消息后，可在准备好时明确提交当前填写。</p>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      void work(async () => {
-                        if (!submission.current) {
-                          const data: Record<string, string | number | boolean> = {};
-                          for (const f of current.form?.fields ?? []) {
-                            const value = values[f.name];
-                            if (f.required === false && (value === undefined || value === ''))
-                              continue;
-                            data[f.name] =
-                              f.kind === 'confirmation'
-                                ? value === true
-                                : f.kind === 'number'
-                                  ? Number(value)
-                                  : String(value);
-                          }
-                          submission.current = {
-                            state_token: current.state_token,
-                            request_id: crypto.randomUUID(),
-                            data,
-                          };
-                        }
-                        setRetrySubmission(true);
-                        try {
-                          await api('/experiment/submissions', token, submission.current);
-                          submission.current = null;
-                          setRetrySubmission(false);
-                          setNotice('当前填写已保存。');
-                          await refresh();
-                        } catch (e) {
-                          if (e instanceof ApiError && e.status !== 0 && e.status < 500) {
-                            submission.current = null;
-                            setRetrySubmission(false);
-                          }
-                          throw e;
-                        }
-                      });
-                    }}
-                  >
-                    {current.rating_card && (
-                      <RatingCard
-                        card={current.rating_card}
-                        value={String(values.rating ?? '')}
-                        disabled={disabled || retrySubmission}
-                        onChange={(rating) => setValues((v) => ({ ...v, rating }))}
-                      />
-                    )}
-                    {current.form?.fields
-                      .filter((f) => !(current.rating_card && f.name === 'rating'))
-                      .map((f) => (
-                        <label key={f.name}>
-                          {labels[f.name] ?? '当前填写内容'}
-                          {f.kind === 'confirmation' ? (
-                            <input
-                              type="checkbox"
-                              checked={values[f.name] === true}
-                              disabled={disabled || retrySubmission}
-                              onChange={(e) =>
-                                setValues((v) => ({ ...v, [f.name]: e.target.checked }))
+                  {current.status === 'finished' ? (
+                    <p role="status">本次实验已完成，谢谢参与。</p>
+                  ) : (
+                    <>
+                      <div className="inline-card" aria-label="本段确认卡">
+                        {current.form?.fields.length !== 0 && (
+                          <h3>{current.rating_card ? '请为观点评分' : '确认并继续'}</h3>
+                        )}
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            void work(async () => {
+                              if (!submission.current) {
+                                const data: Record<string, string | number | boolean> = {};
+                                for (const f of current.form?.fields ?? []) {
+                                  const value = values[f.name];
+                                  if (f.required === false && (value === undefined || value === ''))
+                                    continue;
+                                  data[f.name] =
+                                    f.kind === 'confirmation'
+                                      ? value === true
+                                      : f.kind === 'number'
+                                        ? Number(value)
+                                        : String(value);
+                                }
+                                submission.current = {
+                                  state_token: current.state_token,
+                                  request_id: crypto.randomUUID(),
+                                  data,
+                                };
                               }
-                            />
-                          ) : (
-                            <input
-                              type={f.kind === 'number' ? 'number' : 'text'}
-                              step={f.kind === 'number' ? 'any' : undefined}
-                              required={f.required !== false}
-                              maxLength={10000}
-                              disabled={disabled || retrySubmission}
-                              value={String(values[f.name] ?? '')}
-                              onChange={(e) =>
-                                setValues((v) => ({ ...v, [f.name]: e.target.value }))
+                              setRetrySubmission(true);
+                              try {
+                                await api('/experiment/submissions', token, submission.current);
+                                submission.current = null;
+                                setRetrySubmission(false);
+                                setNotice('你的确认已保存。');
+                                await refresh();
+                              } catch (e) {
+                                if (e instanceof ApiError && e.status !== 0 && e.status < 500) {
+                                  submission.current = null;
+                                  setRetrySubmission(false);
+                                }
+                                throw e;
                               }
+                            });
+                          }}
+                        >
+                          {current.rating_card && (
+                            <RatingCard
+                              card={current.rating_card}
+                              value={String(values.rating ?? '')}
+                              disabled={disabled || retrySubmission}
+                              onChange={(rating) => setValues((v) => ({ ...v, rating }))}
                             />
                           )}
-                        </label>
-                      ))}
-                    <button disabled={disabled || (!retrySubmission && !canSubmit)}>
-                      {retrySubmission ? '重试同一提交' : '提交当前填写'}
-                    </button>
-                  </form>
-                </>
-              )}
+                          {current.form?.fields
+                            .filter((f) => !(current.rating_card && f.name === 'rating'))
+                            .map((f) => (
+                              <label key={f.name}>
+                                {labels[f.name] ?? '请填写你的选择'}
+                                {f.kind === 'confirmation' ? (
+                                  <input
+                                    type="checkbox"
+                                    checked={values[f.name] === true}
+                                    disabled={disabled || retrySubmission}
+                                    onChange={(e) =>
+                                      setValues((v) => ({ ...v, [f.name]: e.target.checked }))
+                                    }
+                                  />
+                                ) : (
+                                  <input
+                                    type={f.kind === 'number' ? 'number' : 'text'}
+                                    step={f.kind === 'number' ? 'any' : undefined}
+                                    required={f.required !== false}
+                                    maxLength={10000}
+                                    disabled={disabled || retrySubmission}
+                                    value={String(values[f.name] ?? '')}
+                                    onChange={(e) =>
+                                      setValues((v) => ({ ...v, [f.name]: e.target.value }))
+                                    }
+                                  />
+                                )}
+                              </label>
+                            ))}
+                          <button disabled={disabled || (!retrySubmission && !canSubmit)}>
+                            {retrySubmission
+                              ? '重试同一提交'
+                              : current.rating_card
+                                ? '提交评分'
+                                : current.form?.fields.length === 0
+                                  ? '结束本次对话'
+                                  : '确认并继续'}
+                          </button>
+                        </form>
+                      </div>
+                    </>
+                  )}
+                  <div ref={historyEnd} aria-hidden="true" />
+                </div>
+                {current.status !== 'finished' && (
+                  <div className="composer">
+                    {' '}
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (draft.trim())
+                          void work(async () => {
+                            await send({
+                              text: draft.trim(),
+                              state_token: current.state_token,
+                              request_id: crypto.randomUUID(),
+                            });
+                          });
+                      }}
+                    >
+                      <label htmlFor="participant-message">发送消息</label>
+                      <textarea
+                        id="participant-message"
+                        maxLength={4000}
+                        value={draft}
+                        disabled={disabled || !!retry}
+                        onChange={(e) => setDraft(e.target.value)}
+                        required
+                      />
+                      <button disabled={disabled || !draft.trim() || !!retry}>
+                        {disabled ? '处理中…' : '发送'}
+                      </button>
+                    </form>
+                    {retry && (
+                      <button
+                        disabled={disabled}
+                        onClick={() =>
+                          void work(async () => {
+                            await send(retry);
+                          })
+                        }
+                      >
+                        重试同一消息
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
               <button
                 disabled={busy}
                 onClick={() =>
