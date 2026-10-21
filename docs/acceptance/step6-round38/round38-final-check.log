@@ -1,0 +1,197 @@
+
+> ai-agent-research-platform@0.1.0 check
+> npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser
+
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> ai-agent-research-platform@0.1.0 lint
+> eslint .
+
+
+> ai-agent-research-platform@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> ai-agent-research-platform@0.1.0 test
+> npm run build:packages && vitest run
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+
+ Test Files  30 passed (30)
+      Tests  477 passed (477)
+   Start at  05:57:03
+   Duration  44.09s (transform 932ms, setup 0ms, import 2.73s, tests 100.26s, environment 3ms)
+
+
+> ai-agent-research-platform@0.1.0 build
+> npm run build --workspaces
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/api@0.1.0 build
+> tsc -b
+
+
+> @research/web@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.42 kB │ gzip:  0.31 kB
+dist/assets/index-Db83Q9Vq.css    3.74 kB │ gzip:  1.37 kB
+dist/assets/index-3kmiEAh0.js   242.94 kB │ gzip: 76.65 kB
+
+✓ built in 126ms
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/database@0.1.0 build
+> tsc -b
+
+
+> ai-agent-research-platform@0.1.0 test:browser
+> npm run build:packages && playwright test
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+Running 25 tests using 1 worker
+
+(node:195005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 apps/web/tests/browser.spec.ts:224:1 › participant browser login, chat and explicit source submission persist through page reload (1.3s)
+  ✓   2 apps/web/tests/browser.spec.ts:258:1 › browser completes the cognitive path with explicit submissions and persistent research variables (2.7s)
+  ✓   3 apps/web/tests/browser.spec.ts:306:1 › browser completes the emotion path while persisting all four research variable names (2.2s)
+  ✓   4 apps/web/tests/browser.spec.ts:338:1 › lost message response is replayed with the same key without another generation (794ms)
+  ✓   5 apps/web/tests/browser.spec.ts:362:1 › lost submission response is replayed once and does not create a second transition (737ms)
+  ✓   6 apps/web/tests/browser.spec.ts:383:1 › loading prevents explicit submission during generation and failure leaves the state unchanged (822ms)
+  ✓   7 apps/web/tests/browser.spec.ts:409:1 › read-only administrator views state and conversation and downloads authorized bounded JSON (863ms)
+  ✓   8 apps/web/tests/browser.spec.ts:440:1 › login errors are readable and a participant credential cannot open the administrator UI (681ms)
+  ✓   9 apps/web/tests/browser.spec.ts:463:1 › administrator explicitly opens read-only development data while participant views remain private (1.2s)
+  ✓  10 apps/web/tests/browser.spec.ts:500:1 › a definitive stale-state rejection releases message retry and refresh resumes the database state (882ms)
+  ✓  11 apps/web/tests/browser.spec.ts:537:1 › rapid duplicate clicks create one user and one assistant message in sequence (660ms)
+  ✓  12 apps/web/tests/browser.spec.ts:557:1 › model failure and browser reload preserve advanced state and previously saved source (1.1s)
+  ✓  13 apps/web/tests/browser.spec.ts:587:1 › administrator inspects experiment version, failed turn, latency, validator and data quality without changing research state (978ms)
+  ✓  14 apps/web/tests/browser.spec.ts:626:1 › three page refreshes and new logins retain assignment, source, ordered messages and one explicit transition (1.6s)
+  ✓  15 apps/web/tests/browser.spec.ts:659:1 › Pilot Mode is administrator-only, opt-in and read-only, with no participant diagnostics after switching back (1.1s)
+  ✓  16 apps/web/tests/browser.spec.ts:698:1 › hung message requests time out and retry with the same operation ID exactly once (761ms)
+  ✓  17 apps/web/tests/browser.spec.ts:732:1 › pending generation polling has a recovery deadline and can refresh durable state (982ms)
+  ✓  18 apps/web/tests/browser.spec.ts:765:1 › mentor profile presents the same bounded rating card twice with an immutable belief (890ms)
+  ✓  19 apps/web/tests/browser.spec.ts:824:3 › assistant bubbles survive reload without content loss: "A\nB\nC" (1.1s)
+  ✓  20 apps/web/tests/browser.spec.ts:824:3 › assistant bubbles survive reload without content loss: "A\n\nB\nC\n\nD" (1.0s)
+  ✓  21 apps/web/tests/browser.spec.ts:854:1 › optimistic user bubble appears immediately while generation waits and becomes one durable message (777ms)
+  ✓  22 apps/web/tests/browser.spec.ts:873:3 › complete frozen mentor path through chat cards: cognitive_v1 (3.4s)
+  ✓  23 apps/web/tests/browser.spec.ts:873:3 › complete frozen mentor path through chat cards: emotion_v1 (3.2s)
+  ✓  24 apps/web/tests/browser.spec.ts:971:1 › two daily identity groups follow frozen assignment after relogin, finish independently, and fit a mobile screen (1.7s)
+  ✓  25 apps/web/tests/browser.spec.ts:1046:1 › administrator creates 30 synthetic login accounts and downloads real XLSX; two downloaded accounts login in separate tabs (6.4s)
+
+  25 passed (41.8s)

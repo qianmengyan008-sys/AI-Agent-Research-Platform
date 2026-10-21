@@ -1,0 +1,479 @@
+{
+  "synthetic": true,
+  "external_model_calls": 0,
+  "model": "MockAdapter",
+  "format": "research-json-v1",
+  "analysis_schema": "participant-research-v1",
+  "experiment_id": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+  "generated_at": "2026-10-21T05:46:14.487Z",
+  "per_table_limit": null,
+  "complete": true,
+  "record_counts": {
+    "participants": 1,
+    "assignments": 1,
+    "states": 1,
+    "prompts": 1,
+    "messages": 2,
+    "transitions": 1,
+    "variables": 0,
+    "runs": 1,
+    "turns": 1
+  },
+  "note": "Complete experiment records at one repeatable-read snapshot; supplier revision unavailable and formal research materials are not approved by export",
+  "participants": [
+    {
+      "id": "3b340f01-4858-458c-8f09-2efebe704a0c",
+      "participant_code": "P-2f63fbd5",
+      "status": "enabled",
+      "created_at": "2026-10-21T05:46:13.817Z"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "92e3ad57-6e93-442f-b2d2-829cdc1f91a7",
+      "participant_id": "3b340f01-4858-458c-8f09-2efebe704a0c",
+      "template_version_id": "8db9a0c2-e364-4f3a-a868-63b7ed01ccb3",
+      "condition_id": "b9ba52a9-47b5-47c1-b176-c777dd6cac80",
+      "created_at": "2026-10-21T05:46:13.820Z",
+      "condition": "A",
+      "path_type": "daily",
+      "agent_configuration": {
+        "name": "研究对话助手"
+      },
+      "agent_version_id": "c9483605-11a3-4da2-8fc6-3b2393df5aa2",
+      "state_machine_version_id": "8bc9b097-def3-41c7-81b4-b999d84f6c15",
+      "agent_version": "1",
+      "state_machine_version": "daily_v1",
+      "template_version": 1,
+      "model_settings": {
+        "base_url": null,
+        "provider": "mock",
+        "max_tokens": 512,
+        "model_name": "browser-synthetic-model",
+        "timeout_ms": 2000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "research_config": null,
+      "state_machine_definition": {
+        "path": "daily",
+        "stages": [
+          {
+            "id": "INIT",
+            "on": "EXPERIMENT_STARTED",
+            "fields": []
+          },
+          {
+            "id": "NATURAL_CHAT",
+            "on": "CHAT_FINISHED",
+            "fields": []
+          },
+          {
+            "id": "COMPLETED",
+            "fields": []
+          }
+        ],
+        "experimentVersion": "daily_v1"
+      }
+    }
+  ],
+  "states": [
+    {
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "assignment_id": "92e3ad57-6e93-442f-b2d2-829cdc1f91a7",
+      "status": "open",
+      "chat_revision": 1,
+      "stage": "NATURAL_CHAT",
+      "core_version": 1,
+      "snapshot": {
+        "path": "daily",
+        "stage": "NATURAL_CHAT",
+        "version": 1,
+        "receipts": [
+          {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 0
+          }
+        ],
+        "lifecycle": "active",
+        "variables": {},
+        "experimentVersion": "daily_v1",
+        "definitionSignature": "{\"path\":\"daily\",\"experimentVersion\":\"daily_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"NATURAL_CHAT\",\"on\":\"CHAT_FINISHED\",\"fields\":[]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "condition_id": "b9ba52a9-47b5-47c1-b176-c777dd6cac80",
+      "stage": "NATURAL_CHAT",
+      "prompt_version_id": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+      "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+      "policy": {
+        "goal": "进行中性日常聊天，不主动引入实验干预。",
+        "path": "daily",
+        "stage": "NATURAL_CHAT",
+        "variableKeys": [],
+        "forbiddenJumps": [
+          "进入下一阶段",
+          "跳过这一阶段",
+          "回到初次接触",
+          "实验已结束",
+          "对话已经结束",
+          "不用再回答"
+        ],
+        "maxReplyLength": 2000,
+        "fallbackReplies": [
+          "听起来这对你有些意义。你愿意多说一点吗？",
+          "我在听。刚才提到的内容里，哪一点让你印象最深？"
+        ],
+        "forbiddenScenes": [],
+        "roleDescription": "遵守当前任务边界的对话伙伴",
+        "forbiddenContent": ["认知重构", "制造误解", "改变你的刻板印象"],
+        "forbiddenPurpose": [
+          "本实验旨在",
+          "实验目的是",
+          "你被分配到实验组",
+          "测量你的刻板印象变化"
+        ],
+        "experimentVersion": "daily_v1",
+        "requiresConfirmedBelief": false
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "bd8018ef-c8e5-4d01-8400-2bdcd7a7573c",
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "sequence": 1,
+      "role": "user",
+      "content": "网络悬挂恢复样本",
+      "status": "ready",
+      "created_at": "2026-10-21T05:46:14.258Z"
+    },
+    {
+      "id": "9512fa69-9810-4fb1-9e8d-3d085dc41069",
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "sequence": 2,
+      "role": "assistant",
+      "content": "谢谢分享，你愿意继续聊聊吗？",
+      "status": "ready",
+      "created_at": "2026-10-21T05:46:14.258Z"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "2e50b85f-56f8-4028-9c64-5a7674e2d7ab",
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "core_event_id": "assignment-start",
+      "event": "EXPERIMENT_STARTED",
+      "previous_state": "INIT",
+      "current_state": "NATURAL_CHAT",
+      "from_version": 0,
+      "to_version": 1,
+      "actor_type": "backend",
+      "actor_id": "browser-fixture",
+      "validated_payload": {},
+      "receipt": {
+        "id": "assignment-start",
+        "data": {},
+        "type": "EXPERIMENT_STARTED",
+        "experimentVersion": "daily_v1",
+        "expectedStateVersion": 0
+      },
+      "created_at": "2026-10-21T05:46:13.820Z"
+    }
+  ],
+  "variables": [],
+  "runs": [
+    {
+      "id": "fb0388e8-6b50-4b0a-812f-882cfe11e60a",
+      "turn_id": "d435ae23-8cd2-4f5a-bc2c-8cce15fc784d",
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "experiment_id": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+      "provider": "mock",
+      "model_name": "browser-synthetic-model",
+      "prompt_version_id": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+      "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+      "validator_version": "stage-language-v3",
+      "code_commit": "development",
+      "temperature": "0.2",
+      "max_tokens": 512,
+      "latency_ms": "0.33070000000225264",
+      "retry_count": 0,
+      "fallback_count": 0,
+      "token_usage": null,
+      "validator_result": {
+        "status": "generated",
+        "violations": [],
+        "auditEvents": []
+      },
+      "error_code": null,
+      "status": "generated",
+      "created_at": "2026-10-21T05:46:14.264Z"
+    }
+  ],
+  "turns": [
+    {
+      "id": "d435ae23-8cd2-4f5a-bc2c-8cce15fc784d",
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "chat_revision": 1,
+      "accepted_core_version": 1,
+      "status": "ready",
+      "generation_context": {
+        "model": {
+          "base_url": null,
+          "provider": "mock",
+          "max_tokens": 512,
+          "model_name": "browser-synthetic-model",
+          "timeout_ms": 2000,
+          "temperature": 0.2,
+          "max_attempts": 2
+        },
+        "stage": "NATURAL_CHAT",
+        "promptId": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+        "experiment": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+        "input_kind": "answer",
+        "reply_source": "model",
+        "promptVersion": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+      }
+    }
+  ],
+  "analysis_rows": [
+    {
+      "participant_id": "3b340f01-4858-458c-8f09-2efebe704a0c",
+      "experiment_id": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+      "assignment_id": "92e3ad57-6e93-442f-b2d2-829cdc1f91a7",
+      "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+      "condition": "A",
+      "condition_id": "b9ba52a9-47b5-47c1-b176-c777dd6cac80",
+      "path_type": "daily",
+      "agent_version": {
+        "id": "c9483605-11a3-4da2-8fc6-3b2393df5aa2",
+        "version": "1",
+        "configuration": {
+          "name": "研究对话助手"
+        }
+      },
+      "state_machine_version": {
+        "id": "8bc9b097-def3-41c7-81b4-b999d84f6c15",
+        "version": "daily_v1"
+      },
+      "template_version_id": "8db9a0c2-e364-4f3a-a868-63b7ed01ccb3",
+      "prompt_version": [
+        {
+          "stage": "NATURAL_CHAT",
+          "id": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+          "version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+        }
+      ],
+      "model_version": {
+        "requested_model": "browser-synthetic-model",
+        "provider": "mock",
+        "supplier_revision": null
+      },
+      "model_settings": {
+        "base_url": null,
+        "provider": "mock",
+        "max_tokens": 512,
+        "model_name": "browser-synthetic-model",
+        "timeout_ms": 2000,
+        "temperature": 0.2,
+        "max_attempts": 2
+      },
+      "research_config": null,
+      "state_machine_definition": {
+        "path": "daily",
+        "stages": [
+          {
+            "id": "INIT",
+            "on": "EXPERIMENT_STARTED",
+            "fields": []
+          },
+          {
+            "id": "NATURAL_CHAT",
+            "on": "CHAT_FINISHED",
+            "fields": []
+          },
+          {
+            "id": "COMPLETED",
+            "fields": []
+          }
+        ],
+        "experimentVersion": "daily_v1"
+      },
+      "conversation_turns": [
+        {
+          "id": "d435ae23-8cd2-4f5a-bc2c-8cce15fc784d",
+          "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+          "chat_revision": 1,
+          "accepted_core_version": 1,
+          "status": "ready",
+          "generation_context": {
+            "model": {
+              "base_url": null,
+              "provider": "mock",
+              "max_tokens": 512,
+              "model_name": "browser-synthetic-model",
+              "timeout_ms": 2000,
+              "temperature": 0.2,
+              "max_attempts": 2
+            },
+            "stage": "NATURAL_CHAT",
+            "promptId": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+            "experiment": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+            "input_kind": "answer",
+            "reply_source": "model",
+            "promptVersion": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661"
+          }
+        }
+      ],
+      "timestamp": {
+        "assigned_at": "2026-10-21T05:46:13.820Z",
+        "exported_at": "2026-10-21T05:46:14.487Z"
+      },
+      "current_state": {
+        "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+        "assignment_id": "92e3ad57-6e93-442f-b2d2-829cdc1f91a7",
+        "status": "open",
+        "chat_revision": 1,
+        "stage": "NATURAL_CHAT",
+        "core_version": 1,
+        "snapshot": {
+          "path": "daily",
+          "stage": "NATURAL_CHAT",
+          "version": 1,
+          "receipts": [
+            {
+              "id": "assignment-start",
+              "data": {},
+              "type": "EXPERIMENT_STARTED",
+              "experimentVersion": "daily_v1",
+              "expectedStateVersion": 0
+            }
+          ],
+          "lifecycle": "active",
+          "variables": {},
+          "experimentVersion": "daily_v1",
+          "definitionSignature": "{\"path\":\"daily\",\"experimentVersion\":\"daily_v1\",\"stages\":[{\"id\":\"INIT\",\"on\":\"EXPERIMENT_STARTED\",\"fields\":[]},{\"id\":\"NATURAL_CHAT\",\"on\":\"CHAT_FINISHED\",\"fields\":[]},{\"id\":\"COMPLETED\",\"on\":null,\"fields\":[]}]}"
+        }
+      },
+      "state_transition": [
+        {
+          "id": "2e50b85f-56f8-4028-9c64-5a7674e2d7ab",
+          "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+          "core_event_id": "assignment-start",
+          "event": "EXPERIMENT_STARTED",
+          "previous_state": "INIT",
+          "current_state": "NATURAL_CHAT",
+          "from_version": 0,
+          "to_version": 1,
+          "actor_type": "backend",
+          "actor_id": "browser-fixture",
+          "validated_payload": {},
+          "receipt": {
+            "id": "assignment-start",
+            "data": {},
+            "type": "EXPERIMENT_STARTED",
+            "experimentVersion": "daily_v1",
+            "expectedStateVersion": 0
+          },
+          "created_at": "2026-10-21T05:46:13.820Z"
+        }
+      ],
+      "conversation_history": [
+        {
+          "id": "bd8018ef-c8e5-4d01-8400-2bdcd7a7573c",
+          "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+          "sequence": 1,
+          "role": "user",
+          "content": "网络悬挂恢复样本",
+          "status": "ready",
+          "created_at": "2026-10-21T05:46:14.258Z"
+        },
+        {
+          "id": "9512fa69-9810-4fb1-9e8d-3d085dc41069",
+          "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+          "sequence": 2,
+          "role": "assistant",
+          "content": "谢谢分享，你愿意继续聊聊吗？",
+          "status": "ready",
+          "created_at": "2026-10-21T05:46:14.258Z"
+        }
+      ],
+      "experiment_variables": [],
+      "model_runs": [
+        {
+          "id": "fb0388e8-6b50-4b0a-812f-882cfe11e60a",
+          "turn_id": "d435ae23-8cd2-4f5a-bc2c-8cce15fc784d",
+          "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+          "experiment_id": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+          "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.33070000000225264",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T05:46:14.264Z"
+        }
+      ],
+      "model_run_log": [
+        {
+          "id": "fb0388e8-6b50-4b0a-812f-882cfe11e60a",
+          "turn_id": "d435ae23-8cd2-4f5a-bc2c-8cce15fc784d",
+          "session_id": "a2d11fde-4de8-4185-ad49-467d540e5ef4",
+          "experiment_id": "69e7de7d-3a08-4b26-912e-cdffe858939c",
+          "provider": "mock",
+          "model_name": "browser-synthetic-model",
+          "prompt_version_id": "6ad74cea-eb57-4f34-9095-7cedf62b36e5",
+          "prompt_version": "stage-language-v3-3e3f29945bbe86bf6ada12d7d5b6847f82bcd5527ec61c2bd5e78e000b36a661",
+          "validator_version": "stage-language-v3",
+          "code_commit": "development",
+          "temperature": "0.2",
+          "max_tokens": 512,
+          "latency_ms": "0.33070000000225264",
+          "retry_count": 0,
+          "fallback_count": 0,
+          "token_usage": null,
+          "validator_result": {
+            "status": "generated",
+            "violations": [],
+            "auditEvents": []
+          },
+          "error_code": null,
+          "status": "generated",
+          "created_at": "2026-10-21T05:46:14.264Z"
+        }
+      ]
+    }
+  ],
+  "data_quality": {
+    "scope": "all experiment rows in this snapshot",
+    "passed": true,
+    "checks": {
+      "sessions_without_state": 0,
+      "messages_without_state": 0,
+      "state_event_mismatch": 0,
+      "transition_chain_gaps": 0,
+      "variables_without_valid_source": 0,
+      "turn_slot_mismatch": 0,
+      "ready_turn_without_reply": 0,
+      "ready_turn_without_model_log": 0
+    }
+  }
+}

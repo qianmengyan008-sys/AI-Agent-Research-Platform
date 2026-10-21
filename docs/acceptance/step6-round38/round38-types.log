@@ -1,0 +1,76 @@
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+src/services/account-service.ts(55,23): error TS18048: 'option' is possibly 'undefined'.
+src/services/account-service.ts(56,22): error TS18048: 'option' is possibly 'undefined'.
+src/services/account-service.ts(57,18): error TS18048: 'option' is possibly 'undefined'.
+src/services/account-service.ts(58,24): error TS18048: 'option' is possibly 'undefined'.
+npm error Lifecycle script `typecheck` failed with error:
+npm error code 2
+npm error path /workspace/AI-Agent-Research-Platform/apps/api
+npm error workspace @research/api@0.1.0
+npm error location /workspace/AI-Agent-Research-Platform/apps/api
+npm error command failed
+npm error command sh -c tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+../api/src/services/account-service.ts(55,23): error TS18048: 'option' is possibly 'undefined'.
+../api/src/services/account-service.ts(56,22): error TS18048: 'option' is possibly 'undefined'.
+../api/src/services/account-service.ts(57,18): error TS18048: 'option' is possibly 'undefined'.
+../api/src/services/account-service.ts(58,24): error TS18048: 'option' is possibly 'undefined'.
+npm error Lifecycle script `typecheck` failed with error:
+npm error code 2
+npm error path /workspace/AI-Agent-Research-Platform/apps/web
+npm error workspace @research/web@0.1.0
+npm error location /workspace/AI-Agent-Research-Platform/apps/web
+npm error command failed
+npm error command sh -c tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
