@@ -1,3 +1,4 @@
+import { boundedBubbles, emotionalGuide } from '@research/contracts';
 import { advanceChat, stageNotice } from './chat-flow.js';
 import { createContext, validateResponse } from '@research/ai-orchestrator';
 import { transition } from '@research/experiment-core';
@@ -54,6 +55,11 @@ export class ConversationService {
       if (chat && !(await r.conversations.chatStarted(b!.session_id)))
         fail(409, 'CHAT_NOT_STARTED');
       const research = b!.configuration.research_config;
+      const emotionGuideTurn =
+        chat &&
+        b!.snapshot.path === 'emotional' &&
+        b!.snapshot.stage === 'PERSONA_SETUP' &&
+        !(await r.conversations.emotionGuideSent(b!.session_id));
       let fixedReply: string | null = null;
       let kind: ReturnType<typeof inputKind> = 'answer';
       let autoAdvance = false;
@@ -137,9 +143,10 @@ export class ConversationService {
             '对于“' + String(b!.snapshot.variables.confirmed_viewpoint) + '”，' + fixedReply;
       }
       if (chat) {
-        sceneBridge = null; // the persisted stage-entry notice already contains the approved bridge
+        if (b!.snapshot.path !== 'emotional') sceneBridge = null; // emotional bridges precede the first reply in each existing scene
         if (b!.snapshot.stage === 'PERSONA_SETUP' && kind === 'answer') fixedReply = null;
-        if (b!.snapshot.stage === 'ENDING_FEEDBACK') fixedReply = '谢谢你的反馈。';
+        if (b!.snapshot.stage === 'ENDING_FEEDBACK')
+          fixedReply = research?.emotional.ending ?? '谢谢你的反馈。';
         if (kind === 'meta')
           fixedReply =
             b!.snapshot.path === 'emotional'
@@ -149,17 +156,23 @@ export class ConversationService {
                   String(b!.snapshot.variables.confirmed_viewpoint ?? ''),
                 ) ?? '请在对话中表达你的看法。');
       }
+      if (emotionGuideTurn) {
+        fixedReply = emotionalGuide;
+        kind = 'meta';
+        sceneBridge = null;
+      }
       const policy = b!.policies[b!.snapshot.stage];
       const promptId = b!.prompt_ids[b!.snapshot.stage];
       if (!policy || !promptId) fail(409, 'MISSING_STAGE_POLICY');
       const context = {
         experiment: b!.experiment_id,
         promptId: promptId!,
-        promptVersion: `stage-language-v3-${hash(policy)}${chat ? '-complete-sentences-v1' : ''}`,
+        promptVersion: `stage-language-v3-${hash(policy)}${chat ? '-path-presentation-v2' : ''}`,
         model: b!.configuration.model,
         stage: b!.snapshot.stage,
         input_kind: kind,
         reply_source: fixedReply ? 'template' : 'model',
+        ...(emotionGuideTurn ? { entry_kind: 'emotion-guide-v1' } : {}),
       };
       const recent = await r.conversations.recent(
         b!.session_id,
@@ -234,6 +247,15 @@ export class ConversationService {
         context.model,
         { participantId: actor.participantId, sessionId: bundle.session_id, turnId: turn.id },
         chat,
+        chat && bundle.snapshot.path !== 'cognitive'
+          ? {
+              path: bundle.snapshot.path,
+              maxBubbles: sceneBridge ? 1 : 3,
+              fixed: !!fixedReply,
+              identity:
+                bundle.agent.name + ' · ' + (bundle.agent.participant_display?.identity ?? ''),
+            }
+          : undefined,
       );
     } catch {
       error = 'MODEL_GENERATION_FAILED';
@@ -251,14 +273,15 @@ export class ConversationService {
           recentMessages: recent,
         }),
       );
-      result = validated.valid
-        ? { ...result, text: candidate }
-        : {
-            ...result,
-            status: 'blocked',
-            text: null,
-            violations: [...result.violations, ...validated.violations],
-          };
+      result =
+        validated.valid && (!chat || boundedBubbles(candidate, 'emotional') !== null)
+          ? { ...result, text: candidate }
+          : {
+              ...result,
+              status: 'blocked',
+              text: null,
+              violations: [...result.violations, ...validated.violations],
+            };
     }
     const latency = performance.now() - started;
     const response = await this.uow.transaction(async (r) => {

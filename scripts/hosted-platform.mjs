@@ -238,7 +238,8 @@ export async function createHostedPlatform({
       !['GET', 'HEAD'].includes(req.method) &&
       !(
         req.method === 'POST' &&
-        (req.path === '/api/admin/account-batches' ||
+        (req.path === '/api/admin/daily-study' ||
+          req.path === '/api/admin/account-batches' ||
           /^\/api\/admin\/participants\/[a-f0-9-]{36}\/reset-login$/.test(req.path))
       )
     ) {

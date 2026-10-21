@@ -11,6 +11,14 @@ export interface Configuration {
 }
 export class ExperimentRepository {
   constructor(private readonly db: PoolClient) {}
+  async dailyStudyExisting(name: string) {
+    await this.db.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [name]);
+    return (
+      await this.db.query<{ id: string }>('SELECT id FROM research.experiment WHERE name=$1', [
+        name,
+      ])
+    ).rows[0];
+  }
   async create(name: string, configuration: Configuration, checksum: string) {
     const experiment = (
       await this.db.query<{ id: string }>(

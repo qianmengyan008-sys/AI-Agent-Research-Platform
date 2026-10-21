@@ -1,4 +1,5 @@
 import { assistantBubbles, chatMessageGroups } from './message-bubbles';
+import { boundedBubbles } from '@research/contracts';
 import { RatingCard } from './RatingCard';
 import { useEffect, useRef, useState } from 'react';
 import type { ParticipantCurrent, ParticipantMessage, ParticipantTurn } from '@research/contracts';
@@ -301,7 +302,34 @@ export function Participant() {
                   {chatMessageGroups(messages).map((m) => (
                     <div key={m.id} className={`message ${m.role}`} data-message-id={m.id}>
                       <span className="speaker">
-                        {m.role === 'user' ? '我' : current.agent.name}
+                        {m.role === 'user' ? (
+                          '我'
+                        ) : current.study_path === 'daily' ? (
+                          <span className="message-identity">
+                            {current.agent.avatar ? (
+                              <img
+                                className="agent-avatar"
+                                src={current.agent.avatar}
+                                alt={current.agent.name + '头像'}
+                              />
+                            ) : (
+                              <span
+                                className="agent-avatar avatar-placeholder"
+                                role="img"
+                                aria-label="人物头像占位图"
+                              >
+                                {current.agent.name.slice(0, 1)}
+                              </span>
+                            )}
+                            <span>
+                              {current.agent.name}
+                              <br />
+                              {current.agent.identity}
+                            </span>
+                          </span>
+                        ) : (
+                          current.agent.name
+                        )}
                       </span>
                       {m.card_record ? (
                         <div className="inline-card completed-card">
@@ -314,13 +342,16 @@ export function Participant() {
                           </p>
                         </div>
                       ) : (
-                        (m.role === 'assistant' ? assistantBubbles(m.text) : [m.text]).map(
-                          (text, index) => (
-                            <div key={index} className="bubble preserve">
-                              {text}
-                            </div>
-                          ),
-                        )
+                        (m.role === 'assistant'
+                          ? current.study_path && current.study_path !== 'cognitive'
+                            ? (boundedBubbles(m.text, current.study_path) ?? [m.text])
+                            : assistantBubbles(m.text)
+                          : [m.text]
+                        ).map((text, index) => (
+                          <div key={index} className="bubble preserve">
+                            {text}
+                          </div>
+                        ))
                       )}
                     </div>
                   ))}
@@ -337,7 +368,7 @@ export function Participant() {
                     <>
                       {(current.rating_card ||
                         current.confirmation_card ||
-                        current.form?.fields.length === 0) && (
+                        (current.study_path !== 'daily' && current.form?.fields.length === 0)) && (
                         <div className="inline-card" aria-label="本段确认卡">
                           {current.form?.fields.length !== 0 && (
                             <h3>{current.rating_card ? '请为观点评分' : '确认并继续'}</h3>

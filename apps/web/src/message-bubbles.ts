@@ -24,12 +24,15 @@ export function assistantBubbles(text: string): string[] {
     else joined.push(paragraph);
   }
   paragraphs = joined;
-  if (paragraphs.length === 1) {
-    const sentences = [
-      ...new Intl.Segmenter('zh', { granularity: 'sentence' }).segment(paragraphs[0]!),
-    ].map((s) => s.segment);
-    if (sentences && sentences.length > 1) paragraphs = sentences;
-  }
+  paragraphs = paragraphs.flatMap((paragraph) => {
+    let marker = '\uE000';
+    while (paragraph.includes(marker)) marker += '\uE001';
+    return [
+      ...new Intl.Segmenter('zh', { granularity: 'sentence' }).segment(
+        paragraph.replaceAll('\n', marker),
+      ),
+    ].map((s) => s.segment.replaceAll(marker, '\n'));
+  });
   return paragraphs.length <= 3
     ? paragraphs
     : [paragraphs[0]!, paragraphs[1]!, paragraphs.slice(2).join('\n')];

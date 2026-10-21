@@ -9,6 +9,7 @@ export interface RunContext {
   stage: string;
   input_kind?: string;
   reply_source?: string;
+  entry_kind?: string;
 }
 export interface Turn {
   generation_context: RunContext;
@@ -29,6 +30,16 @@ export class ConversationRepository {
        VALUES($1,$2,(SELECT COALESCE(MAX(sequence),0) FROM research.message WHERE session_id=$1),$3,$4,$5)
        ON CONFLICT(session_id,notice_key) DO NOTHING`,
       [session, key, order, content, record ? JSON.stringify(record) : null],
+    );
+  }
+  async emotionGuideSent(session: string) {
+    return (
+      (
+        await this.db.query(
+          `SELECT 1 FROM research.conversation_turn WHERE session_id=$1 AND status='ready' AND generation_context->>'entry_kind'='emotion-guide-v1' UNION ALL SELECT 1 FROM research.chat_notice WHERE session_id=$1 AND notice_key='task-1' LIMIT 1`,
+          [session],
+        )
+      ).rowCount !== 0
     );
   }
   async chatStarted(session: string) {
@@ -153,7 +164,7 @@ export class ConversationRepository {
   async turnCounts(session: string, stages: string[]) {
     const rows = (
       await this.db.query<{ status: string; kind: string }>(
-        `SELECT status,COALESCE(generation_context->>'input_kind','answer') AS kind FROM research.conversation_turn WHERE session_id=$1 AND generation_context->>'stage'=ANY($2::text[]) ORDER BY chat_revision`,
+        `SELECT status,COALESCE(generation_context->>'input_kind','answer') AS kind FROM research.conversation_turn WHERE session_id=$1 AND generation_context->>'stage'=ANY($2::text[]) AND COALESCE(generation_context->>'entry_kind','')<>'emotion-guide-v1' ORDER BY chat_revision`,
         [session, stages],
       )
     ).rows;
@@ -319,7 +330,7 @@ export class ConversationRepository {
   async adminMessages(experiment: string) {
     return (
       await this.db.query(
-        `SELECT m.id,m.session_id,m.sequence,m.role,m.content,m.status,m.created_at FROM research.message m JOIN research.experiment_session s ON s.id=m.session_id WHERE s.experiment_id=$1 ORDER BY s.id,m.sequence LIMIT 1000`,
+        `SELECT m.id,m.session_id,m.turn_id,m.sequence,m.role,m.content,m.status,m.created_at FROM research.message m JOIN research.experiment_session s ON s.id=m.session_id WHERE s.experiment_id=$1 ORDER BY s.id,m.sequence LIMIT 1000`,
         [experiment],
       )
     ).rows as Record<string, unknown>[];
@@ -421,7 +432,7 @@ export class ConversationRepository {
     const messages = complete
       ? (
           await this.db.query(
-            `SELECT m.id,m.session_id,m.sequence,m.role,m.content,m.status,m.created_at FROM research.message m JOIN research.experiment_session s ON s.id=m.session_id WHERE s.experiment_id=$1 ORDER BY s.id,m.sequence`,
+            `SELECT m.id,m.session_id,m.turn_id,m.sequence,m.role,m.content,m.status,m.created_at FROM research.message m JOIN research.experiment_session s ON s.id=m.session_id WHERE s.experiment_id=$1 ORDER BY s.id,m.sequence`,
             [experiment],
           )
         ).rows

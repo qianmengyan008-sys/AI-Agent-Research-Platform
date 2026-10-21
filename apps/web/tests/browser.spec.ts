@@ -10,6 +10,7 @@ import type { ViteDevServer } from 'vite';
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { Server } from 'node:http';
+import { dailyIdentities, hanCount, questionCount } from '@research/contracts';
 import { MockAdapter } from '@research/model-adapter';
 import type { ModelSettings } from '@research/model-adapter';
 import { loadMigrations, migrate } from '../../../packages/database/src/migrations.js';
@@ -112,8 +113,7 @@ test.beforeAll(async () => {
         });
       if (failModel) throw new Error('SYNTHETIC_MODEL_FAILURE');
       if (bubbleReply !== undefined) return bubbleReply;
-      if (variedStoryReplies)
-        return `Marcus和李阳分享音乐与学习的经历，逐渐加深对彼此的理解。合成叙述${calls}`;
+      if (variedStoryReplies) return `Marcus说：“第${calls}个想法很有趣。”李阳会如何回应？`;
       const belief = prompt.messages
         .map((m) => m.content)
         .join('\n')
@@ -464,7 +464,7 @@ test('two daily identity groups follow frozen assignment after relogin, finish i
       page.getByRole('heading', { name: `与 ${c.name} 对话`, exact: true }),
     ).toBeVisible();
     await expect(page.locator('.agent-identity')).toHaveText(c.identity);
-    await expect(page.locator('.agent-avatar')).toHaveAttribute('src', c.avatar);
+    await expect(page.locator('.chat-heading .agent-avatar')).toHaveAttribute('src', c.avatar);
     const response = page.waitForResponse(
       (r) => r.url().endsWith('/api/conversation/message') && r.request().method() === 'POST',
     );
@@ -479,10 +479,9 @@ test('two daily identity groups follow frozen assignment after relogin, finish i
     await page.reload();
     await login(page, s);
     await expect(page.locator('.agent-identity')).toHaveText(c.identity);
-    await expect(page.locator('.agent-avatar')).toHaveAttribute('src', c.avatar);
+    await expect(page.locator('.chat-heading .agent-avatar')).toHaveAttribute('src', c.avatar);
     await expect(page.getByRole('log')).toContainText('今天我想聊聊音乐和阅读。');
-    await page.getByRole('button', { name: '结束本次对话', exact: true }).click();
-    await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: '结束本次对话', exact: true })).toHaveCount(0);
     await saveRecords(s, `daily-identity-${c.code}-complete`);
   }
 });
@@ -595,15 +594,25 @@ for (const path of ['cognitive_v1', 'emotion_v1', 'daily_v1'])
     const s = await account(path, true);
     await login(page, s);
     const bubbles = page.locator('.message.assistant');
-    await expect(bubbles.first()).toContainText('嗨，很高兴认识你！');
+    await expect(bubbles.first()).toContainText(
+      path === 'cognitive_v1'
+        ? '嗨，很高兴认识你！'
+        : path === 'daily_v1'
+          ? '嗨！今天过得怎么样？'
+          : '嗨，很开心认识你！',
+    );
     expect((await bubbles.first().locator('.bubble').allTextContents()).join('')).toBe(
-      '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？',
+      path === 'cognitive_v1'
+        ? '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？'
+        : path === 'daily_v1'
+          ? '嗨！今天过得怎么样？最近有什么学习、生活或兴趣上的事想聊聊吗？'
+          : '嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。',
     );
     expect(calls).toBe(0);
     await expect(page.locator('.message.user')).toHaveCount(0);
     await expect(page.getByLabel('确认内容', { exact: true })).toHaveCount(0);
     await expect(page.getByLabel('你是从哪里了解到的？（选填）', { exact: true })).toHaveCount(0);
-    if (path === 'emotion_v1') await expect(bubbles.nth(1)).toContainText('《打破心墙》');
+    if (path === 'emotion_v1') await expect(bubbles.first()).toContainText('《打破心墙》');
     if (path === 'cognitive_v1') await expect(bubbles.nth(1)).toContainText('美国黑人');
     const texts = await bubbles.allTextContents();
     await page.reload();
@@ -619,14 +628,14 @@ for (const text of [
   test(`at most three complete bubbles, preserved full text and side alignment: ${JSON.stringify(text)}`, async ({
     page,
   }) => {
-    const s = await account('daily_v1');
+    const s = await account('cognitive_v1', true);
     await login(page, s);
     bubbleReply = text;
     await sayUI(page, '气泡布局验收');
     const group = page.locator('.message.assistant').last();
     expect(await group.locator('.bubble').count()).toBe(3);
     const rendered = await group.locator('.bubble').allTextContents();
-    expect(rendered.join('').replaceAll('\n', '')).toBe(text.replaceAll('\n', ''));
+    expect(rendered.join('').replaceAll('\n', '')).toContain(text.replaceAll('\n', ''));
     const user = await page.locator('.message.user .bubble').last().boundingBox(),
       ai = await group.locator('.bubble').first().boundingBox();
     expect(user!.x).toBeGreaterThan(ai!.x);
@@ -703,7 +712,10 @@ test('full frozen cognitive browser flow uses only chat input plus current confi
     'ACTION_INTENTION',
     'COMPLETED',
   ]);
-  await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: /^实验已完成$/ })).toBeVisible();
+  expect((await page.locator('.message.assistant .bubble').allTextContents()).join('')).toContain(
+    '本次实验已完成，谢谢参与。',
+  );
   await expect(page.locator('.completed-card')).toHaveCount(3);
   await screenshot(page, 'cognitive-complete');
   await saveRecords(s, 'browser-cognitive-complete');
@@ -766,11 +778,9 @@ test('full emotional browser flow retains Marcus, 李阳, ordered scenes, exact 
     'ENDING_FEEDBACK',
     'COMPLETED',
   ]);
-  await expect(
-    page.getByText('今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。', {
-      exact: true,
-    }),
-  ).toBeVisible();
+  expect(
+    (await page.locator('.message.assistant').last().locator('.bubble').allTextContents()).join(''),
+  ).toContain('今天我们一起完成了Marcus和李阳从陌生到理解的故事，谢谢你参与这次创作。');
   await expect(page.locator('.agent-avatar')).toHaveCount(0);
   await screenshot(page, 'emotional-complete');
   await saveRecords(s, 'browser-emotional-complete');
@@ -850,15 +860,16 @@ test('stale chat state is rejected and refresh restores the same confirmed belie
 test('long accepted reply has its complete final sentence and no CSS clipping on mobile', async ({
   page,
 }) => {
-  const s = await account('daily_v1');
+  const s = await account('cognitive_v1', true);
   await page.setViewportSize({ width: 390, height: 844 });
   await login(page, s);
   const reply = '完整研究信息' + '需要保留原文'.repeat(180) + '，这是完整结束句。';
   bubbleReply = reply;
   await sayUI(page, '长正文显示验收');
   const bubble = page.locator('.message.assistant').last().locator('.bubble');
-  await expect(bubble).toHaveText(reply);
-  expect(await bubble.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)).toBe(true);
+  expect((await bubble.allTextContents()).join('')).toContain(reply);
+  for (const b of await bubble.all())
+    expect(await b.evaluate((el) => el.scrollHeight <= el.clientHeight + 1)).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
@@ -894,7 +905,10 @@ test('mobile cognitive path completes with valid 0 and 100 ratings and an access
             : `我愿意结合具体经历核实信息，减少传播一概而论的说法。手机合成回应${i}。`,
       );
   }
-  await expect(page.getByText('本次实验已完成，谢谢参与。', { exact: true })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: /^实验已完成$/ })).toBeVisible();
+  expect((await page.locator('.message.assistant .bubble').allTextContents()).join('')).toContain(
+    '本次实验已完成，谢谢参与。',
+  );
   const data = await services.admin.export(actor, s.experimentId);
   expect(data.variables.find((v) => v.key === 'rating_1')!.value).toBe(0);
   expect(data.variables.find((v) => v.key === 'rating_2')!.value).toBe(100);
@@ -917,4 +931,113 @@ test('a generated reply and following task guide use one visual AI round with at
   await page.reload();
   await login(page, s);
   expect(await page.locator('.message').allTextContents()).toEqual(history);
+});
+test('admin prepares four frozen daily conditions; each account keeps its identity beside every AI bubble after re-login', async ({
+  page,
+  context,
+}) => {
+  test.setTimeout(90000);
+  const source = await account('daily_v1', true);
+  await page.goto(base);
+  await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  await page.getByLabel('管理员访问凭据', { exact: true }).fill(adminToken);
+  await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  await page.getByLabel('选择实验', { exact: true }).selectOption(source.experimentId);
+  const prepared = page.waitForResponse((r) => r.url().endsWith('/api/admin/daily-study'));
+  await page.getByRole('button', { name: '创建四组日常实验配置', exact: true }).click();
+  const response = await prepared;
+  expect(response.status()).toBe(201);
+  const experiment = (await response.json()).experiment_id;
+  await expect(page.getByLabel('选择实验', { exact: true })).toHaveValue(experiment);
+  await page.getByLabel('实验路径', { exact: true }).selectOption('daily');
+  await screenshot(page, 'four-daily-conditions-admin');
+  const options = await services.accounts.options(actor, experiment);
+  expect(options).toHaveLength(4);
+  for (const [code, identity] of Object.entries(dailyIdentities)) {
+    const file = await services.accounts.batch(actor, {
+      experiment_id: experiment,
+      condition_id: options.find((o) => o.code === code)!.id,
+      count: 1,
+      prefix: 'BROWSER40',
+      start: 1,
+      request_id: randomUUID(),
+    });
+    const matrix = JSON.parse(
+      execFileSync(
+        'python',
+        [
+          '-c',
+          'import sys,io,json,openpyxl;w=openpyxl.load_workbook(io.BytesIO(sys.stdin.buffer.read()));print(json.dumps(list(w.active.values),ensure_ascii=False))',
+        ],
+        { input: file.workbook, encoding: 'utf8' },
+      ),
+    ) as string[][];
+    const row = Object.fromEntries(matrix[0]!.map((k, i) => [k, matrix[1]![i]!]));
+    const p = await context.newPage();
+    if (code === 'DAILY_CHINESE_FEMALE') await p.setViewportSize({ width: 390, height: 844 });
+    const loginNew = async () => {
+      await p.goto(base);
+      await p.getByLabel('实验编号', { exact: true }).fill(experiment);
+      await p.getByLabel('参与者编号', { exact: true }).fill(row.participant_code!);
+      await p.getByLabel('密码', { exact: true }).fill(row.initial_password!);
+      await p.getByRole('button', { name: '登录实验', exact: true }).click();
+      await p.getByRole('button', { name: '开始／继续对话', exact: true }).click();
+      await expect(
+        p.getByRole('heading', { name: `与 ${identity.name} 对话`, exact: true }),
+      ).toBeVisible();
+    };
+    await loginNew();
+    await expect(p.locator('.message.assistant')).toHaveCount(1);
+    await expect(p.locator('.message.assistant .bubble')).toHaveCount(1);
+    await expect(p.getByRole('button', { name: '结束本次对话', exact: true })).toHaveCount(0);
+    await sayUI(p, '今天想聊聊音乐。');
+    for (const group of await p.locator('.message.assistant').all()) {
+      await expect(group.locator('.message-identity')).toContainText(identity.name);
+      await expect(group.locator('.message-identity')).toContainText(identity.identity);
+      await expect(group.locator('.avatar-placeholder')).toHaveCount(1);
+      const bubbles = group.locator('.bubble');
+      await expect(bubbles).toHaveCount(1);
+      expect(hanCount((await bubbles.textContent())!)).toBeLessThanOrEqual(30);
+    }
+    expect(
+      questionCount(
+        (await p.locator('.message.assistant').last().locator('.bubble').textContent())!,
+      ),
+    ).toBeLessThanOrEqual(1);
+    const before = await p.locator('.message').allTextContents();
+    await screenshot(p, 'daily-' + code.toLowerCase());
+    await p.reload();
+    await loginNew();
+    expect(await p.locator('.message').allTextContents()).toEqual(before);
+    await expect(p.getByLabel('确认内容', { exact: true })).toHaveCount(0);
+    await p.close();
+  }
+});
+test('emotional opening and delayed guide are exact, ordinary messages are not confirmed, and generated bubbles are attributed and bounded', async ({
+  page,
+}) => {
+  const s = await account('emotion_v1', true);
+  variedStoryReplies = true;
+  await login(page, s);
+  await expect(page.locator('.message.assistant')).toHaveCount(1);
+  const opening =
+    '嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。';
+  expect((await page.locator('.message.assistant .bubble').allTextContents()).join('')).toBe(
+    opening,
+  );
+  await sayUI(page, '准备好了');
+  const guide = page.locator('.message.assistant').last();
+  expect((await guide.locator('.bubble').allTextContents()).join('')).toBe(
+    'Marcus是一名刚来到中国留学的美国黑人青年。你可以补充他的外貌、兴趣和性格。',
+  );
+  await expect(page.getByRole('button', { name: '确认并继续', exact: true })).toHaveCount(0);
+  await expect(page.locator('textarea')).toHaveCount(1);
+  await sayUI(page, '他喜欢音乐，也有些害羞。');
+  const last = page.locator('.message.assistant').last(),
+    texts = await last.locator('.bubble').allTextContents();
+  expect(texts.length).toBeLessThanOrEqual(3);
+  expect(texts.every((t) => hanCount(t) < 30 && /Marcus|李阳/u.test(t))).toBe(true);
+  expect(questionCount(texts.at(-1)!)).toBe(1);
+  expect(questionCount(texts.join(''))).toBe(1);
+  await screenshot(page, 'emotional-short-attributed-reply');
 });

@@ -1,14 +1,23 @@
-import { afterAll, beforeAll, expect, test } from 'vitest';
+import { afterAll, beforeAll, expect, test, vi } from 'vitest';
 import { execFileSync } from 'node:child_process';
 import { randomUUID, createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { mkdir, writeFile } from 'node:fs/promises';
 import pg from 'pg';
 import request from 'supertest';
+import {
+  dailyTemporaryOpening,
+  emotionalGuide,
+  dailyIdentities,
+  boundedBubbles,
+  hanCount,
+  validGeneratedReply,
+} from '@research/contracts';
 import { MockAdapter } from '@research/model-adapter';
 import { loadMigrations, migrate } from '../../../packages/database/src/migrations.js';
 import { createServices } from '../src/services/index.js';
 import { createApp } from '../src/app.js';
+import { loginWorkbook } from '../src/services/login-workbook.js';
 import { UnitOfWork } from '../src/repositories/context.js';
 import { createHostedPlatform } from '../../../scripts/hosted-platform.mjs';
 import type { Services } from '../src/services/index.js';
@@ -33,7 +42,8 @@ let pool: pg.Pool,
   calls = 0,
   created = false,
   fail = false;
-const artifacts = process.env.ROUND39_ACCEPTANCE_DIR;
+const artifacts = process.env.ROUND40_ACCEPTANCE_DIR ?? process.env.ROUND39_ACCEPTANCE_DIR;
+let replyOverride: string | undefined;
 beforeAll(async () => {
   execFileSync(
     'docker',
@@ -92,13 +102,14 @@ beforeAll(async () => {
     new MockAdapter(async (prompt) => {
       if (fail) throw Error('SYNTHETIC_MODEL_FAILURE');
       calls++;
+      if (replyOverride !== undefined) return replyOverride;
       const belief = prompt.messages
         .map((m) => m.content)
         .join('\n')
         .match(/唯一确认观点：(.*)/u)?.[1];
       return belief
         ? `对于“${JSON.parse(belief)}”，可以结合具体经历理解。合成交流${calls}。`
-        : `Marcus与李阳通过当前交流了解彼此。合成交流${calls}。`;
+        : `Marcus说：“第${calls}个想法很有趣。”李阳会如何回应？`;
     }),
     settings,
   );
@@ -136,7 +147,10 @@ async function account(path = 'cognitive_v1') {
     .expect(200);
   return { ...e, ...p, code, token: login.body.token as string };
 }
-type Account = Awaited<ReturnType<typeof account>>;
+type Account = Pick<
+  Awaited<ReturnType<typeof account>>,
+  'experimentId' | 'participantId' | 'code' | 'token'
+>;
 const auth = (s: Account) => ({ Authorization: 'Bearer ' + s.token });
 const current = async (s: Account) =>
   (await request(app).get('/api/experiment/current').set(auth(s)).expect(200)).body;
@@ -182,15 +196,16 @@ test('each path starts automatically exactly once; no model/turn/state consumed;
     await start(s);
     const h = await history(s);
     expect(h[0]!.text).toBe(
-      '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？',
+      path === 'daily_v1'
+        ? dailyTemporaryOpening
+        : path === 'emotion_v1'
+          ? '嗨，很开心认识你！准备好跟我一起创作故事《打破心墙》了吗？讲述一个中国青年和美国留学生从彼此陌生到成为好友的过程。'
+          : '嗨，很高兴认识你！我平时很关注时事新闻，也特别想听听你的看法。你现在方便聊几句吗？',
     );
-    expect(h).toHaveLength(2);
+    expect(h).toHaveLength(path === 'cognitive_v1' ? 2 : 1);
     expect(calls).toBe(previous);
     expect((await bundle(s))!.snapshot).toEqual(before!.snapshot);
-    if (path === 'emotion_v1') {
-      expect(h[1]!.text).toContain('《打破心墙》');
-      expect(h[1]!.text).toContain('Marcus');
-    }
+    if (path === 'emotion_v1') expect(h[0]!.text).toContain('《打破心墙》');
     if (path === 'cognitive_v1') expect(h[1]!.text).toContain('美国黑人');
     const login = await request(app)
       .post('/api/auth/login')
@@ -252,7 +267,7 @@ test('full frozen cognitive path progresses deterministically with two explicit 
     'COMPLETED',
   ]);
   expect(data.variables.find((v) => v.key === 'source')!.value).toContain('短视频');
-  expect(data.runs.every((r) => String(r.prompt_version).endsWith('-complete-sentences-v1'))).toBe(
+  expect(data.runs.every((r) => String(r.prompt_version).endsWith('-path-presentation-v2'))).toBe(
     true,
   );
   expect((await history(s)).filter((m) => m.card_record)).toHaveLength(3);
@@ -293,13 +308,23 @@ test('full frozen cognitive path progresses deterministically with two explicit 
 test('full frozen emotion path keeps identities, five scenes, story budget and exact ending', async () => {
   const s = await account('emotion_v1');
   await start(s);
+  const guide = await say(s, '准备好了');
+  expect(guide.body.text).toBe(emotionalGuide);
+  expect((await bundle(s))!.snapshot.stage).toBe('PERSONA_SETUP');
   const seen: string[] = [];
   for (let i = 0; i < 25; i++) {
     const b = (await bundle(s))!;
     if (b.snapshot.stage === 'COMPLETED') break;
     if (seen.at(-1) !== b.snapshot.stage) seen.push(b.snapshot.stage);
     expect(
-      (await say(s, `Marcus喜欢音乐，李阳愿意继续倾听当前经历。合成参与内容${i}。`)).status,
+      (
+        await say(
+          s,
+          b.snapshot.stage === 'RELATIONSHIP'
+            ? 'Marcus与李阳认真倾听彼此的经历。'.repeat(120) + i
+            : `Marcus喜欢音乐，李阳愿意继续倾听当前经历。合成参与内容${i}。`,
+        )
+      ).status,
     ).toBe(200);
   }
   expect((await bundle(s))!.snapshot.stage).toBe('COMPLETED');
@@ -324,6 +349,14 @@ test('full frozen emotion path keeps identities, five scenes, story budget and e
   );
   expect(story.length).toBeGreaterThanOrEqual(11);
   expect(story.length).toBeLessThanOrEqual(14);
+  const relationshipEvent = data.transitions.find((t) => t.previous_state === 'RELATIONSHIP')!;
+  expect(relationshipEvent.validated_payload.response_scope).toBe('last_complete_answer');
+  expect(String(relationshipEvent.validated_payload.response).length).toBeLessThanOrEqual(10000);
+  expect(
+    data.messages.filter(
+      (m) => m.role === 'user' && String(m.content).startsWith('Marcus与李阳认真倾听彼此的经历。'),
+    ).length,
+  ).toBeGreaterThan(3);
   const h = await history(s);
   expect(
     h.filter(
@@ -338,12 +371,13 @@ test('full frozen emotion path keeps identities, five scenes, story budget and e
     ['RELATIONSHIP', '校园步道'],
   ])
     expect(
-      data.notices.find(
-        (n) =>
-          n.notice_key ===
-          'task-' + data.transitions.find((t) => t.current_state === stage)!.to_version,
-      )!.content,
-    ).toContain(place);
+      data.messages.some(
+        (m) =>
+          m.role === 'assistant' &&
+          String(m.content).includes(place!) &&
+          data.turns.some((t) => t.id === m.turn_id && t.generation_context.stage === stage),
+      ),
+    ).toBe(true);
   expect(await history(s)).toEqual(h);
   await save('emotional-complete', { synthetic: true, ...data });
 });
@@ -429,6 +463,11 @@ test('incremental upgrade and two hosted restarts preserve legacy fixed and rese
       participant_id: extra.participantId,
       condition_id: condition.id,
     });
+    const four = await first.services.accounts.prepareDailyStudy(actor, {
+      experiment_id: first.seed.experiment_id,
+      request_id: randomUUID(),
+    });
+    expect(await first.services.accounts.options(actor, four.experiment_id)).toHaveLength(4);
     const fixedLogin = await first.services.participants.login({
       experiment_id: first.seed.experiment_id,
       participant_code: fixed.participant_code,
@@ -468,6 +507,7 @@ test('incremental upgrade and two hosted restarts preserve legacy fixed and rese
     for (let i = 0; i < 2; i++) {
       const next = await createHostedPlatform(options);
       expect(await original()).toEqual(before);
+      expect(await next.services.accounts.options(actor, four.experiment_id)).toHaveLength(4);
       for (const [code, pw] of [
         [fixed.participant_code, fixed.password],
         ['RESEARCHER-EXISTING-001', password],
@@ -539,4 +579,197 @@ test('old capture conversations resume from actual successful turns without losi
   expect(
     (await submit(s, { viewpoint: '我原先认为美国黑人都不重视学习。', confirmed: true })).status,
   ).toBe(200);
+});
+test('four daily identities are frozen in server assignments and login Excel; history survives re-login, service recreation and a 14-day clock simulation', async () => {
+  const source = await account(),
+    old = await services.admin.export(actor, source.experimentId);
+  const body = { experiment_id: source.experimentId, request_id: randomUUID() };
+  const created = await request(app)
+    .post('/api/admin/daily-study')
+    .auth(adminToken, { type: 'bearer' })
+    .send(body)
+    .expect(201);
+  const experiment = created.body.experiment_id;
+  expect(
+    (
+      await request(app)
+        .post('/api/admin/daily-study')
+        .auth(adminToken, { type: 'bearer' })
+        .send(body)
+        .expect(201)
+    ).body.experiment_id,
+  ).toBe(experiment);
+  await request(app).post('/api/admin/daily-study').set(auth(source)).send(body).expect(401);
+  const options = await services.accounts.options(actor, experiment);
+  expect(options).toHaveLength(4);
+  const passwords: Record<string, string>[] = [],
+    saved: unknown[] = [];
+  try {
+    for (const [code, identity] of Object.entries(dailyIdentities)) {
+      const option = options.find((o) => o.code === code)!;
+      expect(option.agent).toBe(identity.name);
+      const file = await services.accounts.batch(actor, {
+        experiment_id: experiment,
+        condition_id: option.id,
+        count: 1,
+        prefix: 'FOUR',
+        start: 1,
+        request_id: randomUUID(),
+      });
+      const matrix = JSON.parse(
+        execFileSync(
+          'python',
+          [
+            '-c',
+            'import io,sys,json,openpyxl;w=openpyxl.load_workbook(io.BytesIO(sys.stdin.buffer.read()));print(json.dumps(list(w.active.values),ensure_ascii=False))',
+          ],
+          { input: file.workbook, encoding: 'utf8' },
+        ),
+      ) as string[][];
+      const row = Object.fromEntries(matrix[0]!.map((k, i) => [k, matrix[1]![i]!]));
+      passwords.push(row);
+      expect(row.login_account).toBe(row.participant_code);
+      expect(row.agent).toBe(identity.name);
+      expect(row.condition).toBe(code);
+      let token = (
+        await services.participants.login({
+          experiment_id: experiment,
+          participant_code: row.participant_code,
+          password: row.initial_password,
+        })
+      ).token;
+      const pa = await services.participants.authenticate(token);
+      const entry = {
+        experimentId: experiment,
+        participantId: pa.participantId,
+        code: row.participant_code!,
+        token,
+      };
+      await start(entry);
+      expect(await history(entry)).toHaveLength(1);
+      expect((await current(entry)).agent).toEqual({
+        name: identity.name,
+        identity: identity.identity,
+      });
+      if (identity.name === 'Jamal') {
+        replyOverride = '我是Lakisha。';
+        expect((await say(entry, '核对对话对象')).body.status).toBe('failed');
+        expect((await history(entry)).some((m) => m.text === '我是Lakisha。')).toBe(false);
+      }
+      for (let day = 1; day <= 14; day++) {
+        replyOverride = `第${day}个话题也挺有趣。`;
+        expect((await say(entry, `今天想聊第${day}个兴趣话题。`)).body.status).toBe('ready');
+      }
+      const before = await history(entry);
+      expect(before).toHaveLength(identity.name === 'Jamal' ? 30 : 29);
+      expect((await bundle(entry))!.snapshot.stage).toBe('NATURAL_CHAT');
+      const count = before.length;
+      await request(app)
+        .post('/api/conversation/message')
+        .set(auth(entry))
+        .send({
+          text: '更改人物',
+          request_id: randomUUID(),
+          state_token: (await current(entry)).state_token,
+          interaction: 'chat',
+          condition_id: options[0]!.id,
+        })
+        .expect(400);
+      expect((await submit(entry, {})).status).toBe(400);
+      const clock = vi.spyOn(Date, 'now').mockReturnValue(Date.now() + 14 * 24 * 60 * 60 * 1000);
+      try {
+        await pool.query(
+          "UPDATE research.auth_session SET expires_at=now()-interval '1 second' WHERE participant_id=$1",
+          [pa.participantId],
+        );
+        await request(app).get('/api/experiment/current').set(auth(entry)).expect(401);
+        token = (
+          await services.participants.login({
+            experiment_id: experiment,
+            participant_code: row.participant_code,
+            password: row.initial_password,
+          })
+        ).token;
+        entry.token = token;
+        await start(entry);
+        expect(await history(entry)).toEqual(before);
+        expect((await current(entry)).agent.name).toBe(identity.name);
+      } finally {
+        clock.mockRestore();
+      }
+      const restarted = createServices(pool, new MockAdapter('这个话题挺有趣。'), settings);
+      const identityAfter = await restarted.participants.authenticate(entry.token);
+      expect((await restarted.participants.current(identityAfter)).agent.name).toBe(identity.name);
+      expect(await restarted.conversations.messages(identityAfter)).toHaveLength(count);
+      saved.push({
+        condition: code,
+        name: identity.name,
+        participant_code: row.participant_code,
+        messages: count,
+        han_count_max: Math.max(
+          ...before
+            .slice(1)
+            .filter((m: unknown) => !!m)
+            .map((m) => hanCount(m.text)),
+        ),
+        identity_persists: true,
+      });
+    }
+  } finally {
+    replyOverride = undefined;
+  }
+  const after = await services.admin.export(actor, source.experimentId);
+  expect(after.participants).toEqual(old.participants);
+  expect(after.assignments).toEqual(old.assignments);
+  expect(after.states).toEqual(old.states);
+  const data = await services.admin.export(actor, experiment);
+  expect(data.assignments.every((a) => a.model_settings.model_name === settings.model_name)).toBe(
+    true,
+  );
+  expect(JSON.stringify(data)).not.toMatch(/initial_password|password_hash/);
+  if (artifacts) {
+    await mkdir(artifacts, { recursive: true });
+    await writeFile(
+      artifacts + '/four-identities-synthetic.xlsx',
+      loginWorkbook(
+        passwords.map((r) => ({ ...r }) as unknown as Parameters<typeof loginWorkbook>[0][number]),
+      ),
+    );
+  }
+  await save('four-identities-history', {
+    synthetic: true,
+    live_credentials: false,
+    original_avatar_assets_found: false,
+    avatar_verification: 'NOT_COMPLETED_PLACEHOLDER_ONLY',
+    clock_simulation_days: 14,
+    actual_calendar_days_elapsed_verified: false,
+    conditions: saved,
+    accounts_preserved: true,
+    original_model_binding_preserved: true,
+  });
+}, 60000);
+test('daily and emotional constraints reject oversize or multi-question replies without clipping or advancing; clarification is one attributed question', async () => {
+  const daily = await account('daily_v1');
+  await start(daily);
+  const before = await bundle(daily);
+  try {
+    for (const invalid of ['长'.repeat(31) + '。', '你好？你在哪？']) {
+      replyOverride = invalid;
+      expect((await say(daily, '聊聊兴趣')).body.status).toBe('failed');
+      expect((await bundle(daily))!.snapshot).toEqual(before!.snapshot);
+      expect((await history(daily)).some((m) => m.text === invalid)).toBe(false);
+    }
+    replyOverride = '我觉得阅读挺有意思。';
+    expect((await say(daily, '聊聊阅读')).body.status).toBe('ready');
+    const emotion = await account('emotion_v1');
+    await start(emotion);
+    expect((await say(emotion, '准备好了')).body.text).toBe(emotionalGuide);
+    replyOverride = '这是Marcus的想法吗？';
+    const clarification = await say(emotion, '他说这样不太好。');
+    expect(clarification.body.status).toBe('ready');
+    expect(validGeneratedReply(clarification.body.text, 'emotional')).toBe(true);
+    expect(boundedBubbles(clarification.body.text, 'emotional')).toHaveLength(1);
+  } finally {
+    replyOverride = undefined;
+  }
 });

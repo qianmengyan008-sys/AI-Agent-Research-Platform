@@ -59,6 +59,9 @@ export function businessRoutes(
   router.get('/admin/participants', async (req, res) => {
     res.json(await services.admin.participants(actor, String(req.query.experiment_id ?? '')));
   });
+  router.post('/admin/daily-study', async (req, res) => {
+    res.status(201).json(await services.accounts.prepareDailyStudy(actor, req.body));
+  });
   router.get('/admin/account-options', async (req, res) => {
     res.set('Cache-Control', 'no-store');
     res.json(await services.accounts.options(actor, String(req.query.experiment_id ?? '')));

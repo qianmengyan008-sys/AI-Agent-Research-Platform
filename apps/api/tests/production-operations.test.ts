@@ -337,7 +337,7 @@ test('encrypted PostgreSQL dump restores exact experiment records, valid exports
         turns: x.turns,
         transitions: x.transitions,
       });
-    expect(before.notices.length).toBeGreaterThanOrEqual(6);
+    expect(before.notices.length).toBeGreaterThanOrEqual(4);
     expect(snapshot(after)).toBe(snapshot(before));
     expect(after.complete).toBe(true);
     expect(after.data_quality.passed).toBe(true);

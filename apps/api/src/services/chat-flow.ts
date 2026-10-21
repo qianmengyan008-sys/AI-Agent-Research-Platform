@@ -8,6 +8,7 @@ import { researchVariables } from './research-variables.js';
 /** Chat is a delivery protocol over the existing frozen definition, never a second state machine. */
 export function chatProjection(b: Bundle) {
   return {
+    study_path: b.snapshot.path,
     interaction: 'chat' as const,
     ...(b.snapshot.stage === 'VIEWPOINT_CONFIRMATION'
       ? { confirmation_card: { belief: String(b.snapshot.variables.stereotype_text ?? '') } }
@@ -21,19 +22,8 @@ export async function stageNotice(r: Repositories, b: Bundle) {
   if (['VIEWPOINT_CONFIRMATION', 'INITIAL_RATING', 'SECOND_RATING'].includes(stage)) return;
   let text: string | undefined;
   if (b.status === 'completed') text = '本次实验已完成，谢谢参与。';
-  else if (b.snapshot.path === 'emotional' && config) {
-    text =
-      stage === 'PERSONA_SETUP'
-        ? config.emotional.opening +
-          ' Marcus：' +
-          config.emotional.characters.Marcus +
-          '；李阳：' +
-          config.emotional.characters.李阳 +
-          '。'
-        : stage === 'ENDING_FEEDBACK'
-          ? config.emotional.ending
-          : config.emotional.scenes[stage]?.bridge;
-  } else if (b.snapshot.path === 'cognitive' && config) {
+  else if (b.snapshot.path === 'emotional' || b.snapshot.path === 'daily') return;
+  else if (b.snapshot.path === 'cognitive' && config) {
     const captureCount =
       stage === 'STEREOTYPE_CAPTURE'
         ? await r.conversations.turnCounts(b.session_id, [stage])
@@ -103,8 +93,14 @@ export async function advanceChat(
   }
   const answers = await r.conversations.stageAnswers(b.session_id, stage.id);
   // Capture uses the participant's exact first belief; later capture messages record source without guessing.
+  const combined = answers.join('\n') || content;
+  const field = stage.fields.find((f) => f.field === 'response');
+  const max = field?.type === 'text' ? (field.maxLength ?? Infinity) : Infinity;
+  // All original answers remain in message rows. Never clip an answer or exceed the frozen field contract.
+  const responseScope = combined.length > max ? 'last_complete_answer' : 'all_complete_answers';
   const data = {
-    response: stage.id === 'STEREOTYPE_CAPTURE' ? answers[0]! : answers.join('\n') || content,
+    response:
+      stage.id === 'STEREOTYPE_CAPTURE' ? answers[0]! : combined.length > max ? content : combined,
   };
   const source =
     stage.id === 'STEREOTYPE_CAPTURE' ? answers.slice(1).join('\n') || undefined : undefined;
@@ -129,6 +125,8 @@ export async function advanceChat(
       ...(source ? { source } : {}),
       source_turn_id: turn,
       reason: 'participant_chat_task_completed',
+      response_scope: responseScope,
+      response_source_count: answers.length,
     },
     'participant',
     researchVariables(moved, source, config),

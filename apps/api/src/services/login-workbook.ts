@@ -1,6 +1,7 @@
 /** Minimal OOXML workbook: text-only inline cells prevent formulas and preserve passwords exactly. */
 import { crc32 } from 'node:zlib';
 export type LoginRow = {
+  login_account?: string;
   experiment_id: string;
   participant_code: string;
   initial_password: string;
@@ -32,8 +33,14 @@ export function loginWorkbook(rows: readonly LoginRow[]): Buffer {
     'model_batch',
     'batch_id',
     'created_at',
+    'login_account',
   ];
-  const sheet = [fields.map(String), ...rows.map((r) => fields.map((f) => r[f]))]
+  const sheet = [
+    fields.map(String),
+    ...rows.map((r) =>
+      fields.map((f) => (f === 'login_account' ? r.participant_code : (r[f] ?? ''))),
+    ),
+  ]
     .map(
       (row, i) =>
         `<row r="${i + 1}">${row.map((value, j) => `<c r="${String.fromCharCode(65 + j)}${i + 1}" t="inlineStr"><is><t xml:space="preserve">${xml(value)}</t></is></c>`).join('')}</row>`,
@@ -48,7 +55,7 @@ export function loginWorkbook(rows: readonly LoginRow[]): Buffer {
       '<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="登录账号" sheetId="1" r:id="rId1"/></sheets></workbook>',
     'xl/_rels/workbook.xml.rels':
       '<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>',
-    'xl/worksheets/sheet1.xml': `<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" state="frozen"/></sheetView></sheetViews><cols><col min="1" max="9" width="28" customWidth="1"/></cols><sheetData>${sheet}</sheetData><autoFilter ref="A1:I${rows.length + 1}"/></worksheet>`,
+    'xl/worksheets/sheet1.xml': `<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" state="frozen"/></sheetView></sheetViews><cols><col min="1" max="10" width="28" customWidth="1"/></cols><sheetData>${sheet}</sheetData><autoFilter ref="A1:J${rows.length + 1}"/></worksheet>`,
   };
   const local: Buffer[] = [],
     central: Buffer[] = [];

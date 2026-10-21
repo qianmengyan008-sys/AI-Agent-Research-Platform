@@ -1,4 +1,5 @@
 import { stageNotice, chatProjection, completedCard, advanceChat } from './chat-flow.js';
+import { dailyTemporaryOpening } from '@research/contracts';
 import { enforceRating, inputKind, limits, turnStages } from './research-profile.js';
 import type { TraceSink } from './trace.js';
 import { randomBytes } from 'node:crypto';
@@ -144,7 +145,13 @@ export class ParticipantService {
         await r.conversations.notice(
           b!.session_id,
           'opening-v1',
-          history.length ? '继续上次保存的对话。' : opening,
+          history.length
+            ? '继续上次保存的对话。'
+            : b!.snapshot.path === 'daily'
+              ? dailyTemporaryOpening
+              : b!.snapshot.path === 'emotional'
+                ? (b!.configuration.research_config?.emotional.opening ?? opening)
+                : opening,
           1,
         );
       }
@@ -201,6 +208,7 @@ export class ParticipantService {
         fail(400, 'NON_STORY_INPUT');
       const chat = v.interaction === 'chat' && (await r.conversations.chatStarted(b!.session_id));
       if (v.interaction === 'chat' && !chat) fail(409, 'CHAT_NOT_STARTED');
+      if (chat && b!.snapshot.path === 'daily') fail(400, 'DAILY_CHAT_CONTINUES');
       if (
         chat &&
         b!.snapshot.stage === 'VIEWPOINT_CONFIRMATION' &&

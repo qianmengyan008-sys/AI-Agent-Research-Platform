@@ -138,6 +138,26 @@ export function Admin() {
               >
                 刷新查询
               </button>
+              <p>
+                四组日常账号：先创建独立四组配置，再在编号管理中选择人物。沿用所选实验的模型批次；不修改旧账号。原人物头像素材尚未提供，当前为中性文字占位。
+              </p>
+              <button
+                disabled={busy}
+                onClick={() =>
+                  void work(async () => {
+                    const result = await api<{ experiment_id: string }>(
+                      '/admin/daily-study',
+                      token,
+                      { experiment_id: experiment, request_id: crypto.randomUUID() },
+                    );
+                    setExperiments(await api<AdminExperiment[]>('/admin/experiments', token));
+                    setExperiment(result.experiment_id);
+                    await load(result.experiment_id);
+                  })
+                }
+              >
+                创建四组日常实验配置
+              </button>
               <AccountManager
                 key={`accounts-${experiment}`}
                 token={token}

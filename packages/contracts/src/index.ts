@@ -18,6 +18,7 @@ export interface ParticipantFormField {
   step?: number;
 }
 export interface ParticipantCurrent {
+  study_path?: ExperimentPath;
   interaction?: 'chat';
   confirmation_card?: { belief: string };
   instructions: string;
@@ -78,3 +79,12 @@ export interface AdminDevelopment {
   event_log: Record<string, unknown>[];
   data_quality: { scope: string; passed: boolean; checks: Record<string, number> };
 }
+export {
+  dailyIdentities,
+  dailyTemporaryOpening,
+  emotionalGuide,
+  hanCount,
+  questionCount,
+  boundedBubbles,
+  validGeneratedReply,
+} from './chat-presentation.js';

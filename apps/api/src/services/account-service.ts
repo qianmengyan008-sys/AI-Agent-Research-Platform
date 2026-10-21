@@ -1,12 +1,59 @@
+import { dailyIdentities } from '@research/contracts';
+import { dailyV1, createInitialState } from '@research/experiment-core';
+import { demoPolicy } from '@research/ai-orchestrator';
+import { mentorPolicy } from './research-profile.js';
 import { randomBytes } from 'node:crypto';
 import type { UnitOfWork } from '../repositories/context.js';
-import { admin, fail, object, passwordHash, text, uuid } from './common.js';
+import { admin, fail, hash, object, passwordHash, text, uuid } from './common.js';
 import type { AdminIdentity } from './common.js';
 import { assignParticipant } from './experiment-service.js';
 import { loginWorkbook } from './login-workbook.js';
 import type { LoginRow } from './login-workbook.js';
 export class AccountService {
   constructor(private readonly uow: UnitOfWork) {}
+  async prepareDailyStudy(actor: AdminIdentity, input: unknown) {
+    admin(actor);
+    const v = object(input, ['experiment_id', 'request_id']);
+    const source = uuid(v.experiment_id),
+      request = uuid(v.request_id);
+    return this.uow.transaction(async (r) => {
+      const template = await r.experiments.template(source, true);
+      if (!template || template.status !== 'published') fail(400, 'PUBLISHED_SOURCE_REQUIRED');
+      const name = `Hosted Research Staging / Daily40 / ${source} / ${request}`;
+      const prior = await r.experiments.dailyStudyExisting(name);
+      if (prior) return { experiment_id: prior.id, created: false };
+      const configuration = template!.configuration;
+      const e = await r.experiments.create(name, configuration, hash(configuration));
+      const policies = [
+        configuration.research_config
+          ? mentorPolicy(dailyV1, 'NATURAL_CHAT', configuration.research_config)
+          : demoPolicy(dailyV1, 'NATURAL_CHAT'),
+      ];
+      for (const [code, identity] of Object.entries(dailyIdentities)) {
+        await r.experiments.condition(
+          e.experimentId,
+          e.templateId,
+          code,
+          dailyV1,
+          createInitialState(dailyV1).definitionSignature,
+          identity.name,
+          policies,
+          hash,
+          { identity: identity.identity },
+        );
+      }
+      const conditions = await r.experiments.conditions(e.templateId);
+      await r.experiments.publish(e.templateId, hash({ configuration, conditions }));
+      await r.experiments.audit(
+        e.experimentId,
+        actor.id,
+        'DAILY_STUDY_PREPARED',
+        'Four researcher-specified identities; original portrait assets unavailable; source ' +
+          source,
+      );
+      return { experiment_id: e.experimentId, created: true };
+    });
+  }
   async options(actor: AdminIdentity, experiment: string) {
     admin(actor);
     uuid(experiment);
