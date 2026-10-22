@@ -1,0 +1,44 @@
+{
+  "query_date": "2026-10-22",
+  "timezone": "Asia/Shanghai",
+  "verified_current_policy": false,
+  "sources": [
+    {
+      "url": "https://render.com/docs/free",
+      "result": "NOT VERIFIED",
+      "error": "Tunnel connection failed: 403 Forbidden on initial request and elevated retry"
+    },
+    {
+      "url": "https://render.com/docs/postgresql-backups",
+      "result": "NOT VERIFIED",
+      "error": "Tunnel connection failed: 403 Forbidden on initial request and elevated retry"
+    },
+    {
+      "url": "https://render.com/docs/postgresql-creating-connecting",
+      "result": "NOT VERIFIED",
+      "error": "Tunnel connection failed: 403 Forbidden on initial request and elevated retry"
+    },
+    {
+      "url": "https://render.com/docs/postgresql-version-upgrades",
+      "result": "NOT VERIFIED",
+      "error": "Tunnel connection failed: 403 Forbidden on initial request and elevated retry"
+    }
+  ],
+  "fallback_attempts": [
+    {
+      "url": "https://api.github.com/repos/renderinc/docs/git/trees/main?recursive=1",
+      "result": "403 Forbidden"
+    },
+    {
+      "url": "https://github.com/renderinc/docs.git",
+      "result": "Repository not found; not treated as a verified official source"
+    }
+  ],
+  "policy_assertions_not_made": [
+    "Free PostgreSQL exact grace/deletion schedule",
+    "Free plan backup/PITR availability or retention",
+    "paid backup pricing"
+  ],
+  "user_reported_expiry": "2026-11-19",
+  "days_from_query_date": 28
+}
