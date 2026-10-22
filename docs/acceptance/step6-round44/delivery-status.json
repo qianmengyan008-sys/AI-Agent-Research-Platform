@@ -4,17 +4,17 @@
   "timezone": "Asia/Shanghai",
   "baseline_commit": "3f81fc143a99dc877aeb32829a6ea7d4e563ba0e",
   "new_business_implementation": null,
-  "final_delivery_ref": "refs/tags/round44-delivery",
+  "final_delivery_ref": "refs/tags/round44-followup-delivery",
   "scope": "new documentation and local regression evidence only",
   "deployed": false,
   "render_accessed": false,
   "live_database_accessed": false,
   "user_reported_live_commit": "ea9867dfb9dd64778bdbaccf2cb3855ff27d9441",
   "reported_live_source": "round44 DOCX transcription of researcher screenshots; original images not separately supplied",
-  "actual_current_live_commit": "NOT VERIFIED",
+  "actual_current_live_commit": "ea9867dfb9dd64778bdbaccf2cb3855ff27d9441",
   "reported_live_matches_audit_head": false,
-  "commits_after_reported_live": 6,
-  "changed_files_since_reported_live": 180,
+  "commits_after_reported_live": 7,
+  "changed_files_since_reported_live": 194,
   "non_docs_changed_files_since_reported_live": 35,
   "round43_source_available": false,
   "automation": {
@@ -26,16 +26,29 @@
     "failed": 0,
     "skipped": 0,
     "log": "full-check.log",
-    "scope": "local synthetic PostgreSQL17, not live PostgreSQL18"
+    "scope": "local synthetic PostgreSQL17, not live PostgreSQL18",
+    "evidence_ref": "refs/tags/round44-delivery",
+    "followup_rerun": false,
+    "note": "original round44 results, not new followup tests"
   },
   "real_model_calls": 0,
   "full_real_model_paths": "NOT RUN",
   "human_semantic_review": "NOT RUN",
   "online_smoke": "NOT RUN",
   "official_docs": {
-    "status": "NOT VERIFIED",
-    "reason": "403 Forbidden after retry",
-    "attempts": "official-docs-attempts.json"
+    "status": "CONFIRMED FROM OFFICIAL RENDER DOCS VIA RESEARCHER",
+    "provenance": "Researcher supplied GPT verification of current official Render docs; Codex direct fetch previously blocked by 403, preserved in official-docs-attempts.json",
+    "policy": {
+      "free_recovery_capabilities": false,
+      "free_managed_logical_backups": false,
+      "external_pg_dump_required": true,
+      "free_expiry_days_after_creation": 30,
+      "upgrade_grace_days_after_expiry": 14,
+      "data_deleted_after_grace": true
+    },
+    "references": ["https://render.com/docs/free", "https://render.com/docs/postgresql-backups"],
+    "independent_codex_fetch": "NOT COMPLETED",
+    "gpt_original_query_date": "not separately provided"
   },
   "reported_database": {
     "name": "ai-agent-research-staging-db",
@@ -45,12 +58,14 @@
     "region": "Singapore",
     "expiry_date": "2026-11-19",
     "days_from_query_date": 28,
-    "source": "attachment description of screenshots"
+    "source": "researcher direct manual verification",
+    "database_name": "ai_agent_research",
+    "expiry_page_text": "Your database will expire on November 19, 2026. The database will be deleted unless you upgrade to a paid compute plan."
   },
   "database_url_key_reported_present": true,
   "actual_database_association": "NOT VERIFIED",
   "live_migration_ledger": "NOT VERIFIED",
-  "backup_entry": "NOT VERIFIED - awaiting researcher",
+  "backup_entry": "RESEARCHER VERIFIED: not found in database detail page",
   "backup_execution": "NOT RUN",
   "live_backup_location": "NOT VERIFIED",
   "live_backup_sha256": null,
@@ -60,9 +75,21 @@
   "new_migrations": [],
   "accounts_reset": false,
   "api_keys_read_or_changed": false,
-  "next_researcher_action": "only browse existing database backup/recovery entry; no repeated Web Settings check",
+  "next_researcher_action": "No more backup-page search. Review proposed controlled-machine / single-IP allowlist plan; do not change network or create resources before separate explicit approval.",
   "conclusion": "仍阻塞",
   "deployment_eligible": false,
   "mentor_test_ready": false,
-  "formal_ready": false
+  "formal_ready": false,
+  "initial_delivery_ref": "refs/tags/round44-delivery",
+  "followup_baseline_commit": "24fe003aa06fbf2d9c427fac25081f99977edaa6",
+  "current_audit_head": "24fe003aa06fbf2d9c427fac25081f99977edaa6",
+  "live_commit_verification_source": "researcher confirmed; Git mapping verified locally, not independent Render API access",
+  "backup_entry_search_complete": true,
+  "source_external_access": "RESEARCHER VERIFIED: currently blocked by inbound IP rules",
+  "followup_validation": {
+    "business_regression": "NOT RERUN for this documentation-only followup; original round44 505/25 results preserved as historical",
+    "format_and_artifact_check": "PASS",
+    "PostgreSQL18_dump_restore": "NOT RUN",
+    "live_database_access": "NOT RUN"
+  }
 }
