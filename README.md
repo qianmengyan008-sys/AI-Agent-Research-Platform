@@ -1,5 +1,7 @@
 # AI Agent 在线对话研究平台
 
+第45轮： [Windows D盘PG18备份工具](tools/windows-render-backup/README-WINDOWS.md) · [Staging快速迭代规则](docs/staging-fast-iteration.md)。当前只交付工具与合成测试，不部署、不修改Render网络；真实备份完成前仍禁止本次迁移部署。以下各历史轮次统计不代表新运行结果。
+
 用于心理学实验的全新独立平台。技术栈：React + TypeScript + Vite、Node.js + Express + TypeScript、PostgreSQL。
 
 当前完成 Step 1 工程初始化、Step 2 独立状态机，以及AI 编排层和可替换 Model Adapter（含 OpenAI 兼容 HTTP 实现）。不会修改、连接或复用 WorkBuddy 生产服务、数据库、凭据或部署配置。
@@ -93,7 +95,7 @@ curl --fail http://127.0.0.1:3001/api/health
 npm run check
 ```
 
-该命令依次执行类型检查、ESLint、Prettier 检查、Vitest 测试及全部工作区构建。当前 Vitest 448 项、Playwright 18 项全部通过，共 466 项，覆盖纯状态机、编排／Adapter、真实 PostgreSQL／API 和真实浏览器页面。需要 Docker 及 Chromium；优先自动使用 /usr/bin/chromium，或设置 CHROMIUM_EXECUTABLE_PATH，或先 npx playwright install --with-deps chromium。npm test 会先构建共用包，无需手动准备编译产物。
+该命令执行类型检查、ESLint、Prettier、业务/策略Vitest、独立Windows备份PG18合成fixture、构建和浏览器测试。开发环境需要Docker、Chromium、pwsh及requirements-test.txt依赖；Linux CI预装pwsh，路径不同时可设置PWSH_EXECUTABLE_PATH。PG18客户端从固定Docker镜像提取，仅用于合成测试；研究者使用Windows备份工具不需要Docker/npm。当前实际测试数和失败项以本轮验收报告为准，不把历史统计当成新运行结果。
 
 完整认知路径示例：
 

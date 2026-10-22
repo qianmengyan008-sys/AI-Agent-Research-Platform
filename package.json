@@ -29,9 +29,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "npm run build:packages && vitest run",
+    "test": "npm run build:packages && vitest run --exclude apps/api/tests/windows-render-backup.test.ts",
     "example:ai": "npm run build:packages && npm run example --workspace @research/ai-orchestrator",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run test:windows-backup && npm run build && npm run test:browser",
     "live:e2e": "npm run build:packages && npm run live:e2e --workspace @research/model-adapter --",
     "example:http": "npm run build:packages && npm run example:http --workspace @research/model-adapter",
     "db:migrate": "npm run migrate --workspace @research/database --",
@@ -41,7 +41,8 @@
     "review:real-model": "node --import tsx apps/api/acceptance/semantic-review.ts",
     "compare:models": "npm run build:packages && node --use-env-proxy --import tsx packages/model-adapter/examples/compare-providers.ts",
     "smoke:deepseek": "npm run build:packages && node --use-env-proxy --import tsx packages/model-adapter/examples/smoke-deepseek.ts",
-    "acceptance:gate": "node scripts/iteration-acceptance.mjs"
+    "acceptance:gate": "node scripts/iteration-acceptance.mjs",
+    "test:windows-backup": "npm run build:packages && vitest run apps/api/tests/windows-render-backup.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
