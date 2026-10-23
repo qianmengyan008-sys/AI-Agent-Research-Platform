@@ -1,5 +1,7 @@
 # Windows / D盘：Render Staging PG18备份工具
 
+**2026-10-23 Windows验收前审查：暂不运行备份。** 本地负面测试发现空SHA收据可能被误判通过、收据写入故障后可能残留成功外观的文件，尚未修复。当前审查未授权真实备份、加密、恢复或部署，也不要发送任何备份或收据。详见[审查报告](../../docs/acceptance/windows-preflight-review-20261023/report.md)。以下流程仅作后续参考，不表示已获操作授权。
+
 **现在只接收工具包，不要提前安装、改Render或备份。** D盘至少1GB空间：研究者已确认足够；关闭VPN后能正常打开Render：研究者已于2026-10-23确认。不发送公网IP、URL、密码、管理员Token或API Key。
 
 本工具面向**仅有内部测试账号/合成数据的Staging**。如发现正式被试数据，停止使用未加密流程。工具不自动安装软件、不自动联网改规则、不创建数据库服务、不上传文件、不部署、不恢复或清空数据库。正常备份只执行pg_dump自带的一致性导出，不编排额外长事务快照，不要求停止数据库服务。读出仍有I/O/锁开销，异常即停。
@@ -37,6 +39,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\AI-Agent-Research-Pl
 
 `ExecutionPolicy Bypass`只用于本次子进程，不修改机器永久执行策略；只运行本项目已核对版本。若组织策略禁止，不尝试绕过组织权限，停止反馈。
 
+### PG18 ZIP目录约定与尚未核实项
+
+脚本默认准确查找`D:\PostgreSQL18\pgsql\bin\pg_dump.exe`和`D:\PostgreSQL18\pgsql\bin\pg_restore.exe`，两个文件都须存在且各自`--version`退出0并报告18主版本。脚本不递归搜索、不自动移动文件、不使用PATH中的其他pg_dump；`-PgBin`可以指定经核对的实际bin目录，但当前先不要运行命令。
+
+这是一项目录配置约定，**不是已核实的EDB ZIP内部结构**。本轮官方EDB下载页面请求被网络代理拒绝（403），没有取得研究者正在下载的具体ZIP，也没有检查其中央目录。因而ZIP顶层目录、精确DLL名称、lib/share内部文件及Windows运行库依赖均为**未核实**，不得凭Linux包或旧版本猜测。应完整保留实际官方包中的依赖DLL和其原相对位置；包内若有lib/share也完整保留，不要只拷贝两个exe、从其他网站补DLL或安装数据库服务来绕过错误。`--version`成功只证明两个客户端可以启动，不验证TLS证书链或备份能力。
+
+当前唯一人工动作：用资源管理器打开已下载的官方PG18 Windows x64 ZIP，仅查看能否在同一个bin目录下找到`pg_dump.exe`和`pg_restore.exe`及其上级目录名称，不运行任何exe/脚本。不确定版本、来源或层级时停止，不猜测解压路径、不继续备份。
+
 ### 备份命令（仅真实操作获批后）
 
 ```powershell
@@ -63,7 +73,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\AI-Agent-Research-Pl
 
 ## TLS/异常停止规则
 
-实际Render模式强制`verify-full`和系统受信任根证书；若Windows PG18包不能使用系统根，停止，由工程方指导指定可信CA，**不降级关闭验证**。URL里的自定义options/非认可query被拒绝，避免意外执行连接配置。pg_dump设置连接10秒、显式lock-wait-timeout 10秒、进程总计180秒的上限，失败退出且不生成成功收据；本次不完整dump被清理，旧备份从不覆盖。
+实际Render模式强制`PGSSLMODE=verify-full`和`PGSSLROOTCERT=system`。这里的system是libpq/OpenSSL的信任源设置，不保证具体Windows二进制自动读取Windows证书管理器中的全部根证书；实际包的信任源尚未验证。若证书/主机名验证失败，停止，由工程方指导指定可信CA，**不降级关闭验证**。URL里的自定义options/非认可query被拒绝，避免意外执行连接配置。pg_dump设置连接10秒、显式lock-wait-timeout 10秒、单个外部进程180秒的上限；这是每个调用的限时，不是整个备份流程总计180秒。普通导出失败路径清理本次dump，旧备份不被主动删除或覆盖。收据写入异常的清理仍有本轮已复现缺口，不能声称所有失败都不会留下收据。
 
 `.ps1`的`-SyntheticFixture`只给开发者，强制回环数据库，不能用于Render，收据标synthetic并被Staging闸门拒绝；不能以此绕过Windows/D盘/TLS检查。
 

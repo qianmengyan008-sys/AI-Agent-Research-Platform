@@ -1,0 +1,67 @@
+{
+  "review_date": "2026-10-23",
+  "branch": "work",
+  "review_head": "9723950d20c5baad93452b8a91da0739ba2d893d",
+  "delivery_ref": "windows-preflight-review-20261023",
+  "conclusion": "NOT PASSED: R1 and R2 negative checks failed; no real operation approval",
+  "probe": {
+    "command": "pwsh -NoProfile -File tools/windows-render-backup/tests/Review-Local.ps1 -EvidenceFile <temporary review JSON>",
+    "exit_code": 1,
+    "passed": 6,
+    "failed": 2,
+    "scope": "Linux PowerShell7.5.4 local mocked tools only"
+  },
+  "pg18_regression": {
+    "command": "PWSH_EXECUTABLE_PATH=/tmp/round45-powershell/opt/microsoft/powershell/7/pwsh npx vitest run apps/api/tests/windows-render-backup.test.ts --testNamePattern '^(?!.*(?:AES256GCM|actually restores)).*$'",
+    "exit_code": 0,
+    "passed": 7,
+    "skipped": 2,
+    "scope": "local disposable synthetic PostgreSQL18.6 only"
+  },
+  "lint_exit_code": 0,
+  "format_exit_code": 0,
+  "full_project_check": "NOT RUN this review",
+  "windows_powershell_51": "NOT RUN",
+  "windows_acl_d_drive": "NOT RUN",
+  "official_windows_zip_layout": "NOT VERIFIED; official EDB page requests blocked by proxy403; archive not inspected",
+  "real_database_connected": false,
+  "render_changed": false,
+  "deployed": false,
+  "real_backup": "NOT RUN",
+  "real_restore": "NOT RUN",
+  "this_review_encryption_or_restore": "NOT RUN",
+  "new_backup_or_receipt_published": false,
+  "business_and_research_and_database_and_render_files_unchanged": true,
+  "runtime_file_checks": [
+    {
+      "file": "tools/windows-render-backup/Prepare-Render-Backup.ps1",
+      "unchanged": true,
+      "sha256": "d8aabe189ae092c6f5139ded79aa2d2d3cf7330608d5a0465dbb1b1cbfdfd5a7"
+    },
+    {
+      "file": "tools/windows-render-backup/Backup-Render-Staging.ps1",
+      "unchanged": true,
+      "sha256": "40bdd3173b5942cd92219b5fbe41e9899774919c3b728d249038886c6bd46e89"
+    },
+    {
+      "file": "tools/windows-render-backup/Verify-Render-Backup.ps1",
+      "unchanged": true,
+      "sha256": "ee16665e05cc45c47373d2887f896951a6014d99582012528439c0828cbcf53c"
+    },
+    {
+      "file": "tools/windows-render-backup/Encrypt-Render-Backup.ps1",
+      "unchanged": true,
+      "sha256": "f536056537c6c1ed292cb52ff6395f88e953149de2259d9555c9e63bc7916194"
+    },
+    {
+      "file": "tools/windows-render-backup/RenderBackup.Common.ps1",
+      "unchanged": true,
+      "sha256": "2a649e9b4876ee30652aee60f9accaa2b2d8da982f6afe4772c320004a4a5cc7"
+    },
+    {
+      "file": "tools/windows-render-backup/encrypt-local.mjs",
+      "unchanged": true,
+      "sha256": "6f8143da0bd69fdb3413db79482cc3cfea537855418237410cd8e5c3d4e8b03e"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "scope": "local mocks only; no Render, database, real encryption or restore",
+  "engine": "7.5.4",
+  "os": "Unix",
+  "native_windows_51": "NOT RUN",
+  "checks": [
+    {
+      "check": "PowerShell parser (running engine only, not PS5.1)",
+      "passed": true,
+      "evidence": "parse_errors=0"
+    },
+    {
+      "check": "Production PS1 has no UTF8-without-BOM non-ASCII ambiguity",
+      "passed": true,
+      "evidence": "non_ascii_files=0"
+    },
+    {
+      "check": "Native argument roundtrip (running OS only)",
+      "passed": true,
+      "evidence": "Spaces, quote, trailing slash, empty string, Unicode; not Windows CRT proof."
+    },
+    {
+      "check": "Child-only PG environment, exit7 and stderr suppression",
+      "passed": true,
+      "evidence": "Parent PG sentinel removed only from child; native stderr not returned."
+    },
+    {
+      "check": "Native process timeout",
+      "passed": true,
+      "evidence": "Disposable local Node process, timeout=1s."
+    },
+    {
+      "check": "URL parsing forces strict TLS without connection",
+      "passed": true,
+      "evidence": "Invented host and credentials, parser only; no child PG process."
+    },
+    {
+      "check": "Verify rejects empty original SHA256",
+      "passed": false,
+      "evidence": "actual_exit=0; VERIFY_OK=True; mocked list only, no real archive"
+    },
+    {
+      "check": "Receipt write failure leaves no success-looking receipt",
+      "passed": false,
+      "evidence": "actual_exit=1; remaining_generated_receipts=1; local fault injection only"
+    }
+  ]
+}
