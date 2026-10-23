@@ -1,0 +1,263 @@
+
+> ai-agent-research-platform@0.1.0 check
+> npm run typecheck && npm run lint && npm run format:check && npm test && npm run test:windows-backup && npm run build && npm run test:browser
+
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> ai-agent-research-platform@0.1.0 lint
+> eslint .
+
+
+> ai-agent-research-platform@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> ai-agent-research-platform@0.1.0 test
+> npm run build:packages && vitest run --exclude apps/api/tests/windows-render-backup.test.ts
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+
+ Test Files  34 passed (34)
+      Tests  514 passed (514)
+   Start at  14:52:03
+   Duration  56.80s (transform 1.32s, setup 0ms, import 3.81s, tests 136.98s, environment 4ms)
+
+
+> ai-agent-research-platform@0.1.0 test:windows-backup
+> npm run build:packages && vitest run apps/api/tests/windows-render-backup.test.ts
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+lstat /workspace/AI-Agent-Research-Platform/undefined: no such file or directory
+ ❯ apps/api/tests/windows-render-backup.test.ts (9 tests | 7 failed) 8285ms
+   × prepare verifies actual PG18 dump/restore clients without connecting or creating backup directories 480ms
+   × the real PowerShell backup script creates a full PG18 custom dump and redacted checksum receipt 493ms
+   × Verify independently compares checksum and reads archive, without claiming a restore 413ms
+   × a wrong connection leaves no successful receipt or partial dump and does not leak credentials 476ms
+   × a changed dump is rejected against the saved receipt 1ms
+   × optional AES256GCM uses stdin-only passphrase and validates an actual decrypt/hash roundtrip 417ms
+   × synthetic PG18 dump actually restores to an independent database with account hashes and ledger intact 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > prepare verifies actual PG18 dump/restore clients without connecting or creating backup directories
+AssertionError: PREPARE_FAILED: check Windows, local D drive >=1GB, directory and PostgreSQL18 tools. Stop here.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:201:41
+    199| test('prepare verifies actual PG18 dump/restore clients without connec…
+    200|   const r = run('prepare');
+    201|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    202|   expect(r.stdout).toContain('PREPARE_OK');
+    203|   await expect(readdir(root)).rejects.toThrow();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > the real PowerShell backup script creates a full PG18 custom dump and redacted checksum receipt
+AssertionError: FIXTURE_ERROR_CODE: CLIENT_VERSION_CHECK_FAILED
+BACKUP_FAILED: no successful receipt. Stop; check network/TLS/PG18 privately. Do not resend credentials or change rules automatically.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:217:41
+    215| test('the real PowerShell backup script creates a full PG18 custom dum…
+    216|   const r = run('backup');
+    217|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    218|   expect(r.stdout).toContain('BACKUP_OK');
+    219|   const runs = await readdir(root);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > Verify independently compares checksum and reads archive, without claiming a restore
+AssertionError: VERIFY_FAILED: missing receipt, changed file, invalid archive or wrong tools. Stop; keep evidence private.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:243:41
+    241| test('Verify independently compares checksum and reads archive, withou…
+    242|   const r = run('verify', ['-DumpFile', dump]);
+    243|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    244|   expect(r.stdout).toContain('VERIFY_OK');
+    245| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > a wrong connection leaves no successful receipt or partial dump and does not leak credentials
+Error: ENOENT: no such file or directory, scandir '/tmp/round45-windows-fixture-np7Q7J/private backups with spaces'
+ ❯ apps/api/tests/windows-render-backup.test.ts:250:24
+    248|   expect(r.status).toBe(1);
+    249|   expect(r.stdout).toContain('BACKUP_FAILED');
+    250|   for (const folder of await readdir(root)) {
+       |                        ^
+    251|     const files = await readdir(join(root, folder));
+    252|     expect(files.includes('staging.dump')).toBe(files.includes('stagin…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > a changed dump is rejected against the saved receipt
+Error: ENOENT: no such file or directory, mkdir '/tmp/round45-windows-fixture-np7Q7J/private backups with spaces/changed'
+ ❯ apps/api/tests/windows-render-backup.test.ts:257:3
+    255| test('a changed dump is rejected against the saved receipt', async () …
+    256|   const changed = join(root, 'changed');
+    257|   await mkdir(changed);
+       |   ^
+    258|   await copyFile(dump, join(changed, 'staging.dump'));
+    259|   await copyFile(join(dump, '..', 'staging.receipt.json'), join(change…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > optional AES256GCM uses stdin-only passphrase and validates an actual decrypt/hash roundtrip
+AssertionError: ENCRYPT_FAILED: do not claim encryption. Original dump remains private internal-test-only. Stop here.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:267:41
+    265| test('optional AES256GCM uses stdin-only passphrase and validates an a…
+    266|   const r = run('encrypt', ['-DumpFile', dump]);
+    267|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    268|   expect(r.stdout).toContain('ENCRYPT_OK');
+    269|   const text = await readFile(dump + '.enc.receipt.json', 'utf8');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > synthetic PG18 dump actually restores to an independent database with account hashes and ledger intact
+Error: Command failed: docker cp  windows-backup-fixture-dc336014-9213-4d0a-81de-a706adc8af4a:/tmp/source.dump
+lstat /workspace/AI-Agent-Research-Platform/undefined: no such file or directory
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:281:3
+    279| });
+    280| test('synthetic PG18 dump actually restores to an independent database…
+    281|   execFileSync('docker', ['cp', dump, `${name}:/tmp/source.dump`]);
+       |   ^
+    282|   execFileSync('docker', [
+    283|     'exec',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 2 passed (9)
+   Start at  14:53:01
+   Duration  8.91s (transform 280ms, setup 0ms, import 498ms, tests 8.28s, environment 0ms)
+

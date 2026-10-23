@@ -1,0 +1,105 @@
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+lstat /workspace/AI-Agent-Research-Platform/undefined: no such file or directory
+ ❯ apps/api/tests/windows-render-backup.test.ts (9 tests | 5 failed) 5969ms
+   × the real PowerShell backup script creates a full PG18 custom dump and redacted checksum receipt 566ms
+   × Verify independently compares checksum and reads archive, without claiming a restore 394ms
+   × a changed dump is rejected against the saved receipt 1ms
+   × optional AES256GCM uses stdin-only passphrase and validates an actual decrypt/hash roundtrip 398ms
+   × synthetic PG18 dump actually restores to an independent database with account hashes and ledger intact 16ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > the real PowerShell backup script creates a full PG18 custom dump and redacted checksum receipt
+AssertionError: BACKUP_FAILED: no successful receipt. Stop; check network/TLS/PG18 privately. Do not resend credentials or change rules automatically.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:202:41
+    200| test('the real PowerShell backup script creates a full PG18 custom dum…
+    201|   const r = run('backup');
+    202|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    203|   expect(r.stdout).toContain('BACKUP_OK');
+    204|   const runs = await readdir(root);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > Verify independently compares checksum and reads archive, without claiming a restore
+AssertionError: VERIFY_FAILED: missing receipt, changed file, invalid archive or wrong tools. Stop; keep evidence private.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:228:41
+    226| test('Verify independently compares checksum and reads archive, withou…
+    227|   const r = run('verify', ['-DumpFile', dump]);
+    228|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    229|   expect(r.stdout).toContain('VERIFY_OK');
+    230| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > a changed dump is rejected against the saved receipt
+TypeError: The "src" argument must be of type string or an instance of Buffer or URL. Received undefined
+ ❯ apps/api/tests/windows-render-backup.test.ts:243:9
+    241|   const changed = join(root, 'changed');
+    242|   await mkdir(changed);
+    243|   await copyFile(dump, join(changed, 'staging.dump'));
+       |         ^
+    244|   await copyFile(join(dump, '..', 'staging.receipt.json'), join(change…
+    245|   await appendFile(join(changed, 'staging.dump'), 'tampered');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > optional AES256GCM uses stdin-only passphrase and validates an actual decrypt/hash roundtrip
+AssertionError: ENCRYPT_FAILED: do not claim encryption. Original dump remains private internal-test-only. Stop here.
+: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:252:41
+    250| test('optional AES256GCM uses stdin-only passphrase and validates an a…
+    251|   const r = run('encrypt', ['-DumpFile', dump]);
+    252|   expect(r.status, r.stderr + r.stdout).toBe(0);
+       |                                         ^
+    253|   expect(r.stdout).toContain('ENCRYPT_OK');
+    254|   const text = await readFile(dump + '.enc.receipt.json', 'utf8');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  apps/api/tests/windows-render-backup.test.ts > synthetic PG18 dump actually restores to an independent database with account hashes and ledger intact
+Error: Command failed: docker cp  windows-backup-fixture-a6dcc5ef-3c39-4f63-ac9e-703402076125:/tmp/source.dump
+lstat /workspace/AI-Agent-Research-Platform/undefined: no such file or directory
+
+ ❯ apps/api/tests/windows-render-backup.test.ts:266:3
+    264| });
+    265| test('synthetic PG18 dump actually restores to an independent database…
+    266|   execFileSync('docker', ['cp', dump, `${name}:/tmp/source.dump`]);
+       |   ^
+    267|   execFileSync('docker', [
+    268|     'exec',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 4 passed (9)
+   Start at  14:42:15
+   Duration  6.54s (transform 249ms, setup 0ms, import 449ms, tests 5.97s, environment 0ms)
+

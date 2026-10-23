@@ -1,0 +1,54 @@
+{
+  "scope": "local PostgreSQL18 and PowerShell7 Linux synthetic tests, not native Windows or Render",
+  "directory_disposable": true,
+  "operations": [
+    {
+      "operation": "guards",
+      "exit_code": 0,
+      "stdout": "GUARDS_OK\n",
+      "stderr": ""
+    },
+    {
+      "operation": "prepare",
+      "exit_code": 0,
+      "stdout": "PREPARE_OK: PG18 tools verified; backup root is outside the project. No database connection made.\nDump client: pg_dump (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)\nRestore client: pg_restore (PostgreSQL) 18.6 (Debian 18.6-1.pgdg12+2)\n",
+      "stderr": ""
+    },
+    {
+      "operation": "prepare",
+      "exit_code": 1,
+      "stdout": "PREPARE_FAILED: check Windows, local D drive >=1GB, directory and PostgreSQL18 tools. Stop here.\n",
+      "stderr": ""
+    },
+    {
+      "operation": "backup",
+      "exit_code": 0,
+      "stdout": "BACKUP_OK: dump and receipt verified. UNENCRYPTED INTERNAL TEST ONLY. Keep private; do not upload.\nPrivate run folder: /tmp/round45-windows-fixture-rECkcj/private backups with spaces/RenderStaging-20261022T150018Z-41bee9c75041407dae4fb2270e4031ff\n",
+      "stderr": ""
+    },
+    {
+      "operation": "verify",
+      "exit_code": 0,
+      "stdout": "VERIFY_OK: original receipt SHA256, size and pg_restore list match. This is not a full restore drill.\n",
+      "stderr": ""
+    },
+    {
+      "operation": "bad-connection",
+      "exit_code": 1,
+      "stdout": "FIXTURE_ERROR_CODE: PG_DUMP_FAILED\nBACKUP_FAILED: no successful receipt. Stop; check network/TLS/PG18 privately. Do not resend credentials or change rules automatically.\n",
+      "stderr": ""
+    },
+    {
+      "operation": "verify",
+      "exit_code": 1,
+      "stdout": "VERIFY_FAILED: missing receipt, changed file, invalid archive or wrong tools. Stop; keep evidence private.\n",
+      "stderr": ""
+    },
+    {
+      "operation": "encrypt",
+      "exit_code": 0,
+      "stdout": "ENCRYPT_OK: AES256GCM and decrypt/hash roundtrip verified. Original plaintext remains private; passphrase is not saved.\n",
+      "stderr": ""
+    }
+  ]
+}

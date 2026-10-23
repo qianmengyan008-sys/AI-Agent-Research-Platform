@@ -1,0 +1,230 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: browser.spec.ts >> lost message response is replayed with the same key without another generation
+- Location: apps/web/tests/browser.spec.ts:224:1
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.fill: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByLabel('实验编号', { exact: true })
+
+```
+
+# Test source
+
+```ts
+  96  |   try {
+  97  |     await migrate(
+  98  |       client,
+  99  |       await loadMigrations(
+  100 |         fileURLToPath(new URL('../../../database/migrations/', import.meta.url)),
+  101 |       ),
+  102 |     );
+  103 |   } finally {
+  104 |     client.release();
+  105 |   }
+  106 |   services = createServices(
+  107 |     pool,
+  108 |     new MockAdapter(async (prompt) => {
+  109 |       calls++;
+  110 |       if (releaseModel)
+  111 |         await new Promise<void>((resolve) => {
+  112 |           releaseModel = resolve;
+  113 |         });
+  114 |       if (failModel) throw new Error('SYNTHETIC_MODEL_FAILURE');
+  115 |       if (bubbleReply !== undefined) return bubbleReply;
+  116 |       if (variedStoryReplies) return `Marcus说：“第${calls}个想法很有趣。”李阳会如何回应？`;
+  117 |       const belief = prompt.messages
+  118 |         .map((m) => m.content)
+  119 |         .join('\n')
+  120 |         .match(/唯一确认观点：(.*)/u)?.[1];
+  121 |       return belief
+  122 |         ? `你提到“${JSON.parse(belief)}”。我们可以结合实际经历理解。合成回复${calls}。`
+  123 |         : `谢谢分享，我们可以继续交流。合成回复${calls}。`;
+  124 |     }),
+  125 |     settings,
+  126 |     (entry) => traces.push(entry),
+  127 |   );
+  128 |   apiServer = createApp(
+  129 |     services,
+  130 |     createHash('sha256').update(adminToken).digest('hex'),
+  131 |     true,
+  132 |   ).listen(0, '127.0.0.1');
+  133 |   await new Promise<void>((resolve) => apiServer.once('listening', resolve));
+  134 |   const address = apiServer.address();
+  135 |   if (!address || typeof address === 'string') throw new Error('No API address');
+  136 |   vite = await createServer({
+  137 |     root: fileURLToPath(new URL('../', import.meta.url)),
+  138 |     configFile: fileURLToPath(new URL('../vite.config.ts', import.meta.url)),
+  139 |     server: {
+  140 |       host: '127.0.0.1',
+  141 |       port: 0,
+  142 |       strictPort: true,
+  143 |       proxy: { '/api': { target: `http://127.0.0.1:${address.port}` } },
+  144 |     },
+  145 |   });
+  146 |   await vite.listen();
+  147 |   const web = vite.httpServer!.address();
+  148 |   if (!web || typeof web === 'string') throw new Error('No web address');
+  149 |   base = `http://127.0.0.1:${web.port}`;
+  150 |   if (artifacts) await mkdir(artifacts, { recursive: true });
+  151 | });
+  152 | test.afterAll(async () => {
+  153 |   await vite?.close();
+  154 |   if (apiServer)
+  155 |     await new Promise<void>((resolve, reject) =>
+  156 |       apiServer.close((error) => (error ? reject(error) : resolve())),
+  157 |     );
+  158 |   await pool?.end();
+  159 |   if (created) execFileSync('docker', ['rm', '-f', container], { stdio: 'pipe' });
+  160 | });
+  161 | test.beforeEach(() => {
+  162 |   failModel = false;
+  163 |   bubbleReply = undefined;
+  164 |   variedStoryReplies = false;
+  165 |   releaseModel = undefined;
+  166 |   calls = 0;
+  167 |   traces.length = 0;
+  168 | });
+  169 | async function account(path = 'cognitive_v1', profile = false) {
+  170 |   const e = await services.experiments.create(actor, {
+  171 |     name: `浏览器合成实验 ${randomUUID().slice(0, 8)}`,
+  172 |     instructions: '这是合成实验说明。准备好后进入对话，填写当前问题并明确提交。',
+  173 |     ...(profile ? { research_profile: 'mentor-test-v1' } : {}),
+  174 |   });
+  175 |   const c = await services.experiments.condition(actor, e.experimentId, {
+  176 |     code: 'A',
+  177 |     path_version: path,
+  178 |     agent_name: '研究对话助手',
+  179 |     ...(profile ? {} : { demo_policies: true }),
+  180 |   });
+  181 |   await services.experiments.publish(actor, e.experimentId);
+  182 |   const code = `P-${randomUUID().slice(0, 8)}`;
+  183 |   const p = await services.participants.create(actor, {
+  184 |     experiment_id: e.experimentId,
+  185 |     participant_code: code,
+  186 |     password,
+  187 |   });
+  188 |   await services.experiments.assign(actor, {
+  189 |     participant_id: p.participantId,
+  190 |     condition_id: c.conditionId,
+  191 |   });
+  192 |   return { ...e, ...p, code };
+  193 | }
+  194 | async function login(page: Page, s: Awaited<ReturnType<typeof account>>) {
+  195 |   await page.goto(base);
+> 196 |   await page.getByLabel('实验编号', { exact: true }).fill(s.experimentId);
+      |                                                  ^ Error: locator.fill: Test timeout of 30000ms exceeded.
+  197 |   await page.getByLabel('参与者编号', { exact: true }).fill(s.code);
+  198 |   await page.getByLabel('密码', { exact: true }).fill(password);
+  199 |   await page.getByRole('button', { name: '登录实验', exact: true }).click();
+  200 |   await expect(page.getByRole('heading', { name: '实验说明', exact: true })).toBeVisible();
+  201 |   await page.getByRole('button', { name: '开始／继续对话', exact: true }).click();
+  202 |   await expect(page.getByRole('heading', { name: /^与 .* 对话$/ })).toBeVisible();
+  203 | }
+  204 | async function screenshot(page: Page, name: string) {
+  205 |   if (artifacts) await page.screenshot({ path: join(artifacts, `${name}.png`), fullPage: true });
+  206 | }
+  207 | async function saveRecords(s: Awaited<ReturnType<typeof account>>, name: string) {
+  208 |   if (artifacts)
+  209 |     await writeFile(
+  210 |       join(artifacts, `${name}.json`),
+  211 |       JSON.stringify(
+  212 |         {
+  213 |           synthetic: true,
+  214 |           external_model_calls: 0,
+  215 |           model: 'MockAdapter',
+  216 |           ...(await services.admin.export(actor, s.experimentId)),
+  217 |         },
+  218 |         null,
+  219 |         2,
+  220 |       ) + '\n',
+  221 |     );
+  222 | }
+  223 | 
+  224 | test('lost message response is replayed with the same key without another generation', async ({
+  225 |   page,
+  226 | }) => {
+  227 |   const s = await account('daily_v1');
+  228 |   await login(page, s);
+  229 |   let dropped = false;
+  230 |   await page.route('**/api/conversation/message', async (route) => {
+  231 |     const response = await route.fetch();
+  232 |     if (!dropped) {
+  233 |       dropped = true;
+  234 |       await route.abort('failed');
+  235 |     } else await route.fulfill({ response });
+  236 |   });
+  237 |   await page.getByLabel('发送消息', { exact: true }).fill('重试网络消息');
+  238 |   await page.getByRole('button', { name: '发送', exact: true }).click();
+  239 |   await expect(page.getByRole('alert')).toContainText('网络连接中断');
+  240 |   await page.getByRole('button', { name: '重试同一消息', exact: true }).click();
+  241 |   await expect(page.getByRole('log')).toContainText('谢谢分享');
+  242 |   expect(calls).toBe(1);
+  243 |   const data = await services.admin.export(actor, s.experimentId);
+  244 |   expect(data.messages).toHaveLength(2);
+  245 |   expect(data.transitions).toHaveLength(1);
+  246 | });
+  247 | 
+  248 | test('login errors are readable and a participant credential cannot open the administrator UI', async ({
+  249 |   page,
+  250 | }) => {
+  251 |   const s = await account('daily_v1');
+  252 |   await page.goto(base);
+  253 |   await screenshot(page, 'participant-login');
+  254 |   await page.getByLabel('实验编号', { exact: true }).fill(s.experimentId);
+  255 |   await page.getByLabel('参与者编号', { exact: true }).fill(s.code);
+  256 |   await page.getByLabel('密码', { exact: true }).fill('WRONG_SYNTHETIC_PASSWORD');
+  257 |   await page.getByRole('button', { name: '登录实验', exact: true }).click();
+  258 |   await expect(page.getByRole('alert')).toContainText('登录信息无效');
+  259 |   const auth = await services.participants.login({
+  260 |     experiment_id: s.experimentId,
+  261 |     participant_code: s.code,
+  262 |     password,
+  263 |   });
+  264 |   await page.getByRole('button', { name: '管理员入口', exact: true }).click();
+  265 |   await page.getByLabel('管理员访问凭据', { exact: true }).fill(auth.token);
+  266 |   await page.getByRole('button', { name: '进入后台', exact: true }).click();
+  267 |   await expect(page.getByRole('alert')).toContainText('登录信息无效');
+  268 |   expect(await page.getByLabel('选择实验', { exact: true }).count()).toBe(0);
+  269 | });
+  270 | 
+  271 | test('rapid duplicate clicks create one user and one assistant message in sequence', async ({
+  272 |   page,
+  273 | }) => {
+  274 |   const s = await account('daily_v1');
+  275 |   await login(page, s);
+  276 |   releaseModel = () => {};
+  277 |   await page.getByLabel('发送消息', { exact: true }).fill('双击消息');
+  278 |   await page.getByRole('button', { name: '发送', exact: true }).dblclick();
+  279 |   await expect(page.getByText('正在处理，请稍候。', { exact: true })).toBeVisible();
+  280 |   for (let n = 0; n < 100 && calls === 0; n++) await new Promise((r) => setTimeout(r, 10));
+  281 |   releaseModel!();
+  282 |   releaseModel = undefined;
+  283 |   await expect(page.getByRole('log')).toContainText('谢谢分享');
+  284 |   expect(calls).toBe(1);
+  285 |   const data = await services.admin.export(actor, s.experimentId);
+  286 |   expect(data.messages.map((m) => m.role)).toEqual(['user', 'assistant']);
+  287 |   expect(data.messages.map((m) => m.sequence)).toEqual([1, 2]);
+  288 |   expect(data.transitions).toHaveLength(1);
+  289 | });
+  290 | 
+  291 | test('Pilot Mode is administrator-only, opt-in and read-only, with no participant diagnostics after switching back', async ({
+  292 |   page,
+  293 | }) => {
+  294 |   const s = await account('daily_v1');
+  295 |   await login(page, s);
+  296 |   await page.getByLabel('发送消息', { exact: true }).fill('内部试运行合成消息');
+```

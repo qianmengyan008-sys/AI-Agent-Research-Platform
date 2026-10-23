@@ -1,0 +1,37 @@
+{
+  "baseline_commit": "5694123df60169d7aa48eb6dd619b7b6e5a79448",
+  "implementation_commit": "e1741c9e7e740651a8403ed06595f5df90e7666f",
+  "files": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "apps/api/tests/staging-iteration-policy.test.ts",
+    "apps/api/tests/windows-render-backup.test.ts",
+    "docs/inputs/round45-feedback.docx",
+    "docs/inputs/round45-requirements.md",
+    "docs/iteration-acceptance.md",
+    "docs/staging-fast-iteration.md",
+    "package.json",
+    "scripts/iteration-acceptance.mjs",
+    "scripts/staging-iteration-policy.d.mts",
+    "scripts/staging-iteration-policy.mjs",
+    "tools/windows-render-backup/.gitignore",
+    "tools/windows-render-backup/Backup-Render-Staging.ps1",
+    "tools/windows-render-backup/Encrypt-Render-Backup.ps1",
+    "tools/windows-render-backup/Prepare-Render-Backup.ps1",
+    "tools/windows-render-backup/README-WINDOWS.md",
+    "tools/windows-render-backup/RenderBackup.Common.ps1",
+    "tools/windows-render-backup/Verify-Render-Backup.ps1",
+    "tools/windows-render-backup/encrypt-local.mjs",
+    "tools/windows-render-backup/tests/Run-Synthetic.ps1"
+  ],
+  "purpose_groups": {
+    "tools/windows-render-backup/": "Windows prepare, secure full dump, verify, optional encryption and synthetic driver",
+    "scripts/staging-iteration-policy*": "minimum Staging receipt policy, separate from formal disaster recovery",
+    "scripts/iteration-acceptance.mjs": "explicit Staging CLI mode with Git-derived change classification",
+    "apps/api/tests/": "18 additional policy and PG18/PowerShell cases",
+    "package.json and .github/workflows/ci.yml": "full regression includes isolated PG18 fixture stage without dropping tests",
+    ".gitignore": "exclude private dump, receipt, encrypted and credential files",
+    "docs and README.md": "feedback provenance and Windows/iteration instructions"
+  }
+}

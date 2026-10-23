@@ -1,0 +1,988 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/AI-Agent-Research-Platform/node_modules/.bin/playwright",
+      "test"
+    ],
+    "configFile": "/workspace/AI-Agent-Research-Platform/playwright.config.ts",
+    "rootDir": "/workspace/AI-Agent-Research-Platform/apps/web/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/tmp/research-browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/AI-Agent-Research-Platform/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/tmp/research-browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/workspace/AI-Agent-Research-Platform/apps/web/tests",
+        "snapshotDir": "/workspace/AI-Agent-Research-Platform/apps/web/tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "headless": true,
+          "viewport": {
+            "width": 1280,
+            "height": 960
+          },
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium"
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      ["list", null],
+      [
+        "json",
+        {
+          "outputFile": "/tmp/research-browser-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "browser.spec.ts",
+      "file": "browser.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "lost message response is replayed with the same key without another generation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 30025,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/workspace/AI-Agent-Research-Platform/apps/web/tests/browser.spec.ts",
+                        "column": 50,
+                        "line": 196
+                      },
+                      "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('实验编号', { exact: true })\u001b[22m\n\n\n  194 | async function login(page: Page, s: Awaited<ReturnType<typeof account>>) {\n  195 |   await page.goto(base);\n> 196 |   await page.getByLabel('实验编号', { exact: true }).fill(s.experimentId);\n      |                                                  ^\n  197 |   await page.getByLabel('参与者编号', { exact: true }).fill(s.code);\n  198 |   await page.getByLabel('密码', { exact: true }).fill(password);\n  199 |   await page.getByRole('button', { name: '登录实验', exact: true }).click();\n    at login (/workspace/AI-Agent-Research-Platform/apps/web/tests/browser.spec.ts:196:50)\n    at /workspace/AI-Agent-Research-Platform/apps/web/tests/browser.spec.ts:228:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:56:42.511Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/research-browser-results/browser-lost-message-respo-4e7e3--without-another-generation/error-context.md"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/tmp/research-browser-results/browser-lost-message-respo-4e7e3--without-another-generation/error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-de98aeb6984130d4d522",
+          "file": "browser.spec.ts",
+          "line": 224,
+          "column": 1
+        },
+        {
+          "title": "login errors are readable and a participant credential cannot open the administrator UI",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 940,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:16.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-73d6ab77d912b726ef0b",
+          "file": "browser.spec.ts",
+          "line": 248,
+          "column": 1
+        },
+        {
+          "title": "rapid duplicate clicks create one user and one assistant message in sequence",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 881,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:20.382Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-f3eff7299e2158c6139c",
+          "file": "browser.spec.ts",
+          "line": 271,
+          "column": 1
+        },
+        {
+          "title": "Pilot Mode is administrator-only, opt-in and read-only, with no participant diagnostics after switching back",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1627,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:21.279Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-6e33c7fc2877f97322e6",
+          "file": "browser.spec.ts",
+          "line": 291,
+          "column": 1
+        },
+        {
+          "title": "hung message requests time out and retry with the same operation ID exactly once",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 954,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:22.922Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-f4d9051e0f3037e726ac",
+          "file": "browser.spec.ts",
+          "line": 330,
+          "column": 1
+        },
+        {
+          "title": "pending generation polling has a recovery deadline and can refresh durable state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 864,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:23.889Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-3b8ebd6afe9f608f08d7",
+          "file": "browser.spec.ts",
+          "line": 364,
+          "column": 1
+        },
+        {
+          "title": "optimistic user bubble appears immediately while generation waits and becomes one durable message",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 845,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:24.768Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ad248e706364b3f600bc",
+          "file": "browser.spec.ts",
+          "line": 397,
+          "column": 1
+        },
+        {
+          "title": "two daily identity groups follow frozen assignment after relogin, finish independently, and fit a mobile screen",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1997,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:25.625Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-e1f97219d6be0a16bb58",
+          "file": "browser.spec.ts",
+          "line": 415,
+          "column": 1
+        },
+        {
+          "title": "administrator creates 30 synthetic login accounts and downloads real XLSX; two downloaded accounts login in separate tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7927,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:27.635Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-12e48100a8f13648ed20",
+          "file": "browser.spec.ts",
+          "line": 489,
+          "column": 1
+        },
+        {
+          "title": "automatic first greeting and path-specific material without user input: cognitive_v1",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1120,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:35.578Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-f1cdaa05304118b803a8",
+          "file": "browser.spec.ts",
+          "line": 591,
+          "column": 3
+        },
+        {
+          "title": "automatic first greeting and path-specific material without user input: emotion_v1",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1045,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:36.712Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-e72b4e504e096c02c60d",
+          "file": "browser.spec.ts",
+          "line": 591,
+          "column": 3
+        },
+        {
+          "title": "automatic first greeting and path-specific material without user input: daily_v1",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 989,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:37.766Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-3452cb5834c55d63834a",
+          "file": "browser.spec.ts",
+          "line": 591,
+          "column": 3
+        },
+        {
+          "title": "at most three complete bubbles, preserved full text and side alignment: \"A\\nB\\nC\"",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1172,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:38.765Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-2846d30e70abbb9c3862",
+          "file": "browser.spec.ts",
+          "line": 628,
+          "column": 3
+        },
+        {
+          "title": "at most three complete bubbles, preserved full text and side alignment: \"A\\n\\nB\\nC\\nD\"",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1180,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:39.947Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-a4eb74f1a26553454e20",
+          "file": "browser.spec.ts",
+          "line": 628,
+          "column": 3
+        },
+        {
+          "title": "at most three complete bubbles, preserved full text and side alignment: \"完整第一句。完整第二句！完整第三句？不能丢失的第四句。\"",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:41.140Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-434013724aa6f48fe89a",
+          "file": "browser.spec.ts",
+          "line": 628,
+          "column": 3
+        },
+        {
+          "title": "full frozen cognitive browser flow uses only chat input plus current confirmation/rating cards; cards become durable read-only history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3658,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:42.387Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-2bb9908efc1fe6cb3268",
+          "file": "browser.spec.ts",
+          "line": 652,
+          "column": 1
+        },
+        {
+          "title": "full emotional browser flow retains Marcus, 李阳, ordered scenes, exact ending and restored history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2887,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:46.057Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-218e78e0e12daa0d7e5f",
+          "file": "browser.spec.ts",
+          "line": 746,
+          "column": 1
+        },
+        {
+          "title": "lost viewpoint confirmation response replays same event and leaves a single read-only record",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1088,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:48.962Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-20cae50c0bee8096597a",
+          "file": "browser.spec.ts",
+          "line": 788,
+          "column": 1
+        },
+        {
+          "title": "failed model request leaves phase and records intact and ordinary retry has no extra confirmation window",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1218,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:50.065Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-1fabff71df64e7d3c625",
+          "file": "browser.spec.ts",
+          "line": 812,
+          "column": 1
+        },
+        {
+          "title": "stale chat state is rejected and refresh restores the same confirmed belief without a repeat window",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1133,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:51.294Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-ad8dadd63f73d3a3239c",
+          "file": "browser.spec.ts",
+          "line": 831,
+          "column": 1
+        },
+        {
+          "title": "long accepted reply has its complete final sentence and no CSS clipping on mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 858,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:52.448Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-c6669ed46e4dc870bae4",
+          "file": "browser.spec.ts",
+          "line": 860,
+          "column": 1
+        },
+        {
+          "title": "mobile cognitive path completes with valid 0 and 100 ratings and an accessible submit button",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2745,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:53.319Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-b212e9841e7ad7205f48",
+          "file": "browser.spec.ts",
+          "line": 878,
+          "column": 1
+        },
+        {
+          "title": "a generated reply and following task guide use one visual AI round with at most three bubbles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1305,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:56.076Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-d4f020a33bd2f3777d22",
+          "file": "browser.spec.ts",
+          "line": 920,
+          "column": 1
+        },
+        {
+          "title": "admin prepares four frozen daily conditions; each account keeps its identity beside every AI bubble after re-login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5666,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:57:57.392Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-8d8f0a33d34f7d98fe12",
+          "file": "browser.spec.ts",
+          "line": 935,
+          "column": 1
+        },
+        {
+          "title": "emotional opening and delayed guide are exact, ordinary messages are not confirmed, and generated bubbles are attributed and bounded",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 915,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-22T14:58:03.077Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fbeac1b2decfba2c3acd-25c21185d49795ae175b",
+          "file": "browser.spec.ts",
+          "line": 1016,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-22T14:56:41.674Z",
+    "duration": 82674.415,
+    "expected": 24,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

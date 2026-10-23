@@ -1,0 +1,119 @@
+
+> ai-agent-research-platform@0.1.0 check
+> npm run typecheck && npm run lint && npm run format:check && npm test && npm run build && npm run test:browser
+
+
+> ai-agent-research-platform@0.1.0 typecheck
+> npm run build:packages && npm run typecheck --workspaces
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+> @research/contracts@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false
+
+
+> @research/experiment-core@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/api@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/web@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/ai-orchestrator@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/model-adapter@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> @research/database@0.1.0 typecheck
+> tsc --noEmit --incremental false --composite false && tsc -p tsconfig.tests.json
+
+
+> ai-agent-research-platform@0.1.0 lint
+> eslint .
+
+
+> ai-agent-research-platform@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> ai-agent-research-platform@0.1.0 test
+> npm run build:packages && vitest run
+
+
+> ai-agent-research-platform@0.1.0 build:packages
+> npm run build --workspace @research/contracts && npm run build --workspace @research/experiment-core && npm run build --workspace @research/ai-orchestrator && npm run build --workspace @research/model-adapter
+
+
+> @research/contracts@0.1.0 build
+> tsc -b
+
+
+> @research/experiment-core@0.1.0 build
+> tsc -b
+
+
+> @research/ai-orchestrator@0.1.0 build
+> tsc -b
+
+
+> @research/model-adapter@0.1.0 build
+> tsc -b
+
+
+ RUN  v4.1.11 /workspace/AI-Agent-Research-Platform
+
+ ❯ apps/api/tests/hosted-platform.test.ts (2 tests | 1 failed) 23142ms
+   × hosted facade handles 45 separate users across six concurrent waves, replay and restart 9675ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/tests/hosted-platform.test.ts > hosted facade handles 45 separate users across six concurrent waves, replay and restart
+Error: UNEXPECTED_HTTP_500
+ ❯ http scripts/hosted-concurrency-fixture.mjs:177:47
+    175|         status = response.status;
+    176|         const data = await response.json();
+    177|         if (!expected.includes(status)) throw new Error(`UNEXPECTED_HT…
+       |                                               ^
+    178|         return data;
+    179|       } catch (error) {
+ ❯ scripts/hosted-concurrency-fixture.mjs:199:11
+ ❯ runHostedConcurrency scripts/hosted-concurrency-fixture.mjs:195:19
+ ❯ apps/api/tests/hosted-platform.test.ts:7:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 34 passed (35)
+      Tests  1 failed | 522 passed (523)
+   Start at  14:47:24
+   Duration  51.54s (transform 1.43s, setup 0ms, import 4.14s, tests 127.73s, environment 4ms)
+
