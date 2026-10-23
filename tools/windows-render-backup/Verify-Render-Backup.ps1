@@ -5,8 +5,9 @@ try {
     [void](Assert-BackupRoot ([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($DumpFile))) -SyntheticFixture:$SyntheticFixture)
     $receiptPath = Join-Path ([IO.Path]::GetDirectoryName($DumpFile)) 'staging.receipt.json'
     if (-not (Test-Path -LiteralPath $receiptPath)) { throw 'ORIGINAL_RECEIPT_REQUIRED' }
-    $original = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
-    if ($original.pg_dump_exit_code -ne 0) { throw 'ORIGINAL_DUMP_FAILED' }
+    $original = Get-Content -LiteralPath $receiptPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    Assert-OriginalReceipt $original
+    if ((Get-Item -LiteralPath $DumpFile).Length -ne $original.bytes) { throw 'SIZE_MISMATCH' }
     $tools = Get-PgTools $PgBin
     $verified = Get-BackupVerification $DumpFile $tools $original.sha256 -SyntheticFixture:$SyntheticFixture
     if ($verified.bytes -ne $original.bytes) { throw 'SIZE_MISMATCH' }

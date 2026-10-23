@@ -144,6 +144,7 @@ function New-PrivateRunDirectory {
 
 function Get-BackupVerification {
     param([string]$DumpFile, [hashtable]$Tools, [string]$ExpectedSha256 = '', [switch]$SyntheticFixture)
+    if ($PSBoundParameters.ContainsKey('ExpectedSha256') -and $ExpectedSha256 -cnotmatch '\A[0-9a-fA-F]{64}\z') { throw 'INVALID_EXPECTED_SHA256' }
     $file = Get-Item -LiteralPath $DumpFile
     if ($file.Length -le 5) { throw 'EMPTY_OR_INVALID_DUMP' }
     $stream = [IO.File]::OpenRead($file.FullName)
@@ -168,9 +169,91 @@ function Get-BackupVerification {
     }
 }
 
+function Assert-OriginalReceipt {
+    param($Receipt)
+    if ($null -eq $Receipt -or $Receipt -isnot [Management.Automation.PSCustomObject]) { throw 'INVALID_ORIGINAL_RECEIPT' }
+    foreach ($name in @('sha256', 'bytes', 'pg_dump_exit_code', 'pg_restore_list_exit_code')) {
+        if ($null -eq $Receipt.PSObject.Properties[$name]) { throw 'ORIGINAL_RECEIPT_FIELD_REQUIRED' }
+    }
+    if ($Receipt.sha256 -isnot [string] -or $Receipt.sha256 -cnotmatch '\A[0-9a-fA-F]{64}\z') { throw 'INVALID_ORIGINAL_SHA256' }
+    if (($Receipt.bytes -isnot [int] -and $Receipt.bytes -isnot [long]) -or $Receipt.bytes -le 0) { throw 'INVALID_ORIGINAL_BYTES' }
+    foreach ($name in @('pg_dump_exit_code', 'pg_restore_list_exit_code')) {
+        $value = $Receipt.PSObject.Properties[$name].Value
+        if (($value -isnot [int] -and $value -isnot [long]) -or $value -ne 0) { throw 'INVALID_ORIGINAL_EXIT_CODE' }
+    }
+}
+
+# Small IO boundaries permit local fault injection without replacing ownership logic.
+# All APIs below exist in Windows PowerShell 5.1 / .NET Framework.
+function Open-ReceiptTemporaryFile {
+    param([string]$Path)
+    return [IO.File]::Open($Path, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+}
+function Write-ReceiptTemporaryFile {
+    param([IO.FileStream]$Stream, [byte[]]$Bytes)
+    $Stream.Write($Bytes, 0, $Bytes.Length)
+}
+function Flush-ReceiptTemporaryFile {
+    param([IO.FileStream]$Stream)
+    $Stream.Flush($true)
+}
+function Close-ReceiptTemporaryFile {
+    param([IO.FileStream]$Stream)
+    $Stream.Dispose()
+}
+function Publish-ReceiptTemporaryFile {
+    param([string]$TemporaryPath, [string]$FinalPath, [hashtable]$State)
+    # Two-argument Move refuses an existing destination on Framework and Core.
+    # Same-directory rename publishes only a fully written, flushed, closed file.
+    [IO.File]::Move($TemporaryPath, $FinalPath)
+    $State['FinalCreated'] = $true
+    $State['TemporaryCreated'] = $false
+}
+function Remove-ReceiptOwnedFile {
+    param([string]$Path)
+    [IO.File]::Delete($Path)
+}
+function Remove-OwnedReceiptFiles {
+    param([hashtable]$State)
+    $clean = $true
+    foreach ($kind in @('Final', 'Temporary')) {
+        $ownedKey = $kind + 'Created'; $pathKey = $kind + 'Path'
+        if ($State.ContainsKey($ownedKey) -and $State[$ownedKey]) {
+            try {
+                Remove-ReceiptOwnedFile $State[$pathKey]
+                $State[$ownedKey] = $false
+            } catch { $clean = $false }
+        }
+    }
+    if (-not $clean) { $State['CleanupFailed'] = $true }
+    return $clean
+}
+
 function Write-PrivateReceipt {
-    param([string]$Path, $Receipt)
-    if (Test-Path -LiteralPath $Path) { throw 'RECEIPT_ALREADY_EXISTS' }
-    $json = $Receipt | ConvertTo-Json -Depth 6
-    [IO.File]::WriteAllText($Path, $json, (New-Object Text.UTF8Encoding($false)))
+    param([string]$Path, $Receipt, [hashtable]$State = @{})
+    $State['FinalPath'] = [IO.Path]::GetFullPath($Path)
+    $State['FinalCreated'] = $false; $State['TemporaryCreated'] = $false; $State['CleanupFailed'] = $false
+    $State['TemporaryPath'] = Join-Path ([IO.Path]::GetDirectoryName($State.FinalPath)) ('.receipt-' + [Guid]::NewGuid().ToString('N') + '.tmp')
+    $stream = $null; $failure = $null
+    try {
+        if (Test-Path -LiteralPath $State.FinalPath) { throw 'RECEIPT_ALREADY_EXISTS' }
+        $json = $Receipt | ConvertTo-Json -Depth 6
+        $bytes = (New-Object Text.UTF8Encoding($false)).GetBytes($json)
+        $stream = Open-ReceiptTemporaryFile $State.TemporaryPath
+        $State['TemporaryCreated'] = $true
+        Write-ReceiptTemporaryFile $stream $bytes
+        Flush-ReceiptTemporaryFile $stream
+        Close-ReceiptTemporaryFile $stream
+        $stream = $null
+        Publish-ReceiptTemporaryFile $State.TemporaryPath $State.FinalPath $State
+    } catch { $failure = $_ }
+    finally {
+        if ($null -ne $stream) {
+            try { $stream.Dispose() } catch { if ($null -eq $failure) { $failure = $_ } }
+        }
+    }
+    if ($null -ne $failure) {
+        if (-not (Remove-OwnedReceiptFiles $State)) { $failure.Exception.Data['ReceiptCleanupIncomplete'] = $true }
+        throw $failure
+    }
 }

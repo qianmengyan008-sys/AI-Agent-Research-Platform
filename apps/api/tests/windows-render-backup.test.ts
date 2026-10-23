@@ -201,6 +201,14 @@ test('PowerShell parses and enforces PG18, real-host TLS, no-IP and fixture-only
   expect(r.status, r.stderr + r.stdout).toBe(0);
   expect(r.stdout).toContain('GUARDS_OK');
 });
+test('receipt metadata and atomic-publication negative probes all pass without weakening their failure assertions', () => {
+  const r = run('review');
+  expect(r.status, r.stderr + r.stdout).toBe(0);
+  expect(r.stdout).toContain('True: Verify rejects empty original SHA256');
+  expect(r.stdout).toContain('True: Receipt write failure leaves no success-looking receipt');
+  expect(r.stdout).toContain('True: Receipt failure safely cleaned: cleanup-failure');
+  expect(r.stdout).not.toContain('False:');
+}, 60000);
 test('prepare verifies actual PG18 dump/restore clients without connecting or creating backup directories', async () => {
   const r = run('prepare');
   expect(r.status, r.stderr + r.stdout).toBe(0);
@@ -248,6 +256,32 @@ test('Verify independently compares checksum and reads archive, without claiming
   expect(r.status, r.stderr + r.stdout).toBe(0);
   expect(r.stdout).toContain('VERIFY_OK');
 });
+test('real PG18 archive accepts an uppercase hash and rejects malformed metadata, mismatched size and failed-list receipts', async () => {
+  const source = JSON.parse(await readFile(join(dump, '..', 'staging.receipt.json'), 'utf8'));
+  const folder = join(root, 'receipt-metadata');
+  await mkdir(folder);
+  const copy = join(folder, 'staging.dump');
+  const receipt = join(folder, 'staging.receipt.json');
+  await copyFile(dump, copy);
+  await writeFile(receipt, JSON.stringify({ ...source, sha256: source.sha256.toUpperCase() }));
+  const valid = run('verify', ['-DumpFile', copy]);
+  expect(valid.status, valid.stderr + valid.stdout).toBe(0);
+  for (const change of [
+    { sha256: '' },
+    { sha256: null },
+    { sha256: 'g'.repeat(64) },
+    { bytes: String(source.bytes) },
+    { bytes: source.bytes + 1 },
+    { pg_dump_exit_code: '0' },
+    { pg_restore_list_exit_code: 1 },
+  ]) {
+    await writeFile(receipt, JSON.stringify({ ...source, ...change }));
+    const rejected = run('verify', ['-DumpFile', copy]);
+    expect(rejected.status, rejected.stderr + rejected.stdout).toBe(1);
+    expect(rejected.stdout).toContain('VERIFY_FAILED');
+    expect(rejected.stdout).not.toContain('VERIFY_OK');
+  }
+}, 30000);
 test('a wrong connection leaves no successful receipt or partial dump and does not leak credentials', async () => {
   const r = run('bad-connection');
   expect(r.status).toBe(1);

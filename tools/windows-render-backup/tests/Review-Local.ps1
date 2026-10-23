@@ -59,7 +59,7 @@ function Assert-BackupRoot {
     if (-not $SyntheticFixture -or $Root -notmatch 'windows-preflight-review-') { throw 'LOCAL_REVIEW_ONLY' }
     return [IO.Path]::GetFullPath($Root)
 }
-function Get-PgTools { return @{ Dump = 'LOCAL_MOCK'; Restore = 'LOCAL_MOCK'; DumpVersion = 'pg_dump (PostgreSQL) 18.6'; RestoreVersion = 'pg_restore (PostgreSQL) 18.6' } }
+function Get-PgTools { [IO.File]::WriteAllText((Join-Path $PSScriptRoot 'native-tool-called.marker'), 'LOCAL_TOOL_CALLED'); return @{ Dump = 'LOCAL_MOCK'; Restore = 'LOCAL_MOCK'; DumpVersion = 'pg_dump (PostgreSQL) 18.6'; RestoreVersion = 'pg_restore (PostgreSQL) 18.6' } }
 function Invoke-PrivateProcess {
     param([string]$Executable, [string[]]$Arguments, [hashtable]$PgEnvironment = @{})
     if ($Arguments[0] -eq '--list') {
@@ -76,18 +76,67 @@ function Invoke-PrivateProcess {
     $dump = Join-Path $backups 'staging.dump'
     [IO.File]::WriteAllText($dump, 'PGDMP-SYNTHETIC-REVIEW-NOT-A-REAL-DUMP')
     $receiptPath = Join-Path $backups 'staging.receipt.json'
-    [IO.File]::WriteAllText($receiptPath, ('{"pg_dump_exit_code":0,"sha256":"","bytes":' + (Get-Item -LiteralPath $dump).Length + '}'))
     $engine = (Get-Process -Id $PID).Path
-    $r = Invoke-PrivateProcess $engine @('-NoProfile', '-File', (Join-Path $sandbox 'Verify-Render-Backup.ps1'), '-DumpFile', $dump, '-PgBin', $temp, '-SyntheticFixture')
-    Record-Check 'Verify rejects empty original SHA256' ($r.ExitCode -ne 0 -and $r.Output -notmatch 'VERIFY_OK') ('actual_exit=' + $r.ExitCode + '; VERIFY_OK=' + ($r.Output -match 'VERIFY_OK') + '; mocked list only, no real archive')
-    $fault = @'
-function Write-PrivateReceipt {
-    param([string]$Path, $Receipt)
-    [IO.File]::WriteAllText($Path, ($Receipt | ConvertTo-Json -Depth 6))
-    throw 'SYNTHETIC_RECEIPT_WRITE_FAILURE_AFTER_WRITE'
-}
-'@
-    [IO.File]::AppendAllText((Join-Path $sandbox 'RenderBackup.Common.ps1'), "`n" + $fault)
+    $valid = @{ sha256 = (Get-FileHash -LiteralPath $dump -Algorithm SHA256).Hash; bytes = (Get-Item -LiteralPath $dump).Length; pg_dump_exit_code = 0; pg_restore_list_exit_code = 0 }
+    $marker = Join-Path $sandbox 'native-tool-called.marker'
+    function Invoke-VerifyReview {
+        return Invoke-PrivateProcess $engine @('-NoProfile', '-File', (Join-Path $sandbox 'Verify-Render-Backup.ps1'), '-DumpFile', $dump, '-PgBin', $temp, '-SyntheticFixture')
+    }
+    foreach ($style in @('uppercase', 'lowercase')) {
+        $valid.sha256 = $valid.sha256.ToString().ToLowerInvariant()
+        if ($style -eq 'uppercase') { $valid.sha256 = $valid.sha256.ToUpperInvariant() }
+        [IO.File]::WriteAllText($receiptPath, ($valid | ConvertTo-Json))
+        $r = Invoke-VerifyReview
+        Record-Check ('Valid original receipt accepted: ' + $style) ($r.ExitCode -eq 0 -and $r.Output -match 'VERIFY_OK') ('actual_exit=' + $r.ExitCode + '; local mock list only')
+    }
+    $cases = @(
+        @{ Name = 'empty original SHA256'; Field = 'sha256'; Value = '' },
+        @{ Name = 'whitespace SHA256'; Field = 'sha256'; Value = '   ' },
+        @{ Name = 'null SHA256'; Field = 'sha256'; Value = $null },
+        @{ Name = 'short SHA256'; Field = 'sha256'; Value = ('a' * 63) },
+        @{ Name = 'long SHA256'; Field = 'sha256'; Value = ('a' * 65) },
+        @{ Name = 'non-hex SHA256'; Field = 'sha256'; Value = ('g' * 64) },
+        @{ Name = 'numeric SHA256'; Field = 'sha256'; Value = 42 },
+        @{ Name = 'newline SHA256'; Field = 'sha256'; Value = ($valid.sha256 + "`n") },
+        @{ Name = 'missing SHA256'; Field = 'sha256'; Missing = $true },
+        @{ Name = 'missing bytes'; Field = 'bytes'; Missing = $true },
+        @{ Name = 'null bytes'; Field = 'bytes'; Value = $null },
+        @{ Name = 'zero bytes'; Field = 'bytes'; Value = 0 },
+        @{ Name = 'negative bytes'; Field = 'bytes'; Value = -1 },
+        @{ Name = 'string bytes'; Field = 'bytes'; Value = $valid.bytes.ToString() },
+        @{ Name = 'floating bytes'; Field = 'bytes'; Value = 1.5 },
+        @{ Name = 'boolean bytes'; Field = 'bytes'; Value = $true },
+        @{ Name = 'huge bytes'; Field = 'bytes'; Value = 1e30 },
+        @{ Name = 'missing dump exit'; Field = 'pg_dump_exit_code'; Missing = $true },
+        @{ Name = 'null dump exit'; Field = 'pg_dump_exit_code'; Value = $null },
+        @{ Name = 'wrong dump exit'; Field = 'pg_dump_exit_code'; Value = 1 },
+        @{ Name = 'string dump exit'; Field = 'pg_dump_exit_code'; Value = '0' },
+        @{ Name = 'boolean dump exit'; Field = 'pg_dump_exit_code'; Value = $false },
+        @{ Name = 'floating dump exit'; Field = 'pg_dump_exit_code'; Value = 0.5 },
+        @{ Name = 'missing list exit'; Field = 'pg_restore_list_exit_code'; Missing = $true },
+        @{ Name = 'wrong list exit'; Field = 'pg_restore_list_exit_code'; Value = 1 },
+        @{ Name = 'string list exit'; Field = 'pg_restore_list_exit_code'; Value = '0' },
+        @{ Name = 'size mismatch'; Field = 'bytes'; Value = ($valid.bytes + 1) }
+    )
+    foreach ($case in $cases) {
+        $candidate = @{} + $valid
+        if ($case.ContainsKey('Missing')) { $candidate.Remove($case.Field) } else { $candidate[$case.Field] = $case.Value }
+        [IO.File]::WriteAllText($receiptPath, ($candidate | ConvertTo-Json))
+        if (Test-Path -LiteralPath $marker) { Remove-Item -LiteralPath $marker -Force }
+        $r = Invoke-VerifyReview
+        $toolCalled = Test-Path -LiteralPath $marker
+        Record-Check ('Verify rejects ' + $case.Name) ($r.ExitCode -ne 0 -and $r.Output -match 'VERIFY_FAILED' -and $r.Output -notmatch 'VERIFY_OK' -and -not $toolCalled) ('actual_exit=' + $r.ExitCode + '; VERIFY_OK=' + ($r.Output -match 'VERIFY_OK') + '; tools_called=' + $toolCalled)
+    }
+    foreach ($json in @('null', '[]', '42', '"not-an-object"', '{')) {
+        [IO.File]::WriteAllText($receiptPath, $json)
+        $r = Invoke-VerifyReview
+        Record-Check ('Verify rejects invalid JSON structure: ' + $json) ($r.ExitCode -ne 0 -and $r.Output -match 'VERIFY_FAILED' -and $r.Output -notmatch 'VERIFY_OK') ('actual_exit=' + $r.ExitCode)
+    }
+    $badHash = @{} + $valid; $badHash.sha256 = '0' * 64
+    [IO.File]::WriteAllText($receiptPath, ($badHash | ConvertTo-Json))
+    $r = Invoke-VerifyReview
+    Record-Check 'Verify rejects mismatching valid-format SHA256' ($r.ExitCode -ne 0 -and $r.Output -match 'VERIFY_FAILED' -and $r.Output -notmatch 'VERIFY_OK') ('actual_exit=' + $r.ExitCode)
+
     $driver = Join-Path $temp 'run-fault.ps1'
     [IO.File]::WriteAllText($driver, @'
 param([string]$Script, [string]$Root)
@@ -95,9 +144,86 @@ $url = ConvertTo-SecureString 'postgresql://fixture:FAKE_ONLY@127.0.0.1/ai_agent
 & $Script -BackupRoot $Root -PgBin $Root -ConnectionUrl $url -InternalTestOnly -SyntheticFixture
 exit $LASTEXITCODE
 '@)
-    $r = Invoke-PrivateProcess $engine @('-NoProfile', '-File', $driver, '-Script', (Join-Path $sandbox 'Backup-Render-Staging.ps1'), '-Root', $backups)
-    $left = @(Get-ChildItem -LiteralPath $backups -Directory | ForEach-Object { Get-ChildItem -LiteralPath $_.FullName -Filter 'staging.receipt.json' })
-    Record-Check 'Receipt write failure leaves no success-looking receipt' ($r.ExitCode -ne 0 -and $left.Count -eq 0) ('actual_exit=' + $r.ExitCode + '; remaining_generated_receipts=' + $left.Count + '; local fault injection only')
+    # Inject at IO boundaries, not by replacing Write-PrivateReceipt itself: the
+    # original ownership/atomic publication/cleanup code must actually execute.
+    $faults = @{
+        'partial-write' = @'
+function Write-ReceiptTemporaryFile {
+    param([IO.FileStream]$Stream, [byte[]]$Bytes)
+    $Stream.Write($Bytes, 0, 8)
+    throw 'SYNTHETIC_PARTIAL_WRITE'
+}
+'@
+        'flush' = @'
+function Flush-ReceiptTemporaryFile { param([IO.FileStream]$Stream); throw 'SYNTHETIC_FLUSH_FAILURE' }
+'@
+        'close' = @'
+function Close-ReceiptTemporaryFile { param([IO.FileStream]$Stream); throw 'SYNTHETIC_CLOSE_FAILURE' }
+'@
+        'publish' = @'
+function Publish-ReceiptTemporaryFile { param([string]$TemporaryPath, [string]$FinalPath, [hashtable]$State); throw 'SYNTHETIC_PUBLISH_FAILURE' }
+'@
+        'after-publish' = @'
+$script:ActualPublish = ${function:Publish-ReceiptTemporaryFile}
+function Publish-ReceiptTemporaryFile {
+    param([string]$TemporaryPath, [string]$FinalPath, [hashtable]$State)
+    & $script:ActualPublish $TemporaryPath $FinalPath $State
+    throw 'SYNTHETIC_RECEIPT_WRITE_FAILURE_AFTER_WRITE'
+}
+'@
+        'existing-at-publish' = @'
+$script:ActualPublish = ${function:Publish-ReceiptTemporaryFile}
+function Publish-ReceiptTemporaryFile {
+    param([string]$TemporaryPath, [string]$FinalPath, [hashtable]$State)
+    [IO.File]::WriteAllText($FinalPath, 'OLD_PUBLICATION_TARGET_DO_NOT_DELETE')
+    & $script:ActualPublish $TemporaryPath $FinalPath $State
+}
+'@
+        'existing-before-write' = @'
+$script:ActualRunDirectory = ${function:New-PrivateRunDirectory}
+function New-PrivateRunDirectory {
+    param([string]$Root, [switch]$SyntheticFixture)
+    $path = & $script:ActualRunDirectory $Root -SyntheticFixture:$SyntheticFixture
+    [IO.File]::WriteAllText((Join-Path $path 'staging.receipt.json'), 'OLD_PUBLICATION_TARGET_DO_NOT_DELETE')
+    return $path
+}
+'@
+        'cleanup-failure' = @'
+function Write-ReceiptTemporaryFile {
+    param([IO.FileStream]$Stream, [byte[]]$Bytes)
+    $Stream.Write($Bytes, 0, 8)
+    throw 'SYNTHETIC_ORIGINAL_WRITE_FAILURE'
+}
+function Remove-ReceiptOwnedFile { param([string]$Path); throw 'SYNTHETIC_CLEANUP_FAILURE' }
+'@
+    }
+    foreach ($name in @('partial-write', 'flush', 'close', 'publish', 'after-publish', 'existing-at-publish', 'existing-before-write', 'cleanup-failure')) {
+        $caseRoot = Join-Path $temp ('fault-' + $name)
+        $old = Join-Path $caseRoot 'previous-backup'
+        [void][IO.Directory]::CreateDirectory($old)
+        $oldDump = Join-Path $old 'staging.dump'; $oldReceipt = Join-Path $old 'staging.receipt.json'
+        [IO.File]::WriteAllText($oldDump, 'OLD_SYNTHETIC_BACKUP_DO_NOT_TOUCH')
+        [IO.File]::WriteAllText($oldReceipt, 'OLD_SYNTHETIC_RECEIPT_DO_NOT_TOUCH')
+        $oldDumpHash = (Get-FileHash -LiteralPath $oldDump -Algorithm SHA256).Hash
+        $oldReceiptHash = (Get-FileHash -LiteralPath $oldReceipt -Algorithm SHA256).Hash
+        [IO.File]::WriteAllText((Join-Path $sandbox 'RenderBackup.Common.ps1'), $common + "`n" + $mocks + "`n" + $faults[$name])
+        $r = Invoke-PrivateProcess $engine @('-NoProfile', '-File', $driver, '-Script', (Join-Path $sandbox 'Backup-Render-Staging.ps1'), '-Root', $caseRoot)
+        $run = @(Get-ChildItem -LiteralPath $caseRoot -Directory -Filter 'RenderStaging-*')
+        $files = @($run | ForEach-Object { Get-ChildItem -LiteralPath $_.FullName -Force })
+        $finals = @($files | Where-Object { $_.Name -eq 'staging.receipt.json' })
+        $partials = @($files | Where-Object { $_.Extension -eq '.tmp' })
+        $dumps = @($files | Where-Object { $_.Name -eq 'staging.dump' })
+        $oldUnchanged = (Get-FileHash -LiteralPath $oldDump -Algorithm SHA256).Hash -eq $oldDumpHash -and (Get-FileHash -LiteralPath $oldReceipt -Algorithm SHA256).Hash -eq $oldReceiptHash
+        $ok = $r.ExitCode -ne 0 -and $r.Output -match 'BACKUP_FAILED' -and $r.Output -notmatch 'BACKUP_OK' -and $dumps.Count -eq 0 -and $oldUnchanged
+        if ($name -like 'existing-*') {
+            $ok = $ok -and $finals.Count -eq 1 -and [IO.File]::ReadAllText($finals[0].FullName) -eq 'OLD_PUBLICATION_TARGET_DO_NOT_DELETE' -and $partials.Count -eq 0
+        } elseif ($name -eq 'cleanup-failure') {
+            $ok = $ok -and $finals.Count -eq 0 -and $partials.Count -eq 1 -and $r.Output -match 'BACKUP_CLEANUP_INCOMPLETE' -and $r.Output -match 'FIXTURE_ERROR_CODE: SYNTHETIC_ORIGINAL_WRITE_FAILURE'
+        } else { $ok = $ok -and $finals.Count -eq 0 -and $partials.Count -eq 0 }
+        $check = 'Receipt failure safely cleaned: ' + $name
+        if ($name -eq 'after-publish') { $check = 'Receipt write failure leaves no success-looking receipt' }
+        Record-Check $check $ok ('actual_exit=' + $r.ExitCode + '; final_receipts=' + $finals.Count + '; temporary_receipts=' + $partials.Count + '; dumps=' + $dumps.Count + '; old_backup_unchanged=' + $oldUnchanged + '; cleanup_warning=' + ($r.Output -match 'BACKUP_CLEANUP_INCOMPLETE'))
+    }
     $output = [ordered]@{ scope = 'local mocks only; no Render, database, real encryption or restore'; engine = $PSVersionTable.PSVersion.ToString(); os = [Environment]::OSVersion.Platform.ToString(); native_windows_51 = 'NOT RUN'; checks = @($results.ToArray()) }
     if ($EvidenceFile) { [IO.File]::WriteAllText($EvidenceFile, ($output | ConvertTo-Json -Depth 8), (New-Object Text.UTF8Encoding($false))) }
     foreach ($check in $results) { Write-Host (($check.passed.ToString()) + ': ' + $check.check + ' - ' + $check.evidence) }

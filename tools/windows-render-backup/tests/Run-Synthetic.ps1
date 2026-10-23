@@ -5,6 +5,7 @@ $global:LASTEXITCODE = 0
 $base = Split-Path $PSScriptRoot -Parent
 $url = ConvertTo-SecureString ("postgresql://postgres:SYNTHETIC_DUMP_PASSWORD@127.0.0.1:" + $Port + '/ai_agent_research') -AsPlainText -Force
 switch ($Operation) {
+    'review' { & "$base/tests/Review-Local.ps1" -NodePath $NodePath }
     'prepare' { & "$base/Prepare-Render-Backup.ps1" -BackupRoot $Root -PgBin $PgBin -SyntheticFixture }
     'backup' { & "$base/Backup-Render-Staging.ps1" -BackupRoot $Root -PgBin $PgBin -ConnectionUrl $url -InternalTestOnly -SyntheticFixture }
     'bad-connection' {

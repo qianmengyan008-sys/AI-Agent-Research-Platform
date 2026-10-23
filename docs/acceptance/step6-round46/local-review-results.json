@@ -1,0 +1,253 @@
+{
+  "scope": "local mocks only; no Render, database, real encryption or restore",
+  "engine": "7.5.4",
+  "os": "Unix",
+  "native_windows_51": "NOT RUN",
+  "checks": [
+    {
+      "check": "PowerShell parser (running engine only, not PS5.1)",
+      "passed": true,
+      "evidence": "parse_errors=0"
+    },
+    {
+      "check": "Production PS1 has no UTF8-without-BOM non-ASCII ambiguity",
+      "passed": true,
+      "evidence": "non_ascii_files=0"
+    },
+    {
+      "check": "Native argument roundtrip (running OS only)",
+      "passed": true,
+      "evidence": "Spaces, quote, trailing slash, empty string, Unicode; not Windows CRT proof."
+    },
+    {
+      "check": "Child-only PG environment, exit7 and stderr suppression",
+      "passed": true,
+      "evidence": "Parent PG sentinel removed only from child; native stderr not returned."
+    },
+    {
+      "check": "Native process timeout",
+      "passed": true,
+      "evidence": "Disposable local Node process, timeout=1s."
+    },
+    {
+      "check": "URL parsing forces strict TLS without connection",
+      "passed": true,
+      "evidence": "Invented host and credentials, parser only; no child PG process."
+    },
+    {
+      "check": "Valid original receipt accepted: uppercase",
+      "passed": true,
+      "evidence": "actual_exit=0; local mock list only"
+    },
+    {
+      "check": "Valid original receipt accepted: lowercase",
+      "passed": true,
+      "evidence": "actual_exit=0; local mock list only"
+    },
+    {
+      "check": "Verify rejects empty original SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects whitespace SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects null SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects short SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects long SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects non-hex SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects numeric SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects newline SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects missing SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects missing bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects null bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects zero bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects negative bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects string bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects floating bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects boolean bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects huge bytes",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects missing dump exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects null dump exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects wrong dump exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects string dump exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects boolean dump exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects floating dump exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects missing list exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects wrong list exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects string list exit",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects size mismatch",
+      "passed": true,
+      "evidence": "actual_exit=1; VERIFY_OK=False; tools_called=False"
+    },
+    {
+      "check": "Verify rejects invalid JSON structure: null",
+      "passed": true,
+      "evidence": "actual_exit=1"
+    },
+    {
+      "check": "Verify rejects invalid JSON structure: []",
+      "passed": true,
+      "evidence": "actual_exit=1"
+    },
+    {
+      "check": "Verify rejects invalid JSON structure: 42",
+      "passed": true,
+      "evidence": "actual_exit=1"
+    },
+    {
+      "check": "Verify rejects invalid JSON structure: \"not-an-object\"",
+      "passed": true,
+      "evidence": "actual_exit=1"
+    },
+    {
+      "check": "Verify rejects invalid JSON structure: {",
+      "passed": true,
+      "evidence": "actual_exit=1"
+    },
+    {
+      "check": "Verify rejects mismatching valid-format SHA256",
+      "passed": true,
+      "evidence": "actual_exit=1"
+    },
+    {
+      "check": "Receipt failure safely cleaned: partial-write",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=0; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt failure safely cleaned: flush",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=0; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt failure safely cleaned: close",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=0; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt failure safely cleaned: publish",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=0; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt write failure leaves no success-looking receipt",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=0; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt failure safely cleaned: existing-at-publish",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=1; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt failure safely cleaned: existing-before-write",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=1; temporary_receipts=0; dumps=0; old_backup_unchanged=True; cleanup_warning=False"
+    },
+    {
+      "check": "Receipt failure safely cleaned: cleanup-failure",
+      "passed": true,
+      "evidence": "actual_exit=1; final_receipts=0; temporary_receipts=1; dumps=0; old_backup_unchanged=True; cleanup_warning=True"
+    }
+  ]
+}

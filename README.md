@@ -1,6 +1,6 @@
 # AI Agent 在线对话研究平台
 
-第45轮： [Windows D盘PG18备份工具](tools/windows-render-backup/README-WINDOWS.md) · [Staging快速迭代规则](docs/staging-fast-iteration.md)。当前只交付工具与合成测试，不部署、不修改Render网络；真实备份完成前仍禁止本次迁移部署。以下各历史轮次统计不代表新运行结果。
+第46轮：[备份校验阻塞项修复报告](docs/acceptance/step6-round46/report.md) · [Windows前置检查指引](tools/windows-render-backup/README-WINDOWS.md)。R1/R2本地回归通过；Windows实机与真实Render备份/恢复尚未验证，未部署。第45轮[Staging快速迭代规则](docs/staging-fast-iteration.md)继续保留；真实备份完成前仍禁止本次迁移部署。以下各历史轮次统计不代表新运行结果。
 
 用于心理学实验的全新独立平台。技术栈：React + TypeScript + Vite、Node.js + Express + TypeScript、PostgreSQL。
 
